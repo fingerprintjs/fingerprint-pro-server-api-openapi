@@ -1,0 +1,272 @@
+openapi: 3.0.3
+info:
+  title: Fingerprint server API
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: https://api.fpjs.io
+    description: Global
+  - url: https://eu.api.fpjs.io
+    description: EU
+  - url: https://ap.api.fpjs.io
+    description: Asia (Mumbai)
+security:
+  - ApiKeyHeader: [ ]
+  - ApiKeyQuery: [ ]
+paths:
+  /visitors/{visitor_id}:
+    get:
+      description: This endpoint allows you to get a history of visits with all available information. Use the visitorID as a URL path parameter. This API method is scoped to a visitor, i.e. all returned information is by visitorId.
+      parameters:
+        - name: visitor_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: mcEozNgqhKgmfXx7ZaMW
+        - name: request_id
+          description: Filter events by requestId
+          in: query
+          schema:
+            type: string
+#          example: 1654815516083.OX6kx8
+        - name: linked_id
+          description: Filter events by custom identifier
+          in: query
+          schema:
+            type: string
+            required: false
+#          example: some_id
+        - name: limit
+          description: Limit scanned results
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+#            default: 0
+#          example: 10
+        - name: before
+          description: Used to paginate results
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+#            default: 0
+#          example: 10
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+components:
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: Auth-API-Key  # name of the header, query parameter or cookie
+    ApiKeyQuery:
+      type: apiKey
+      in: query       # can be "header", "query" or "cookie"
+      name: api_key  # name of the header, query parameter or cookie
+  schemas:
+    Response:
+      type: object
+      additionalProperties: false
+      properties:
+        visitorId:
+          type: string
+        visits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Visit'
+      required:
+        - visitorId
+        - visits
+      title: Response
+    Visit:
+      type: object
+      additionalProperties: false
+      properties:
+        requestId:
+          type: string
+          example: '1654815516083.OX6kx8'
+        browserDetails:
+          $ref: '#/components/schemas/BrowserDetails'
+        incognito:
+          type: boolean
+        ip:
+          type: string
+          format: ipv4
+          example: '8.8.8.8'
+        ipLocation:
+          $ref: '#/components/schemas/IPLocation'
+        timestamp:
+          type: integer
+          example: 1654815516086
+        time:
+          type: string
+          format: date-time
+          example: '2022-06-09T22:58:36Z'
+        url:
+          type: string
+          format: uri
+          example: 'https://some.website/path?query=params'
+        tag:
+          type: object
+          additionalProperties: true
+        confidence:
+          $ref: '#/components/schemas/Confidence'
+        visitorFound:
+          type: boolean
+        firstSeenAt:
+          scheme:
+            $ref: '#/components/schemas/StSeenAt'
+          example:
+            global: "2022-05-05T18:28:54.535Z"
+            subscription: "2022-06-09T22:58:05.576Z"
+        lastSeenAt:
+          scheme:
+            $ref: '#/components/schemas/StSeenAt'
+          example:
+            global: "2022-06-09T22:58:35.795Z"
+            subscription: null
+      required:
+        - browserDetails
+        - confidence
+        - firstSeenAt
+        - incognito
+        - ip
+        - ipLocation
+        - lastSeenAt
+        - requestId
+        - tag
+        - time
+        - timestamp
+        - url
+        - visitorFound
+      title: Visit
+    BrowserDetails:
+      type: object
+      additionalProperties: false
+      properties:
+        browserName:
+          type: string
+          example: 'Chrome'
+        browserMajorVersion:
+          type: string
+          example: '101'
+        browserFullVersion:
+          type: string
+          example: '101.0.4951'
+        os:
+          type: string
+          example: 'Windows'
+        osVersion:
+          type: string
+          example: '10'
+        device:
+          type: string
+          example: 'Other'
+        userAgent:
+          type: string
+          example: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36'
+        botProbability:
+          type: integer
+      required:
+        - botProbability
+        - browserFullVersion
+        - browserMajorVersion
+        - browserName
+        - device
+        - os
+        - osVersion
+        - userAgent
+      title: BrowserDetails
+    Confidence:
+      type: object
+      additionalProperties: false
+      properties:
+        score:
+          type: number
+          minimum: 0
+          maximum: 1
+      required:
+        - score
+      title: Confidence
+    StSeenAt:
+      type: object
+      additionalProperties: false
+      properties:
+        global:
+          type: string
+          format: date-time
+        subscription:
+          type: string
+          nullable: true
+          format: date-time
+      required:
+        - global
+        - subscription
+      title: StSeenAt
+    IPLocation:
+      type: object
+      additionalProperties: false
+      properties:
+        accuracyRadius:
+          type: integer
+          minimum: 0
+          example: 1000
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+          example: 37.75
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+          example: -97.82
+        timezone:
+          type: string
+          format: timezone
+          example: 'America/Chicago'
+        country:
+          schema:
+            $ref: '#/components/schemas/Location'
+          example:
+            code: 'US'
+            name: 'United States'
+        continent:
+          schema:
+            $ref: '#/components/schemas/Location'
+          example:
+            code: 'NA'
+            name: 'North America'
+      required:
+        - accuracyRadius
+        - continent
+        - country
+        - latitude
+        - longitude
+        - timezone
+      title: IPLocation
+    Location:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          minLength: 2
+          maxLength: 2
+          example: 'US'
+        name:
+          type: string
+          example: 'United States'
+      required:
+        - code
+        - name
+      title: Continent

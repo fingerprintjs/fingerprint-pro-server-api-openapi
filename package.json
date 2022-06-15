@@ -1,0 +1,37 @@
+{
+  "name": "fingerprint-pro-server-api-openapi",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "webpack-dev-server --open",
+    "build": "webpack",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
+    "lint:fix": "yarn lint --fix"
+  },
+  "dependencies": {
+    "swagger-ui": "^4.12.0"
+  },
+  "devDependencies": {
+    "@types/swagger-ui": "^3.52.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "json-loader": "^0.5.7",
+    "prettier": "^2.7.0",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.7.3",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2",
+    "yaml": "^2.1.1",
+    "yaml-loader": "^0.8.0"
+  }
+}
