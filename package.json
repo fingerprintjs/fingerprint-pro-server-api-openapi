@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --open",
     "build": "webpack",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
     "lint:fix": "yarn lint --fix"
   },
@@ -24,6 +25,8 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "jest": "^28.1.1",
+    "js-yaml": "^4.1.0",
     "json-loader": "^0.5.7",
     "prettier": "^2.7.0",
     "style-loader": "^3.3.1",
