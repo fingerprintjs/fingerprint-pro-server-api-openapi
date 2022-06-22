@@ -29,14 +29,14 @@ paths:
           in: query
           schema:
             type: string
-#          example: 1654815516083.OX6kx8
+        #          example: 1654815516083.OX6kx8
         - name: linked_id
           description: Filter events by custom identifier
           in: query
           schema:
             type: string
             required: false
-#          example: some_id
+        #          example: some_id
         - name: limit
           description: Limit scanned results
           in: query
@@ -44,8 +44,8 @@ paths:
             type: integer
             format: int32
             minimum: 0
-#            default: 0
-#          example: 10
+        #            default: 0
+        #          example: 10
         - name: before
           description: Used to paginate results
           in: query
@@ -53,15 +53,27 @@ paths:
             type: integer
             format: int32
             minimum: 0
-#            default: 0
-#          example: 10
+      #            default: 0
+      #          example: 10
       responses:
         '200':
           description: Auto generated using Swagger Inspector
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Response"
+                $ref: '#/components/schemas/Response'
+              examples:
+                limit1:
+                  summary: Request with limit=1
+                  externalValue: '/examples/visits_limit_1.json'
+                limit500:
+                  summary: Request with limit=500
+                  externalValue: '/examples/visits_limit_500.json'
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManyRequestsResponse'
 components:
   securitySchemes:
     ApiKeyHeader:
@@ -74,6 +86,10 @@ components:
       name: api_key  # name of the header, query parameter or cookie
   schemas:
     Response:
+      oneOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - $ref: '#/components/schemas/PaginatedResponse'
+    BaseResponse:
       type: object
       additionalProperties: false
       properties:
@@ -86,7 +102,33 @@ components:
       required:
         - visitorId
         - visits
-      title: Response
+      title: BaseResponse
+    PaginatedResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            lastTimestamp:
+              type: integer
+              format: int64
+              example: 1654815517198
+            paginationKey:
+              type: string
+              example: '1654815517198.azN4IZ'
+          required:
+            - lastTimestamp
+            - paginationKey
+      title: PaginatedResponse
+      description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided
+    ManyRequestsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          example: 'request throttled'
+      required:
+        - error
     Visit:
       type: object
       additionalProperties: false
@@ -106,6 +148,7 @@ components:
           $ref: '#/components/schemas/IPLocation'
         timestamp:
           type: integer
+          format: int64
           example: 1654815516086
         time:
           type: string
@@ -126,13 +169,13 @@ components:
           scheme:
             $ref: '#/components/schemas/StSeenAt'
           example:
-            global: "2022-05-05T18:28:54.535Z"
-            subscription: "2022-06-09T22:58:05.576Z"
+            global: '2022-05-05T18:28:54.535Z'
+            subscription: '2022-06-09T22:58:05.576Z'
         lastSeenAt:
           scheme:
             $ref: '#/components/schemas/StSeenAt'
           example:
-            global: "2022-06-09T22:58:35.795Z"
+            global: '2022-06-09T22:58:35.795Z'
             subscription: null
       required:
         - browserDetails
@@ -192,6 +235,7 @@ components:
       properties:
         score:
           type: number
+          format: float
           minimum: 0
           maximum: 1
       required:
@@ -222,14 +266,19 @@ components:
           example: 1000
         latitude:
           type: number
+          format: double
           minimum: -90
           maximum: 90
           example: 37.75
         longitude:
           type: number
+          format: double
           minimum: -180
           maximum: 180
           example: -97.82
+        postalCode:
+          type: string
+          example: '130 00'
         timezone:
           type: string
           format: timezone
@@ -246,6 +295,10 @@ components:
           example:
             code: 'NA'
             name: 'North America'
+        subdivisions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subdivision'
       required:
         - accuracyRadius
         - continent
@@ -270,3 +323,13 @@ components:
         - code
         - name
       title: Continent
+    Subdivision:
+      type: object
+      additionalProperties: false
+      properties:
+        isoCode:
+          type: string
+          example: '10'
+        name:
+          type: string
+          example: 'Hlavni mesto Praha'

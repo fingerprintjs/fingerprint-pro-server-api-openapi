@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { resolveExternalValueTransformer } from './utils/resolveExternalValueTransformer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +20,11 @@ export default {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.yaml$/,
         use: [
@@ -40,7 +46,13 @@ export default {
       template: 'src/index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'schemes', to: 'schemes' }],
+      patterns: [
+        {
+          from: 'schemes',
+          to: 'schemes',
+          transform: resolveExternalValueTransformer,
+        },
+      ],
     }),
   ],
   output: {
