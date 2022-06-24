@@ -104,20 +104,27 @@ components:
         - visits
       title: BaseResponse
     PaginatedResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            lastTimestamp:
-              type: integer
-              format: int64
-              example: 1654815517198
-            paginationKey:
-              type: string
-              example: '1654815517198.azN4IZ'
-          required:
-            - lastTimestamp
-            - paginationKey
+      type: object
+      additionalProperties: false
+      properties:
+        visitorId:
+          type: string
+        visits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Visit'
+        lastTimestamp:
+          type: integer
+          format: int64
+          example: 1654815517198
+        paginationKey:
+          type: string
+          example: '1654815517198.azN4IZ'
+      required:
+        - visitorId
+        - visits
+        - lastTimestamp
+        - paginationKey
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided
     ManyRequestsResponse:
@@ -166,13 +173,13 @@ components:
         visitorFound:
           type: boolean
         firstSeenAt:
-          scheme:
+          schema:
             $ref: '#/components/schemas/StSeenAt'
           example:
             global: '2022-05-05T18:28:54.535Z'
             subscription: '2022-06-09T22:58:05.576Z'
         lastSeenAt:
-          scheme:
+          schema:
             $ref: '#/components/schemas/StSeenAt'
           example:
             global: '2022-06-09T22:58:35.795Z'
@@ -283,6 +290,13 @@ components:
           type: string
           format: timezone
           example: 'America/Chicago'
+        city:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+              example: 'Prague'
         country:
           schema:
             $ref: '#/components/schemas/Location'
