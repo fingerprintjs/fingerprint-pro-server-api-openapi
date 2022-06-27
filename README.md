@@ -18,3 +18,8 @@ Definition for the Fingerprint Pro Server API in [OpenAPI](https://swagger.io/do
 
 ## WIP: The repository is in the development
 
+This repository contains OpenAPI definition for the Fingerprint Pro server API.
+Definition published to the GitHub Pages with the Swagger UI app, so you can use it to try API or generate types for your code.
+
+Examples will be here a bit later.
+
