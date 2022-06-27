@@ -27,16 +27,6 @@ function getJsonSchema() {
   return convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
 }
 
-function validateDataByJsonSchema(validate, jsonData) {
-  const validationResult = validate(jsonData);
-  if (validationResult) {
-    return 0;
-  } else {
-    console.log(validate.errors);
-    return 1;
-  }
-}
-
 const schema = getJsonSchema();
 fs.writeFileSync('./dist/schemes/fingerprint-server-api.json', JSON.stringify(schema, null, 2));
 const validate = ajv.compile(schema);
@@ -46,4 +36,11 @@ const jsonDataObjects = [
   JSON.parse(fs.readFileSync('./examples/visits_limit_500.json').toString()),
 ];
 
-process.exit(jsonDataObjects.reduce((accum, jsonData) => accum + validateDataByJsonSchema(validate, jsonData), 0));
+let exitCode = 0;
+jsonDataObjects.forEach((jsonData) => {
+  if (!validate(jsonData)) {
+    exitCode = 1;
+    console.log(validate.errors);
+  }
+});
+process.exit(exitCode);
