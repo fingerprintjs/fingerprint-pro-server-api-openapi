@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Fingerprint server API
-  description: defaultDescription
+  description: Schema describes Fingerprint public server API
   version: '0.1'
 servers:
   - url: https://api.fpjs.io
