@@ -52,6 +52,9 @@ export default {
           to: 'schemes',
           transform: resolveExternalValueTransformer,
         },
+        {
+          from: 'res/favicon.ico',
+        },
       ],
     }),
   ],
