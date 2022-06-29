@@ -1,9 +1,11 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { resolveExternalValueTransformer } from './utils/resolveExternalValueTransformer.js';
+import 'dotenv/config';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +41,9 @@ export default {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.PRIVATE_KEY': JSON.stringify(process.env.PRIVATE_KEY),
+    }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [outputPath],
     }),
