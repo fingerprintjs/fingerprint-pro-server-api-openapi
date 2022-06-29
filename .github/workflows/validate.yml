@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: test
     timeout-minutes: 3
+    env:
+      VISITOR_ID: '${{ secrets.VISITOR_ID }}'
+      PRIVATE_KEY: '${{ secrets.PRIVATE_KEY }}'
     steps:
       - name: Checkout
         uses: actions/checkout@v3

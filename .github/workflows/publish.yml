@@ -7,8 +7,12 @@ on:
 
 jobs:
   generate-schema:
+    name: Publish
     runs-on: ubuntu-latest
     environment: test
+    env:
+      VISITOR_ID: '${{ secrets.VISITOR_ID }}'
+      PRIVATE_KEY: '${{ secrets.PRIVATE_KEY }}'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
