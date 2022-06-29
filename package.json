@@ -12,6 +12,9 @@
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
     "lint:fix": "yarn lint --fix"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "@types/swagger-ui": "^3.52.0",
     "@typescript-eslint/eslint-plugin": "^5.28.0",

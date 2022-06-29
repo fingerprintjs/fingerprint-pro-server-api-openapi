@@ -3,6 +3,10 @@ import Ajv from 'ajv-draft-04';
 import addFormats from 'ajv-formats';
 import yaml from 'js-yaml';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema.js';
+import 'dotenv/config';
+
+const apiKey = process.env.PRIVATE_KEY;
+const visitorId = process.env.VISITOR_ID;
 
 const ajv = new Ajv({
   strict: true,
@@ -22,25 +26,81 @@ ajv.addFormat('date-time', {
   validate: (data) => typeof data === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,3})?Z/.test(data),
 });
 
-function getJsonSchema() {
+function getJsonSchemaValidator() {
   const apiDefinition = yaml.load(fs.readFileSync('./schemes/fingerprint-server-api.yaml'));
-  return convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
+  const schema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
+  return ajv.compile(schema);
 }
 
-const schema = getJsonSchema();
-fs.writeFileSync('./dist/schemes/fingerprint-server-api.json', JSON.stringify(schema, null, 2));
-const validate = ajv.compile(schema);
+function getJsonDataMockObjects() {
+  const mocks = [
+    {
+      name: 'Limit 1',
+      path: './examples/visits_limit_1.json',
+    },
+    {
+      name: 'Limit 500',
+      path: './examples/visits_limit_500.json',
+    },
+  ];
 
-const jsonDataObjects = [
-  JSON.parse(fs.readFileSync('./examples/visits_limit_1.json').toString()),
-  JSON.parse(fs.readFileSync('./examples/visits_limit_500.json').toString()),
-];
+  return mocks.map(({ name, path }) => ({
+    name: `${name} mock`,
+    jsonData: JSON.parse(fs.readFileSync(path).toString()),
+  }));
+}
+
+async function getRealDataObjects() {
+  const requests = [
+    {
+      name: 'Limit 1',
+      params: {
+        limit: 1,
+      },
+    },
+    {
+      name: 'Limit 1 before 1',
+      params: {
+        limit: 1,
+        before: 1,
+      },
+    },
+    {
+      name: 'Limit 10',
+      params: {
+        limit: 10,
+      },
+    },
+    {
+      name: 'Limit 500',
+      params: {
+        limit: 500,
+      },
+    },
+  ];
+
+  return await Promise.all(
+    requests.map(async ({ name, params }) => {
+      const searchParams = new URLSearchParams(params);
+      const url = new URL(`https://api.fpjs.io/visitors/${visitorId}?${searchParams.toString()}`);
+      const headers = new Headers({ 'Auth-API-Key': apiKey });
+      const request = new Request(url, { headers });
+      const result = await fetch(request);
+      const json = await result.json();
+      return { name: `${name} real API`, jsonData: json };
+    })
+  );
+}
+
+const validate = getJsonSchemaValidator();
+
+const jsonDataObjects = [...getJsonDataMockObjects(), ...(await getRealDataObjects())];
 
 let exitCode = 0;
-jsonDataObjects.forEach((jsonData) => {
+jsonDataObjects.forEach(({ name, jsonData }) => {
   if (!validate(jsonData)) {
     exitCode = 1;
-    console.log(validate.errors);
+    console.error(`${name}: `, validate.errors);
   }
 });
 process.exit(exitCode);
