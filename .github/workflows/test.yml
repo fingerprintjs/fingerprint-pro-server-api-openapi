@@ -6,6 +6,7 @@ jobs:
   build:
     name: Lint, build and test
     runs-on: ubuntu-latest
+    environment: test
     timeout-minutes: 3
     steps:
       - name: Checkout
