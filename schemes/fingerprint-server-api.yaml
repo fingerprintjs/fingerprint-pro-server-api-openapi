@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Fingerprint server API
   description: Schema describes Fingerprint public server API
-  version: '0.1'
+  version: '3'
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -26,7 +26,7 @@ paths:
           required: true
           schema:
             type: string
-          example: mcEozNgqhKgmfXx7ZaMW
+          example: uYIm7Ksp5rf00SllPhFp
         - name: request_id
           description: Filter events by requestId
           in: query
@@ -99,8 +99,7 @@ paths:
                               name: Hlavni mesto Praha
                         timestamp: 1655373953094
                         time: '2022-06-16T10:05:53Z'
-                        url: >-
-                          https://dashboard.fingerprint.com/impersonate#impersonateOtt=yJPWCUtZueGAwRFDNRRa2
+                        url: https://dashboard.fingerprint.com/
                         tag: {}
                         confidence:
                           score: 1
@@ -2797,7 +2796,7 @@ components:
       title: PaginatedResponse
       description: >-
         Fields `lastTimestamp` and `paginationKey` added when `limit` or
-        `before` parameter provided
+        `before` parameter provided and there is more data to show
     ManyRequestsResponse:
       type: object
       additionalProperties: false
@@ -2839,6 +2838,9 @@ components:
         tag:
           type: object
           additionalProperties: true
+        linkedId:
+          type: string
+          example: someID
         confidence:
           $ref: '#/components/schemas/Confidence'
         visitorFound:
