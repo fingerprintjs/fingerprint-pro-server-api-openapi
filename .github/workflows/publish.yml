@@ -10,33 +10,13 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     environment: test
-    env:
-      VISITOR_ID: '${{ secrets.VISITOR_ID }}'
-      PRIVATE_KEY: '${{ secrets.PRIVATE_KEY }}'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: ./.github/actions/test-and-build
         with:
-          node-version: '18'
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-            !**/dist/node_modules
-          key: nodemodules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: nodemodules-
-      - name: Install Node packages
-        run: yarn install
-      - name: Lint
-        run: yarn lint
-      - name: Tests
-        run: yarn test
-      - name: Build
-        run: yarn build
-      - name: Validate schema
-        run: yarn validateSchema
+          visitorId: '${{ secrets.VISITOR_ID }}'
+          privateKey: '${{ secrets.PRIVATE_KEY }}'
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@8817a56e5bfec6e2b08345c81f4d422db53a2cdc
         with:

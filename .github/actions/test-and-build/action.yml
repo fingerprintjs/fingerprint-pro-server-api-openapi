@@ -1,0 +1,43 @@
+name: 'Lint, build and test'
+description: 'Action make all default routine for the project'
+inputs:
+  visitorId:
+    description: 'VisitorId make request with'
+    required: true
+  privateKey:
+    description: 'Fingerprint private API key'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          **/node_modules
+          !**/dist/node_modules
+        key: nodemodules-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: nodemodules-
+    - name: Install Node packages
+      shell: bash
+      run: yarn install
+    - name: Lint
+      shell: bash
+      run: yarn lint
+    - name: Tests
+      shell: bash
+      run: yarn test
+    - name: Build
+      shell: bash
+      env:
+        PRIVATE_KEY: '${{ inputs.privateKey }}'
+      run: yarn build
+    - name: Validate schema
+      shell: bash
+      env:
+        VISITOR_ID: '${{ inputs.visitorId }}'
+        PRIVATE_KEY: '${{ inputs.privateKey }}'
+      run: yarn validateSchema
