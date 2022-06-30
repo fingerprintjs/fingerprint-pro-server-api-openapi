@@ -4,7 +4,10 @@
   </a>
 </p>
 <p align="center">
-   <a href="https://opensource.org/licenses/MIT">
+  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml">
+    <img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml/badge.svg" alt="CI badge" />
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/:license-mit-blue.svg?style=flat"/>
   </a>
   <a href="https://discord.gg/39EpE2neBg">
@@ -19,7 +22,12 @@ Definition for the Fingerprint Pro Server API in [OpenAPI](https://swagger.io/do
 ## WIP: The repository is in the development
 
 This repository contains OpenAPI definition for the Fingerprint Pro server API.
-Definition published to the GitHub Pages with the Swagger UI app, so you can use it to try API or generate types for your code.
+Definition [is published to the GitHub Pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/) with the Swagger UI app, so you can use it to try API or generate types for your code.
+You can get the latest API definition by this URL [https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemes/fingerprint-server-api.yaml](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemes/fingerprint-server-api.yaml).
 
-Examples will be here a bit later.
+## FAQ
+
+#### Why OpenAPI 3.0.3 version?
+
+It is the last version supported by Swagger UI. Here is [the issue about 3.1 version](https://github.com/swagger-api/swagger-ui/issues/5891).
 

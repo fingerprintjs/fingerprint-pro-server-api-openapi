@@ -1,7 +1,7 @@
 # Project artifacts
 /dist/
 /node_modules/
-
+.env
 
 # Random excess stuff
 .DS_Store
