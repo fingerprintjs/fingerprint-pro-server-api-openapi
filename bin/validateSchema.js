@@ -8,6 +8,16 @@ import 'dotenv/config';
 const apiKey = process.env.PRIVATE_KEY;
 const visitorId = process.env.VISITOR_ID;
 
+if (!apiKey) {
+  console.error('You should provide PRIVATE_KEY environment variable');
+  process.exit(1);
+}
+
+if (!visitorId) {
+  console.error('You should provide VISITOR_ID environment variable');
+  process.exit(1);
+}
+
 const ajv = new Ajv({
   strict: true,
   strictSchema: 'log',
@@ -85,8 +95,16 @@ async function getRealDataObjects() {
       const url = new URL(`https://api.fpjs.io/visitors/${visitorId}?${searchParams.toString()}`);
       const headers = new Headers({ 'Auth-API-Key': apiKey });
       const request = new Request(url, { headers });
-      const result = await fetch(request);
-      const json = await result.json();
+      let result;
+      let json;
+      try {
+        result = await fetch(request);
+        json = await result.json();
+      } catch (e) {
+        console.error(`try to get data by url: ${url.toString()}.
+Got request with status: ${result.status}, ${result.statusText}
+Catch next error: ${e}`);
+      }
       return { name: `${name} real API`, jsonData: json };
     })
   );
