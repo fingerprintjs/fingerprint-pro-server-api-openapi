@@ -8,7 +8,7 @@ You can find the definition in the [schemes](/schemes) folder. You can find info
 
 ## Demo app
 
-Code of demo application you can find in [src](src) folder. It uses [Swagger UI](https://github.com/swagger-api/swagger-ui) to render schema and provide sandbox.
+Code of demo application can be found in [src](src) folder. It uses [Swagger UI](https://github.com/swagger-api/swagger-ui) to render schema and provide sandbox.
 
 ## Validation
 
