@@ -74,6 +74,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManyRequestsResponse'
+  /webhook:
+    trace:
+      description: Fake path to describe webhook format. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
+      callbacks:
+        webhook:
+          webhook:
+            post:
+              description: You can use HTTP basic authentication and setup credentials in your [Fingerprint account](https://dashboard.fingerprintjs.com/login)
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      $ref: '#/components/schemas/WebhookVisit'
+                    example:
+                      externalValue: '/examples/webhook.json'
 components:
   securitySchemes:
     ApiKeyHeader:
@@ -136,6 +152,17 @@ components:
           example: 'request throttled'
       required:
         - error
+    WebhookVisit:
+      allOf:
+        - type: object
+          properties:
+            visitorId:
+              type: string
+            clientReferrer:
+              type: string
+          required:
+            - visitorId
+        - $ref: '#/components/schemas/Visit'
     Visit:
       type: object
       additionalProperties: false
@@ -230,7 +257,6 @@ components:
         botProbability:
           type: integer
       required:
-        - botProbability
         - browserFullVersion
         - browserMajorVersion
         - browserName
