@@ -38,11 +38,15 @@ ajv.addFormat('date-time', {
 
 function getJsonSchemaValidator() {
   const apiDefinition = yaml.load(fs.readFileSync('./schemes/fingerprint-server-api.yaml'));
-  const schema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
-  return ajv.compile(schema);
+  const visitorsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
+  const webhookSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/WebhookVisit');
+  return {
+    visitorsApiValidator: ajv.compile(visitorsApiSchema),
+    webhookValidator: ajv.compile(webhookSchema),
+  };
 }
 
-function getJsonDataMockObjects() {
+function getVisitorsApiJsonDataMockObjects() {
   const mocks = [
     {
       name: 'Limit 1',
@@ -60,7 +64,21 @@ function getJsonDataMockObjects() {
   }));
 }
 
-async function getRealDataObjects() {
+function getWebhookJsonDataMockObjects() {
+  const mocks = [
+    {
+      name: 'Webhook',
+      path: './examples/webhook.json',
+    },
+  ];
+
+  return mocks.map(({ name, path }) => ({
+    name: `${name} mock`,
+    jsonData: JSON.parse(fs.readFileSync(path).toString()),
+  }));
+}
+
+async function getVisitorsApiRealDataObjects() {
   const requests = [
     {
       name: 'Limit 1',
@@ -110,15 +128,24 @@ Catch next error: ${e}`);
   );
 }
 
-const validate = getJsonSchemaValidator();
+const { visitorsApiValidator, webhookValidator } = getJsonSchemaValidator();
 
-const jsonDataObjects = [...getJsonDataMockObjects(), ...(await getRealDataObjects())];
+const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
 
 let exitCode = 0;
-jsonDataObjects.forEach(({ name, jsonData }) => {
-  if (!validate(jsonData)) {
+visitorsApiJsonDataObjects.forEach(({ name, jsonData }) => {
+  if (!visitorsApiValidator(jsonData)) {
     exitCode = 1;
-    console.error(`${name}: `, validate.errors);
+    console.error(`${name}: `, visitorsApiValidator.errors);
+  }
+});
+
+const webhookDataObjects = getWebhookJsonDataMockObjects();
+
+webhookDataObjects.forEach(({ name, jsonData }) => {
+  if (!webhookValidator(jsonData)) {
+    exitCode = 1;
+    console.error(`${name}: `, webhookValidator.errors);
   }
 });
 process.exit(exitCode);

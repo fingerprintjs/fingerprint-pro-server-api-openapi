@@ -1,4 +1,5 @@
 import { walkJson } from './walkJson.js';
+import { replaceAllOf } from './replaceAllOf.js';
 
 export function convertOpenApiToJsonSchema(apiDefinition, schemaRef) {
   return {
@@ -22,6 +23,10 @@ function componentsToDefenitions(components) {
   walkJson(components, 'schema', (json) => {
     json.$ref = json.schema.$ref;
     delete json.schema;
+  });
+
+  walkJson(components, 'allOf', (json) => {
+    replaceAllOf(json, components);
   });
   return components;
 }
