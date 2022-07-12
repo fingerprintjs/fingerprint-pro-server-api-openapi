@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://fingerprintjs.com">
+  <a href="https://fingerprint.com">
     <img src="res/logo.svg" alt="FingerprintJS" width="312px" />
   </a>
 </p>

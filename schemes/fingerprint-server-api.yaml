@@ -81,7 +81,7 @@ paths:
         webhook:
           webhook:
             post:
-              description: You can use HTTP basic authentication and setup credentials in your [Fingerprint account](https://dashboard.fingerprintjs.com/login)
+              description: You can use HTTP basic authentication and setup credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
               requestBody:
                 content:
                   application/json:
