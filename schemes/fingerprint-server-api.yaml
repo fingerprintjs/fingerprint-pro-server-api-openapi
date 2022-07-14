@@ -2755,7 +2755,7 @@ paths:
               description: >-
                 You can use HTTP basic authentication and setup credentials in
                 your [Fingerprint
-                account](https://dashboard.fingerprintjs.com/login)
+                account](https://dashboard.fingerprint.com/login)
               requestBody:
                 content:
                   application/json:
