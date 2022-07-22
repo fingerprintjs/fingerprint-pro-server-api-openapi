@@ -3,6 +3,11 @@ info:
   title: Fingerprint server API
   description: Schema describes Fingerprint public server API
   version: '3'
+tags:
+  - name: Fingerprint
+    externalDocs:
+      description: API documentation
+      url: https://dev.fingerprint.com/docs/server-api
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -16,9 +21,12 @@ security:
 paths:
   /visitors/{visitor_id}:
     get:
+      tags:
+        - Fingerprint
+      operationId: getVisits
       description: >-
         This endpoint allows you to get a history of visits with all available
-        information. Use the visitorID as a URL path parameter. This API method
+        information. Use the visitorId as a URL path parameter. This API method
         is scoped to a visitor, i.e. all returned information is by visitorId.
       parameters:
         - name: visitor_id
@@ -37,7 +45,7 @@ paths:
           in: query
           schema:
             type: string
-            required: false
+          required: false
         - name: limit
           description: Limit scanned results
           in: query
@@ -54,7 +62,7 @@ paths:
             minimum: 0
       responses:
         '200':
-          description: Auto generated using Swagger Inspector
+          description: OK
           content:
             application/json:
               schema:
@@ -2738,12 +2746,24 @@ paths:
                           global: '2022-03-08T12:33:05.677Z'
                           subscription: '2022-03-08T12:33:05.677Z'
         '429':
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: >-
+                Indicates how long the user should wait before making a
+                follow-up request.
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManyRequestsResponse'
   /webhook:
     trace:
+      tags:
+        - Fingerprint
       description: >-
         Fake path to describe webhook format. More information about webhooks
         can be found in the
