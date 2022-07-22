@@ -7,7 +7,7 @@ tags:
   - name: Fingerprint
     externalDocs:
       description: API documentation
-      url: https://dev.fingerprint.com/docs/server-apihttps://dev.fingerprint.com/docs/server-api
+      url: https://dev.fingerprint.com/docs/server-api
 servers:
   - url: https://api.fpjs.io
     description: Global
