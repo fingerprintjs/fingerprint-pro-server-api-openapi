@@ -120,24 +120,6 @@ components:
       name: api_key  # name of the header, query parameter or cookie
   schemas:
     Response:
-      oneOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - $ref: '#/components/schemas/PaginatedResponse'
-    BaseResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        visitorId:
-          type: string
-        visits:
-          type: array
-          items:
-            $ref: '#/components/schemas/Visit'
-      required:
-        - visitorId
-        - visits
-      title: BaseResponse
-    PaginatedResponse:
       type: object
       additionalProperties: false
       properties:
@@ -157,8 +139,6 @@ components:
       required:
         - visitorId
         - visits
-        - lastTimestamp
-        - paginationKey
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided and there is more data to show
     ManyRequestsResponse:
