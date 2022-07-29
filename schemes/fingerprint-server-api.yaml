@@ -2844,24 +2844,6 @@ components:
       name: api_key
   schemas:
     Response:
-      oneOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - $ref: '#/components/schemas/PaginatedResponse'
-    BaseResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        visitorId:
-          type: string
-        visits:
-          type: array
-          items:
-            $ref: '#/components/schemas/Visit'
-      required:
-        - visitorId
-        - visits
-      title: BaseResponse
-    PaginatedResponse:
       type: object
       additionalProperties: false
       properties:
@@ -2872,17 +2854,22 @@ components:
           items:
             $ref: '#/components/schemas/Visit'
         lastTimestamp:
+          description: >-
+            When more results are available (e.g., you scanned 200 results using
+            `limit` parameter, but a total of 600 results are available), a
+            special `lastTimestamp` top-level attribute is added to the
+            response. If you want to paginate the results further in the past,
+            you should use the value of this attribute.
           type: integer
           format: int64
           example: 1654815517198
         paginationKey:
+          description: Visit's `requestId` of the last visit in the current page.
           type: string
           example: 1654815517198.azN4IZ
       required:
         - visitorId
         - visits
-        - lastTimestamp
-        - paginationKey
       title: PaginatedResponse
       description: >-
         Fields `lastTimestamp` and `paginationKey` added when `limit` or
@@ -2893,6 +2880,7 @@ components:
       properties:
         error:
           type: string
+          description: Error text.
           example: request throttled
       required:
         - error
@@ -2912,11 +2900,13 @@ components:
       additionalProperties: false
       properties:
         requestId:
+          description: Unique identifier of the user's identification request.
           type: string
           example: 1654815516083.OX6kx8
         browserDetails:
           $ref: '#/components/schemas/BrowserDetails'
         incognito:
+          description: Flag if user used incognito session.
           type: boolean
         ip:
           type: string
@@ -2925,26 +2915,34 @@ components:
         ipLocation:
           $ref: '#/components/schemas/IPLocation'
         timestamp:
+          description: Timestamp of the event with millisecond precision in Unix time.
           type: integer
           format: int64
           example: 1654815516086
         time:
+          description: Time expressed according to ISO 8601 in UTC format.
           type: string
           format: date-time
           example: '2022-06-09T22:58:36Z'
         url:
+          description: Page URL from which identification request was sent.
           type: string
           format: uri
           example: https://some.website/path?query=params
         tag:
+          description: >-
+            A customer-provided value or an object that was sent with
+            identification request.
           type: object
           additionalProperties: true
         linkedId:
+          description: A customer-provided id that was sent with identification request.
           type: string
           example: someID
         confidence:
           $ref: '#/components/schemas/Confidence'
         visitorFound:
+          description: Attribute represents if a visitor had been identified before.
           type: boolean
         firstSeenAt:
           schema:
@@ -3016,6 +3014,9 @@ components:
       additionalProperties: false
       properties:
         score:
+          description: >-
+            The confidence score is a floating-point number between 0 and 1 that
+            represents the probability of accurate identification.
           type: number
           format: float
           minimum: 0
