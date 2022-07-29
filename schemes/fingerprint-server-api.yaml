@@ -130,12 +130,12 @@ components:
           items:
             $ref: '#/components/schemas/Visit'
         lastTimestamp:
-          description: When more results are available (e.g. you scanned 200 results using `limit` parameter, but a total of 600 results are available), a special `lastTimestamp` top-level attribute is added to the response. You should use the value of this attribute, if you want to paginate the results further in the past, to return the events that happened before that timestamp.
+          description: When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), a special `lastTimestamp` top-level attribute is added to the response. If you want to paginate the results further in the past, you should use the value of this attribute.
           type: integer
           format: int64
           example: 1654815517198
         paginationKey:
-          description: Visit's `requestId` of the lat visit in the current page
+          description: Visit's `requestId` of the last visit in the current page.
           type: string
           example: '1654815517198.azN4IZ'
       required:
@@ -149,7 +149,7 @@ components:
       properties:
         error:
           type: string
-          description: Error text
+          description: Error text.
           example: 'request throttled'
       required:
         - error
@@ -169,13 +169,13 @@ components:
       additionalProperties: false
       properties:
         requestId:
-          description: Unique identifier of the user's identification request
+          description: Unique identifier of the user's identification request.
           type: string
           example: '1654815516083.OX6kx8'
         browserDetails:
           $ref: '#/components/schemas/BrowserDetails'
         incognito:
-          description: User used incognito session
+          description: Flag if user used incognito session.
           type: boolean
         ip:
           type: string
@@ -184,32 +184,32 @@ components:
         ipLocation:
           $ref: '#/components/schemas/IPLocation'
         timestamp:
-          description: Timestamp of the event with millisecond precision
+          description: Timestamp of the event with millisecond precision in Unix time.
           type: integer
           format: int64
           example: 1654815516086
         time:
-          description: Time of the event in date-time format
+          description: Time expressed according to ISO 8601 in UTC format.
           type: string
           format: date-time
           example: '2022-06-09T22:58:36Z'
         url:
-          description: Page url from which identification request was sent
+          description: Page URL from which identification request was sent.
           type: string
           format: uri
           example: 'https://some.website/path?query=params'
         tag:
-          description: A customer-provided value or an object that was sent with identification request
+          description: A customer-provided value or an object that was sent with identification request.
           type: object
           additionalProperties: true
         linkedId:
-          description: A customer-provided id that was sent with identification request
+          description: A customer-provided id that was sent with identification request.
           type: string
           example: 'someID'
         confidence:
           $ref: '#/components/schemas/Confidence'
         visitorFound:
-          description: Was visitor on the website before?
+          description: Attribute represents if a visitor had been identified before.
           type: boolean
         firstSeenAt:
           schema:
@@ -279,7 +279,7 @@ components:
       additionalProperties: false
       properties:
         score:
-          description: A number between 0 and 1 that tells how much the agent is sure about the visitor identifier. The higher the number, the higher the chance of the visitor identifier to be true.
+          description: The confidence score is a floating-point number between 0 and 1 that represents the probability of accurate identification.
           type: number
           format: float
           minimum: 0
