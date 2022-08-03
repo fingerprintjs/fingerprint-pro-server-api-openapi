@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Fingerprint server API
-  description: Schema describes Fingerprint public server API
+  title: Fingerprint Pro Server API
+  description: Fingerprint Pro Server API provides a way for validating visitors’ data issued by Fingerprint Pro.
   version: '3'
 tags:
   - name: Fingerprint
