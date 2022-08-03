@@ -60,7 +60,6 @@ export default {
         {
           from: 'examples',
           to: 'examples',
-          transform: resolveExternalValueTransformer,
         },
         {
           from: 'res/favicon.ico',
