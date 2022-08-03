@@ -58,6 +58,11 @@ export default {
           transform: resolveExternalValueTransformer,
         },
         {
+          from: 'examples',
+          to: 'examples',
+          transform: resolveExternalValueTransformer,
+        },
+        {
           from: 'res/favicon.ico',
         },
       ],
