@@ -5,6 +5,9 @@ info:
     Fingerprint Pro Server API provides a way for validating visitors’ data
     issued by Fingerprint Pro.
   version: '3'
+  contact:
+    name: Fingerprint Support
+    email: support@fingerprint.com
 tags:
   - name: Fingerprint
     externalDocs:
