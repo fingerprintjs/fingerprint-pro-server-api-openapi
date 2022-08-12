@@ -215,14 +215,12 @@ components:
           description: Attribute represents if a visitor had been identified before.
           type: boolean
         firstSeenAt:
-          schema:
-            $ref: '#/components/schemas/StSeenAt'
+          $ref: '#/components/schemas/StSeenAt'
           example:
             global: '2022-05-05T18:28:54.535Z'
             subscription: '2022-06-09T22:58:05.576Z'
         lastSeenAt:
-          schema:
-            $ref: '#/components/schemas/StSeenAt'
+          $ref: '#/components/schemas/StSeenAt'
           example:
             global: '2022-06-09T22:58:35.795Z'
             subscription: null
@@ -340,14 +338,12 @@ components:
               type: string
               example: 'Prague'
         country:
-          schema:
-            $ref: '#/components/schemas/Location'
+          $ref: '#/components/schemas/Location'
           example:
             code: 'US'
             name: 'United States'
         continent:
-          schema:
-            $ref: '#/components/schemas/Location'
+          $ref: '#/components/schemas/Location'
           example:
             code: 'NA'
             name: 'North America'
