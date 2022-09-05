@@ -5,45 +5,68 @@ import yaml from 'js-yaml';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema.js';
 import 'dotenv/config';
 
-const apiKey = process.env.PRIVATE_KEY;
-const visitorId = process.env.VISITOR_ID;
+function gatherEnvs() {
+  const envs = {
+    PRIVATE_KEY: process.env.PRIVATE_KEY,
+    VISITOR_ID: process.env.VISITOR_ID,
+    //REQUEST_ID: process.env.REQUEST_ID,
+  };
 
-if (!apiKey) {
-  console.error('You should provide PRIVATE_KEY environment variable');
-  process.exit(1);
+  Object.entries(envs).forEach(([key, value]) => {
+    if (!value) {
+      throw new Error(`You should provide ${key} env variable`);
+    }
+  });
+
+  return {
+    apiKey: envs.PRIVATE_KEY,
+    visitorId: envs.VISITOR_ID,
+    //requestId: envs.REQUEST_ID,
+  };
 }
 
-if (!visitorId) {
-  console.error('You should provide VISITOR_ID environment variable');
-  process.exit(1);
+function setupAjv() {
+  const ajv = new Ajv({
+    strict: true,
+    strictSchema: 'log',
+    allErrors: true,
+  });
+
+  addFormats(ajv);
+  ajv.addFormat('timezone', {
+    type: 'string',
+    validate: (data) => typeof data === 'string',
+  });
+  ajv.addFormat('date-time', {
+    type: 'string',
+    validate: (data) => typeof data === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,3})?Z/.test(data),
+  });
+
+  return ajv;
 }
 
-const ajv = new Ajv({
-  strict: true,
-  strictSchema: 'log',
-  allErrors: true,
-});
+const { apiKey, visitorId } = gatherEnvs();
 
-addFormats(ajv);
-
-ajv.addFormat('timezone', {
-  type: 'string',
-  validate: (data) => typeof data === 'string',
-});
-
-ajv.addFormat('date-time', {
-  type: 'string',
-  validate: (data) => typeof data === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,3})?Z/.test(data),
-});
+const ajv = setupAjv();
 
 function getJsonSchemaValidator() {
   const apiDefinition = yaml.load(fs.readFileSync('./schemes/fingerprint-server-api.yaml'));
   const visitorsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
   const webhookSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/WebhookVisit');
+  const eventsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/EventResponse');
+
   return {
     visitorsApiValidator: ajv.compile(visitorsApiSchema),
     webhookValidator: ajv.compile(webhookSchema),
+    eventsValidator: ajv.compile(eventsApiSchema),
   };
+}
+
+function convertToMockObjects(mocks) {
+  return mocks.map(({ name, path }) => ({
+    name: `${name} mock`,
+    jsonData: JSON.parse(fs.readFileSync(path).toString()),
+  }));
 }
 
 function getVisitorsApiJsonDataMockObjects() {
@@ -58,10 +81,18 @@ function getVisitorsApiJsonDataMockObjects() {
     },
   ];
 
-  return mocks.map(({ name, path }) => ({
-    name: `${name} mock`,
-    jsonData: JSON.parse(fs.readFileSync(path).toString()),
-  }));
+  return convertToMockObjects(mocks);
+}
+
+function getEventsApiJsonDataMockObjects() {
+  const mocks = [
+    {
+      name: 'Events',
+      path: './examples/get_event.json',
+    },
+  ];
+
+  return convertToMockObjects(mocks);
 }
 
 function getWebhookJsonDataMockObjects() {
@@ -72,10 +103,7 @@ function getWebhookJsonDataMockObjects() {
     },
   ];
 
-  return mocks.map(({ name, path }) => ({
-    name: `${name} mock`,
-    jsonData: JSON.parse(fs.readFileSync(path).toString()),
-  }));
+  return convertToMockObjects(mocks);
 }
 
 async function getVisitorsApiRealDataObjects() {
@@ -128,7 +156,7 @@ Catch next error: ${e}`);
   );
 }
 
-const { visitorsApiValidator, webhookValidator } = getJsonSchemaValidator();
+const { visitorsApiValidator, webhookValidator, eventsValidator } = getJsonSchemaValidator();
 
 const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
 
@@ -148,4 +176,14 @@ webhookDataObjects.forEach(({ name, jsonData }) => {
     console.error(`${name}: `, webhookValidator.errors);
   }
 });
+
+const eventsDataObjects = getEventsApiJsonDataMockObjects();
+
+eventsDataObjects.forEach(({ name, jsonData }) => {
+  if (!eventsValidator(jsonData)) {
+    exitCode = 1;
+    console.error(`${name}: `, eventsValidator.errors);
+  }
+});
+
 process.exit(exitCode);
