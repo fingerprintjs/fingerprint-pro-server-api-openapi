@@ -27,8 +27,7 @@ paths:
       tags:
         - Fingerprint
       summary: Get event by request ID
-      # TODO Better wording for identification
-      description: This endpoint allows you to get events with all the information from each activated product - BOTD and Identification. Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
+      description: This endpoint allows you to get events with all the information from each activated product - BOTD and Fingerprinting. Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
       operationId: 'getEvent'
       parameters:
         - name: request_id
@@ -37,7 +36,6 @@ paths:
           required: true
           schema:
             type: string
-      # TODO Add 400 error
       responses:
         '200':
           description: OK
@@ -49,6 +47,26 @@ paths:
                 example:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/get_event_400_error.json'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/get_event_403_error.json'
         '429':
           description: Too Many Requests
           headers:
@@ -189,6 +207,20 @@ components:
         - visits
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided and there is more data to show
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: 'object'
+          additionalProperties: false
+          properties:
+            code:
+              type: string
+              example: 'TokenRequired'
+            message:
+              type: string
+              example: 'secret key is required'
     ManyRequestsResponse:
       type: object
       additionalProperties: false
