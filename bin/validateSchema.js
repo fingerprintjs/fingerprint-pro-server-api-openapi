@@ -45,6 +45,8 @@ function setupAjv() {
   return ajv;
 }
 
+let exitCode = 0;
+
 const { apiKey, visitorId } = gatherEnvs();
 
 const ajv = setupAjv();
@@ -54,11 +56,13 @@ function getJsonSchemaValidator() {
   const visitorsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
   const webhookSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/WebhookVisit');
   const eventsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/EventResponse');
+  const errorResponseSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/ErrorResponse');
 
   return {
     visitorsApiValidator: ajv.compile(visitorsApiSchema),
     webhookValidator: ajv.compile(webhookSchema),
     eventsValidator: ajv.compile(eventsApiSchema),
+    errorResponseValidator: ajv.compile(errorResponseSchema),
   };
 }
 
@@ -89,6 +93,14 @@ function getEventsApiJsonDataMockObjects() {
     {
       name: 'Events',
       path: './examples/get_event.json',
+    },
+    {
+      name: '400 error',
+      path: './examples/get_event_400_error.json',
+    },
+    {
+      name: '403 error',
+      path: './examples/get_event_403_error.json',
     },
   ];
 
@@ -156,34 +168,25 @@ Catch next error: ${e}`);
   );
 }
 
-const { visitorsApiValidator, webhookValidator, eventsValidator } = getJsonSchemaValidator();
+function validateSchemaAgainstData(validator, objects) {
+  objects.forEach(({ name, jsonData }) => {
+    if (!validator(jsonData)) {
+      exitCode = 1;
+      console.error(`${name}: `, visitorsApiValidator.errors);
+    }
+  });
+}
+
+const { visitorsApiValidator, webhookValidator, eventsValidator, errorResponseValidator } = getJsonSchemaValidator();
 
 const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
-
-let exitCode = 0;
-visitorsApiJsonDataObjects.forEach(({ name, jsonData }) => {
-  if (!visitorsApiValidator(jsonData)) {
-    exitCode = 1;
-    console.error(`${name}: `, visitorsApiValidator.errors);
-  }
-});
-
 const webhookDataObjects = getWebhookJsonDataMockObjects();
 
-webhookDataObjects.forEach(({ name, jsonData }) => {
-  if (!webhookValidator(jsonData)) {
-    exitCode = 1;
-    console.error(`${name}: `, webhookValidator.errors);
-  }
-});
+const [eventsDataObjects, ...eventErrors] = getEventsApiJsonDataMockObjects();
 
-const eventsDataObjects = getEventsApiJsonDataMockObjects();
-
-eventsDataObjects.forEach(({ name, jsonData }) => {
-  if (!eventsValidator(jsonData)) {
-    exitCode = 1;
-    console.error(`${name}: `, eventsValidator.errors);
-  }
-});
+validateSchemaAgainstData(visitorsApiValidator, visitorsApiJsonDataObjects);
+validateSchemaAgainstData(webhookValidator, webhookDataObjects);
+validateSchemaAgainstData(eventsValidator, [eventsDataObjects]);
+validateSchemaAgainstData(errorResponseValidator, eventErrors);
 
 process.exit(exitCode);
