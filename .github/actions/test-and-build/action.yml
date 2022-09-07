@@ -7,6 +7,9 @@ inputs:
   privateKey:
     description: 'Fingerprint private API key'
     required: true
+  requestId:
+    description: 'Request ID for testing events endpoint'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -40,4 +43,5 @@ runs:
       env:
         VISITOR_ID: '${{ inputs.visitorId }}'
         PRIVATE_KEY: '${{ inputs.privateKey }}'
+        REQUEST_ID: '${{ inputs.requestId }}'
       run: yarn validateSchema

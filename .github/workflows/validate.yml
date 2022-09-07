@@ -15,3 +15,4 @@ jobs:
         with:
           visitorId: '${{ secrets.VISITOR_ID }}'
           privateKey: '${{ secrets.PRIVATE_KEY }}'
+          requestId: '${{ secrets.REQUEST_ID }}'
