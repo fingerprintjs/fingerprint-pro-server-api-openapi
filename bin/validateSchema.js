@@ -51,6 +51,27 @@ const { apiKey, visitorId } = gatherEnvs();
 
 const ajv = setupAjv();
 
+async function makeApiRequest(path, name, params = {}) {
+  const searchParams = new URLSearchParams(params);
+  const url = new URL(`https://api.fpjs.io/${path}?${searchParams.toString()}`);
+  const headers = new Headers({ 'Auth-API-Key': apiKey });
+  const request = new Request(url, { headers });
+
+  let result;
+  let json;
+
+  try {
+    result = await fetch(request);
+    json = await result.json();
+  } catch (e) {
+    console.error(`try to get data by url: ${url.toString()}.
+Got request with status: ${result.status}, ${result.statusText}
+Catch next error: ${e}`);
+  }
+
+  return { name: `${name} real API`, jsonData: json };
+}
+
 function getJsonSchemaValidator() {
   const apiDefinition = yaml.load(fs.readFileSync('./schemes/fingerprint-server-api.yaml'));
   const visitorsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
@@ -149,21 +170,7 @@ async function getVisitorsApiRealDataObjects() {
 
   return await Promise.all(
     requests.map(async ({ name, params }) => {
-      const searchParams = new URLSearchParams(params);
-      const url = new URL(`https://api.fpjs.io/visitors/${visitorId}?${searchParams.toString()}`);
-      const headers = new Headers({ 'Auth-API-Key': apiKey });
-      const request = new Request(url, { headers });
-      let result;
-      let json;
-      try {
-        result = await fetch(request);
-        json = await result.json();
-      } catch (e) {
-        console.error(`try to get data by url: ${url.toString()}.
-Got request with status: ${result.status}, ${result.statusText}
-Catch next error: ${e}`);
-      }
-      return { name: `${name} real API`, jsonData: json };
+      return makeApiRequest(`visitors/${visitorId}`, name, params);
     })
   );
 }
