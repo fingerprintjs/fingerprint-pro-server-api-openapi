@@ -9,7 +9,7 @@ function gatherEnvs() {
   const envs = {
     PRIVATE_KEY: process.env.PRIVATE_KEY,
     VISITOR_ID: process.env.VISITOR_ID,
-    //REQUEST_ID: process.env.REQUEST_ID,
+    REQUEST_ID: process.env.REQUEST_ID,
   };
 
   Object.entries(envs).forEach(([key, value]) => {
@@ -21,7 +21,7 @@ function gatherEnvs() {
   return {
     apiKey: envs.PRIVATE_KEY,
     visitorId: envs.VISITOR_ID,
-    //requestId: envs.REQUEST_ID,
+    requestId: envs.REQUEST_ID,
   };
 }
 
@@ -47,7 +47,7 @@ function setupAjv() {
 
 let exitCode = 0;
 
-const { apiKey, visitorId } = gatherEnvs();
+const { apiKey, visitorId, requestId } = gatherEnvs();
 
 const ajv = setupAjv();
 
@@ -139,6 +139,12 @@ function getWebhookJsonDataMockObjects() {
   return convertToMockObjects(mocks);
 }
 
+async function getEventApiRealDataObjects() {
+  const response = await makeApiRequest(`events/${requestId}`, 'Event');
+
+  return [response];
+}
+
 async function getVisitorsApiRealDataObjects() {
   const requests = [
     {
@@ -189,11 +195,14 @@ const { visitorsApiValidator, webhookValidator, eventsValidator, errorResponseVa
 const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
 const webhookDataObjects = getWebhookJsonDataMockObjects();
 
-const [eventsDataObjects, ...eventErrors] = getEventsApiJsonDataMockObjects();
+const [realEventsData, eventsDataObjects, ...eventErrors] = [
+  ...(await getEventApiRealDataObjects()),
+  ...getEventsApiJsonDataMockObjects(),
+];
 
 validateSchemaAgainstData(visitorsApiValidator, visitorsApiJsonDataObjects);
 validateSchemaAgainstData(webhookValidator, webhookDataObjects);
-validateSchemaAgainstData(eventsValidator, [eventsDataObjects]);
+validateSchemaAgainstData(eventsValidator, [eventsDataObjects, realEventsData]);
 validateSchemaAgainstData(errorResponseValidator, eventErrors);
 
 process.exit(exitCode);
