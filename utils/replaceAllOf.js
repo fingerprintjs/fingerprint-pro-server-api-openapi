@@ -1,5 +1,15 @@
 function resolveComponent(path, components) {
-  return components[path.replace('#/definitions/', '')];
+  const pathsToReplace = ['#/definitions/', '#/components/schemas/'];
+
+  for (const pathToReplace of pathsToReplace) {
+    const actualPath = path.replace(pathToReplace, '');
+
+    if (components[actualPath]) {
+      return components[actualPath];
+    }
+  }
+
+  return undefined;
 }
 
 export function replaceAllOf(currentComponent, components) {
