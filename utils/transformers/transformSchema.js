@@ -11,5 +11,7 @@ export function transformSchema(content, transformers = defaultTransformers) {
     transformer(apiDefinition);
   });
 
-  return yaml.dump(apiDefinition);
+  return yaml.dump(apiDefinition, {
+    noRefs: true,
+  });
 }
