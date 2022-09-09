@@ -4,8 +4,8 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { resolveExternalValueTransformer } from './utils/resolveExternalValueTransformer.js';
 import 'dotenv/config';
+import { transformSchema } from './utils/transformers/transformSchema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,7 +55,7 @@ export default {
         {
           from: 'schemes',
           to: 'schemes',
-          transform: resolveExternalValueTransformer,
+          transform: (content) => transformSchema(content),
         },
         {
           from: 'examples',
