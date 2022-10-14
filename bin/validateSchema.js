@@ -185,7 +185,7 @@ function validateSchemaAgainstData(validator, objects) {
   objects.forEach(({ name, jsonData }) => {
     if (!validator(jsonData)) {
       exitCode = 1;
-      console.error(`${name}: `, visitorsApiValidator.errors);
+      console.error(`${name}: `, validator.errors);
     }
   });
 }
