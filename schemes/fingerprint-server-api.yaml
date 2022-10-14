@@ -514,12 +514,18 @@ components:
           type: string
           format: date-time
           example: '2022-06-09T22:58:36Z'
+        url:
+          description: Page URL from which identification request was sent.
+          type: string
+          format: uri
+          example: 'https://b.fpjs.sh/'
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
           example:
             result: 'notDetected'
       required:
         - bot
+        - url
         - ip
         - time
     BotdDetectionResult:
