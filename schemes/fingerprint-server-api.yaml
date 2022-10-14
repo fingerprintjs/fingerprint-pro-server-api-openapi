@@ -517,7 +517,7 @@ components:
         url:
           description: Page URL from which identification request was sent.
           type: string
-          format: uri
+          format: uri-reference
           example: 'https://b.fpjs.sh/'
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
