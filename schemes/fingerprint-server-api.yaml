@@ -246,7 +246,9 @@ components:
         - $ref: '#/components/schemas/Visit'
     Visit:
       type: object
-      additionalProperties: true
+      # The true default value for additionalProperties allows extending schema.
+      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
+      # additionalProperties: true
       properties:
         requestId:
           description: Unique identifier of the user's identification request.
@@ -500,7 +502,9 @@ components:
           $ref: '#/components/schemas/ProductsResponse'
     BotdResult:
       type: object
-      additionalProperties: true
+      # The true default value for additionalProperties allows extending schema.
+      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
+      # additionalProperties: true
       description: Contains all the information from BOTD product
       properties:
         ip:
