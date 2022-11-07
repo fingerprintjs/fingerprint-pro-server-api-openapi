@@ -85,6 +85,7 @@ paths:
       tags:
         - Fingerprint
       operationId: 'getVisits'
+      summary: Get events by visitor ID
       description: This endpoint allows you to get a history of visits with all available information. Use the visitorId as a URL path parameter. This API method is scoped to a visitor, i.e. all returned information is by visitorId.
       parameters:
         - name: visitor_id
