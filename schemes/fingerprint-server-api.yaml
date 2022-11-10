@@ -27,12 +27,12 @@ paths:
       tags:
         - Fingerprint
       summary: Get event by request ID
-      description: This endpoint allows you to get events with all the information from each activated product - BOTD and Fingerprinting. Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
+      description: This endpoint allows you to get events with all the information from each activated product (Fingerprint Pro or Bot Detection). Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
       operationId: 'getEvent'
       parameters:
         - name: request_id
           in: path
-          description: Request ID
+          description: requestId is the unique identifier of each request
           required: true
           schema:
             type: string
@@ -71,7 +71,7 @@ paths:
           description: Too Many Requests
           headers:
             Retry-After:
-              description: Indicates how long the user should wait before making a follow-up request.
+              description: Indicates how long the user should wait in seconds before attempting the next request.
               schema:
                 type: integer
                 format: int32
@@ -85,7 +85,7 @@ paths:
       tags:
         - Fingerprint
       operationId: 'getVisits'
-      summary: Get events by visitorId
+      summary: Get visits by visitorId
       description: This endpoint allows you to get a history of visits with all available information. Use the visitorId as a URL path parameter. This API method is scoped to a visitor, i.e. all returned information is by visitorId.
       parameters:
         - name: visitor_id
@@ -95,13 +95,13 @@ paths:
             type: string
           example: uYIm7Ksp5rf00SllPhFp
         - name: request_id
-          description: Filter events by requestId
+          description: Filter visits by requestId
           in: query
           schema:
             type: string
         #          example: 1654815516083.OX6kx8
         - name: linked_id
-          description: Filter events by custom identifier
+          description: Filter visits by custom identifier
           in: query
           schema:
             type: string
@@ -143,7 +143,7 @@ paths:
           description: Too Many Requests
           headers:
             Retry-After:
-              description: Indicates how long the user should wait before making a follow-up request.
+              description: Indicates how long the user should wait before attempting the next request.
               schema:
                 type: integer
                 format: int32
@@ -161,7 +161,7 @@ paths:
         webhook:
           webhook:
             post:
-              description: You can use HTTP basic authentication and setup credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
+              description: You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
               requestBody:
                 content:
                   application/json:
@@ -469,7 +469,7 @@ components:
           example: 'Hlavni mesto Praha'
     ProductsResponse:
       type: object
-      description: Contains all the information from each activated product - BOTD and Identification
+      description: Contains all the information from each activated product: Fingerprint Pro or Bot Detection
       additionalProperties: false
       properties:
         identification:
@@ -495,7 +495,7 @@ components:
             data:
               $ref: '#/components/schemas/BotdResult'
     EventResponse:
-      description: Contains event from activated products - BOTD and Identification
+      description: Contains event from activated products - Fingerprint Pro or Bot Detection
       type: object
       additionalProperties: false
       properties:
@@ -506,7 +506,7 @@ components:
       # The true default value for additionalProperties allows extending schema.
       # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
       # additionalProperties: true
-      description: Contains all the information from BOTD product
+      description: Contains all the information from Bot Detection product
       properties:
         ip:
           type: string
@@ -523,7 +523,7 @@ components:
           description: Page URL from which identification request was sent.
           type: string
           format: uri-reference
-          example: 'https://b.fpjs.sh/'
+          example: 'https://example.com/login'
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
           example:
