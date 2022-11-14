@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Fingerprint Pro Server API
-  description: Fingerprint Pro Server API provides a way for validating visitors’ data issued by Fingerprint Pro.
+  description: Fingerprint Pro Server API allows you to get information about visitors and about individual events in a server environment. This API can be used for data exports, decision-making, and data analysis scenarios.
   version: '3'
   contact:
     name: Fingerprint Support
@@ -26,7 +26,7 @@ paths:
     get:
       tags:
         - Fingerprint
-      summary: Get event by request ID
+      summary: Get event by requestId
       description: This endpoint allows you to get events with all the information from each activated product (Fingerprint Pro or Bot Detection). Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
       operationId: 'getEvent'
       parameters:
