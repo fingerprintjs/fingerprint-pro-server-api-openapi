@@ -32,14 +32,14 @@ paths:
       summary: Get event by requestId
       description: >-
         This endpoint allows you to get events with all the information from
-        each activated product - BOTD and Fingerprinting. Use the requestId as a
-        URL path :request_id parameter. This API method is scoped to a request,
-        i.e. all returned information is by requestId.
+        each activated product (Fingerprint Pro or Bot Detection). Use the
+        requestId as a URL path :request_id parameter. This API method is scoped
+        to a request, i.e. all returned information is by requestId.
       operationId: getEvent
       parameters:
         - name: request_id
           in: path
-          description: Request ID
+          description: requestId is the unique identifier of each request
           required: true
           schema:
             type: string
@@ -137,8 +137,8 @@ paths:
           headers:
             Retry-After:
               description: >-
-                Indicates how long the user should wait before making a
-                follow-up request.
+                Indicates how long the user should wait in seconds before
+                attempting the next request.
               schema:
                 type: integer
                 format: int32
@@ -165,12 +165,12 @@ paths:
             type: string
           example: uYIm7Ksp5rf00SllPhFp
         - name: request_id
-          description: Filter events by requestId
+          description: Filter visits by requestId
           in: query
           schema:
             type: string
         - name: linked_id
-          description: Filter events by custom identifier
+          description: Filter visits by custom identifier
           in: query
           schema:
             type: string
@@ -2879,8 +2879,8 @@ paths:
           headers:
             Retry-After:
               description: >-
-                Indicates how long the user should wait before making a
-                follow-up request.
+                Indicates how long the user should wait before attempting the
+                next request.
               schema:
                 type: integer
                 format: int32
@@ -2902,7 +2902,7 @@ paths:
           webhook:
             post:
               description: >-
-                You can use HTTP basic authentication and setup credentials in
+                You can use HTTP basic authentication and set up credentials in
                 your [Fingerprint
                 account](https://dashboard.fingerprint.com/login)
               requestBody:
@@ -3411,8 +3411,8 @@ components:
     ProductsResponse:
       type: object
       description: >-
-        Contains all the information from each activated product - BOTD and
-        Identification
+        Contains all the information from each activated product - Fingerprint
+        Pro or Bot Detection
       additionalProperties: false
       properties:
         identification:
@@ -3511,7 +3511,9 @@ components:
             data:
               $ref: '#/components/schemas/BotdResult'
     EventResponse:
-      description: Contains event from activated products - BOTD and Identification
+      description: >-
+        Contains event from activated products - Fingerprint Pro or Bot
+        Detection
       type: object
       additionalProperties: false
       properties:
@@ -3519,7 +3521,7 @@ components:
           $ref: '#/components/schemas/ProductsResponse'
     BotdResult:
       type: object
-      description: Contains all the information from BOTD product
+      description: Contains all the information from Bot Detection product
       properties:
         ip:
           type: string
@@ -3539,7 +3541,7 @@ components:
           description: Page URL from which identification request was sent.
           type: string
           format: uri-reference
-          example: https://b.fpjs.sh/
+          example: https://example.com/login
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
           example:
