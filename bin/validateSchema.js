@@ -77,13 +77,15 @@ function getJsonSchemaValidator() {
   const visitorsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
   const webhookSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/WebhookVisit');
   const eventsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/EventResponse');
-  const errorResponseSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/ErrorResponse');
+  const errorResponseEvent403Schema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/ErrorEvent403Response');
+  const errorResponseEvent404Schema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/ErrorEvent404Response');
 
   return {
     visitorsApiValidator: ajv.compile(visitorsApiSchema),
     webhookValidator: ajv.compile(webhookSchema),
     eventsValidator: ajv.compile(eventsApiSchema),
-    errorResponseValidator: ajv.compile(errorResponseSchema),
+    errorResponseEvent403Validator: ajv.compile(errorResponseEvent403Schema),
+    errorResponseEvent404Validator: ajv.compile(errorResponseEvent404Schema),
   };
 }
 
@@ -116,12 +118,12 @@ function getEventsApiJsonDataMockObjects() {
       path: './examples/get_event.json',
     },
     {
-      name: '400 error',
-      path: './examples/get_event_400_error.json',
-    },
-    {
       name: '403 error',
       path: './examples/get_event_403_error.json',
+    },
+    {
+      name: '404 error',
+      path: './examples/get_event_404_error.json',
     },
   ];
 
@@ -190,12 +192,18 @@ function validateSchemaAgainstData(validator, objects) {
   });
 }
 
-const { visitorsApiValidator, webhookValidator, eventsValidator, errorResponseValidator } = getJsonSchemaValidator();
+const {
+  visitorsApiValidator,
+  webhookValidator,
+  eventsValidator,
+  errorResponseEvent403Validator,
+  errorResponseEvent404Validator,
+} = getJsonSchemaValidator();
 
 const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
 const webhookDataObjects = getWebhookJsonDataMockObjects();
 
-const [realEventsData, eventsDataObjects, ...eventErrors] = [
+const [realEventsData, eventsDataObjects, event403Error, event404Error] = [
   ...(await getEventApiRealDataObjects()),
   ...getEventsApiJsonDataMockObjects(),
 ];
@@ -203,6 +211,7 @@ const [realEventsData, eventsDataObjects, ...eventErrors] = [
 validateSchemaAgainstData(visitorsApiValidator, visitorsApiJsonDataObjects);
 validateSchemaAgainstData(webhookValidator, webhookDataObjects);
 validateSchemaAgainstData(eventsValidator, [eventsDataObjects, realEventsData]);
-validateSchemaAgainstData(errorResponseValidator, eventErrors);
+validateSchemaAgainstData(errorResponseEvent403Validator, [event403Error]);
+validateSchemaAgainstData(errorResponseEvent404Validator, [event404Error]);
 
 process.exit(exitCode);
