@@ -53,8 +53,13 @@ export default {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'schemes',
-          to: 'schemes',
+          from: 'schemas',
+          to: 'schemas',
+          transform: (content) => transformSchema(content),
+        },
+        {
+          from: 'schemas',
+          to: 'schemes', // backward compatibility
           transform: (content) => transformSchema(content),
         },
         {
