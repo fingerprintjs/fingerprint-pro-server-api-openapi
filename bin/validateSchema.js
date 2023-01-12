@@ -5,6 +5,8 @@ import yaml from 'js-yaml';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema.js';
 import 'dotenv/config';
 
+process.exit(1);
+
 function gatherEnvs() {
   const envs = {
     PRIVATE_KEY: process.env.PRIVATE_KEY,
