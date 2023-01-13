@@ -3096,12 +3096,12 @@ components:
                 description: Attribute represents if a visitor had been identified before.
                 type: boolean
               firstSeenAt:
-                $ref: '#/components/schemas/StSeenAt'
+                $ref: '#/components/schemas/SeenAt'
                 example:
                   global: '2022-05-05T18:28:54.535Z'
                   subscription: '2022-06-09T22:58:05.576Z'
               lastSeenAt:
-                $ref: '#/components/schemas/StSeenAt'
+                $ref: '#/components/schemas/SeenAt'
                 example:
                   global: '2022-06-09T22:58:35.795Z'
                   subscription: null
@@ -3257,12 +3257,12 @@ components:
           description: Attribute represents if a visitor had been identified before.
           type: boolean
         firstSeenAt:
-          $ref: '#/components/schemas/StSeenAt'
+          $ref: '#/components/schemas/SeenAt'
           example:
             global: '2022-05-05T18:28:54.535Z'
             subscription: '2022-06-09T22:58:05.576Z'
         lastSeenAt:
-          $ref: '#/components/schemas/StSeenAt'
+          $ref: '#/components/schemas/SeenAt'
           example:
             global: '2022-06-09T22:58:35.795Z'
             subscription: null
@@ -3331,12 +3331,12 @@ components:
           description: Attribute represents if a visitor had been identified before.
           type: boolean
         firstSeenAt:
-          $ref: '#/components/schemas/StSeenAt'
+          $ref: '#/components/schemas/SeenAt'
           example:
             global: '2022-05-05T18:28:54.535Z'
             subscription: '2022-06-09T22:58:05.576Z'
         lastSeenAt:
-          $ref: '#/components/schemas/StSeenAt'
+          $ref: '#/components/schemas/SeenAt'
           example:
             global: '2022-06-09T22:58:35.795Z'
             subscription: null
@@ -3407,7 +3407,7 @@ components:
       required:
         - score
       title: Confidence
-    StSeenAt:
+    SeenAt:
       type: object
       additionalProperties: false
       properties:
@@ -3422,7 +3422,7 @@ components:
       required:
         - global
         - subscription
-      title: StSeenAt
+      title: SeenAt
     IPLocation:
       type: object
       additionalProperties: false
@@ -3575,12 +3575,12 @@ components:
                     before.
                   type: boolean
                 firstSeenAt:
-                  $ref: '#/components/schemas/StSeenAt'
+                  $ref: '#/components/schemas/SeenAt'
                   example:
                     global: '2022-05-05T18:28:54.535Z'
                     subscription: '2022-06-09T22:58:05.576Z'
                 lastSeenAt:
-                  $ref: '#/components/schemas/StSeenAt'
+                  $ref: '#/components/schemas/SeenAt'
                   example:
                     global: '2022-06-09T22:58:35.795Z'
                     subscription: null
