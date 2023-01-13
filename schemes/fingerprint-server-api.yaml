@@ -44,29 +44,32 @@ paths:
               schema:
                 $ref: '#/components/schemas/EventResponse'
               examples:
-                example:
+                fullResponse:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                example:
-                  summary: Example response
-                  externalValue: '/examples/get_event_400_error.json'
+                withBotdError:
+                  summary: Example response with BotD error
+                  externalValue: '/examples/get_event_botd_error.json'
         '403':
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/ErrorEvent403Response'
               examples:
                 example:
                   summary: Example response
                   externalValue: '/examples/get_event_403_error.json'
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEvent404Response'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/get_event_404_error.json'
         '429':
           description: Too Many Requests
           headers:
@@ -139,6 +142,19 @@ paths:
                 limit500:
                   summary: Request with limit=500
                   externalValue: '/examples/visits_limit_500.json'
+        '403':
+          description: "Forbidden. Probably ApiKey is missed or provided the wrong one."
+          content:
+            text/html:
+              schema:
+                type: string
+                example: >
+                  <html>
+                  <head><title>403 Forbidden</title></head>
+                  <body>
+                  <center><h1>403 Forbidden</h1></center>
+                  </body>
+                  </html>
         '429':
           description: Too Many Requests
           headers:
@@ -209,21 +225,58 @@ components:
         - visits
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided and there is more data to show
-    ErrorResponse:
+    ErrorEvent403Response:
       type: object
       additionalProperties: false
       properties:
         error:
           type: 'object'
           additionalProperties: false
-          title: ErrorResponseError
+          title: ErrorEvent403ResponseError
           properties:
             code:
               type: string
+              description: >
+                Error code:
+                 * `TokenRequired` - `Auth-API-Key` header is missing or empty
+                 * `TokenNotFound` - subscription not found for specified secret key
+                 * `SubscriptionNotActive` - subscription is not active
+                 * `WrongRegion` - server and subscription region differ
+              enum:
+                - TokenRequired
+                - TokenNotFound
+                - SubscriptionNotActive
+                - WrongRegion
               example: 'TokenRequired'
             message:
               type: string
               example: 'secret key is required'
+          required:
+            - code
+            - message
+    ErrorEvent404Response:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: 'object'
+          additionalProperties: false
+          title: ErrorEvent404ResponseError
+          properties:
+            code:
+              type: string
+              description: >
+                Error code:
+                 * `RequestNotFound` - request not found for specified id
+              enum:
+                - RequestNotFound
+              example: 'RequestNotFound'
+            message:
+              type: string
+              example: 'request id is not found'
+          required:
+            - code
+            - message
     ManyRequestsResponse:
       type: object
       additionalProperties: false
@@ -494,6 +547,9 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/BotdResult'
+            error:
+              $ref: '#/components/schemas/BotdError'
+
     EventResponse:
       description: Contains event from activated products - Fingerprint Pro or Bot Detection
       type: object
@@ -551,3 +607,23 @@ components:
             - bad
       required:
         - result
+    BotdError:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          description: >
+            Error code:
+             * `TooManyRequests` - the limit on secret API key requests per second has been exceeded
+             * `Failed` - internal server error
+          enum:
+            - TooManyRequests
+            - Failed
+          example: 'TooManyRequests'
+        message:
+          type: string
+          example: 'too many requests'
+      required:
+        - code
+        - message
