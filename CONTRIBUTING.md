@@ -4,7 +4,7 @@ The repository contains [Fingerprint Pro Server API](https://dev.fingerprint.com
 
 ## Schema
 
-You can find the definition in the [schemes](/schemes) folder. You can find information about OpenAPI 3.0.3 in the [official specification](https://spec.openapis.org/oas/v3.0.3).
+You can find the definition in the [schemas](/schemas) folder. You can find information about OpenAPI 3.0.3 in the [official specification](https://spec.openapis.org/oas/v3.0.3).
 
 ## Demo app
 

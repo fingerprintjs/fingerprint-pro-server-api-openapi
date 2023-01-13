@@ -73,7 +73,7 @@ Catch next error: ${e}`);
 }
 
 function getJsonSchemaValidator() {
-  const apiDefinition = yaml.load(fs.readFileSync('./dist/schemes/fingerprint-server-api.yaml'));
+  const apiDefinition = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
   const visitorsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/Response');
   const webhookSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/WebhookVisit');
   const eventsApiSchema = convertOpenApiToJsonSchema(apiDefinition, '#/definitions/EventResponse');
