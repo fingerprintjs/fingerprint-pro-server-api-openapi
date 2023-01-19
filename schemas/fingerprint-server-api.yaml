@@ -70,19 +70,6 @@ paths:
                 example:
                   summary: Example response
                   externalValue: '/examples/get_event_404_error.json'
-        '429':
-          description: Too Many Requests
-          headers:
-            Retry-After:
-              description: Indicates how long the user should wait in seconds before attempting the next request.
-              schema:
-                type: integer
-                format: int32
-                minimum: 0
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ManyRequestsResponse'
   /visitors/{visitor_id}:
     get:
       tags:
@@ -540,6 +527,8 @@ components:
                       type: string
                   required:
                     - visitorId
+            error:
+              $ref: '#/components/schemas/IdentificationError'
         botd:
           title: ProductsResponseBotd
           type: object
@@ -557,6 +546,26 @@ components:
       properties:
         products:
           $ref: '#/components/schemas/ProductsResponse'
+    IdentificationError:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          description: >
+            Error code:
+             * `429 Too Many Requests` - the limit on secret API key requests per second has been exceeded
+             * `Failed` - internal server error
+          enum:
+            - '429 Too Many Requests'
+            - Failed
+          example: '429 Too Many Requests'
+        message:
+          type: string
+          example: 'too many requests'
+      required:
+        - code
+        - message
     BotdResult:
       type: object
       # The true default value for additionalProperties allows extending schema.
