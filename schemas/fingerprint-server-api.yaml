@@ -48,8 +48,17 @@ paths:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
                 withBotdError:
-                  summary: Example response with BotD error
-                  externalValue: '/examples/get_event_botd_error.json'
+                  summary: Example error response with BotD error
+                  externalValue: '/examples/get_event_botd_failed_error.json'
+                withBotdTooManyRequestsError:
+                  summary: Example error response with BotD error when too many requests are sent
+                  externalValue: '/examples/get_event_botd_too_many_requests_error.json'
+                withIdentificationError:
+                  summary: Example error response with identification error
+                  externalValue: '/examples/get_event_identification_failed_error.json'
+                withIdentificationTooManyRequestsError:
+                  summary: Example error response with identification error when too many requests are sent
+                  externalValue: '/examples/get_event_identification_too_many_requests_error.json'
         '403':
           description: Forbidden
           content:
@@ -151,6 +160,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManyRequestsResponse'
+          examples:
+            example:
+              summary: Example too many requests error response
+              externalValue: '/examples/visits_too_many_requests_error.json'
   /webhook:
     trace:
       tags:
