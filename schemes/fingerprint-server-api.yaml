@@ -2914,12 +2914,12 @@ paths:
         '403':
           description: Forbidden. Probably ApiKey is missed or provided the wrong one.
           content:
-            text/html:
+            application/json:
               schema:
-                type: string
-                example: >
-                  <html> <head><title>403 Forbidden</title></head> <body>
-                  <center><h1>403 Forbidden</h1></center> </body> </html>
+                $ref: '#/components/schemas/ErrorVisits403'
+              examples:
+                forbidden:
+                  value: '{"error": "Forbidden (HTTP 403)"}'
         '429':
           description: Too Many Requests
           headers:
@@ -3178,6 +3178,16 @@ components:
           required:
             - code
             - message
+    ErrorVisits403:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          description: Error text.
+          example: Forbidden (HTTP 403)
+      required:
+        - error
     ManyRequestsResponse:
       type: object
       additionalProperties: false
