@@ -116,14 +116,14 @@ paths:
         #            default: 0
         #          example: 10
         - name: before
-          description: Used to paginate results
+          description: Timestamp (in milliseconds since epoch) used to paginate results
           in: query
           schema:
             type: integer
-            format: int32
+            format: int64
             minimum: 0
-      #            default: 0
-      #          example: 10
+            # default: 0
+            # example: 1654815517198
       responses:
         '200':
           description: OK
