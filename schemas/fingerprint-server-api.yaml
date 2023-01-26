@@ -160,10 +160,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManyRequestsResponse'
-          examples:
-            example:
-              summary: Example too many requests error response
-              externalValue: '/examples/visits_too_many_requests_error.json'
+              examples:
+                example:
+                  summary: Example too many requests error response
+                  externalValue: '/examples/visits_too_many_requests_error.json'
   /webhook:
     trace:
       tags:
