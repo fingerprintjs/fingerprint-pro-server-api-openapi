@@ -176,11 +176,11 @@ async function getVisitorsApiRealDataObjects() {
     },
   ];
 
-  return await Promise.all(
-    requests.map(async ({ name, params }) => {
-      return makeApiRequest(`visitors/${visitorId}`, name, params);
-    })
-  );
+  const result = [];
+  for (const { name, params } of requests) {
+    result.push(await makeApiRequest(`visitors/${visitorId}`, name, params));
+  }
+  return result;
 }
 
 function validateSchemaAgainstData(validator, objects) {
