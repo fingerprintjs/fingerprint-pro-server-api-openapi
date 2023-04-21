@@ -118,6 +118,10 @@ function getEventsApiJsonDataMockObjects() {
       path: './examples/get_event.json',
     },
     {
+      name: 'Events with extra fields',
+      path: './examples/get_event_extra_fields.json',
+    },
+    {
       name: '403 error',
       path: './examples/get_event_403_error.json',
     },
@@ -176,11 +180,11 @@ async function getVisitorsApiRealDataObjects() {
     },
   ];
 
-  return await Promise.all(
-    requests.map(async ({ name, params }) => {
-      return makeApiRequest(`visitors/${visitorId}`, name, params);
-    })
-  );
+  const result = [];
+  for (const { name, params } of requests) {
+    result.push(await makeApiRequest(`visitors/${visitorId}`, name, params));
+  }
+  return result;
 }
 
 function validateSchemaAgainstData(validator, objects) {
@@ -203,14 +207,14 @@ const {
 const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
 const webhookDataObjects = getWebhookJsonDataMockObjects();
 
-const [realEventsData, eventsDataObjects, event403Error, event404Error] = [
+const [realEventsData, eventsDataObjects, eventsWithExtraFields, event403Error, event404Error] = [
   ...(await getEventApiRealDataObjects()),
   ...getEventsApiJsonDataMockObjects(),
 ];
 
 validateSchemaAgainstData(visitorsApiValidator, visitorsApiJsonDataObjects);
 validateSchemaAgainstData(webhookValidator, webhookDataObjects);
-validateSchemaAgainstData(eventsValidator, [eventsDataObjects, realEventsData]);
+validateSchemaAgainstData(eventsValidator, [eventsDataObjects, realEventsData, eventsWithExtraFields]);
 validateSchemaAgainstData(errorResponseEvent403Validator, [event403Error]);
 validateSchemaAgainstData(errorResponseEvent404Validator, [event404Error]);
 
