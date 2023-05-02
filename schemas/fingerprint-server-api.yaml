@@ -528,7 +528,10 @@ components:
     ProductsResponse:
       type: object
       description: Contains all the information from each activated product - Fingerprint Pro or Bot Detection
-      additionalProperties: true
+      # The true default value for additionalProperties allows extending schema.
+      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
+      # additionalProperties: true
+      additionalProperties: false
       properties:
         identification:
           type: object
