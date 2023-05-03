@@ -133,7 +133,7 @@ paths:
               });
               const config = {
                 method: 'post',
-                url: 'https://api.example.com/v2/alert',
+                url: 'https://api.example.com/v2/:visitor_id',
                 headers: { 
                   'Content-Type': 'application/json'
                 },
