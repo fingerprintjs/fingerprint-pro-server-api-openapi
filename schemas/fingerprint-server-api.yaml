@@ -116,7 +116,31 @@ paths:
         ```
 
         or links to documentation [Fingerprint Pro](https://fingerprintjs.com/)
-
+      x-readme:
+        code-samples:
+          - language: curl
+            code: curl -X POST https://api.example.com/v2/alert
+            name: Custom cURL snippet
+            install: brew install curl
+          - language: php
+            code: <?php echo "This is our custom PHP code snippet."; ?>
+            name: Custom PHP snippet
+          - language: node
+            code: |
+              const axios = require('axios');
+              const data = JSON.stringify({
+                bla: "bla",
+              });
+              const config = {
+                method: 'post',
+                url: 'https://api.example.com/v2/alert',
+                headers: { 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+              };
+              axios(config);
+            name: Custom Node snippet
       parameters:
         - name: visitor_id
           in: path
