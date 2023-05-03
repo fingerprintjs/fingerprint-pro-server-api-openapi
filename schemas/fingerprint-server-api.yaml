@@ -76,7 +76,47 @@ paths:
     get:
       operationId: 'getVisits'
       summary: Get visits by visitorId
-      description: This endpoint allows you to get a history of visits with all available information. Use the visitorId as a URL path parameter. This API method is scoped to a visitor, i.e. all returned information is by visitorId.
+      description: | 
+        This endpoint allows you to get a history of visits with all available information. Use the `visitorId` as a URL path parameter. 
+        This API method is scoped to a visitor, i.e. all returned information is by visitorId.
+
+        I can use mardown here and **bold** text or *italic* text or `code` text 
+        even lists:
+        - item 1
+        - item 2
+        - item 3
+
+        an tables 
+
+        | Column 1 | Column 2 | Column 3 |
+        | -------- | -------- | -------- |
+        | Text     | Text     | Text     |
+        | Text     | Text     | Text     |
+        | Text     | Text     | Text     |
+
+        and subheadings
+
+        ## Subheading 1
+
+        ### Subheading 2
+
+        #### Subheading 3
+         
+        some content
+        
+        ##### Subheading 4
+
+        maybe code blocks
+
+        ```javascript
+        const a = 1;
+        const b = 2;
+        const c = a + b;
+        console.log(c);
+        ```
+
+        or links to documentation [Fingerprint Pro](https://fingerprintjs.com/)
+
       parameters:
         - name: visitor_id
           in: path
