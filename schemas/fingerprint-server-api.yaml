@@ -131,7 +131,19 @@ paths:
             type: string
         #          example: 1654815516083.OX6kx8
         - name: linked_id
-          description: Filter visits by custom identifier
+          description: | 
+            Filter visits by custom identifier
+
+            If you need to associate events with your own identifier, use linkedId. 
+            You can use it in different scenarios: e.g., identify by sessionID, 
+            identify by purchaseID or by your custom transaction number. 
+            You should use requestId to get a single event, whereas you should use linkedId to retrieve several events,
+            associated with your custom identifier.
+
+            *bold* 
+            
+            - dkeow
+            - dkeow
           in: query
           schema:
             type: string
