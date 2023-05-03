@@ -6,11 +6,6 @@ info:
   contact:
     name: Fingerprint Support
     email: support@fingerprint.com
-tags:
-  - name: Fingerprint
-    externalDocs:
-      description: API documentation
-      url: https://dev.fingerprint.com/docs/server-api
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -24,8 +19,6 @@ security:
 paths:
   /events/{request_id}:
     get:
-      tags:
-        - Fingerprint
       summary: Get event by requestId
       description: This endpoint allows you to get events with all the information from each activated product (Fingerprint Pro or Bot Detection). Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
       operationId: 'getEvent'
@@ -81,8 +74,6 @@ paths:
                   externalValue: '/examples/get_event_404_error.json'
   /visitors/{visitor_id}:
     get:
-      tags:
-        - Fingerprint
       operationId: 'getVisits'
       summary: Get visits by visitorId
       description: This endpoint allows you to get a history of visits with all available information. Use the visitorId as a URL path parameter. This API method is scoped to a visitor, i.e. all returned information is by visitorId.
@@ -167,8 +158,6 @@ paths:
                   externalValue: '/examples/visits_too_many_requests_error.json'
   /webhook:
     trace:
-      tags:
-        - Fingerprint
       description: Fake path to describe webhook format. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
       responses:
         default:
