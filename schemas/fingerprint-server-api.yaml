@@ -9,50 +9,14 @@ info:
     name: Fingerprint Support
     email: support@fingerprint.com
 tags:
-  - name: Fingerprint
-    externalDocs:
-      url: https://dev.fingerprint.com/docs/server-api
+  - name: Events
+    # externalDocs:
+    #   url: https://dev.fingerprint.com/docs/server-api
     description: |
-      API documentation
-
-      ## Sure but what if this description was very long
-
-      I can use mardown here and **bold** text or *italic* text or `code` text
-
-      even lists:
-
-      - item 1
-      - item 2
-      - item 3
-
-      an tables
-
-      | Column 1 | Column 2 | Column 3 |
-      | -------- | -------- | -------- |
-      | Text     | Text     | Text     |
-      | Text     | Text     | Text     |
-
-      and subheadings
-
-      ## Subheading 1
-
-      ### Subheading 2
-
-      #### Subheading 3
-
-      some content
-
-      ##### Subheading 4
-
-      maybe code blocks
-
-      ```javascript
-      const a = 1;
-      const b = 2;
-      const c = a + b;
-      console.log(c);
-      ```
-
+      Using the Server API you can retrieve information about individual analysis events using the event's `requestId`.
+  - name: Visitors
+    description: |
+      Using the Server API you can retrieve visitor history of individual visitors using their `visitorId`.
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -67,7 +31,7 @@ paths:
   /events/{request_id}:
     get:
       tags:
-        - Fingerprint
+        - Events
       summary: Get event by requestId
       description: This endpoint allows you to get events with all the information from each activated product (Fingerprint Pro or Bot Detection). Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
       operationId: 'getEvent'
@@ -124,7 +88,7 @@ paths:
   /visitors/{visitor_id}:
     get:
       tags:
-        - Fingerprint
+        - Visitors
       operationId: 'getVisits'
       summary: Get visits by visitorId
       description: |
@@ -283,26 +247,6 @@ paths:
                 example:
                   summary: Example too many requests error response
                   externalValue: '/examples/visits_too_many_requests_error.json'
-  /webhook:
-    post:
-      tags:
-        - Fingerprint
-      summary: Webhook from Fingerprint to your server
-      description: | 
-        You can configure webhooks to receive identification events as POST requests on your server. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
-        You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/WebhookVisit'
-            example:
-              externalValue: '/examples/webhook.json'
-      responses:
-        200:
-          description: |
-            Return 200 OK to indicate that the data was received successfully. 
-            Every request is retried once if it timed out or returned a non-2XX response. The retry will take place 5 minutes after the non-2XX response is received or 5 minutes after the timeout takes place.
 components:
   securitySchemes:
     ApiKeyHeader:
