@@ -34,11 +34,11 @@ paths:
         - Events
       summary: Get event by `requestId`
       description: | 
-        # `GET` **/events/:requestId**
-        This endpoint allows you to get events with all the information from each activated product (Identification, Bot Detection, AEV). Use `requestId` as the URL path `:request_id` parameter. 
-        This API method is scoped to a request, i.e. all returned information is by `requestId`.
-
+        This endpoint allows you to get events with all the information from each activated product (Identification, Bot Detection, AEV). 
         
+        Use `requestId` as the URL path `:request_id` parameter.
+
+        This API method is scoped to a request, i.e. all returned information is by `requestId`.
       operationId: 'getEvent'
       parameters:
         - name: request_id
@@ -59,16 +59,16 @@ paths:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
                 withBotdError:
-                  summary: Example error response with BotD error
+                  summary:  BotD error
                   externalValue: '/examples/get_event_botd_failed_error.json'
                 withBotdTooManyRequestsError:
-                  summary: Example error response with BotD error when too many requests are sent
+                  summary:  BotD too many requests error
                   externalValue: '/examples/get_event_botd_too_many_requests_error.json'
                 withIdentificationError:
-                  summary: Example error response with identification error
+                  summary: Identification error
                   externalValue: '/examples/get_event_identification_failed_error.json'
                 withIdentificationTooManyRequestsError:
-                  summary: Example error response with identification error when too many requests are sent
+                  summary: Identification too many requests error
                   externalValue: '/examples/get_event_identification_too_many_requests_error.json'
         '403':
           description: Forbidden
