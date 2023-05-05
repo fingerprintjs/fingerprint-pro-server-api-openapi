@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Fingerprint Pro Server API
-  description: | 
+  description: |
     Fingerprint Pro Server API allows you to get information about visitors and about individual events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
     Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
 
@@ -41,7 +41,7 @@ info:
 tags:
   - name: Fingerprint
     externalDocs:
-      description: | 
+      description: |
         API documentation
 
         ## Sure but what if this description was very long
@@ -90,8 +90,8 @@ servers:
   - url: https://ap.api.fpjs.io
     description: Asia (Mumbai)
 security:
-  - ApiKeyHeader: [ ]
-  - ApiKeyQuery: [ ]
+  - ApiKeyHeader: []
+  - ApiKeyQuery: []
 paths:
   /events/{request_id}:
     get:
@@ -156,7 +156,7 @@ paths:
         - Fingerprint
       operationId: 'getVisits'
       summary: Get visits by visitorId
-      description: | 
+      description: |
         This endpoint allows you to get a history of visits with all available information. Use the `visitorId` as a URL path parameter. 
         This API method is scoped to a visitor, i.e. all returned information is by visitorId.
 
@@ -183,7 +183,7 @@ paths:
         #### Subheading 3
          
         some content
-        
+
         ##### Subheading 4
 
         maybe code blocks
@@ -235,7 +235,7 @@ paths:
             type: string
         #          example: 1654815516083.OX6kx8
         - name: linked_id
-          description: | 
+          description: |
             Filter visits by custom identifier
 
             If you need to associate events with your own identifier, use linkedId. 
@@ -245,7 +245,7 @@ paths:
             associated with your custom identifier.
 
             *bold* 
-            
+
             - dkeow
             - dkeow
           in: query
@@ -286,7 +286,7 @@ paths:
                   summary: Request with limit=500
                   externalValue: '/examples/visits_limit_500.json'
         '403':
-          description: "Forbidden. Probably ApiKey is missed or provided the wrong one."
+          description: 'Forbidden. Probably ApiKey is missed or provided the wrong one.'
           content:
             application/json:
               schema:
@@ -313,52 +313,35 @@ paths:
                   summary: Example too many requests error response
                   externalValue: '/examples/visits_too_many_requests_error.json'
   /webhook:
-    trace:
+    post:
       tags:
         - Fingerprint
-      description: Fake path to describe webhook format. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
-      responses:
-        default:
-          description: Dummy for the schema
-      callbacks:
-        webhook:
-          webhook:
-            post:
-              description: You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/WebhookVisit'
-                    example:
-                      externalValue: '/examples/webhook.json'
-              responses:
-                default:
-                  description: The server doesn't validate the answer.
-webhooks:
-  # Each webhook needs a name
-  WebhookName:
-    # This is a Path Item Object, the only difference is that the request is initiated by the API provider
-    post:
+      summary: Webhook from Fingerprint to your server
+      description: | 
+        You can configure webhooks to receive identification events as POST requests on your server. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
+        You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
       requestBody:
-        description: Information about a new pet in the system
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/WebhookVisit"
+              $ref: '#/components/schemas/WebhookVisit'
+            example:
+              externalValue: '/examples/webhook.json'
       responses:
-        "200":
-          description: Return a 200 status to indicate that the data was received successfully
+        200:
+          description: |
+            Return 200 OK to indicate that the data was received successfully. 
+            Every request is retried once if it timed out or returned a non-2XX response. The retry will take place 5 minutes after the non-2XX response is received or 5 minutes after the timeout takes place.
 components:
   securitySchemes:
     ApiKeyHeader:
       type: apiKey
-      in: header       # can be "header", "query" or "cookie"
-      name: Auth-API-Key  # name of the header, query parameter or cookie
+      in: header # can be "header", "query" or "cookie"
+      name: Auth-API-Key # name of the header, query parameter or cookie
     ApiKeyQuery:
       type: apiKey
-      in: query       # can be "header", "query" or "cookie"
-      name: api_key  # name of the header, query parameter or cookie
+      in: query # can be "header", "query" or "cookie"
+      name: api_key # name of the header, query parameter or cookie
   schemas:
     Response:
       type: object
@@ -373,7 +356,7 @@ components:
             allOf:
               - $ref: '#/components/schemas/Visit'
               - required:
-                - tag
+                  - tag
         lastTimestamp:
           description: When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), a special `lastTimestamp` top-level attribute is added to the response. If you want to paginate the results further in the past, you should use the value of this attribute.
           type: integer
