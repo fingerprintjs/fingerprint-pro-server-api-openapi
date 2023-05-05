@@ -337,7 +337,7 @@ paths:
                   description: The server doesn't validate the answer.
 webhooks:
   # Each webhook needs a name
-  newPet:
+  WebhookName:
     # This is a Path Item Object, the only difference is that the request is initiated by the API provider
     post:
       requestBody:
