@@ -8,15 +8,13 @@ info:
   contact:
     name: Fingerprint Support
     email: support@fingerprint.com
-tags:
-  - name: Events
-    # externalDocs:
-    #   url: https://dev.fingerprint.com/docs/server-api
-    description: |
-      Using the Server API you can retrieve information about individual analysis events using the event's `requestId`.
-  - name: Visitors
-    description: |
-      Using the Server API you can retrieve visitor history of individual visitors using their `visitorId`.
+# tags:
+#   - name: Events
+#     description: |
+#       Using the Server API you can retrieve information about individual analysis events using the event's `requestId`.
+#   - name: Visitors
+#     description: |
+#       Using the Server API you can retrieve visitor history of individual visitors using their `visitorId`.
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -30,8 +28,8 @@ security:
 paths:
   /events/{request_id}:
     get:
-      tags:
-        - Events
+      # tags:
+      #   - Events
       summary: Get event by `requestId`
       description: | 
         This endpoint allows you to get events with all the information from each activated product (Identification, Bot Detection, AEV). 
@@ -92,8 +90,8 @@ paths:
                   externalValue: '/examples/get_event_404_error.json'
   /visitors/{visitor_id}:
     get:
-      tags:
-        - Visitors
+      # tags:
+      #   - Visitors
       operationId: 'getVisits'
       summary: Get visits by visitorId
       description: |
