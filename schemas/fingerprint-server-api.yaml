@@ -1,7 +1,39 @@
 openapi: 3.0.3
 info:
   title: Fingerprint Pro Server API
-  description: Fingerprint Pro Server API allows you to get information about visitors and about individual events in a server environment. This API can be used for data exports, decision-making, and data analysis scenarios.
+  description: | 
+    Fingerprint Pro Server API allows you to get information about visitors and about individual events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
+    Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+
+    ## Regions
+
+    The server API is available in the **Global**, **EU** and **Asia (Mumbai)** regions. Each region is available on it's own domain:
+
+    | Region        | Base URL                 | Server Location     |
+    | :------------ | :----------------------- | :------------------ |
+    | Global        | `https://api.fpjs.io`    | Global              |
+    | EU            | `https://eu.api.fpjs.io` | Frankfurt,  Germany |
+    | Asia (Mumbai) | `https://ap.api.fpjs.io` | Mumbai,  India      |
+
+    ## Authentication
+
+    There are 2 ways to authenticate with the API: with auth header or with a query parameter. All unauthenticated requests will return HTTP 403 \(forbidden\) response.
+
+    ### Auth header
+
+    This is the recommended way of API authentication. When making an API request, add `Auth-API-Key` HTTP header with your [secret API key](doc:quick-start-guide#server-api).
+
+    ### API key query parameter
+
+    This method of authentication is easy to use when you want to test it in the browser. However we don't recommend using it in production.
+
+    Example request with an API key query parameter:
+
+    ```http
+    // Paste this URL into your browser
+    // replace the API key with your real secret API key
+    https://api.fpjs.io/visitors/someVisitorId?api_key=<<apiKey>>
+    ```
   version: '3'
   contact:
     name: Fingerprint Support
