@@ -38,6 +38,50 @@ info:
   contact:
     name: Fingerprint Support
     email: support@fingerprint.com
+tags:
+  - name: Fingerprint
+    externalDocs:
+      description: | 
+        API documentation
+
+        ## Sure but what if this description was very long
+
+        I can use mardown here and **bold** text or *italic* text or `code` text
+
+        even lists:
+
+        - item 1
+        - item 2
+        - item 3
+
+        an tables
+
+        | Column 1 | Column 2 | Column 3 |
+        | -------- | -------- | -------- |
+        | Text     | Text     | Text     |
+        | Text     | Text     | Text     |
+
+        and subheadings
+
+        ## Subheading 1
+
+        ### Subheading 2
+
+        #### Subheading 3
+
+        some content
+
+        ##### Subheading 4
+
+        maybe code blocks
+
+        ```javascript
+        const a = 1;
+        const b = 2;
+        const c = a + b;
+        console.log(c);
+        ```
+      url: https://dev.fingerprint.com/docs/server-api
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -51,6 +95,8 @@ security:
 paths:
   /events/{request_id}:
     get:
+      tags:
+        - Fingerprint
       summary: Get event by requestId
       description: This endpoint allows you to get events with all the information from each activated product (Fingerprint Pro or Bot Detection). Use the requestId as a URL path :request_id parameter. This API method is scoped to a request, i.e. all returned information is by requestId.
       operationId: 'getEvent'
@@ -106,6 +152,8 @@ paths:
                   externalValue: '/examples/get_event_404_error.json'
   /visitors/{visitor_id}:
     get:
+      tags:
+        - Fingerprint
       operationId: 'getVisits'
       summary: Get visits by visitorId
       description: | 
@@ -264,6 +312,29 @@ paths:
                 example:
                   summary: Example too many requests error response
                   externalValue: '/examples/visits_too_many_requests_error.json'
+  /webhook:
+    trace:
+      tags:
+        - Fingerprint
+      description: Fake path to describe webhook format. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
+      responses:
+        default:
+          description: Dummy for the schema
+      callbacks:
+        webhook:
+          webhook:
+            post:
+              description: You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/WebhookVisit'
+                    example:
+                      externalValue: '/examples/webhook.json'
+              responses:
+                default:
+                  description: The server doesn't validate the answer.
 components:
   securitySchemes:
     ApiKeyHeader:
