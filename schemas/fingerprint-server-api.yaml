@@ -95,113 +95,230 @@ paths:
       operationId: 'getVisits'
       summary: Get visits by visitorId
       description: |
-        This endpoint allows you to get a history of visits with all available information. Use the `visitorId` as a URL path parameter. 
-        This API method is scoped to a visitor, i.e. all returned information is by visitorId.
+        This endpoint allows you to get a history of visits for a specific `visitorId`. Use the `visitorId` as a URL path parameter.
+        Only information from the _Identification_ product is returned.
 
-        I can use mardown here and **bold** text or *italic* text or `code` text 
-        even lists:
-        - item 1
-        - item 2
-        - item 3
+        #### Headers
 
-        an tables 
+        `Retry-After`
 
-        | Column 1 | Column 2 | Column 3 |
-        | -------- | -------- | -------- |
-        | Text     | Text     | Text     |
-        | Text     | Text     | Text     |
-        | Text     | Text     | Text     |
-
-        and subheadings
-
-        ## Subheading 1
-
-        ### Subheading 2
-
-        #### Subheading 3
-         
-        some content
-
-        ##### Subheading 4
-
-        maybe code blocks
-
-        ```javascript
-        const a = 1;
-        const b = 2;
-        const c = a + b;
-        console.log(c);
-        ```
-
-        or links to documentation [Fingerprint Pro](https://fingerprintjs.com/)
+        Indicates how long the user should wait before making a follow-up request.
+        The value is non-negative decimal integer indicating the seconds to delay after the response is received.
       x-readme:
         code-samples:
-          - language: curl
-            code: curl -X POST https://api.example.com/v2/alert
-            name: Custom cURL snippet
-            install: brew install curl
-          - language: php
-            code: <?php echo "This is our custom PHP code snippet."; ?>
-            name: Custom PHP snippet
           - language: node
+            name: Node SDK
+            install: npm install @fingerprintjs/fingerprintjs-pro-server-api
             code: |
-              const axios = require('axios');
-              const data = JSON.stringify({
-                bla: "bla",
-              });
-              const config = {
-                method: 'post',
-                url: 'https://api.example.com/v2/:visitor_id',
-                headers: { 
-                  'Content-Type': 'application/json'
-                },
-                data : data
-              };
-              axios(config);
-            name: Custom Node snippet
+              import {
+                FingerprintJsServerApiClient,
+                Region,
+              } from '@fingerprintjs/fingerprintjs-pro-server-api'
+
+              const client = new FingerprintJsServerApiClient({
+                apiKey: SERVER_API_KEY,
+                region: APP_REGION,
+              })
+
+              // Get visit history of a specific visitor
+              client.getVisitorHistory('VISITOR_ID').then((visitorHistory) => {
+                console.log(visitorHistory)
+              })
+          - language: php
+            name: PHP SDK
+            install: composer require fingerprint/fingerprint-pro-server-api-sdk
+            code: |
+              <?php
+              require_once(__DIR__ . '/vendor/autoload.php');
+              use Fingerprint\ServerAPI\Api\FingerprintApi;
+              use Fingerprint\ServerAPI\Configuration;
+              use GuzzleHttp\Client;
+
+              $config = Configuration::getDefaultConfiguration(
+                SERVER_API_KEY,
+                REGION
+              );
+
+              $client = new FingerprintApi(
+                new Client(),
+                $config
+              );
+
+              // Get visit history of a specific visitor
+              try {
+                $response = $client->getVisits("<visitorId>");
+                echo "<pre>" . $response->__toString() . "</pre>";
+              } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+              }
+          - language: python
+            name: Python SDK
+            install: pip install fingerprint_pro_server_api_sdk
+            code: |
+              import fingerprint_pro_server_api_sdk
+              from fingerprint_pro_server_api_sdk import EventResponse
+              from fingerprint_pro_server_api_sdk import Response
+              from fingerprint_pro_server_api_sdk.rest import ApiException
+
+              configuration = fingerprint_pro_server_api_sdk.Configuration(
+                api_key=SERVER_API_KEY,
+                region=REGION
+              )
+              api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+
+              # Get visit history of a specific visitor
+              try:
+                visits: Response = api_instance.get_visits("<visitorId>", limit=10)
+                print(visits)
+              except ApiException as e:
+                print("Exception when getting visits: %s\n" % e)
+          - language: golang
+            name: Go SDK
+            install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk
+            code: |
+              package main
+
+              import (
+                "context"
+                "fmt"
+                "github.com/antihax/optional"
+                "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v3/sdk"
+                "log"
+              )
+
+              func main() {
+                cfg := sdk.NewConfiguration()
+                client := sdk.NewAPIClient(cfg)
+
+                auth := context.WithValue(
+                  context.Background(),
+                  sdk.ContextAPIKey,
+                  sdk.APIKey{Key: <SERVER_API_KEY>},
+                )
+                cfg.ChangeRegion(<REGION>)
+
+                // Get visit history of a specific visitor
+                getVisitsOpts := sdk.FingerprintApiGetVisitsOpts{
+                  Limit: optional.NewInt32(10),
+                }
+                history, historyHttpRes, historyErr :=
+                  client.FingerprintApi.GetVisits(auth, "<visitorId", &getVisitsOpts)
+                if err != nil {
+                  log.Fatal(err)
+                }
+                fmt.Printf("Visitor history: %s", history)
+              }
+          - language: java
+            name: Java SDK
+            code: | 
+              import com.fingerprint.api.FingerprintApi;
+              import com.fingerprint.models.EventResponse;
+              import com.fingerprint.models.Response;
+              import com.fingerprint.sdk.ApiClient;
+              import com.fingerprint.sdk.ApiException;
+              import com.fingerprint.sdk.Configuration;
+              import com.fingerprint.sdk.Region;
+
+              public class FingerprintApiExample {
+                public static void main(String... args) {
+                  ApiClient client = Configuration.getDefaultApiClient(
+                    <SERVER_API_KEY>,
+                    <REGION>
+                  );
+                  FingerprintApi api = new FingerprintApi(client);
+
+                  // Get visit history of a specific visitor
+                  try {
+                    Response response = api.getVisits("<visitorID>");
+                    System.out.println(response.getVisits().toString());
+                  } catch (ApiException e) {
+                    System.err.println(e.getMessage());
+                  }
+                }
+              }
+          - language: csharp
+            name: C# SDK
+            install: dotnet add package FingerprintPro.ServerSdk
+            code: |
+              using FingerprintPro.ServerSdk.Api;
+              using FingerprintPro.ServerSdk.Client;
+
+              var configuration = new Configuration(<SERVER_API_KEY>);
+              configuration.Region = <REGION>;
+
+              var api = new FingerprintApi(
+                  configuration
+              );
+
+              // Get visit history of a specific visitor
+              var visits = api.GetVisits("<visitorId>");
+              Console.WriteLine(visits);
       parameters:
         - name: visitor_id
+          description: Unique identifier of the visitor.
           in: path
           required: true
           schema:
             type: string
           example: uYIm7Ksp5rf00SllPhFp
         - name: request_id
-          description: Filter visits by requestId
+          description: | 
+            Every identification event has a unique identifier, associated with it, called `requestId`. This identifier is returned back into the browser during the identification API call and is also available in API responses.  
+            It is a convenient way to return the exact identification event that you need. When you filter events with `requestId`, only one event will be returned, because every event has a unique `requestId`.
           in: query
           schema:
             type: string
-        #          example: 1654815516083.OX6kx8
+            # example: 1654815516083.OX6kx8
         - name: linked_id
           description: |
-            Filter visits by custom identifier
-
-            If you need to associate events with your own identifier, use linkedId. 
-            You can use it in different scenarios: e.g., identify by sessionID, 
-            identify by purchaseID or by your custom transaction number. 
-            You should use requestId to get a single event, whereas you should use linkedId to retrieve several events,
-            associated with your custom identifier.
-
-            *bold* 
-
-            - dkeow
-            - dkeow
+            If you need to associate events with your own identifier, use `linkedId`. You can use it in different scenarios: e.g., identify by sessionID, identify by purchaseID or by your custom transaction number.
+            You should use `requestId` to get a single event, whereas you should use `linkedId` to retrieve several events, associated with your custom identifier.
           in: query
           schema:
             type: string
           required: false
-        #          example: some_id
+           # example: some_id
         - name: limit
-          description: Limit scanned results
+          description: | 
+            For performance reasons, visitors API first performs events scanning and then filtering. Filtering always happens after the results are scanned.  
+            `Limit` is a parameter to specify how many events should be scanned. Results are always returned sorted by the timestamp in descending order \(most recent first\), so scanning the results limits how many events are scanned back in the past.  
+            By default, the visits API scans 100 events. However you can specify a different `limit` parameter, to scan fewer or more results. A maximum value of 500 results can be scanned and returned.
+            After the results were scanned, the filtering is applied to them, e.g., filtering by `requestId` or by `linkedId`.
+
+            **Using limit example**: your website visitor was identified 120 times and 120 events are stored in our database. Last 10 events are associated with a sessionID = 1234ADF; You want to scan last 50 events and filter them by your sessionID = 1234ADF. You can achieve this by using this query:  
+
+            ```
+            GET api-base-url/visitors/:visitorId?limit=50&linked_id=1234ADF
+            ```
+
+            Only 10 rows from the most recent 50 will be returned.
           in: query
           schema:
             type: integer
             format: int32
             minimum: 0
-        #            default: 0
-        #          example: 10
+            # default: 0
+            # example: 10
         - name: before
-          description: Timestamp (in milliseconds since epoch) used to paginate results
+          description: | 
+            Timestamp (in milliseconds since epoch) used to paginate results.
+
+            When more results are available \(e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available\), a special `lastTimestamp` top-level attribute is added to the response. You should use the value of this attribute, if you want to paginate the results further in the past, to return the events that happened before that timestamp.
+
+            Example of using `before` parameter:
+
+            ```
+            // 1st request, returning most recent 200 events:
+            GET api-base-url/visitors/:visitorId?limit=200
+            // Note that the response has lastTimestamp attribute in the response.
+            // Use that attribute to return the events that happened before, i.e
+            // next page of 200 events
+            GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567
+            ```
+
+            Note that pagination happens during scanning of the results, so if you used pagination + filtering, 
+            you can have just a few results back, with potentially more results available for pagination. These timestamps are stored with a millisecond precision. 
+            When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
           in: query
           schema:
             type: integer
