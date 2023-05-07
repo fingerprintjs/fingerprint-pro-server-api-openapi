@@ -25,6 +25,11 @@ servers:
 security:
   - ApiKeyHeader: []
   - ApiKeyQuery: []
+x-readme: {
+  # explorer-enabled: false,
+  # proxy-enabled: false,
+  samples-languages: ["curl", "node", "php", "python", "golang", "java", "csharp"]
+}
 paths:
   /events/{request_id}:
     get:
