@@ -125,8 +125,8 @@ paths:
               } from '@fingerprintjs/fingerprintjs-pro-server-api'
 
               const client = new FingerprintJsServerApiClient({
-                apiKey: SERVER_API_KEY,
-                region: APP_REGION,
+                apiKey: 'SERVER_API_KEY', // Replace with your key
+                region: Region.Global, // Replace with your region
               })
 
               // Get visit history of a specific visitor
@@ -144,8 +144,8 @@ paths:
               use GuzzleHttp\Client;
 
               $config = Configuration::getDefaultConfiguration(
-                SERVER_API_KEY,
-                REGION
+                "SERVER_API_KEY", // Replace with your key
+                Configuration::REGION_GLOBAL // Replace with your region
               );
 
               $client = new FingerprintApi(
@@ -155,7 +155,7 @@ paths:
 
               // Get visit history of a specific visitor
               try {
-                $response = $client->getVisits("<visitorId>");
+                $response = $client->getVisits("VISITOR_ID");
                 echo "<pre>" . $response->__toString() . "</pre>";
               } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -170,14 +170,14 @@ paths:
               from fingerprint_pro_server_api_sdk.rest import ApiException
 
               configuration = fingerprint_pro_server_api_sdk.Configuration(
-                api_key=SERVER_API_KEY,
-                region=REGION
+                api_key="SERVER_API_KEY", // Replace with your key
+                region="us" // Replace with your region
               )
               api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
 
               # Get visit history of a specific visitor
               try:
-                visits: Response = api_instance.get_visits("<visitorId>", limit=10)
+                visits: Response = api_instance.get_visits("VISITOR_ID", limit=10)
                 print(visits)
               except ApiException as e:
                 print("Exception when getting visits: %s\n" % e)
@@ -202,16 +202,16 @@ paths:
                 auth := context.WithValue(
                   context.Background(),
                   sdk.ContextAPIKey,
-                  sdk.APIKey{Key: <SERVER_API_KEY>},
+                  sdk.APIKey{Key: "SERVER_API_KEY"}, // Replace with your key
                 )
-                cfg.ChangeRegion(<REGION>)
+                cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
 
                 // Get visit history of a specific visitor
                 getVisitsOpts := sdk.FingerprintApiGetVisitsOpts{
                   Limit: optional.NewInt32(10),
                 }
                 history, historyHttpRes, historyErr :=
-                  client.FingerprintApi.GetVisits(auth, "<visitorId", &getVisitsOpts)
+                  client.FingerprintApi.GetVisits(auth, "VISITOR_ID", &getVisitsOpts)
                 if err != nil {
                   log.Fatal(err)
                 }
@@ -231,14 +231,14 @@ paths:
               public class FingerprintApiExample {
                 public static void main(String... args) {
                   ApiClient client = Configuration.getDefaultApiClient(
-                    <SERVER_API_KEY>,
-                    <REGION>
+                    "SERVER_API_KEY", // Replace with your key
+                    Region.GLOBAL // Replace with your region
                   );
                   FingerprintApi api = new FingerprintApi(client);
 
                   // Get visit history of a specific visitor
                   try {
-                    Response response = api.getVisits("<visitorID>");
+                    Response response = api.getVisits("VISITOR_ID");
                     System.out.println(response.getVisits().toString());
                   } catch (ApiException e) {
                     System.err.println(e.getMessage());
@@ -252,15 +252,15 @@ paths:
               using FingerprintPro.ServerSdk.Api;
               using FingerprintPro.ServerSdk.Client;
 
-              var configuration = new Configuration(<SERVER_API_KEY>);
-              configuration.Region = <REGION>;
+              var configuration = new Configuration("SERVER_API_KEY"); // Replace with your key
+              configuration.Region = Region.Us; // Replace with your region
 
               var api = new FingerprintApi(
                   configuration
               );
 
               // Get visit history of a specific visitor
-              var visits = api.GetVisits("<visitorId>");
+              var visits = api.GetVisits("VISITOR_ID");
               Console.WriteLine(visits);
       parameters:
         - name: visitor_id
