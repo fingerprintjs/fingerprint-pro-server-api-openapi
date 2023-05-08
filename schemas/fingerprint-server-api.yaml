@@ -111,7 +111,7 @@ paths:
 
         `Retry-After`
 
-        Indicates how long the user should wait before making a follow-up request.
+        Indicates how long you should wait before making a follow-up request.
         The value is non-negative decimal integer indicating the seconds to delay after the response is received.
       x-readme:
         code-samples:
@@ -272,16 +272,18 @@ paths:
           example: uYIm7Ksp5rf00SllPhFp
         - name: request_id
           description: | 
-            Every identification event has a unique identifier, associated with it, called `requestId`. This identifier is returned back into the browser during the identification API call and is also available in API responses.  
-            It is a convenient way to return the exact identification event that you need. When you filter events with `requestId`, only one event will be returned, because every event has a unique `requestId`.
+            Filter visits by `requestId`. 
+            
+            Every identification request has a unique identifier, associated with it, called `requestId`. This identifier is returned to the client in the API call response. When you filter visits by `requestId`, only one visit will be returned.
           in: query
           schema:
             type: string
             # example: 1654815516083.OX6kx8
         - name: linked_id
           description: |
-            If you need to associate events with your own identifier, use `linkedId`. You can use it in different scenarios: e.g., identify by sessionID, identify by purchaseID or by your custom transaction number.
-            You should use `requestId` to get a single event, whereas you should use `linkedId` to retrieve several events, associated with your custom identifier.
+            Filter visits by your custom identifier. 
+            
+            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID or transaction ID. You can then use this `linked_id` parameter to retrieve all visits associated with your custom identifier.
           in: query
           schema:
             type: string
@@ -289,18 +291,10 @@ paths:
            # example: some_id
         - name: limit
           description: | 
-            For performance reasons, visitors API first performs events scanning and then filtering. Filtering always happens after the results are scanned.  
-            `Limit` is a parameter to specify how many events should be scanned. Results are always returned sorted by the timestamp in descending order \(most recent first\), so scanning the results limits how many events are scanned back in the past.  
-            By default, the visits API scans 100 events. However you can specify a different `limit` parameter, to scan fewer or more results. A maximum value of 500 results can be scanned and returned.
-            After the results were scanned, the filtering is applied to them, e.g., filtering by `requestId` or by `linkedId`.
-
-            **Using limit example**: your website visitor was identified 120 times and 120 events are stored in our database. Last 10 events are associated with a sessionID = 1234ADF; You want to scan last 50 events and filter them by your sessionID = 1234ADF. You can achieve this by using this query:  
-
-            ```
-            GET api-base-url/visitors/:visitorId?limit=50&linked_id=1234ADF
-            ```
-
-            Only 10 rows from the most recent 50 will be returned.
+            Limit scanned results. 
+            
+            For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
+            By default, the most recent 100 visits are scanned, the maximum is 500. 
           in: query
           schema:
             type: integer
@@ -310,23 +304,19 @@ paths:
             # example: 10
         - name: before
           description: | 
-            Timestamp (in milliseconds since epoch) used to paginate results.
+            Timestamp (in milliseconds since epoch) used to paginate results. 
 
-            When more results are available \(e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available\), a special `lastTimestamp` top-level attribute is added to the response. You should use the value of this attribute, if you want to paginate the results further in the past, to return the events that happened before that timestamp.
-
-            Example of using `before` parameter:
+            When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), the `lastTimestamp` top-level attribute is added to the response.
+            You can use the value of this attribute to get the next page of results further in the past, to return the visits that happened before that timestamp.
 
             ```
             // 1st request, returning most recent 200 events:
             GET api-base-url/visitors/:visitorId?limit=200
-            // Note that the response has lastTimestamp attribute in the response.
-            // Use that attribute to return the events that happened before, i.e
-            // next page of 200 events
+            // Use response.lastTimestamp to get the next page of results
             GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567
             ```
 
-            Note that pagination happens during scanning of the results, so if you used pagination + filtering, 
-            you can have just a few results back, with potentially more results available for pagination. These timestamps are stored with a millisecond precision. 
+            Pagination happens during scanning and before filtering, so you can get less visits that the `limit` you specified with more available on the next page. 
             When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
           in: query
           schema:
