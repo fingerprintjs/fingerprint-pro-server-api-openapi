@@ -274,7 +274,7 @@ paths:
           description: | 
             Filter visits by `requestId`. 
             
-            Every identification request has a unique identifier, associated with it, called `requestId`. This identifier is returned to the client in the API call response. When you filter visits by `requestId`, only one visit will be returned.
+            Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the API call response. When you filter visits by `requestId`, only one visit will be returned.
           in: query
           schema:
             type: string
@@ -283,7 +283,7 @@ paths:
           description: |
             Filter visits by your custom identifier. 
             
-            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID or transaction ID. You can then use this `linked_id` parameter to retrieve all visits associated with your custom identifier.
+            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all visits associated with your custom identifier.
           in: query
           schema:
             type: string
@@ -307,7 +307,7 @@ paths:
             Timestamp (in milliseconds since epoch) used to paginate results. 
 
             When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), the `lastTimestamp` top-level attribute is added to the response.
-            You can use the value of this attribute to get the next page of results further in the past, to return the visits that happened before that timestamp.
+            You can use this attribute to get the next page of results — the visits that happened before that timestamp.
 
             ```
             // 1st request, returning most recent 200 events:
@@ -316,8 +316,7 @@ paths:
             GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567
             ```
 
-            Pagination happens during scanning and before filtering, so you can get less visits that the `limit` you specified with more available on the next page. 
-            When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
+            Pagination happens during scanning and before filtering, so you can get less visits that the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
           in: query
           schema:
             type: integer
@@ -498,7 +497,7 @@ components:
           description: Unique identifier of the user's identification request.
           type: string
           example: '1654815516083.OX6kx8'
-        browserDetails:
+        browser Details:
           $ref: '#/components/schemas/BrowserDetails'
         incognito:
           description: Flag if user used incognito session.
@@ -736,7 +735,7 @@ components:
               $ref: '#/components/schemas/BotdError'
 
     EventResponse:
-      description: Contains event from activated products - Fingerprint Pro or Bot Detection
+      description: Contains event from all activated products - Fingerprint Pro, Bot Detection, AEV
       type: object
       additionalProperties: false
       properties:
