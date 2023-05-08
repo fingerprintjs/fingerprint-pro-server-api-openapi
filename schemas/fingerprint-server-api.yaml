@@ -39,6 +39,7 @@ paths:
     get:
       tags:
         - Events
+      operationId: 'getEvent'
       summary: Get event by `requestId`
       description: | 
         This endpoint allows you to get events with all the information from each activated product (Identification, Bot Detection, AEV). 
@@ -46,7 +47,152 @@ paths:
         Use `requestId` as the URL path `:request_id` parameter.
 
         This API method is scoped to a request, i.e. all returned information is by `requestId`.
-      operationId: 'getEvent'
+      x-readme:
+        code-samples:
+          - language: node
+            name: Node SDK
+            install: npm install @fingerprintjs/fingerprintjs-pro-server-api
+            code: |
+              import {
+                FingerprintJsServerApiClient,
+                Region,
+              } from '@fingerprintjs/fingerprintjs-pro-server-api'
+
+              const client = new FingerprintJsServerApiClient({
+                apiKey: 'SERVER_API_KEY', // Replace with your key
+                region: Region.Global, // Replace with your region
+              })
+
+              // Get a specific fingerprinting event
+              client.getEvent('REQUEST_ID').then((event) => {
+                console.log(event)
+              })
+          - language: php
+            name: PHP SDK
+            install: composer require fingerprint/fingerprint-pro-server-api-sdk
+            code: |
+              <?php
+              require_once(__DIR__ . '/vendor/autoload.php');
+              use Fingerprint\ServerAPI\Api\FingerprintApi;
+              use Fingerprint\ServerAPI\Configuration;
+              use GuzzleHttp\Client;
+
+              $config = Configuration::getDefaultConfiguration(
+                "SERVER_API_KEY", // Replace with your key
+                Configuration::REGION_GLOBAL // Replace with your region
+              );
+
+              $client = new FingerprintApi(
+                new Client(),
+                $config
+              );
+
+              // Get a specific fingerprinting event
+              try {
+                $response = $client->getEvent("REQUEST_ID");
+                echo "<pre>" . $response->__toString() . "</pre>";
+              } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+              }
+          - language: python
+            name: Python SDK
+            install: pip install fingerprint_pro_server_api_sdk
+            code: |
+              import fingerprint_pro_server_api_sdk
+              from fingerprint_pro_server_api_sdk import EventResponse
+              from fingerprint_pro_server_api_sdk import Response
+              from fingerprint_pro_server_api_sdk.rest import ApiException
+
+              configuration = fingerprint_pro_server_api_sdk.Configuration(
+                api_key="SERVER_API_KEY", // Replace with your key
+                region="us" // Replace with your region
+              )
+              api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+
+              # Get a specific fingerprinting event
+              try:
+                  event: EventResponse = api_instance.get_event("REQUEST_ID")
+                  print(event)
+              except ApiException as e:
+                  print("Exception when getting an event: %s\n" % e)
+          - language: golang
+            name: Go SDK
+            install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk
+            code: |
+              package main
+
+              import (
+                "context"
+                "fmt"
+                "github.com/antihax/optional"
+                "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v3/sdk"
+                "log"
+              )
+
+              func main() {
+                cfg := sdk.NewConfiguration()
+                client := sdk.NewAPIClient(cfg)
+
+                auth := context.WithValue(
+                  context.Background(),
+                  sdk.ContextAPIKey,
+                  sdk.APIKey{Key: "SERVER_API_KEY"}, // Replace with your key
+                )
+                cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
+
+                // Get a specific fingerprinting event
+                event, eventHttpRes, eventErr :=
+                  client.FingerprintApi.GetEvent(auth, "REQUEST_ID")
+                if eventErr != nil {
+                  log.Fatal(eventErr)
+                }
+                fmt.Printf("Event: %s", event)
+              }
+          - language: java
+            name: Java SDK
+            code: | 
+              import com.fingerprint.api.FingerprintApi;
+              import com.fingerprint.models.EventResponse;
+              import com.fingerprint.models.Response;
+              import com.fingerprint.sdk.ApiClient;
+              import com.fingerprint.sdk.ApiException;
+              import com.fingerprint.sdk.Configuration;
+              import com.fingerprint.sdk.Region;
+
+              public class FingerprintApiExample {
+                public static void main(String... args) {
+                  ApiClient client = Configuration.getDefaultApiClient(
+                    "SERVER_API_KEY", // Replace with your key
+                    Region.GLOBAL // Replace with your region
+                  );
+                  FingerprintApi api = new FingerprintApi(client);
+
+                  // Get a specific fingerprinting event
+                  try {
+                    EventResponse response = api.getEvent("REQUEST_ID");
+                    System.out.println(response.getProducts().toString());
+                  } catch (ApiException e) {
+                    System.err.println(e.getMessage());
+                  }
+                }
+              }
+          - language: csharp
+            name: C# SDK
+            install: dotnet add package FingerprintPro.ServerSdk
+            code: |
+              using FingerprintPro.ServerSdk.Api;
+              using FingerprintPro.ServerSdk.Client;
+
+              var configuration = new Configuration("SERVER_API_KEY"); // Replace with your key
+              configuration.Region = Region.Us; // Replace with your region
+
+              var api = new FingerprintApi(
+                  configuration
+              );
+
+              // Get a specific fingerprinting event
+              var events = api.GetEvent("REQUEST_ID");
+              Console.WriteLine(events);
       parameters:
         - name: request_id
           in: path
