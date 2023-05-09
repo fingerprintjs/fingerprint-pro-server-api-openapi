@@ -118,6 +118,10 @@ function getEventsApiJsonDataMockObjects() {
       path: './examples/get_event.json',
     },
     {
+      name: 'Events all signals erros',
+      path: './examples/get_event_all_errors.json',
+    },
+    {
       name: '403 error',
       path: './examples/get_event_403_error.json',
     },
@@ -203,14 +207,14 @@ const {
 const visitorsApiJsonDataObjects = [...getVisitorsApiJsonDataMockObjects(), ...(await getVisitorsApiRealDataObjects())];
 const webhookDataObjects = getWebhookJsonDataMockObjects();
 
-const [realEventsData, eventsDataObjects, event403Error, event404Error] = [
+const [realEventsData, eventsDataObjects, eventAllSignalsError, event403Error, event404Error] = [
   ...(await getEventApiRealDataObjects()),
   ...getEventsApiJsonDataMockObjects(),
 ];
 
 validateSchemaAgainstData(visitorsApiValidator, visitorsApiJsonDataObjects);
 validateSchemaAgainstData(webhookValidator, webhookDataObjects);
-validateSchemaAgainstData(eventsValidator, [eventsDataObjects, realEventsData]);
+validateSchemaAgainstData(eventsValidator, [eventsDataObjects, realEventsData, eventAllSignalsError]);
 validateSchemaAgainstData(errorResponseEvent403Validator, [event403Error]);
 validateSchemaAgainstData(errorResponseEvent404Validator, [event404Error]);
 
