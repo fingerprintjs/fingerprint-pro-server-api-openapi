@@ -400,6 +400,8 @@ components:
                   properties:
                     result:
                       type: boolean
+                      description: >
+                        `true` if the request IP address is used by a public proxy provider, `false` otherwise.
                       example: false
             tampering:
               title: SignalResponseTampering
@@ -756,6 +758,8 @@ components:
               properties:
                 result:
                   type: boolean
+                  description: >
+                    `true` if the request IP address is used by a public proxy provider, `false` otherwise.
                   example: false
             error:
               $ref: '#/components/schemas/ProductError'
@@ -846,7 +850,7 @@ components:
             - notDetected
             - good
             - bad
-          example: 'bot'
+          example: 'bad'
         type:
           type: string
           example: 'selenium'
