@@ -318,97 +318,66 @@ components:
             bot:
               $ref: '#/components/schemas/BotdDetectionResult'
             ipInfo:
-              title: SignalResponseIpInfo
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/IpInfoResult'
+              $ref: '#/components/schemas/IpInfoResult'
             incognito:
               title: SignalResponseIncognito
               type: object
               properties:
-                data:
-                  type: object
-                  properties:
-                    result:
-                      type: boolean
-                      description: >
-                        `true` if we detected incognito mode used in the browser, `false` otherwise.
-                      example: false
+                result:
+                  type: boolean
+                  description: >
+                    `true` if we detected incognito mode used in the browser, `false` otherwise.
+                  example: false
             rootApps:
               title: SignalResponseRootApps
               type: object
               properties:
-                data:
-                  type: object
-                  properties:
-                    result:
-                      type: boolean
-                      description: >
-                        Android specific root management apps detection. There are 2 values:
-                        • `true` - Root Management Apps detected (e.g. Magisk)
-                        • `false` - No Root Management Apps detected
+                result:
+                  type: boolean
+                  description: >
+                    Android specific root management apps detection. There are 2 values:
+                    • `true` - Root Management Apps detected (e.g. Magisk)
+                    • `false` - No Root Management Apps detected
 
-                        Available only for events from Android client. The field will be empty for a browser/iOS event.
-                      example: false
+                    Available only for events from Android client. The field will be empty for a browser/iOS event.
+                  example: false
             emulator:
               title: SignalResponseEmulator
               type: object
               properties:
-                data:
-                  type: object
-                  properties:
-                    result:
-                      type: boolean
-                      description: >
-                        Android specific emulator detection. There are 2 values:
-                        • `true` - Emulated environment detected (e.g. launch inside of AVD)
-                        • `false` - No signs of emulated environment detected
+                result:
+                  type: boolean
+                  description: >
+                    Android specific emulator detection. There are 2 values:
+                    • `true` - Emulated environment detected (e.g. launch inside of AVD)
+                    • `false` - No signs of emulated environment detected
 
-                        Available only for events from Android client. The field will be empty for a browser/iOS event.
-                      example: false
+                    Available only for events from Android client. The field will be empty for a browser/iOS event.
+                  example: false
             ipBlocklist:
-              title: SignalResponseIpBlocklist
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/IpBlockListResult'
+              $ref: '#/components/schemas/IpBlockListResult'
             tor:
               title: SignalResponseTor
               type: object
               properties:
-                data:
-                  type: object
-                  properties:
-                    result:
-                      type: boolean
-                      description: >
-                        `true` if the request IP address is a known tor exit node, `false` otherwise.
-                      example: false
+                result:
+                  type: boolean
+                  description: >
+                    `true` if the request IP address is a known tor exit node, `false` otherwise.
+                  example: false
             vpn:
-              title: SignalResponseVpn
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/VpnResult'
+              $ref: '#/components/schemas/VpnResult'
             proxy:
               title: SignalResponseProxy
               type: object
               properties:
-                data:
-                  type: object
-                  properties:
-                    result:
-                      type: boolean
-                      description: >
-                        `true` if the request IP address is used by a public proxy provider, `false` otherwise.
-                      example: false
+                result:
+                  type: boolean
+                  description: >
+                    `true` if the request IP address is used by a public proxy provider, `false` otherwise.
+                  example: false
             tampering:
-              title: SignalResponseTampering
-              type: object
-              properties:
-                data:
-                  $ref: '#/components/schemas/TamperingResult'
+              $ref: '#/components/schemas/TamperingResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
