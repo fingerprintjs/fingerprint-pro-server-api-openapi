@@ -320,7 +320,7 @@ components:
             ipInfo:
               $ref: '#/components/schemas/IpInfoResult'
             incognito:
-              title: SignalResponseIncognito
+              title: WebhookSignalResponseIncognito
               type: object
               properties:
                 result:
@@ -329,7 +329,7 @@ components:
                     `true` if we detected incognito mode used in the browser, `false` otherwise.
                   example: false
             rootApps:
-              title: SignalResponseRootApps
+              title: WebhookSignalResponseRootApps
               type: object
               properties:
                 result:
@@ -342,7 +342,7 @@ components:
                     Available only for events from Android client. The field will not be present for a browser or iOS event.
                   example: false
             emulator:
-              title: SignalResponseEmulator
+              title: WebhookSignalResponseEmulator
               type: object
               properties:
                 result:
@@ -357,7 +357,7 @@ components:
             ipBlocklist:
               $ref: '#/components/schemas/IpBlockListResult'
             tor:
-              title: SignalResponseTor
+              title: WebhookSignalResponseTor
               type: object
               properties:
                 result:
@@ -368,7 +368,7 @@ components:
             vpn:
               $ref: '#/components/schemas/VpnResult'
             proxy:
-              title: SignalResponseProxy
+              title: WebhookSignalResponseProxy
               type: object
               properties:
                 result:
