@@ -212,13 +212,13 @@ paths:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
                 allErrorsResponse:
-                  summary: Example response with all failed signals
+                  summary: All failed signals
                   externalValue: '/examples/get_event_all_errors.json'
                 withBotdError:
-                  summary:  BotD error
+                  summary: BotD error
                   externalValue: '/examples/get_event_botd_failed_error.json'
                 withBotdTooManyRequestsError:
-                  summary:  BotD too many requests error
+                  summary: BotD too many requests error
                   externalValue: '/examples/get_event_botd_too_many_requests_error.json'
                 withIdentificationError:
                   summary: Identification error
@@ -488,7 +488,7 @@ paths:
                   summary: Request with limit=500
                   externalValue: '/examples/visits_limit_500.json'
         '403':
-          description: 'Forbidden. Probably ApiKey is missed or provided the wrong one.'
+          description: Forbidden. The API Key is probably missing or incorrect.
           content:
             application/json:
               schema:
@@ -561,7 +561,7 @@ components:
             allOf:
               - $ref: '#/components/schemas/Visit'
               - required:
-                  - tag
+                - tag
         lastTimestamp:
           description: When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), a special `lastTimestamp` top-level attribute is added to the response. If you want to paginate the results further in the past, you should use the value of this attribute.
           type: integer
@@ -1087,7 +1087,7 @@ components:
             error:
               $ref: '#/components/schemas/ProductError'
     EventResponse:
-      description: Contains event from all activated products - Fingerprint Pro, Bot Detection, AEV
+      description: Contains event from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
       additionalProperties: false
       properties:
