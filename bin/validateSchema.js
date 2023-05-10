@@ -118,7 +118,7 @@ function getEventsApiJsonDataMockObjects() {
       path: './examples/get_event.json',
     },
     {
-      name: 'Events all signals erros',
+      name: 'Event all signals errors',
       path: './examples/get_event_all_errors.json',
     },
     {
