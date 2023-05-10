@@ -211,6 +211,9 @@ paths:
                 fullResponse:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
+                allErrorsResponse:
+                  summary: Example response with all failed signals
+                  externalValue: '/examples/get_event_all_errors.json'
                 withBotdError:
                   summary:  BotD error
                   externalValue: '/examples/get_event_botd_failed_error.json'
@@ -651,8 +654,76 @@ components:
           properties:
             visitorId:
               type: string
+              example: '3HNey93AkBW6CRbxV6xP'
             clientReferrer:
               type: string
+              example: 'https://google.com?search=banking+services'
+            userAgent:
+              type: string
+              example: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+            bot:
+              $ref: '#/components/schemas/BotdDetectionResult'
+            ipInfo:
+              $ref: '#/components/schemas/IpInfoResult'
+            incognito:
+              title: WebhookSignalResponseIncognito
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    `true` if we detected incognito mode used in the browser, `false` otherwise.
+                  example: false
+            rootApps:
+              title: WebhookSignalResponseRootApps
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    Android specific root management apps detection. There are 2 values:
+                    • `true` - Root Management Apps detected (e.g. Magisk)
+                    • `false` - No Root Management Apps detected
+
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
+                  example: false
+            emulator:
+              title: WebhookSignalResponseEmulator
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    Android specific emulator detection. There are 2 values:
+                    • `true` - Emulated environment detected (e.g. launch inside of AVD)
+                    • `false` - No signs of emulated environment detected
+
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
+                  example: false
+            ipBlocklist:
+              $ref: '#/components/schemas/IpBlockListResult'
+            tor:
+              title: WebhookSignalResponseTor
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    `true` if the request IP address is a known tor exit node, `false` otherwise.
+                  example: false
+            vpn:
+              $ref: '#/components/schemas/VpnResult'
+            proxy:
+              title: WebhookSignalResponseProxy
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    `true` if the request IP address is used by a public proxy provider, `false` otherwise.
+                  example: false
+            tampering:
+              $ref: '#/components/schemas/TamperingResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -874,7 +945,10 @@ components:
     ProductsResponse:
       type: object
       description: Contains all the information from each activated product - Fingerprint Pro or Bot Detection
-      additionalProperties: true
+      # The true default value for additionalProperties allows extending schema.
+      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
+      # additionalProperties: true
+      additionalProperties: false
       properties:
         identification:
           type: object
@@ -901,8 +975,117 @@ components:
             data:
               $ref: '#/components/schemas/BotdResult'
             error:
-              $ref: '#/components/schemas/BotdError'
+              $ref: '#/components/schemas/ProductError'
+        ipInfo:
+          title: SignalResponseIpInfo
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/IpInfoResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
+        incognito:
+          title: SignalResponseIncognito
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    `true` if we detected incognito mode used in the browser, `false` otherwise.
+                  example: false
+            error:
+              $ref: '#/components/schemas/ProductError'
+        rootApps:
+          title: SignalResponseRootApps
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    Android specific root management apps detection. There are 2 values:
+                    • `true` - Root Management Apps detected (e.g. Magisk)
+                    • `false` - No Root Management Apps detected
 
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
+                  example: false
+            error:
+              $ref: '#/components/schemas/ProductError'
+        emulator:
+          title: SignalResponseEmulator
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    Android specific emulator detection. There are 2 values:
+                    • `true` - Emulated environment detected (e.g. launch inside of AVD)
+                    • `false` - No signs of emulated environment detected
+
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
+                  example: false
+            error:
+              $ref: '#/components/schemas/ProductError'
+        ipBlocklist:
+          title: SignalResponseIpBlocklist
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/IpBlockListResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
+        tor:
+          title: SignalResponseTor
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    `true` if the request IP address is a known tor exit node, `false` otherwise.
+                  example: false
+            error:
+              $ref: '#/components/schemas/ProductError'
+        vpn:
+          title: SignalResponseVpn
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/VpnResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
+        proxy:
+          title: SignalResponseProxy
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                result:
+                  type: boolean
+                  description: >
+                    `true` if the request IP address is used by a public proxy provider, `false` otherwise.
+                  example: false
+            error:
+              $ref: '#/components/schemas/ProductError'
+        tampering:
+          title: SignalResponseTampering
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/TamperingResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: Contains event from all activated products - Fingerprint Pro, Bot Detection, AEV
       type: object
@@ -953,6 +1136,12 @@ components:
           type: string
           format: uri-reference
           example: 'https://example.com/login'
+        userAgent:
+          type: string
+          example: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+        requestId:
+          type: string
+          example: '1681392853693.lRiBBD'
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
       required:
@@ -976,13 +1165,89 @@ components:
             - notDetected
             - good
             - bad
-      example:
-        result: 'notDetected'
+          example: 'bad'
+        type:
+          type: string
+          example: 'selenium'
       required:
         - result
-    BotdError:
+    IpInfoResult:
       type: object
+      description: Details about the request IP address. Has separate fields for v4 and v6 IP address versions.
       additionalProperties: false
+      properties:
+        v4:
+          type: object
+          additionalProperties: false
+          properties:
+            address:
+              type: string
+              format: ipv4
+              example: '94.142.239.124'
+            geolocation:
+              $ref: '#/components/schemas/IPLocation'
+        v6:
+          type: object
+          additionalProperties: false
+          properties:
+            address:
+              type: string
+              format: ipv6
+              example: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+            geolocation:
+              $ref: '#/components/schemas/IPLocation'
+    IpBlockListResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if request IP address is part of any database that we use to search for known malicious actors, `false` otherwise.
+          example: false
+        details:
+          type: object
+          properties:
+            emailSpam:
+              type: boolean
+              description: IP address was part of a known email spam attack (SMTP).
+              example: false
+            attackSource:
+              type: boolean
+              description: IP address was part of a known network attack (SSH/HTTPS).
+              example: false
+    VpnResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          description: VPN or other anonymising service has been used when sending the request.
+          example: false
+        methods:
+          type: object
+          properties:
+            timezoneMismatch:
+              type: boolean
+              description: User's browser timezone doesn't match the timezone from which the request was originally made.
+              example: false
+            publicVPN:
+              type: boolean
+              description: Request IP address is owned and used by a public VPN service provider.
+              example: false
+    TamperingResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          description: Flag indicating whether browser tampering was detected according to our internal thresholds.
+          example: false
+        anomalyScore:
+          type: number
+          description: Confidence score (`0.0 - 1.0`) for the tampering detection. Values above `0.5` suggest that we're reasonably sure there was a tampering attempt. Values below `0.5` are genuine browsers.
+          example: 0
+          minimum: 0
+          maximum: 1
+    ProductError:
+      type: object
       properties:
         code:
           type: string
