@@ -339,7 +339,7 @@ components:
                     • `true` - Root Management Apps detected (e.g. Magisk)
                     • `false` - No Root Management Apps detected
 
-                    Available only for events from Android client. The field will be empty for a browser/iOS event.
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
                   example: false
             emulator:
               title: SignalResponseEmulator
@@ -352,7 +352,7 @@ components:
                     • `true` - Emulated environment detected (e.g. launch inside of AVD)
                     • `false` - No signs of emulated environment detected
 
-                    Available only for events from Android client. The field will be empty for a browser/iOS event.
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
                   example: false
             ipBlocklist:
               $ref: '#/components/schemas/IpBlockListResult'
@@ -666,7 +666,7 @@ components:
                     • `true` - Root Management Apps detected (e.g. Magisk)
                     • `false` - No Root Management Apps detected
 
-                    Available only for events from Android client. The field will be empty for a browser/iOS event.
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
                   example: false
             error:
               $ref: '#/components/schemas/ProductError'
@@ -684,7 +684,7 @@ components:
                     • `true` - Emulated environment detected (e.g. launch inside of AVD)
                     • `false` - No signs of emulated environment detected
 
-                    Available only for events from Android client. The field will be empty for a browser/iOS event.
+                    Available only for events from Android client. The field will not be present for a browser or iOS event.
                   example: false
             error:
               $ref: '#/components/schemas/ProductError'
