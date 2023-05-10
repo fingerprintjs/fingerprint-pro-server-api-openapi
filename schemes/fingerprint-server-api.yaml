@@ -3460,7 +3460,7 @@ components:
           description: Flag if user used incognito session.
           type: boolean
         rootApps:
-          title: SignalResponseRootApps
+          title: WebhookSignalResponseRootApps
           type: object
           properties:
             result:
@@ -3474,7 +3474,7 @@ components:
                 not be present for a browser or iOS event.
               example: false
         emulator:
-          title: SignalResponseEmulator
+          title: WebhookSignalResponseEmulator
           type: object
           properties:
             result:
@@ -3490,7 +3490,7 @@ components:
         ipBlocklist:
           $ref: '#/components/schemas/IpBlockListResult'
         tor:
-          title: SignalResponseTor
+          title: WebhookSignalResponseTor
           type: object
           properties:
             result:
@@ -3502,7 +3502,7 @@ components:
         vpn:
           $ref: '#/components/schemas/VpnResult'
         proxy:
-          title: SignalResponseProxy
+          title: WebhookSignalResponseProxy
           type: object
           properties:
             result:
