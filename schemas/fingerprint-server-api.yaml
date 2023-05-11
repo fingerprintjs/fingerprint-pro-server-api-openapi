@@ -258,6 +258,106 @@ paths:
         #### Headers
 
         * `Retry-After`: Indicates how long you should wait before making a follow-up request. The value is non-negative decimal integer indicating the seconds to delay after the response is received.
+      parameters:
+        - name: visitor_id
+          description: Unique identifier of the visitor issued by Fingerprint Pro.
+          in: path
+          required: true
+          schema:
+            type: string
+          example: uYIm7Ksp5rf00SllPhFp
+        - name: request_id
+          description: | 
+            Filter visits by `requestId`. 
+            
+            Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/docs/js-agent#requestid). When you filter visits by `requestId`, only one visit will be returned.
+          in: query
+          schema:
+            type: string
+            # example: 1654815516083.OX6kx8
+        - name: linked_id
+          description: |
+            Filter visits by your custom identifier. 
+            
+            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+          in: query
+          schema:
+            type: string
+          required: false
+           # example: some_id
+        - name: limit
+          description: | 
+            Limit scanned results. 
+            
+            For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
+            By default, the most recent 100 visits are scanned, the maximum is 500. 
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            # default: 0
+            # example: 10
+        - name: before
+          description: | 
+            Timestamp (in milliseconds since epoch) used to paginate results. 
+
+            When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), the `lastTimestamp` top-level attribute is added to the response.
+            You can use this attribute to get the next page of results — the visits that happened before that timestamp.
+
+            1. First request, returning most recent 200 events: `GET api-base-url/visitors/:visitorId?limit=200`
+            2. Use response.lastTimestamp to get the next page of results: `GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567`
+
+
+            Pagination happens during scanning and before filtering, so you can get less visits than the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
+          in: query
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            # default: 0
+            # example: 1654815517198
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+              examples:
+                limit1:
+                  summary: Request with limit=1
+                  externalValue: '/examples/visits_limit_1.json'
+                limit500:
+                  summary: Request with limit=500
+                  externalValue: '/examples/visits_limit_500.json'
+        '403':
+          description: Forbidden. The API Key is probably missing or incorrect.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisits403'
+              examples:
+                example:
+                  summary: Forbidden
+                  externalValue: '/examples/visits_403_error.json'
+        '429':
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Indicates how long you should wait before attempting the next request.
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManyRequestsResponse'
+              examples:
+                example:
+                  summary: Example too many requests error response
+                  externalValue: '/examples/visits_too_many_requests_error.json'
       x-readme:
         code-samples:
           - language: node
@@ -407,106 +507,6 @@ paths:
               // Get visit history of a specific visitor
               var visits = api.GetVisits("VISITOR_ID");
               Console.WriteLine(visits);
-      parameters:
-        - name: visitor_id
-          description: Unique identifier of the visitor issued by Fingerprint Pro.
-          in: path
-          required: true
-          schema:
-            type: string
-          example: uYIm7Ksp5rf00SllPhFp
-        - name: request_id
-          description: | 
-            Filter visits by `requestId`. 
-            
-            Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/docs/js-agent#requestid). When you filter visits by `requestId`, only one visit will be returned.
-          in: query
-          schema:
-            type: string
-            # example: 1654815516083.OX6kx8
-        - name: linked_id
-          description: |
-            Filter visits by your custom identifier. 
-            
-            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
-          in: query
-          schema:
-            type: string
-          required: false
-           # example: some_id
-        - name: limit
-          description: | 
-            Limit scanned results. 
-            
-            For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
-            By default, the most recent 100 visits are scanned, the maximum is 500. 
-          in: query
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-            # default: 0
-            # example: 10
-        - name: before
-          description: | 
-            Timestamp (in milliseconds since epoch) used to paginate results. 
-
-            When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), the `lastTimestamp` top-level attribute is added to the response.
-            You can use this attribute to get the next page of results — the visits that happened before that timestamp.
-
-            1. First request, returning most recent 200 events: `GET api-base-url/visitors/:visitorId?limit=200`
-            2. Use response.lastTimestamp to get the next page of results: `GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567`
-
-
-            Pagination happens during scanning and before filtering, so you can get less visits than the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
-          in: query
-          schema:
-            type: integer
-            format: int64
-            minimum: 0
-            # default: 0
-            # example: 1654815517198
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response'
-              examples:
-                limit1:
-                  summary: Request with limit=1
-                  externalValue: '/examples/visits_limit_1.json'
-                limit500:
-                  summary: Request with limit=500
-                  externalValue: '/examples/visits_limit_500.json'
-        '403':
-          description: Forbidden. The API Key is probably missing or incorrect.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorVisits403'
-              examples:
-                example:
-                  summary: Forbidden
-                  externalValue: '/examples/visits_403_error.json'
-        '429':
-          description: Too Many Requests
-          headers:
-            Retry-After:
-              description: Indicates how long you should wait before attempting the next request.
-              schema:
-                type: integer
-                format: int32
-                minimum: 0
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ManyRequestsResponse'
-              examples:
-                example:
-                  summary: Example too many requests error response
-                  externalValue: '/examples/visits_too_many_requests_error.json'
   /webhook:
     trace:
       tags:
