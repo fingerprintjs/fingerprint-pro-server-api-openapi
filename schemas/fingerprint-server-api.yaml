@@ -46,6 +46,59 @@ paths:
         Products that are not activated for your application or not relevant to the event's detected platform (web, iOS, Android) are not included in the response. 
         
         Use `requestId` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `requestId`.
+      parameters:
+        - name: request_id
+          in: path
+          description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each analysis request.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+              examples:
+                fullResponse:
+                  summary: Example response
+                  externalValue: '/examples/get_event.json'
+                allErrorsResponse:
+                  summary: All failed signals
+                  externalValue: '/examples/get_event_all_errors.json'
+                withBotdError:
+                  summary: BotD error
+                  externalValue: '/examples/get_event_botd_failed_error.json'
+                withBotdTooManyRequestsError:
+                  summary: BotD too many requests error
+                  externalValue: '/examples/get_event_botd_too_many_requests_error.json'
+                withIdentificationError:
+                  summary: Identification error
+                  externalValue: '/examples/get_event_identification_failed_error.json'
+                withIdentificationTooManyRequestsError:
+                  summary: Identification too many requests error
+                  externalValue: '/examples/get_event_identification_too_many_requests_error.json'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEvent403Response'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/get_event_403_error.json'
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEvent404Response'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/get_event_404_error.json'
       x-readme:
         code-samples:
           - language: node
@@ -192,59 +245,6 @@ paths:
               // Get a specific fingerprinting event
               var events = api.GetEvent("REQUEST_ID");
               Console.WriteLine(events);
-      parameters:
-        - name: request_id
-          in: path
-          description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each analysis request.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventResponse'
-              examples:
-                fullResponse:
-                  summary: Example response
-                  externalValue: '/examples/get_event.json'
-                allErrorsResponse:
-                  summary: All failed signals
-                  externalValue: '/examples/get_event_all_errors.json'
-                withBotdError:
-                  summary: BotD error
-                  externalValue: '/examples/get_event_botd_failed_error.json'
-                withBotdTooManyRequestsError:
-                  summary: BotD too many requests error
-                  externalValue: '/examples/get_event_botd_too_many_requests_error.json'
-                withIdentificationError:
-                  summary: Identification error
-                  externalValue: '/examples/get_event_identification_failed_error.json'
-                withIdentificationTooManyRequestsError:
-                  summary: Identification too many requests error
-                  externalValue: '/examples/get_event_identification_too_many_requests_error.json'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorEvent403Response'
-              examples:
-                example:
-                  summary: Example response
-                  externalValue: '/examples/get_event_403_error.json'
-        '404':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorEvent404Response'
-              examples:
-                example:
-                  summary: Example response
-                  externalValue: '/examples/get_event_404_error.json'
   /visitors/{visitor_id}:
     get:
       tags:
