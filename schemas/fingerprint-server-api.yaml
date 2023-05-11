@@ -1080,7 +1080,7 @@ components:
             error:
               $ref: '#/components/schemas/ProductError'
     EventResponse:
-      description: Contains event from all activated products - Fingerprint Pro, Bot Detection, and others.
+      description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
       additionalProperties: false
       properties:
