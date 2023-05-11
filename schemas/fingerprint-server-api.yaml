@@ -40,13 +40,12 @@ paths:
       tags:
         - Events
       operationId: 'getEvent'
-      summary: Get event by `requestId`
+      summary: Get event by requestId
       description: | 
-        This endpoint allows you to get events with all the information from each activated product (Identification, Bot Detection, AEV). 
+        This endpoint allows you to retrieve an individual analysis event with all the information from each activated product (Identification, Bot Detection, and others).
+        Products that are not activated for your application or not relevant to the event's detected platform (web, iOS, Android) are not included in the response. 
         
-        Use `requestId` as the URL path `:request_id` parameter.
-
-        This API method is scoped to a request, i.e. all returned information is by `requestId`.
+        Use `requestId` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `requestId`.
       x-readme:
         code-samples:
           - language: node
@@ -196,7 +195,7 @@ paths:
       parameters:
         - name: request_id
           in: path
-          description: The unique identifier of each analysis request
+          description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each analysis request.
           required: true
           schema:
             type: string
@@ -258,10 +257,7 @@ paths:
 
         #### Headers
 
-        `Retry-After`
-
-        Indicates how long you should wait before making a follow-up request.
-        The value is non-negative decimal integer indicating the seconds to delay after the response is received.
+        * `Retry-After`: Indicates how long you should wait before making a follow-up request. The value is non-negative decimal integer indicating the seconds to delay after the response is received.
       x-readme:
         code-samples:
           - language: node
@@ -413,7 +409,7 @@ paths:
               Console.WriteLine(visits);
       parameters:
         - name: visitor_id
-          description: Unique identifier of the visitor.
+          description: Unique identifier of the visitor issued by Fingerprint Pro.
           in: path
           required: true
           schema:
@@ -423,7 +419,7 @@ paths:
           description: | 
             Filter visits by `requestId`. 
             
-            Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the API call response. When you filter visits by `requestId`, only one visit will be returned.
+            Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/docs/js-agent#requestid). When you filter visits by `requestId`, only one visit will be returned.
           in: query
           schema:
             type: string
@@ -432,7 +428,7 @@ paths:
           description: |
             Filter visits by your custom identifier. 
             
-            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all visits associated with your custom identifier.
+            You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
           in: query
           schema:
             type: string
@@ -458,14 +454,11 @@ paths:
             When more results are available (e.g., you scanned 200 results using `limit` parameter, but a total of 600 results are available), the `lastTimestamp` top-level attribute is added to the response.
             You can use this attribute to get the next page of results — the visits that happened before that timestamp.
 
-            ```
-            // 1st request, returning most recent 200 events:
-            GET api-base-url/visitors/:visitorId?limit=200
-            // Use response.lastTimestamp to get the next page of results
-            GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567
-            ```
+            1. First request, returning most recent 200 events: `GET api-base-url/visitors/:visitorId?limit=200`
+            2. Use response.lastTimestamp to get the next page of results: `GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567`
 
-            Pagination happens during scanning and before filtering, so you can get less visits that the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
+
+            Pagination happens during scanning and before filtering, so you can get less visits than the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `lastTimestamp` attribute will not be returned.
           in: query
           schema:
             type: integer
@@ -501,7 +494,7 @@ paths:
           description: Too Many Requests
           headers:
             Retry-After:
-              description: Indicates how long the user should wait before attempting the next request.
+              description: Indicates how long you should wait before attempting the next request.
               schema:
                 type: integer
                 format: int32
