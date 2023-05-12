@@ -2,10 +2,11 @@ import yaml from 'js-yaml';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
 import { removeWebhookTransformer } from './removeWebhookTransformer.js';
-import { removeTagsTransformer } from './removeTagsTransformer.js';
+import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 
-const defaultTransformers = [resolveExternalValueTransformer, resolveAllOfTransformer];
-export const readmeApiExplorerTransformers = [...defaultTransformers, removeWebhookTransformer, removeTagsTransformer];
+const commonTransformers = [resolveExternalValueTransformer, resolveAllOfTransformer];
+const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
+export const readmeApiExplorerTransformers = [...commonTransformers, removeWebhookTransformer];
 
 export function transformSchema(content, transformers = defaultTransformers) {
   const apiDefinition = yaml.load(content);

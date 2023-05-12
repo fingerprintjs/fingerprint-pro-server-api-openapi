@@ -63,8 +63,8 @@ export default {
           transform: (content) => transformSchema(content),
         },
         {
-          from: 'schemas',
-          to: 'schemas/readme-api-explorer/',
+          from: 'schemas/fingerprint-server-api.yaml',
+          to: 'schemas/fingerprint-server-api-readme-explorer.yaml',
           transform: (content) => transformSchema(content, readmeApiExplorerTransformers),
         },
         {
