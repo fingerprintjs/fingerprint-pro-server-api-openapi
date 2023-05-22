@@ -13,13 +13,14 @@ info:
     name: Fingerprint Support
     email: support@fingerprint.com
 tags:
-  - name: Fingerprint
-    description: >-
+  - name: Events
+    description: >
       Using the Server API you can retrieve information about individual
-      analysis events or event history of individual visitors.
-    externalDocs:
-      description: API documentation
-      url: https://dev.fingerprint.com/reference/pro-server-api
+      analysis events using the event's `requestId`.
+  - name: Visitors
+    description: >
+      Using the Server API you can retrieve visitor history of individual
+      visitors using their `visitorId`.
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -43,7 +44,7 @@ paths:
   /events/{request_id}:
     get:
       tags:
-        - Fingerprint
+        - Events
       operationId: getEvent
       summary: Get event by requestId
       description: >
@@ -557,7 +558,7 @@ paths:
   /visitors/{visitor_id}:
     get:
       tags:
-        - Fingerprint
+        - Visitors
       operationId: getVisits
       summary: Get visits by visitorId
       description: >
@@ -3546,130 +3547,6 @@ paths:
               var visits = api.GetVisits("VISITOR_ID");
 
               Console.WriteLine(visits);
-  /webhook:
-    trace:
-      tags:
-        - Fingerprint
-      description: >-
-        Fake path to describe webhook format. More information about webhooks
-        can be found in the
-        [documentation](https://dev.fingerprint.com/docs/webhooks)
-      responses:
-        default:
-          description: Dummy for the schema
-      callbacks:
-        webhook:
-          webhook:
-            post:
-              description: >-
-                You can use HTTP basic authentication and set up credentials in
-                your [Fingerprint
-                account](https://dashboard.fingerprint.com/login)
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      $ref: '#/components/schemas/WebhookVisit'
-                    example:
-                      value:
-                        requestId: Px6VxbRC6WBkA39yeNH3
-                        tag:
-                          requestType: signup
-                          yourCustomId: 45321
-                        linkedId: any-string
-                        visitorId: 3HNey93AkBW6CRbxV6xP
-                        visitorFound: true
-                        timestamp: 1554910997788
-                        time: '2019-10-12T07:20:50.52Z'
-                        incognito: false
-                        url: https://banking.example.com/signup
-                        clientReferrer: https://google.com?search=banking+services
-                        ip: 216.3.128.12
-                        ipLocation:
-                          accuracyRadius: 1
-                          city:
-                            name: Bolingbrook
-                          continent:
-                            code: NA
-                            name: North America
-                          country:
-                            code: US
-                            name: United States
-                          latitude: 41.12933
-                          longitude: -88.9954
-                          postalCode: '60547'
-                          subdivisions:
-                            - isoCode: IL
-                              name: Illinois
-                          timezone: America/Chicago
-                        browserDetails:
-                          browserName: Chrome
-                          browserFullVersion: 73.0.3683.86
-                          browserMajorVersion: '73'
-                          os: Mac OS X
-                          osVersion: 10.14.3
-                          device: Other
-                          userAgent: >-
-                            (Macintosh; Intel Mac OS X 10_14_3)
-                            Chrome/73.0.3683.86
-                        confidence:
-                          score: 0.97
-                        firstSeenAt:
-                          global: '2022-03-16T11:26:45.362Z'
-                          subscription: '2022-03-16T11:31:01.101Z'
-                        lastSeenAt:
-                          global: '2022-03-16T11:28:34.023Z'
-                          subscription: null
-                        bot:
-                          result: bad
-                          type: selenium
-                        userAgent: >-
-                          (Macintosh; Intel Mac OS X 10_14_3)
-                          Chrome/73.0.3683.86
-                        ipInfo:
-                          v4:
-                            address: 94.142.239.124
-                            geolocation:
-                              accuracyRadius: 20
-                              latitude: 50.05
-                              longitude: 14.4
-                              postalCode: 150 00
-                              timezone: Europe/Prague
-                              city:
-                                name: Prague
-                              country:
-                                code: CZ
-                                name: Czechia
-                              continent:
-                                code: EU
-                                name: Europe
-                              subdivisions:
-                                - isoCode: '10'
-                                  name: Hlavni mesto Praha
-                        rootApps:
-                          result: false
-                        emulator:
-                          result: false
-                        ipBlocklist:
-                          result: false
-                          details:
-                            emailSpam: false
-                            attackSource: false
-                        tor:
-                          result: false
-                        vpn:
-                          result: false
-                          methods:
-                            timezoneMismatch: false
-                            publicVPN: false
-                        proxy:
-                          result: false
-                        tampering:
-                          result: false
-                          anomalyScore: 0
-              responses:
-                default:
-                  description: The server doesn't validate the answer.
 components:
   securitySchemes:
     ApiKeyHeader:
