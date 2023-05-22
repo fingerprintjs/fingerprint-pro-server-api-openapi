@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import 'dotenv/config';
-import { transformSchema } from './utils/transformers/transformSchema.js';
+import { readmeApiExplorerTransformers, transformSchema } from './utils/transformers/transformSchema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,6 +61,11 @@ export default {
           from: 'schemas',
           to: 'schemes', // backward compatibility
           transform: (content) => transformSchema(content),
+        },
+        {
+          from: 'schemas/fingerprint-server-api.yaml',
+          to: 'schemas/fingerprint-server-api-readme-explorer.yaml',
+          transform: (content) => transformSchema(content, readmeApiExplorerTransformers),
         },
         {
           from: 'examples',

@@ -1,6 +1,12 @@
 import { walkJson } from './walkJson.js';
 import { replaceAllOf } from './replaceAllOf.js';
 
+/**
+ *
+ * @param {Object} apiDefinition
+ * @param {string} schemaRef
+ * @returns
+ */
 export function convertOpenApiToJsonSchema(apiDefinition, schemaRef) {
   return {
     type: 'object',
@@ -10,6 +16,11 @@ export function convertOpenApiToJsonSchema(apiDefinition, schemaRef) {
   };
 }
 
+/**
+ *
+ * @param {Object} components
+ * @returns
+ */
 function componentsToDefenitions(components) {
   // Move schemas from components/schemas to definitions path
   walkJson(components, '$ref', (json) => {
