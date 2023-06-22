@@ -46,7 +46,7 @@ paths:
       tags:
         - Events
       operationId: getEvent
-      summary: Get event by request ID
+      summary: Get event by requestId
       description: >
         This endpoint allows you to retrieve an individual analysis event with
         all the information from each activated product (Identification, Bot
