@@ -1,9 +1,10 @@
-name: Publish schema
+name: Publish schema to GH pages and Readme
 
 on:
   push:
     branches:
       - main
+      - feat/auto-sync-readme-api-reference
 
 jobs:
   generate-schema:
@@ -18,8 +19,12 @@ jobs:
           visitorId: '${{ secrets.VISITOR_ID }}'
           privateKey: '${{ secrets.PRIVATE_KEY }}'
           requestId: '${{ secrets.REQUEST_ID }}'
-      - name: Deploy 🚀
+      - name: Deploy to GitHub pages 🚀📘
         uses: JamesIves/github-pages-deploy-action@8817a56e5bfec6e2b08345c81f4d422db53a2cdc
         with:
           branch: gh-pages
           folder: dist
+      - name: Deploy to Readme API Reference 🚀🦉
+        uses: readmeio/rdme@v8
+        with:
+          rdme: openapi dist/schemas/fingerprint-server-api-readme-explorer.yaml --key=${{ secrets.README_API_KEY }} --id=649364c452f51300673b54e0
