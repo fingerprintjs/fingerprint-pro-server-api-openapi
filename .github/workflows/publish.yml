@@ -27,4 +27,4 @@ jobs:
       - name: Deploy to Readme API Reference 🚀🦉
         uses: readmeio/rdme@v8
         with:
-          rdme: openapi dist/schemas/fingerprint-server-api-readme-explorer.yaml --key=${{ secrets.README_API_KEY }} --id=649364c452f51300673b54e0
+          rdme: openapi dist/schemas/fingerprint-server-api-readme-explorer.yaml --key=${{ secrets.README_API_KEY }} --id=647decb9c3af460722417604
