@@ -45,7 +45,7 @@ paths:
       tags:
         - Fingerprint
       operationId: getEvent
-      summary: Get event by requestId
+      summary: Get event by request ID
       description: >
         This endpoint allows you to retrieve an individual analysis event with
         all the information from each activated product (Identification, Bot
