@@ -27,13 +27,13 @@ security:
   - ApiKeyQuery: []
 x-readme:
   samples-languages:
-  - curl
-  - node
-  - php
-  - python
-  - csharp
-  - java
-  - go
+    - curl
+    - node
+    - php
+    - python
+    - csharp
+    - java
+    - go
 paths:
   /events/{request_id}:
     get:
@@ -41,10 +41,10 @@ paths:
         - Events
       operationId: 'getEvent'
       summary: Get event by requestId
-      description: | 
+      description: |
         This endpoint allows you to retrieve an individual analysis event with all the information from each activated product (Identification, Bot Detection, and others).
         Products that are not activated for your application or not relevant to the event's detected platform (web, iOS, Android) are not included in the response. 
-        
+
         Use `requestId` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `requestId`.
       parameters:
         - name: request_id
@@ -202,7 +202,7 @@ paths:
               }
           - language: java
             name: Java SDK
-            code: | 
+            code: |
               import com.fingerprint.api.FingerprintApi;
               import com.fingerprint.models.EventResponse;
               import com.fingerprint.models.Response;
@@ -267,9 +267,9 @@ paths:
             type: string
           example: uYIm7Ksp5rf00SllPhFp
         - name: request_id
-          description: | 
+          description: |
             Filter visits by `requestId`. 
-            
+
             Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/docs/js-agent#requestid). When you filter visits by `requestId`, only one visit will be returned.
           in: query
           schema:
@@ -278,17 +278,18 @@ paths:
         - name: linked_id
           description: |
             Filter visits by your custom identifier. 
-            
+
             You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
           in: query
           schema:
             type: string
-          required: false
-           # example: some_id
+          required:
+            false
+            # example: some_id
         - name: limit
-          description: | 
+          description: |
             Limit scanned results. 
-            
+
             For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
             By default, the most recent 100 visits are scanned, the maximum is 500.
           in: query
@@ -301,7 +302,7 @@ paths:
         - name: paginationKey
           description: |
             Use `paginationKey` to get the next page of results. 
-            
+
             When more results are available (e.g., you requested 200 results using `limit` parameter, but a total of 600 results are available), the `paginationKey` top-level attribute is added to the response. The key corresponds to the `requestId` of the last returned event. In the following request, use that value in the `paginationKey` parameter to get the next page of results:
 
             1. First request, returning most recent 200 events: `GET api-base-url/visitors/:visitorId?limit=200`
@@ -311,10 +312,11 @@ paths:
           in: query
           schema:
             type: string
-          required: false
-           # example: 1683900801733.Ogvu1j
+          required:
+            false
+            # example: 1683900801733.Ogvu1j
         - name: before
-          description: | 
+          description: |
             ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results.
           in: query
           schema:
@@ -470,7 +472,7 @@ paths:
               }
           - language: java
             name: Java SDK
-            code: | 
+            code: |
               import com.fingerprint.api.FingerprintApi;
               import com.fingerprint.models.EventResponse;
               import com.fingerprint.models.Response;
@@ -560,7 +562,7 @@ components:
             allOf:
               - $ref: '#/components/schemas/Visit'
               - required:
-                - tag
+                  - tag
         lastTimestamp:
           description: |
             ⚠️ Deprecated paging attribute, please use `paginationKey` instead. Timestamp of the last visit in the current page of results.
