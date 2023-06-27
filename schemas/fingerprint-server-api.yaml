@@ -42,8 +42,9 @@ paths:
       operationId: 'getEvent'
       summary: Get event by requestId
       description: |
-        This endpoint allows you to retrieve an individual analysis event with all the information from each activated product (Identification, Bot Detection, and others).
-        Products that are not activated for your application or not relevant to the event's detected platform (web, iOS, Android) are not included in the response. 
+        This endpoint allows you to get a detailed analysis of an individual request. 
+        The response includes information from *all* products irrespective of whether they are active or not for your application. 
+        It is highly recommended that you **ignore** the information **from products that are not activated** for your application. 
 
         Use `requestId` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `requestId`.
       parameters:
