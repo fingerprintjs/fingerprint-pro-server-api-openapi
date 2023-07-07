@@ -745,9 +745,9 @@ components:
                 result:
                   type: boolean
                   description: >
-                    iOS specific frida detection. There are 2 values:
-                    • `true` - frida detected
-                    • `false` - No signs of frida or the client is not iOS.
+                    iOS specific [Frida](https://frida.re/docs/ios/) detection. There are 2 values:
+                    • `true` - Frida detected
+                    • `false` - No signs of Frida or the client is not iOS.
                   example: false
             ipBlocklist:
               $ref: '#/components/schemas/IpBlockListResult'
@@ -776,7 +776,7 @@ components:
                 result:
                   type: boolean
                   description: >
-                    `true` if the request is under virtual machine (e.g. VMWare), `false` otherwise.
+                    `true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise.
                   example: false
             vpn:
               $ref: '#/components/schemas/VpnResult'
@@ -1153,9 +1153,9 @@ components:
                 result:
                   type: boolean
                   description: >
-                    iOS specific frida detection. There are 2 values:
-                    • `true` - frida detected
-                    • `false` - No signs of frida or the client is not iOS.
+                    iOS specific [Frida](https://frida.re/docs/ios/) detection. There are 2 values:
+                    • `true` - Frida detected
+                    • `false` - No signs of Frida or the client is not iOS.
                   example: false
             error:
               $ref: '#/components/schemas/ProductError'
@@ -1205,7 +1205,7 @@ components:
                 result:
                   type: boolean
                   description: >
-                    `true` if the request is under virtual machine (e.g. VMWare), `false` otherwise.
+                    `true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise.
                   example: false
             error:
               $ref: '#/components/schemas/ProductError'
