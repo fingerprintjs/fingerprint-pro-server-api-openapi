@@ -767,7 +767,7 @@ components:
                 result:
                   type: boolean
                   description: >
-                    `true` if the request is from privacy aware browser (e.g. Brave with fingerprinting blocking), `false` otherwise.
+                    `true` if the request is from a privacy aware browser (e.g. Tor) or from a browser in which fingerprinting is blocked. Otherwise `false`.
                   example: false
             virtualMachine:
               title: WebhookSignalResponseVirtualMachine
@@ -1191,7 +1191,7 @@ components:
                 result:
                   type: boolean
                   description: >
-                    `true` if the request is from privacy aware browser (e.g. Brave with fingerprinting blocking), `false` otherwise.
+                    `true` if the request is from a privacy aware browser (e.g. Tor) or from a browser in which fingerprinting is blocked. Otherwise `false`.
                   example: false
             error:
               $ref: '#/components/schemas/ProductError'
