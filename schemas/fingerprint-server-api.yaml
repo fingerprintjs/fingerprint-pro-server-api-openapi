@@ -65,6 +65,9 @@ paths:
                 fullResponse:
                   summary: Example response
                   externalValue: '/examples/get_event.json'
+                proPlusBotDetectedResponse:
+                  summary: Bot detected on Pro Plus plan
+                  externalValue: '/examples/get_event_pro_plus_bot_detected.json'
                 allErrorsResponse:
                   summary: All failed signals
                   externalValue: '/examples/get_event_all_errors.json'
@@ -1006,7 +1009,7 @@ components:
           example: 'Hlavni mesto Praha'
     ProductsResponse:
       type: object
-      description: Contains all the information from each activated product - Fingerprint Pro or Bot Detection
+      description: Contains all information about the request identified by `requestId`, depending on the pricing plan (Pro, Pro Plus, Enterprise)
       # The true default value for additionalProperties allows extending schema.
       # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
       # additionalProperties: true
@@ -1025,6 +1028,14 @@ components:
                   properties:
                     visitorId:
                       type: string
+                      description: |
+                        String of 20 characters that uniquely identifies the visitor's browser.
+
+                        **Pro Plus:**
+                        If a bot is detected (`products.botd.bot.result != "notDetected"`), the `visitorId` value contains a placeholder string `BotDetected000000000`.
+                      example: 
+                        - Ibk1527CUFmcnjLwIs4A
+                        - BotDetected000000000
                   required:
                     - visitorId
             error:
