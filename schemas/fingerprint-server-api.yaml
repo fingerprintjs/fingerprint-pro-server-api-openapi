@@ -791,6 +791,12 @@ components:
                   example: false
             tampering:
               $ref: '#/components/schemas/TamperingResult'
+            rawDeviceAttributes:
+              title: WebhookSignalResponseRawDeviceAttributes
+              type: object
+              description: >
+                It includes 35+ raw browser identification attributes to provide Fingerprint users with even more information than our standard visitor ID provides.
+                This enables Fingerprint users to not have to run our open-source product in conjunction with Fingerprint Pro Plus and Enterprise to get those additional attributes.
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1239,6 +1245,15 @@ components:
               $ref: '#/components/schemas/TamperingResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        rawDeviceAttributes:
+          title: SignalResponseRawDeviceAttributes
+          type: object
+          properties:
+            data:
+              type: object
+              description: >
+                It includes 35+ raw browser identification attributes to provide Fingerprint users with even more information than our standard visitor ID provides.
+                This enables Fingerprint users to not have to run our open-source product in conjunction with Fingerprint Pro Plus and Enterprise to get those additional attributes.
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
