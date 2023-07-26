@@ -341,6 +341,22 @@ paths:
                         error:
                           code: Failed
                           message: internal server error
+                      clonedApp:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      factoryReset:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      jailbroken:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      frida:
+                        error:
+                          code: Failed
+                          message: internal server error
                       emulator:
                         error:
                           code: Failed
@@ -361,10 +377,27 @@ paths:
                         error:
                           code: Failed
                           message: internal server error
+                      privacySettings:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      virtualMachine:
+                        error:
+                          code: Failed
+                          message: internal server error
                       tampering:
                         error:
                           code: Failed
                           message: internal server error
+                      rawDeviceAttributes:
+                        audio:
+                          error:
+                            name: Error
+                            message: internal server error
+                        canvas:
+                          error:
+                            name: Error
+                            message: internal server error
                 withBotdError:
                   summary: BotD error
                   value:
