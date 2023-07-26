@@ -390,14 +390,15 @@ paths:
                           code: Failed
                           message: internal server error
                       rawDeviceAttributes:
-                        audio:
-                          error:
-                            name: Error
-                            message: internal server error
-                        canvas:
-                          error:
-                            name: Error
-                            message: internal server error
+                        data:
+                          audio:
+                            error:
+                              name: Error
+                              message: internal server error
+                          canvas:
+                            error:
+                              name: Error
+                              message: internal server error
                 withBotdError:
                   summary: BotD error
                   value:

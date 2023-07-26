@@ -103,16 +103,18 @@
       }
     },
     "rawDeviceAttributes": {
-      "audio": {
-        "error": {
-          "name": "Error",
-          "message": "internal server error"
-        }
-      },
-      "canvas": {
-        "error": {
-          "name": "Error",
-          "message": "internal server error"
+      "data": {
+        "audio": {
+          "error": {
+            "name": "Error",
+            "message": "internal server error"
+          }
+        },
+        "canvas": {
+          "error": {
+            "name": "Error",
+            "message": "internal server error"
+          }
         }
       }
     }
