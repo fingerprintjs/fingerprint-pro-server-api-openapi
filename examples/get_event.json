@@ -94,6 +94,15 @@
                 "name": "Hlavni mesto Praha"
               }
             ]
+          },
+          "dataCenter": {
+            "asn": "7922",
+            "organization": "COMCAST-7922",
+            "network": "73.136.0.0/13"
+          },
+          "asn": {
+            "result": true,
+            "name": "DediPath"
           }
         }
       }
