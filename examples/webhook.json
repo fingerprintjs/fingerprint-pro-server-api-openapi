@@ -89,12 +89,12 @@
           }
         ]
       },
-      "dataCenter": {
+      "asn": {
         "asn": "7922",
         "name": "COMCAST-7922",
         "network": "73.136.0.0/13"
       },
-      "asn": {
+      "dataCenter": {
         "result": true,
         "name": "DediPath"
       }
