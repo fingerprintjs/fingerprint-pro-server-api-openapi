@@ -946,7 +946,7 @@ components:
         network:
           type: string
           example: '73.136.0.0/13'
-        org:
+        name:
           type: string
           example: 'COMCAST-7922'
       required:
