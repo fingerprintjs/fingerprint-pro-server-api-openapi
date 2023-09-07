@@ -155,6 +155,13 @@ paths:
                               subdivisions:
                                 - isoCode: '10'
                                   name: Hlavni mesto Praha
+                            asn:
+                              asn: '7922'
+                              name: COMCAST-7922
+                              network: 73.136.0.0/13
+                            dataCenter:
+                              result: true
+                              name: DediPath
                       incognito:
                         data:
                           result: false
@@ -286,6 +293,13 @@ paths:
                               subdivisions:
                                 - isoCode: '10'
                                   name: Hlavni mesto Praha
+                            asn:
+                              asn: '7922'
+                              name: COMCAST-7922
+                              network: 73.136.0.0/13
+                            dataCenter:
+                              result: true
+                              name: DediPath
                       incognito:
                         data:
                           result: false
@@ -4210,6 +4224,35 @@ components:
       example:
         global: '2022-05-05T18:28:54.535Z'
         subscription: null
+    ASN:
+      type: object
+      additionalProperties: false
+      properties:
+        asn:
+          type: string
+          example: '7922'
+        network:
+          type: string
+          example: 73.136.0.0/13
+        name:
+          type: string
+          example: COMCAST-7922
+      required:
+        - asn
+        - network
+      title: ASN
+    DataCenter:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+        name:
+          type: string
+          example: DediPath
+      required:
+        - result
+      title: DataCenter
     IPLocation:
       type: object
       additionalProperties: false
@@ -4722,6 +4765,10 @@ components:
               example: 94.142.239.124
             geolocation:
               $ref: '#/components/schemas/IPLocation'
+            asn:
+              $ref: '#/components/schemas/ASN'
+            dataCenter:
+              $ref: '#/components/schemas/DataCenter'
         v6:
           type: object
           additionalProperties: false
@@ -4732,6 +4779,10 @@ components:
               example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
             geolocation:
               $ref: '#/components/schemas/IPLocation'
+            asn:
+              $ref: '#/components/schemas/ASN'
+            dataCenter:
+              $ref: '#/components/schemas/DataCenter'
     IpBlockListResult:
       type: object
       properties:
