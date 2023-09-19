@@ -186,6 +186,7 @@ paths:
                           methods:
                             timezoneMismatch: false
                             publicVPN: false
+                            auxiliaryMobile: false
                       proxy:
                         data:
                           result: false
@@ -4809,7 +4810,7 @@ components:
         result:
           type: boolean
           description: >-
-            VPN or other anonymising service has been used when sending the
+            VPN or other anonymizing service has been used when sending the
             request.
           example: false
         methods:
@@ -4826,6 +4827,12 @@ components:
               description: >-
                 Request IP address is owned and used by a public VPN service
                 provider.
+              example: false
+            auxiliaryMobile:
+              type: boolean
+              description: >-
+                This method applies to mobile devices only. Indicates the result
+                of additional methods used to detect a VPN in mobile devices.
               example: false
     TamperingResult:
       type: object
