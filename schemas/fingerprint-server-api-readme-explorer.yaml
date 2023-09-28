@@ -4259,6 +4259,9 @@ components:
       additionalProperties: false
       properties:
         accuracyRadius:
+          description: >-
+            The IP address is likely to be within this radius (in km) of the
+            specified location.
           type: integer
           minimum: 0
           example: 1000
