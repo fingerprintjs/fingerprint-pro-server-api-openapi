@@ -231,106 +231,6 @@ paths:
                             value: 0
                           cookiesEnabled:
                             value: true
-                proPlusBotDetectedResponse:
-                  summary: Bot detected on Pro Plus plan
-                  value:
-                    products:
-                      identification:
-                        data:
-                          visitorId: BotDetected000000000
-                          requestId: 0KSh65EnVoB85JBmloQK
-                          incognito: true
-                          linkedId: somelinkedId
-                          time: '2019-05-21T16:40:13Z'
-                          timestamp: 1582299576512
-                          url: https://www.example.com/login
-                          ip: 61.127.217.15
-                          ipLocation: {}
-                          browserDetails:
-                            browserName: ''
-                            browserMajorVersion: ''
-                            browserFullVersion: ''
-                            os: ''
-                            osVersion: ''
-                            device: ''
-                            userAgent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....
-                          confidence:
-                            score: 0.5
-                            comment: The real score is unknown
-                          visitorFound: false
-                          firstSeenAt:
-                            global: null
-                            subscription: null
-                          lastSeenAt:
-                            global: null
-                            subscription: null
-                      botd:
-                        data:
-                          bot:
-                            result: bad
-                            type: selenium
-                          url: https://www.example.com/login
-                          ip: 61.127.217.15
-                          time: '2019-05-21T16:40:13Z'
-                      ipInfo:
-                        data:
-                          v4:
-                            address: 94.142.239.124
-                            geolocation:
-                              accuracyRadius: 20
-                              latitude: 50.05
-                              longitude: 14.4
-                              postalCode: 150 00
-                              timezone: Europe/Prague
-                              city:
-                                name: Prague
-                              country:
-                                code: CZ
-                                name: Czechia
-                              continent:
-                                code: EU
-                                name: Europe
-                              subdivisions:
-                                - isoCode: '10'
-                                  name: Hlavni mesto Praha
-                            asn:
-                              asn: '7922'
-                              name: COMCAST-7922
-                              network: 73.136.0.0/13
-                            dataCenter:
-                              result: true
-                              name: DediPath
-                      incognito:
-                        data:
-                          result: false
-                      rootApps:
-                        data:
-                          result: false
-                      emulator:
-                        data:
-                          result: false
-                      ipBlocklist:
-                        data:
-                          result: false
-                          details:
-                            emailSpam: false
-                            attackSource: false
-                      tor:
-                        data:
-                          result: false
-                      vpn:
-                        data:
-                          result: false
-                          methods:
-                            timezoneMismatch: false
-                            publicVPN: false
-                      proxy:
-                        data:
-                          result: false
-                      tampering:
-                        data:
-                          result: false
-                          anomalyScore: 0
                 allErrorsResponse:
                   summary: All failed signals
                   value:
@@ -4566,16 +4466,8 @@ components:
                   description: >
                     String of 20 characters that uniquely identifies the
                     visitor's browser.
-
-
-                    **Pro Plus:**
-
-                    If a bot is detected (`products.botd.bot.result !=
-                    "notDetected"`), the `visitorId` value contains a
-                    placeholder string `BotDetected000000000`.
                   example:
                     - Ibk1527CUFmcnjLwIs4A
-                    - BotDetected000000000
               additionalProperties: false
               required:
                 - browserDetails
