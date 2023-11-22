@@ -1426,6 +1426,10 @@ components:
           type: boolean
           description: VPN or other anonymizing service has been used when sending the request.
           example: false
+        originTimezone:
+          type: string
+          description: Local timezone which is used in timezoneMismatch method.
+          example: 'Europe/Berlin'
         methods:
           type: object
           properties:
