@@ -182,6 +182,7 @@ paths:
                       vpn:
                         data:
                           result: false
+                          originTimezone: Europe/Berlin
                           methods:
                             timezoneMismatch: false
                             publicVPN: false
@@ -3716,6 +3717,7 @@ paths:
                           result: false
                         vpn:
                           result: false
+                          originTimezone: Europe/Berlin
                           methods:
                             timezoneMismatch: false
                             publicVPN: false
@@ -4900,6 +4902,10 @@ components:
             VPN or other anonymizing service has been used when sending the
             request.
           example: false
+        originTimezone:
+          type: string
+          description: Local timezone which is used in timezoneMismatch method.
+          example: Europe/Berlin
         methods:
           type: object
           properties:
