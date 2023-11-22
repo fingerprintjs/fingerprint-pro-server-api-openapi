@@ -176,5 +176,11 @@
     "cookiesEnabled": {
       "value": true
     }
+  },
+  "highActivity": {
+    "result": false
+  },
+  "locationSpoofing": {
+    "result": true
   }
 }

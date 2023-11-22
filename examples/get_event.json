@@ -216,6 +216,16 @@
           "value": true
         }
       }
+    },
+    "highActivity": {
+      "data": {
+        "result": false
+      }
+    },
+    "locationSpoofing": {
+      "data": {
+        "result": false
+      }
     }
   }
 }

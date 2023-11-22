@@ -231,6 +231,12 @@ paths:
                             value: 0
                           cookiesEnabled:
                             value: true
+                      highActivity:
+                        data:
+                          result: false
+                      locationSpoofing:
+                        data:
+                          result: false
                 allErrorsResponse:
                   summary: All failed signals
                   value:
@@ -3750,6 +3756,10 @@ paths:
                             value: 0
                           cookiesEnabled:
                             value: true
+                        highActivity:
+                          result: false
+                        locationSpoofing:
+                          result: true
               responses:
                 default:
                   description: The server doesn't validate the answer.
@@ -4086,6 +4096,10 @@ components:
           $ref: '#/components/schemas/TamperingResult'
         rawDeviceAttributes:
           $ref: '#/components/schemas/RawDeviceAttributesResult'
+        highActivity:
+          $ref: '#/components/schemas/HighActivityResult'
+        locationSpoofing:
+          $ref: '#/components/schemas/LocationSpoofingResult'
         requestId:
           description: Unique identifier of the user's identification request.
           type: string
@@ -4711,6 +4725,22 @@ components:
               $ref: '#/components/schemas/TamperingResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        highActivity:
+          title: SignalResponseHighActivity
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/HighActivityResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
+        locationSpoofing:
+          title: SignalResponseLocationSpoofing
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/LocationSpoofingResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
         rawDeviceAttributes:
           title: SignalResponseRawDeviceAttributes
           type: object
@@ -4909,6 +4939,29 @@ components:
           example: 0
           minimum: 0
           maximum: 1
+    HighActivityResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          description: >-
+            Flag indicating whether the request came from a high activity
+            visitor.
+          example: false
+        dailyRequests:
+          type: number
+          description: Number of requests from the same visitor in the previous day.
+          example: 10
+          minimum: 1
+    LocationSpoofingResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          description: >-
+            Flag indicating whether the request came from a device with location
+            spoofing enabled.
+          example: false
     RawDeviceAttributesResult:
       type: object
       description: >
