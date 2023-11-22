@@ -118,6 +118,7 @@
   },
   "vpn": {
     "result": false,
+    "originTimezone": "Europe/Berlin",
     "methods": {
       "timezoneMismatch": false,
       "publicVPN": false,
