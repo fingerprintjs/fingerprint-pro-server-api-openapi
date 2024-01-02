@@ -954,8 +954,22 @@ components:
         - asn
         - network
       title: ASN
+    DataCenterInfo:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+        name:
+          type: string
+          example: 'DediPath'
+      required:
+        - result
+      title: DataCenterInfo
     DataCenter:
       type: object
+      deprecated: true
+      description: '`dataCenter` is deprecated in favor of `datacenter`'
       additionalProperties: false
       properties:
         result:
@@ -1404,6 +1418,9 @@ components:
               $ref: '#/components/schemas/IPLocation'
             asn:
               $ref: '#/components/schemas/ASN'
+            datacenter:
+              $ref: '#/components/schemas/DataCenterInfo'
+            # `dataCenter` is deprecated in favor of `datacenter`
             dataCenter:
               $ref: '#/components/schemas/DataCenter'
         v6:
@@ -1418,6 +1435,9 @@ components:
               $ref: '#/components/schemas/IPLocation'
             asn:
               $ref: '#/components/schemas/ASN'
+            datacenter:
+              $ref: '#/components/schemas/DataCenterInfo'
+            # `dataCenter` is deprecated in favor of `datacenter`
             dataCenter:
               $ref: '#/components/schemas/DataCenter'
     IpBlockListResult:
@@ -1463,7 +1483,7 @@ components:
               example: false
             auxiliaryMobile:
               type: boolean
-              description: This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices. 
+              description: This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.
               example: false
     TamperingResult:
       type: object
