@@ -969,6 +969,7 @@ components:
     IPLocation:
       type: object
       additionalProperties: false
+      deprecated: true
       description: This field is **deprecated** and will not return a result for **accounts created after December 18th, 2023**. Please use the [`ipInfo` Smart signal](https://dev.fingerprint.com/docs/smart-signals-overview#ip-geolocation) for geolocation information.
       properties:
         accuracyRadius:
@@ -1464,7 +1465,7 @@ components:
               example: false
             auxiliaryMobile:
               type: boolean
-              description: This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices. 
+              description: This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.
               example: false
     TamperingResult:
       type: object
