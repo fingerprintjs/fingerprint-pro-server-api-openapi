@@ -19,19 +19,31 @@
   </a>
 </p>
 
-# Fingerprint Pro Server API OpenAPI
+# Fingerprint Pro Server API OpenAPI Schema
 
-Definition for the Fingerprint Pro Server API in [OpenAPI](https://swagger.io/docs/specification/about/) format.
+[Fingerprint](https://fingerprint.com) is a device intelligence platform offering 99.5% accurate visitor identification. Fingerprint [Server API](https://dev.fingerprint.com/reference/pro-server-api) allows you to retrieve visitor history or individual identification events in a server environment.
 
-## WIP: The repository is in the development
+This repository contains the [OpenAPI](https://swagger.io/docs/specification/about/) schema of the Fingerprint Server API. You can use it as a reference, to try the API or to generate types for your code. It's the basis for all available [Fingerprint Server SDKs](https://dev.fingerprint.com/docs/backend-libraries). 
 
-This repository contains OpenAPI definition for the Fingerprint Pro server API.
-Definition [is published to the GitHub Pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/) with the Swagger UI app, so you can use it to try API or generate types for your code.
-You can get the latest API definition by this URL [https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
+## Getting started
+
+* The OpenAPI schema is published to the [Fingerprint API reference](https://dev.fingerprint.com/reference/pro-server-api) and also as a [Swagger UI app on GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/). 
+* You can also [download the latest schema file here](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
+
+> [!NOTE]  
+> Please note that some signals and attributes present in the schema are only available to Enterprise or Pro Plus customers on request, as indicated in the signal description.
 
 ## FAQ
 
 #### Why OpenAPI 3.0.3 version?
 
-It is the last version supported by Swagger UI. Here is [the issue about 3.1 version](https://github.com/swagger-api/swagger-ui/issues/5891).
+It is the last version supported by Swagger UI. See more information in the [related GitHub issue](https://github.com/swagger-api/swagger-ui/issues/5891).
+
+## Support and feedback
+
+To report problems, ask questions, or provide feedback, please use [Issues](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/issues). If you need private support, you can email us at [oss-support@fingerprint.com](mailto:oss-support@fingerprint.com).
+
+## License
+
+This project is licensed under the [MIT license](./LICENSE).
 
