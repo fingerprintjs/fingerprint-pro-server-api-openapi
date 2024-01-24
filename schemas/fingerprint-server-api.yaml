@@ -797,6 +797,8 @@ components:
               $ref: '#/components/schemas/HighActivityResult'
             locationSpoofing:
               $ref: '#/components/schemas/LocationSpoofingResult'
+            suspectScore:
+              $ref: '#/components/schemas/SuspectScoreResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1298,6 +1300,14 @@ components:
               $ref: '#/components/schemas/LocationSpoofingResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        suspectScore:
+          title: SignalResponseSuspectScore
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/SuspectScoreResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
         rawDeviceAttributes:
           title: SignalResponseRawDeviceAttributes
           type: object
@@ -1499,6 +1509,13 @@ components:
           type: boolean
           description: Flag indicating whether the request came from a device with location spoofing enabled.
           example: false
+    SuspectScoreResult:
+      type: object
+      properties:
+        result:
+          type: integer
+          description: Integer value that determines fraudulent actor probability based on certain Smart Signals patterns.
+          example: 0
     RawDeviceAttributesResult:
       type: object
       description: >

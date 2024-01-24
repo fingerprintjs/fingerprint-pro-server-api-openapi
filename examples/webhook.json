@@ -183,5 +183,8 @@
   },
   "locationSpoofing": {
     "result": true
+  },
+  "suspectScore": {
+    "result": 0
   }
 }
