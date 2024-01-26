@@ -1514,7 +1514,9 @@ components:
       properties:
         result:
           type: integer
-          description: Integer value that determines fraudulent actor probability based on certain Smart Signals patterns.
+          description: >
+            Suspect Score is an easy way to integrate Smart Signals into your fraud protection work flow. 
+            It is a weighted representation of all Smart Signals present in the payload that helps identify suspicious activity.
           example: 0
     RawDeviceAttributesResult:
       type: object
