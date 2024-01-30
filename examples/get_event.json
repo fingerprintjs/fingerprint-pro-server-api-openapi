@@ -227,6 +227,11 @@
       "data": {
         "result": false
       }
+    },
+    "suspectScore": {
+      "data": {
+        "result": 0
+      }
     }
   }
 }

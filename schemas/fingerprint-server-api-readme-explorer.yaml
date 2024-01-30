@@ -239,6 +239,9 @@ paths:
                       locationSpoofing:
                         data:
                           result: false
+                      suspectScore:
+                        data:
+                          result: 0
                 allErrorsResponse:
                   summary: All failed signals
                   value:
@@ -321,6 +324,18 @@ paths:
                             error:
                               name: Error
                               message: internal server error
+                      locationSpoofing:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      highActivity:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      suspectScore:
+                        error:
+                          code: Failed
+                          message: internal server error
                 withBotdError:
                   summary: BotD error
                   value:
@@ -3935,6 +3950,8 @@ components:
           $ref: '#/components/schemas/HighActivityResult'
         locationSpoofing:
           $ref: '#/components/schemas/LocationSpoofingResult'
+        suspectScore:
+          $ref: '#/components/schemas/SuspectScoreResult'
         requestId:
           description: Unique identifier of the user's identification request.
           type: string
@@ -4583,6 +4600,14 @@ components:
               $ref: '#/components/schemas/LocationSpoofingResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        suspectScore:
+          title: SignalResponseSuspectScore
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/SuspectScoreResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
         rawDeviceAttributes:
           title: SignalResponseRawDeviceAttributes
           type: object
@@ -4808,6 +4833,19 @@ components:
             Flag indicating whether the request came from a device with location
             spoofing enabled.
           example: false
+    SuspectScoreResult:
+      type: object
+      properties:
+        result:
+          type: integer
+          description: >
+            Suspect Score is an easy way to integrate Smart Signals into your
+            fraud protection work flow.  It is a weighted representation of all
+            Smart Signals present in the payload that helps identify suspicious
+            activity. The value range is [0; S] where S is sum of all Smart
+            Signals weights.  See more details here:
+            https://dev.fingerprint.com/docs/suspect-score
+          example: 0
     RawDeviceAttributesResult:
       type: object
       description: >
