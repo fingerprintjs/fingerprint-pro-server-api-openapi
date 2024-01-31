@@ -184,6 +184,7 @@ paths:
                         data:
                           result: false
                           originTimezone: Europe/Berlin
+                          originCountry: unknown
                           methods:
                             timezoneMismatch: false
                             publicVPN: false
@@ -4771,6 +4772,12 @@ components:
           type: string
           description: Local timezone which is used in timezoneMismatch method.
           example: Europe/Berlin
+        originCountry:
+          type: string
+          description: >-
+            Country of the request (only for Android SDK version >= 2.4.0, ISO
+            3166 format or unknown).
+          example: unknown
         methods:
           type: object
           properties:
