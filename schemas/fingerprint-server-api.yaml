@@ -1137,9 +1137,13 @@ components:
         clonedApp:
           title: SignalResponseClonedApp
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
+              required:
+                - result
               properties:
                 result:
                   type: boolean
