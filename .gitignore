@@ -3,6 +3,9 @@
 /node_modules/
 .env
 
+# Generated zod schema
+/test/zodSchema.ts
+
 # Random excess stuff
 .DS_Store
 .idea/

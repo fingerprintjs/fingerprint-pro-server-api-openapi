@@ -9,6 +9,7 @@
     "build": "webpack",
     "validateSchema": "node ./bin/validateSchema.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "zod-schema": "npx openapi-zod-client './schemas/fingerprint-server-api.yaml' -o './test/zodSchema.ts' --strict-objects",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
     "lint:fix": "yarn lint --fix"
   },
@@ -49,7 +50,9 @@
     "zod": "^3.22.4"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs-pro-server-api": "^3.1.0",
     "express": "^4.18.2",
+    "openapi-zod-client": "^1.15.1",
     "playwright": "^1.41.2"
   }
 }
