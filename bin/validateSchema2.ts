@@ -32,14 +32,17 @@ ajv.addFormat('date-time', {
 const OPEN_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
 
 // Validation Helper
-type ValidateJSONArgs = {
+const validateJson = ({
+  json,
+  validator,
+  jsonName,
+  schemaName,
+}: {
   json: Record<string, any>;
   validator: ValidateFunction;
   jsonName: string;
   schemaName: string;
-};
-
-const validateJson = ({ json, validator, jsonName, schemaName }: ValidateJSONArgs) => {
+}) => {
   const valid = validator(json);
   if (valid) {
     console.log(`✅ ${schemaName} schema matches ${jsonName}`);
@@ -98,7 +101,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
       const eventResponse = await client.getEvent(subscription.requestId);
       validateJson({
         json: eventResponse,
-        jsonName: `Live Server API EventResponse for '${subscription.name}' > '${subscription.requestId}'`,
+        jsonName: `🌐 Live Server API EventResponse for '${subscription.name}' > '${subscription.requestId}'`,
         validator: eventValidator,
         schemaName: 'EventResponse',
       });
@@ -134,7 +137,7 @@ async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[
       const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
       validateJson({
         json: visitsResponse,
-        jsonName: `Live Server API Visits Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Visits Response for '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsResponseValidator,
         schemaName: 'VisitsResponse',
       });
@@ -192,6 +195,38 @@ async function validateEventError404Schema() {
   );
 }
 
+async function validateVisitsError403Schema() {
+  console.log('\nValidating VisitsError403 schema: \n');
+  const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorVisits403');
+  const visitsError403Validator = ajv.compile(visitsError403Schema);
+
+  // Validate against example file
+  ['./examples/get_visits_403_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: visitsError403Validator,
+      schemaName: 'VisitsError403Schema',
+    })
+  );
+}
+
+async function validateVisitsError429Schema() {
+  console.log('\nValidating VisitsError429 schema: \n');
+  const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ManyRequestsResponse');
+  const visitsError429Validator = ajv.compile(visitsError429Schema);
+
+  // Validate against example file
+  ['./examples/get_visits_429_too_many_requests_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: visitsError429Validator,
+      schemaName: 'VisitsError429Schema',
+    })
+  );
+}
+
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
@@ -211,4 +246,6 @@ async function validateEventError404Schema() {
   await validateWebhookSchema();
   await validateEventError403Schema();
   await validateEventError404Schema();
+  await validateVisitsError403Schema();
+  await validateVisitsError429Schema();
 })();
