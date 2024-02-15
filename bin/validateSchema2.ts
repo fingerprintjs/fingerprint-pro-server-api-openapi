@@ -3,6 +3,11 @@ import addFormats from 'ajv-formats';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema';
+import { generateIdentificationEvent } from '../test/generateIdentificationEvent';
+import { FingerprintJsServerApiClient, Region } from '@fingerprintjs/fingerprintjs-pro-server-api';
+import { z } from 'zod';
+import { parseEnv } from 'znv';
+import 'dotenv/config';
 
 /**
  * Set up AJV (validation library)
@@ -44,10 +49,28 @@ const validateJson = ({ json, validator, jsonName, schemaName }: ValidateJSONArg
   }
 };
 
-function validateEventResponseSchema() {
+// Zod helper for parsing environment variables
+const testSubscriptionEnvVariableZod = z.object({
+  name: z.string(),
+  publicApiKey: z.string(),
+  serverApiKey: z.string(),
+  region: z.union([z.literal('us'), z.literal('eu'), z.literal('ap')]),
+});
+type TestSubscription = z.infer<typeof testSubscriptionEnvVariableZod> & { requestId: string; visitorId: string };
+
+// Region map for Server API SDK
+const REGION_MAP = {
+  us: Region.Global,
+  eu: Region.EU,
+  ap: Region.AP,
+} as const;
+
+async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventResponse schema: \n');
   const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/EventResponse');
   const eventValidator = ajv.compile(eventResponseSchema);
+
+  // Validate against example files
   [
     './examples/get_event.json',
     './examples/get_event_all_errors.json',
@@ -63,6 +86,41 @@ function validateEventResponseSchema() {
       schemaName: 'EventResponse',
     })
   );
+
+  // Validate against live Server responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const eventResponse = await client.getEvent(subscription.requestId);
+      validateJson({
+        json: eventResponse,
+        jsonName: `Live Server API EventResponse for '${subscription.name}' > '${subscription.requestId}'`,
+        validator: eventValidator,
+        schemaName: 'EventResponse',
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
-validateEventResponseSchema();
+(async () => {
+  // Parse an array of test subscriptions objects from environment variables
+  const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
+    TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
+  });
+
+  // Generate and identification event for each subscription and add the fresh requestId and visitorId to the object
+  const testSubscriptions: TestSubscription[] = [];
+  for (const sub of TEST_SUBSCRIPTIONS) {
+    const { requestId, visitorId } = await generateIdentificationEvent(sub.publicApiKey, sub.region);
+    testSubscriptions.push({ ...sub, requestId, visitorId });
+  }
+
+  // Validate all parts of the schema against static examples AND live Server API responses from each test subscription
+  await validateEventResponseSchema(testSubscriptions);
+})();

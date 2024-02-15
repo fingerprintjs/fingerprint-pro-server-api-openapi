@@ -51,5 +51,3 @@ export async function generateIdentificationEvent(
   console.log(`visitorId: ${visitorId}`);
   return { requestId, visitorId };
 }
-
-generateIdentificationEvent(PUBLIC_API_KEY, 'eu');
