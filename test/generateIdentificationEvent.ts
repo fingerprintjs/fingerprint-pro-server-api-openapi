@@ -2,14 +2,16 @@ import express from 'express';
 import playwright from 'playwright';
 const app = express();
 
-const PUBLIC_API_KEY = '2UZgp3skqLzfJpFUGUrw';
-// const PUBLIC_API_KEY = '30AlhjJaxQ8eyfTZcCol';
 const PORT = 3000;
 
 export async function generateIdentificationEvent(
   publicApiKey: string,
-  region: 'us' | 'eu' | 'ap' = 'us'
+  region: 'us' | 'eu' | 'ap' = 'us',
+  subscriptionName?: string
 ): Promise<{ requestId: string; visitorId: string }> {
+  if (subscriptionName) {
+    console.log('\nGenerarating identification event for subscription: ', subscriptionName);
+  }
   // Run a hello world HTTP Server
   app.get('/', (_req, res) => {
     res.send('Hello, World! Page loaded correctly.');

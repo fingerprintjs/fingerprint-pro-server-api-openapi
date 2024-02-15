@@ -42,9 +42,9 @@ type ValidateJSONArgs = {
 const validateJson = ({ json, validator, jsonName, schemaName }: ValidateJSONArgs) => {
   const valid = validator(json);
   if (valid) {
-    console.log(`${jsonName} matches ${schemaName} schema ✅`);
+    console.log(`✅ ${schemaName} schema matches ${jsonName}`);
   } else {
-    console.error(`${jsonName} does not match ${schemaName} schema ❌`);
+    console.error(`❌ ${schemaName} schema does not match ${jsonName} schema `);
     console.error(validator.errors);
   }
 };
@@ -72,12 +72,12 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
 
   // Validate against example files
   [
-    './examples/get_event.json',
-    './examples/get_event_all_errors.json',
-    './examples/get_event_botd_failed_error.json',
-    './examples/get_event_botd_too_many_requests_error.json',
-    './examples/get_event_identification_failed_error.json',
-    './examples/get_event_identification_too_many_requests_error.json',
+    './examples/get_event_200.json',
+    './examples/get_event_200_all_errors.json',
+    './examples/get_event_200_botd_failed_error.json',
+    './examples/get_event_200_botd_too_many_requests_error.json',
+    './examples/get_event_200_identification_failed_error.json',
+    './examples/get_event_200_identification_too_many_requests_error.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
@@ -87,7 +87,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
     })
   );
 
-  // Validate against live Server responses
+  // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
     const client = new FingerprintJsServerApiClient({
       apiKey: subscription.serverApiKey,
@@ -108,6 +108,90 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
   }
 }
 
+async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[]) {
+  console.log('\nValidating Visits schema: \n');
+  const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/Response');
+  const visitsResponseValidator = ajv.compile(visitsResponseSchema);
+
+  // Validate against example files
+  ['./examples/get_visits_200_limit_1.json', './examples/get_visits_200_limit_500.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: visitsResponseValidator,
+      schemaName: 'VisitsResponse',
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
+      validateJson({
+        json: visitsResponse,
+        jsonName: `Live Server API Visits Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: visitsResponseValidator,
+        schemaName: 'VisitsResponse',
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+async function validateWebhookSchema() {
+  console.log('\nValidating Webhook schema: \n');
+  const webhookSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/WebhookVisit');
+  const webhookValidator = ajv.compile(webhookSchema);
+
+  // Validate against example file
+  ['./examples/webhook.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: webhookValidator,
+      schemaName: 'WebhookSchema',
+    })
+  );
+}
+
+async function validateEventError403Schema() {
+  console.log('\nValidating EventError403 schema: \n');
+  const eventError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent403Response');
+  const eventError403Validator = ajv.compile(eventError403Schema);
+
+  // Validate against example file
+  ['./examples/get_event_403_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: eventError403Validator,
+      schemaName: 'EventError403Schema',
+    })
+  );
+}
+
+async function validateEventError404Schema() {
+  console.log('\nValidating EventError404 schema: \n');
+  const eventError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent404Response');
+  const eventError404Validator = ajv.compile(eventError404Schema);
+
+  // Validate against example file
+  ['./examples/get_event_404_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: eventError404Validator,
+      schemaName: 'EventError404Schema',
+    })
+  );
+}
+
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
@@ -117,10 +201,14 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
   // Generate and identification event for each subscription and add the fresh requestId and visitorId to the object
   const testSubscriptions: TestSubscription[] = [];
   for (const sub of TEST_SUBSCRIPTIONS) {
-    const { requestId, visitorId } = await generateIdentificationEvent(sub.publicApiKey, sub.region);
+    const { requestId, visitorId } = await generateIdentificationEvent(sub.publicApiKey, sub.region, sub.name);
     testSubscriptions.push({ ...sub, requestId, visitorId });
   }
 
   // Validate all parts of the schema against static examples AND live Server API responses from each test subscription
   await validateEventResponseSchema(testSubscriptions);
+  await validateVisitsResponseSchema(testSubscriptions);
+  await validateWebhookSchema();
+  await validateEventError403Schema();
+  await validateEventError404Schema();
 })();

@@ -64,22 +64,22 @@ paths:
               examples:
                 fullResponse:
                   summary: Example response
-                  externalValue: '/examples/get_event.json'
+                  externalValue: '/examples/get_event_200.json'
                 allErrorsResponse:
                   summary: All failed signals
-                  externalValue: '/examples/get_event_all_errors.json'
+                  externalValue: '/examples/get_event_200_all_errors.json'
                 withBotdError:
                   summary: BotD error
-                  externalValue: '/examples/get_event_botd_failed_error.json'
+                  externalValue: '/examples/get_event_200_botd_failed_error.json'
                 withBotdTooManyRequestsError:
                   summary: BotD too many requests error
-                  externalValue: '/examples/get_event_botd_too_many_requests_error.json'
+                  externalValue: '/examples/get_event_200_botd_too_many_requests_error.json'
                 withIdentificationError:
                   summary: Identification error
-                  externalValue: '/examples/get_event_identification_failed_error.json'
+                  externalValue: '/examples/get_event_200_identification_failed_error.json'
                 withIdentificationTooManyRequestsError:
                   summary: Identification too many requests error
-                  externalValue: '/examples/get_event_identification_too_many_requests_error.json'
+                  externalValue: '/examples/get_event_200_identification_too_many_requests_error.json'
         '403':
           description: Forbidden
           content:
@@ -336,10 +336,10 @@ paths:
               examples:
                 limit1:
                   summary: Request with limit=1
-                  externalValue: '/examples/visits_limit_1.json'
+                  externalValue: '/examples/get_visits_200_limit_1.json'
                 limit500:
                   summary: Request with limit=500
-                  externalValue: '/examples/visits_limit_500.json'
+                  externalValue: '/examples/get_visits_200_limit_500.json'
         '403':
           description: Forbidden. The API Key is probably missing or incorrect.
           content:
@@ -349,7 +349,7 @@ paths:
               examples:
                 example:
                   summary: Forbidden
-                  externalValue: '/examples/visits_403_error.json'
+                  externalValue: '/examples/get_visits_403_error.json'
         '429':
           description: Too Many Requests
           headers:
@@ -366,7 +366,7 @@ paths:
               examples:
                 example:
                   summary: Example too many requests error response
-                  externalValue: '/examples/visits_too_many_requests_error.json'
+                  externalValue: '/examples/get_visits_429_too_many_requests_error.json'
       x-readme:
         code-samples:
           - language: node
