@@ -49,6 +49,7 @@ const validateJson = ({
   } else {
     console.error(`❌ ${schemaName} schema does not match ${jsonName} schema `);
     console.error(validator.errors);
+    exitCode = 1;
   }
 };
 
@@ -227,6 +228,8 @@ async function validateVisitsError429Schema() {
   );
 }
 
+let exitCode: number = 0;
+
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
@@ -248,4 +251,12 @@ async function validateVisitsError429Schema() {
   await validateEventError404Schema();
   await validateVisitsError403Schema();
   await validateVisitsError429Schema();
+
+  if (exitCode === 0) {
+    console.log('\n ✅✅✅All schemas are valid');
+  } else {
+    console.error('\n ❌❌❌Some schemas are invalid, see errors above.');
+  }
+
+  process.exit(exitCode);
 })();
