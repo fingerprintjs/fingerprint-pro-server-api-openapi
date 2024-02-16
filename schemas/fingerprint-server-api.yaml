@@ -858,7 +858,6 @@ components:
           $ref: '#/components/schemas/SeenAt'
       required:
         - browserDetails
-        - confidence
         - firstSeenAt
         - incognito
         - ip
@@ -867,6 +866,7 @@ components:
         - time
         - timestamp
         - url
+        - tag
         - visitorFound
       title: Visit
     BrowserDetails:
@@ -1100,6 +1100,8 @@ components:
                   description: >
                     `true` if we detected incognito mode used in the browser, `false` otherwise.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         rootApps:
@@ -1116,6 +1118,8 @@ components:
                     • `true` - Root Management Apps detected (e.g. Magisk)
                     • `false` - No Root Management Apps detected or the client is not Android.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         emulator:
@@ -1132,6 +1136,8 @@ components:
                     • `true` - Emulated environment detected (e.g. launch inside of AVD)
                     • `false` - No signs of emulated environment detected or the client is not Android.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         clonedApp:
@@ -1148,6 +1154,8 @@ components:
                     • `true` - Presence of app cloners work detected (e.g. fully cloned application found or launch of it inside of a not main working profile detected).
                     • `false` - No signs of cloned application detected or the client is not Android.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         factoryReset:
@@ -1170,6 +1178,9 @@ components:
                   type: integer
                   format: int64
                   example: 1654815517198
+              required:
+                - time
+                - timestamp
             error:
               $ref: '#/components/schemas/ProductError'
         jailbroken:
@@ -1186,6 +1197,8 @@ components:
                     • `true` - Jailbreak detected
                     • `false` - No signs of jailbreak or the client is not iOS.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         frida:
@@ -1202,6 +1215,8 @@ components:
                     • `true` - Frida detected
                     • `false` - No signs of Frida or the client is not iOS.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         ipBlocklist:
@@ -1224,6 +1239,8 @@ components:
                   description: >
                     `true` if the request IP address is a known tor exit node, `false` otherwise.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         privacySettings:
@@ -1238,6 +1255,8 @@ components:
                   description: >
                     `true` if the request is from a privacy aware browser (e.g. Tor) or from a browser in which fingerprinting is blocked. Otherwise `false`.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         virtualMachine:
@@ -1252,6 +1271,8 @@ components:
                   description: >
                     `true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         vpn:
@@ -1274,6 +1295,8 @@ components:
                   description: >
                     `true` if the request IP address is used by a public proxy provider, `false` otherwise.
                   example: false
+              required:
+                - result
             error:
               $ref: '#/components/schemas/ProductError'
         tampering:
@@ -1321,6 +1344,10 @@ components:
       properties:
         products:
           $ref: '#/components/schemas/ProductsResponse'
+        error:
+          $ref: '#/components/schemas/ProductError'
+      required:
+        - products
     IdentificationError:
       type: object
       additionalProperties: false
@@ -1377,6 +1404,8 @@ components:
         - url
         - ip
         - time
+        - userAgent
+        - requestId
     BotdDetectionResult:
       type: object
       additionalProperties: false
@@ -1418,6 +1447,9 @@ components:
               $ref: '#/components/schemas/ASN'
             datacenter:
               $ref: '#/components/schemas/DataCenter'
+          required:
+            - address
+            - geolocation
         v6:
           type: object
           additionalProperties: false
@@ -1432,6 +1464,9 @@ components:
               $ref: '#/components/schemas/ASN'
             datacenter:
               $ref: '#/components/schemas/DataCenter'
+          required:
+            - address
+            - geolocation
     IpBlockListResult:
       type: object
       properties:
@@ -1451,6 +1486,12 @@ components:
               type: boolean
               description: IP address was part of a known network attack (SSH/HTTPS).
               example: false
+          required:
+            - emailSpam
+            - attackSource
+      required:
+        - result
+        - details
     VpnResult:
       type: object
       properties:
@@ -1481,6 +1522,14 @@ components:
               type: boolean
               description: This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.
               example: false
+          required:
+            - timezoneMismatch
+            - publicVPN
+            - auxiliaryMobile
+      required:
+        - result
+        - originTimezone
+        - methods
     TamperingResult:
       type: object
       properties:
@@ -1494,6 +1543,9 @@ components:
           example: 0
           minimum: 0
           maximum: 1
+      required:
+        - result
+        - anomalyScore
     HighActivityResult:
       type : object
       properties:
@@ -1506,6 +1558,8 @@ components:
           description: Number of requests from the same visitor in the previous day.
           example: 10
           minimum: 1
+      required:
+        - result
     LocationSpoofingResult:
       type: object
       properties:
@@ -1513,6 +1567,8 @@ components:
           type: boolean
           description: Flag indicating whether the request came from a device with location spoofing enabled.
           example: false
+      required:
+        - result
     SuspectScoreResult:
       type: object
       properties:
@@ -1524,6 +1580,8 @@ components:
             The value range is [0; S] where S is sum of all Smart Signals weights. 
             See more details here: https://dev.fingerprint.com/docs/suspect-score
           example: 0
+      required:
+        - result
     RawDeviceAttributesResult:
       type: object
       description: >
