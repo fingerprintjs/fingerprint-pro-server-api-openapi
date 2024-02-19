@@ -72,6 +72,20 @@ const REGION_MAP = {
 async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventResponse schema: \n');
   const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/EventResponse');
+
+  // Make the schema more strict by adding `additionalProperties: false` to all regular product data schemas
+  Object.keys(eventResponseSchema.definitions['ProductsResponse']['properties'])
+    .filter((key) => key !== 'rawDeviceAttributes')
+    .forEach((key) => {
+      const productData = eventResponseSchema.definitions['ProductsResponse']['properties'][key]['properties']['data'];
+      if (productData['$ref']) {
+        const definitionKey = productData['$ref'].replace('#/definitions/', '');
+        eventResponseSchema.definitions[definitionKey].additionalProperties = false;
+      } else {
+        productData.additionalProperties = false;
+      }
+    });
+
   const eventValidator = ajv.compile(eventResponseSchema);
 
   // Validate against example files
