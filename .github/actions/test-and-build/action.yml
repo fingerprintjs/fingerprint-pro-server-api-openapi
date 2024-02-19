@@ -10,6 +10,9 @@ inputs:
   requestId:
     description: 'Request ID for testing events endpoint'
     required: true
+  testSubscriptions:
+    description: 'An array of test subscription objects, see validateSchema.ts for the expected format'
+    required: true
 runs:
   using: 'composite'
   steps:
