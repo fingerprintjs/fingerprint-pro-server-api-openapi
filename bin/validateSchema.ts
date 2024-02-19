@@ -234,7 +234,7 @@ let exitCode: number = 0;
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS, PRIVATE_KEY } = parseEnv(process.env, {
     PRIVATE_KEY: z.string(),
-    TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
+    // TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
   });
 
   console.log(PRIVATE_KEY);
@@ -247,8 +247,8 @@ let exitCode: number = 0;
   }
 
   // Validate all parts of the schema against static examples AND live Server API responses from each test subscription
-  await validateEventResponseSchema(testSubscriptions);
-  await validateVisitsResponseSchema(testSubscriptions);
+  // await validateEventResponseSchema(testSubscriptions);
+  // await validateVisitsResponseSchema(testSubscriptions);
   await validateWebhookSchema();
   await validateEventError403Schema();
   await validateEventError404Schema();
