@@ -6,7 +6,7 @@ import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema'
 import { generateIdentificationEvent } from '../test/generateIdentificationEvent';
 import { FingerprintJsServerApiClient, Region } from '@fingerprintjs/fingerprintjs-pro-server-api';
 import { z } from 'zod';
-// import { parseEnv } from 'znv';
+import { parseEnv } from 'znv';
 import 'dotenv/config';
 
 /**
@@ -239,15 +239,19 @@ let exitCode: number = 0;
 
   // const TEST_SUBSCRIPTIONS = [{ name: 'test', publicApiKey: 'test', serverApiKey: 'test', region: 'us' }] as const;
 
+  console.log('PRIVATE_KEY');
   console.log(process.env.PRIVATE_KEY);
+  console.log(typeof process.env.PRIVATE_KEY);
+  console.log(process.env.PRIVATE_KEY?.length);
+
+  console.log('TEST_SUBSCRIPTIONS');
   console.log(process.env.TEST_SUBSCRIPTIONS);
   console.log(typeof process.env.TEST_SUBSCRIPTIONS);
   console.log(process.env.TEST_SUBSCRIPTIONS?.length);
-  const PRIVATE_KEY = process.env.PRIVATE_KEY as string;
-  const TEST_SUBSCRIPTIONS = process.env.TEST_SUBSCRIPTIONS as unknown as TestSubscription[];
-  console.log(PRIVATE_KEY);
-  console.log(TEST_SUBSCRIPTIONS);
-  console.log(Array.isArray(TEST_SUBSCRIPTIONS));
+
+  const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
+    TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
+  });
 
   // Generate and identification event for each subscription and add the fresh requestId and visitorId to the object
   const testSubscriptions: TestSubscription[] = [];
