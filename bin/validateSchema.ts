@@ -232,9 +232,12 @@ let exitCode: number = 0;
 
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
-  const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
+  const { TEST_SUBSCRIPTIONS, PRIVATE_KEY } = parseEnv(process.env, {
+    PRIVATE_KEY: z.string(),
     TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
   });
+
+  console.log(PRIVATE_KEY);
 
   // Generate and identification event for each subscription and add the fresh requestId and visitorId to the object
   const testSubscriptions: TestSubscription[] = [];
