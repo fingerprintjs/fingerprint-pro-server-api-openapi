@@ -69,7 +69,7 @@ const REGION_MAP = {
   ap: Region.AP,
 } as const;
 
-async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
+async function validateEventResponseSchema(testSubscriptions: TestSubscription[] = []) {
   console.log('\nValidating EventResponse schema: \n');
   const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/EventResponse');
   const eventValidator = ajv.compile(eventResponseSchema);
@@ -112,7 +112,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
   }
 }
 
-async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[]) {
+export async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[] = []) {
   console.log('\nValidating Visits schema: \n');
   const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/Response');
   const visitsResponseValidator = ajv.compile(visitsResponseSchema);
@@ -232,10 +232,12 @@ let exitCode: number = 0;
 
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
-  const { TEST_SUBSCRIPTIONS, PRIVATE_KEY } = parseEnv(process.env, {
+  const { PRIVATE_KEY } = parseEnv(process.env, {
     PRIVATE_KEY: z.string(),
     // TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
   });
+
+  const TEST_SUBSCRIPTIONS = [{ name: 'test', publicApiKey: 'test', serverApiKey: 'test', region: 'us' }] as const;
 
   console.log(PRIVATE_KEY);
 
@@ -247,8 +249,8 @@ let exitCode: number = 0;
   }
 
   // Validate all parts of the schema against static examples AND live Server API responses from each test subscription
-  // await validateEventResponseSchema(testSubscriptions);
-  // await validateVisitsResponseSchema(testSubscriptions);
+  await validateEventResponseSchema(testSubscriptions);
+  await validateVisitsResponseSchema(testSubscriptions);
   await validateWebhookSchema();
   await validateEventError403Schema();
   await validateEventError404Schema();
