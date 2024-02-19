@@ -6,7 +6,7 @@ import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema'
 import { generateIdentificationEvent } from '../test/generateIdentificationEvent';
 import { FingerprintJsServerApiClient, Region } from '@fingerprintjs/fingerprintjs-pro-server-api';
 import { z } from 'zod';
-import { parseEnv } from 'znv';
+// import { parseEnv } from 'znv';
 import 'dotenv/config';
 
 /**
