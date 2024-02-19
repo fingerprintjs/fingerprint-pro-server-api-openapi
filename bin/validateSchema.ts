@@ -69,7 +69,7 @@ const REGION_MAP = {
   ap: Region.AP,
 } as const;
 
-async function validateEventResponseSchema(testSubscriptions: TestSubscription[] = []) {
+async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventResponse schema: \n');
   const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/EventResponse');
   const eventValidator = ajv.compile(eventResponseSchema);
@@ -112,7 +112,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
   }
 }
 
-export async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[] = []) {
+export async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating Visits schema: \n');
   const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/Response');
   const visitsResponseValidator = ajv.compile(visitsResponseSchema);
@@ -164,7 +164,7 @@ async function validateWebhookSchema() {
   );
 }
 
-async function validateEventError403Schema() {
+async function validateEventError403Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventError403 schema: \n');
   const eventError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent403Response');
   const eventError403Validator = ajv.compile(eventError403Schema);
@@ -178,9 +178,31 @@ async function validateEventError403Schema() {
       schemaName: 'EventError403Schema',
     })
   );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: 'Wrong Server API Key',
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const eventResponse = await client.getEvent(subscription.requestId);
+      throw new Error(`Request for ${eventResponse} should have failed`);
+    } catch (error) {
+      // Node SDK adds "status" to the error response, just get rid of it and validate the rest
+      delete error.status;
+      validateJson({
+        json: error,
+        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: eventError403Validator,
+        schemaName: 'EventError403Schema',
+      });
+    }
+  }
 }
 
-async function validateEventError404Schema() {
+async function validateEventError404Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventError404 schema: \n');
   const eventError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent404Response');
   const eventError404Validator = ajv.compile(eventError404Schema);
@@ -194,9 +216,31 @@ async function validateEventError404Schema() {
       schemaName: 'EventError404Schema',
     })
   );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const eventResponse = await client.getEvent('non-existent-request-id');
+      throw new Error(`Request for ${eventResponse} should have failed`);
+    } catch (error) {
+      // Node SDK adds "status" to the error response, just get rid of it and validate the rest
+      delete error.status;
+      validateJson({
+        json: error,
+        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: eventError404Validator,
+        schemaName: 'EventError404Schema',
+      });
+    }
+  }
 }
 
-async function validateVisitsError403Schema() {
+async function validateVisitsError403Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating VisitsError403 schema: \n');
   const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorVisits403');
   const visitsError403Validator = ajv.compile(visitsError403Schema);
@@ -210,6 +254,28 @@ async function validateVisitsError403Schema() {
       schemaName: 'VisitsError403Schema',
     })
   );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: 'Wrong Server API Key',
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
+      throw new Error(`Request for ${visitsResponse} should have failed`);
+    } catch (error) {
+      // Node SDK adds "status" to the error response, just get rid of it and validate the rest
+      delete error.status;
+      validateJson({
+        json: error,
+        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: visitsError403Validator,
+        schemaName: 'VisitsError403Schema',
+      });
+    }
+  }
 }
 
 async function validateVisitsError429Schema() {
@@ -258,9 +324,9 @@ let exitCode: number = 0;
   await validateEventResponseSchema(testSubscriptions);
   await validateVisitsResponseSchema(testSubscriptions);
   await validateWebhookSchema();
-  await validateEventError403Schema();
-  await validateEventError404Schema();
-  await validateVisitsError403Schema();
+  await validateEventError403Schema(testSubscriptions);
+  await validateEventError404Schema(testSubscriptions);
+  await validateVisitsError403Schema(testSubscriptions);
   await validateVisitsError429Schema();
 
   if (exitCode === 0) {
