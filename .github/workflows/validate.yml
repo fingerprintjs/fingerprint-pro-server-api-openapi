@@ -16,3 +16,4 @@ jobs:
           visitorId: '${{ secrets.VISITOR_ID }}'
           privateKey: '${{ secrets.PRIVATE_KEY }}'
           requestId: '${{ secrets.REQUEST_ID }}'
+          testSubscriptions: '${{ secrets.TEST_SUBSCRIPTIONS }}'

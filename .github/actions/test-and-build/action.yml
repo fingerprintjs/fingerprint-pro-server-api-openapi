@@ -44,4 +44,5 @@ runs:
         VISITOR_ID: '${{ inputs.visitorId }}'
         PRIVATE_KEY: '${{ inputs.privateKey }}'
         REQUEST_ID: '${{ inputs.requestId }}'
+        TEST_SUBSCRIPTIONS: '${{ inputs.testSubscriptions }}'
       run: yarn validateSchema
