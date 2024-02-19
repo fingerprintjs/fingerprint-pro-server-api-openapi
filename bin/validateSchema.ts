@@ -239,13 +239,14 @@ let exitCode: number = 0;
 
   // const TEST_SUBSCRIPTIONS = [{ name: 'test', publicApiKey: 'test', serverApiKey: 'test', region: 'us' }] as const;
 
-  const PRIVATE_KEY = process.env.PRIVATE_KEY as string;
-  const TEST_SUBSCRIPTIONS = JSON.parse(process.env.TEST_SUBSCRIPTIONS as string) as TestSubscription[];
-  console.log(PRIVATE_KEY);
-  console.log(TEST_SUBSCRIPTIONS);
   console.log(process.env.PRIVATE_KEY);
   console.log(process.env.TEST_SUBSCRIPTIONS);
-  console.log(typeof TEST_SUBSCRIPTIONS);
+  console.log(typeof process.env.TEST_SUBSCRIPTIONS);
+  console.log(process.env.TEST_SUBSCRIPTIONS?.length);
+  const PRIVATE_KEY = process.env.PRIVATE_KEY as string;
+  const TEST_SUBSCRIPTIONS = process.env.TEST_SUBSCRIPTIONS as unknown as TestSubscription[];
+  console.log(PRIVATE_KEY);
+  console.log(TEST_SUBSCRIPTIONS);
   console.log(Array.isArray(TEST_SUBSCRIPTIONS));
 
   // Generate and identification event for each subscription and add the fresh requestId and visitorId to the object
