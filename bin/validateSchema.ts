@@ -311,17 +311,6 @@ async function validateVisitsError429Schema() {
 let exitCode: number = 0;
 
 (async () => {
-  // Debugging env variables in GitHub actions 🤦
-  console.log('PRIVATE_KEY');
-  console.log(process.env.PRIVATE_KEY);
-  console.log(typeof process.env.PRIVATE_KEY);
-  console.log(process.env.PRIVATE_KEY?.length);
-
-  console.log('TEST_SUBSCRIPTIONS');
-  console.log(process.env.TEST_SUBSCRIPTIONS);
-  console.log(typeof process.env.TEST_SUBSCRIPTIONS);
-  console.log(process.env.TEST_SUBSCRIPTIONS?.length);
-
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
     TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
@@ -344,9 +333,9 @@ let exitCode: number = 0;
   await validateVisitsError429Schema();
 
   if (exitCode === 0) {
-    console.log('\n ✅✅✅All schemas are valid');
+    console.log('\n ✅✅✅ All schemas are valid');
   } else {
-    console.error('\n ❌❌❌Some schemas are invalid, see errors above.');
+    console.error('\n ❌❌❌ Some schemas are invalid, see errors above.');
   }
 
   process.exit(exitCode);
