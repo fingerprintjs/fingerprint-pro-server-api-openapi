@@ -654,6 +654,7 @@ components:
     WebhookVisit:
       allOf:
         - type: object
+          additionalProperties: false
           properties:
             visitorId:
               type: string
@@ -671,6 +672,7 @@ components:
             incognito:
               title: WebhookSignalResponseIncognito
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -680,6 +682,7 @@ components:
             rootApps:
               title: WebhookSignalResponseRootApps
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -691,6 +694,7 @@ components:
             emulator:
               title: WebhookSignalResponseEmulator
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -702,6 +706,7 @@ components:
             clonedApp:
               title: WebhookSignalResponseClonedApp
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -713,6 +718,7 @@ components:
             factoryReset:
               title: WebhookSignalResponseFactoryReset
               type: object
+              additionalProperties: false
               properties:
                 time:
                   title: Time
@@ -730,6 +736,7 @@ components:
             jailbroken:
               title: WebhookSignalResponseJailbroken
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -741,6 +748,7 @@ components:
             frida:
               title: WebhookSignalResponseFrida
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -754,6 +762,7 @@ components:
             tor:
               title: WebhookSignalResponseTor
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -763,6 +772,7 @@ components:
             privacySettings:
               title: WebhookSignalResponsePrivacySettings
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -772,6 +782,7 @@ components:
             virtualMachine:
               title: WebhookSignalResponseVirtualMachine
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1059,6 +1070,7 @@ components:
               allOf:
                 - $ref: '#/components/schemas/Visit'
                 - type: object
+                  additionalProperties: false
                   properties:
                     visitorId:
                       type: string
@@ -1083,6 +1095,7 @@ components:
         ipInfo:
           title: SignalResponseIpInfo
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/IpInfoResult'
@@ -1091,9 +1104,11 @@ components:
         incognito:
           title: SignalResponseIncognito
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1107,9 +1122,11 @@ components:
         rootApps:
           title: SignalResponseRootApps
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1125,9 +1142,11 @@ components:
         emulator:
           title: SignalResponseEmulator
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1143,9 +1162,11 @@ components:
         clonedApp:
           title: SignalResponseClonedApp
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1161,9 +1182,11 @@ components:
         factoryReset:
           title: SignalResponseFactoryReset
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 time:
                   title: Time
@@ -1186,9 +1209,11 @@ components:
         jailbroken:
           title: SignalResponseJailbroken
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1204,9 +1229,11 @@ components:
         frida:
           title: SignalResponseFrida
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1222,6 +1249,7 @@ components:
         ipBlocklist:
           title: SignalResponseIpBlocklist
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/IpBlockListResult'
@@ -1230,9 +1258,11 @@ components:
         tor:
           title: SignalResponseTor
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1246,9 +1276,11 @@ components:
         privacySettings:
           title: SignalResponsePrivacySettings
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1262,9 +1294,11 @@ components:
         virtualMachine:
           title: SignalResponseVirtualMachine
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1278,6 +1312,7 @@ components:
         vpn:
           title: SignalResponseVpn
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/VpnResult'
@@ -1286,9 +1321,11 @@ components:
         proxy:
           title: SignalResponseProxy
           type: object
+          additionalProperties: false
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -1302,6 +1339,7 @@ components:
         tampering:
           title: SignalResponseTampering
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/TamperingResult'
@@ -1310,6 +1348,7 @@ components:
         highActivity:
           title: SignalResponseHighActivity
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/HighActivityResult'
@@ -1318,6 +1357,7 @@ components:
         locationSpoofing:
           title: SignalResponseLocationSpoofing
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/LocationSpoofingResult'
@@ -1326,6 +1366,7 @@ components:
         suspectScore:
           title: SignalResponseSuspectScore
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/SuspectScoreResult'
@@ -1334,9 +1375,12 @@ components:
         rawDeviceAttributes:
           title: SignalResponseRawDeviceAttributes
           type: object
+          additionalProperties: false
           properties:
             data:
               $ref: '#/components/schemas/RawDeviceAttributesResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
@@ -1373,6 +1417,7 @@ components:
       # The true default value for additionalProperties allows extending schema.
       # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
       # additionalProperties: true
+      additionalProperties: false
       description: Contains all the information from Bot Detection product
       properties:
         ip:
@@ -1469,6 +1514,7 @@ components:
             - geolocation
     IpBlockListResult:
       type: object
+      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -1477,6 +1523,7 @@ components:
           example: false
         details:
           type: object
+          additionalProperties: false
           properties:
             emailSpam:
               type: boolean
@@ -1494,6 +1541,7 @@ components:
         - details
     VpnResult:
       type: object
+      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -1509,6 +1557,7 @@ components:
           example: "unknown"
         methods:
           type: object
+          additionalProperties: false
           properties:
             timezoneMismatch:
               type: boolean
@@ -1532,6 +1581,7 @@ components:
         - methods
     TamperingResult:
       type: object
+      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -1548,6 +1598,7 @@ components:
         - anomalyScore
     HighActivityResult:
       type : object
+      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -1562,6 +1613,7 @@ components:
         - result
     LocationSpoofingResult:
       type: object
+      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -1571,6 +1623,7 @@ components:
         - result
     SuspectScoreResult:
       type: object
+      additionalProperties: false
       properties:
         result:
           type: integer
@@ -1609,6 +1662,7 @@ components:
             title: value
     ProductError:
       type: object
+      additionalProperties: false
       properties:
         code:
           type: string
