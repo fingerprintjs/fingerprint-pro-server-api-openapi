@@ -2,7 +2,7 @@
 name: Lint, build and test
 on:
   workflow_call:
-  pull_request_target:
+  pull_request:
 jobs:
   build:
     name: Lint, build and test
