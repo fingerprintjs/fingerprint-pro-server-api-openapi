@@ -41,6 +41,9 @@ runs:
       env:
         PRIVATE_KEY: '${{ inputs.privateKey }}'
       run: yarn build
+    - name: Install Playwright dependencies
+      shell: bash
+      run: yarn playwright install --with-deps chromium
     - name: Validate schema
       shell: bash
       env:
