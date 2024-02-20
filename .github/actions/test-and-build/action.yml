@@ -53,9 +53,10 @@ runs:
         path: |
           ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-    - name: Install Playwright dependencies
+    - name: Install Playwright dependencies if necessary
       shell: bash
       run: yarn playwright install --with-deps chromium
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
     - name: Validate schema
       shell: bash
       env:
