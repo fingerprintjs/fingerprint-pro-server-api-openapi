@@ -794,6 +794,7 @@ components:
             proxy:
               title: WebhookSignalResponseProxy
               type: object
+              additionalProperties: false
               properties:
                 result:
                   type: boolean
@@ -815,9 +816,7 @@ components:
         - $ref: '#/components/schemas/Visit'
     Visit:
       type: object
-      # The true default value for additionalProperties allows extending schema.
-      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
-      # additionalProperties: true
+      additionalProperties: false
       properties:
         requestId:
           description: Unique identifier of the user's identification request.
@@ -1055,9 +1054,6 @@ components:
     ProductsResponse:
       type: object
       description: Contains all information about the request identified by `requestId`, depending on the pricing plan (Pro, Pro Plus, Enterprise)
-      # The true default value for additionalProperties allows extending schema.
-      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
-      # additionalProperties: true
       additionalProperties: false
       properties:
         identification:
@@ -1414,9 +1410,6 @@ components:
         - message
     BotdResult:
       type: object
-      # The true default value for additionalProperties allows extending schema.
-      # However, explicit additionalProperties: true breaks swagger-codegen, therefore commented out.
-      # additionalProperties: true
       additionalProperties: false
       description: Contains all the information from Bot Detection product
       properties:
