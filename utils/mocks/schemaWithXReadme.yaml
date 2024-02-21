@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Fingerprint server API
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: https://api.fpjs.io
+    description: Global
+paths:
+  /visitors/{visitor_id}:
+    get:
+      parameters:
+        - name: visitor_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: mcEozNgqhKgmfXx7ZaMW
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      x-readme:
+        code-samples:
+          - language: node
+            name: Node SDK
+            install: npm install @fingerprintjs/fingerprintjs-pro-server-api
+            code: |
+              import {
+                FingerprintJsServerApiClient,
+                Region,
+              } from '@fingerprintjs/fingerprintjs-pro-server-api'
+  
+              const client = new FingerprintJsServerApiClient({
+                apiKey: 'SERVER_API_KEY', // Replace with your key
+                region: Region.Global, // Replace with your region
+              })
+  
+              // Get visit history of a specific visitor
+              client.getVisitorHistory('VISITOR_ID').then((visitorHistory) => {
+                console.log(visitorHistory)
+              })
+components:
+  schemas:
+    Response:
+      type: object
+      additionalProperties: false
+      properties:
+        visitorId:
+          type: string
+          example: null
+      required:
+        - visitorId
+        - visits
+      title: Response
