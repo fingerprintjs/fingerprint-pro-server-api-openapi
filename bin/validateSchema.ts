@@ -3,7 +3,7 @@ import addFormats from 'ajv-formats';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema';
-import { generateIdentificationEvent } from '../test/generateIdentificationEvent';
+import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent';
 import { FingerprintJsServerApiClient, Region } from '@fingerprintjs/fingerprintjs-pro-server-api';
 import { z } from 'zod';
 import { parseEnv } from 'znv';
@@ -74,6 +74,9 @@ const REGION_MAP = {
   ap: Region.AP,
 } as const;
 
+/**
+ * Validate EventResponse schema
+ */
 async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventResponse schema: \n');
   const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/EventResponse');
@@ -126,11 +129,15 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
         schemaName: 'EventResponse',
       });
     } catch (error) {
-      fail(`❌ Error while validating live Server API EventResponse \n ${error}`);
+      console.error(error);
+      fail(`❌ Error while validating live Server API EventResponse for ${subscription.name}`);
     }
   }
 }
 
+/**
+ * Validate Visits schema
+ */
 export async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating Visits schema: \n');
   const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/Response');
@@ -162,11 +169,15 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
         schemaName: 'VisitsResponse',
       });
     } catch (error) {
-      fail(`❌ Error while validating live Server API VisitsResponse \n ${error}`);
+      console.error(error);
+      fail(`❌ Error while validating live Server API VisitsResponse for ${subscription.name}`);
     }
   }
 }
 
+/**
+ * Validates Webhook schema
+ */
 async function validateWebhookSchema() {
   console.log('\nValidating Webhook schema: \n');
   const webhookSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/WebhookVisit');
@@ -183,6 +194,9 @@ async function validateWebhookSchema() {
   );
 }
 
+/**
+ * Validates EventError403 schema
+ */
 async function validateEventError403Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventError403 schema: \n');
   const eventError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent403Response');
@@ -207,7 +221,7 @@ async function validateEventError403Schema(testSubscriptions: TestSubscription[]
 
     try {
       const eventResponse = await client.getEvent(subscription.requestId);
-      fail(`❌ Request for event ${eventResponse} should have failed`);
+      fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
       // Node SDK adds "status" to the error response, just get rid of it and validate the rest
       delete error.status;
@@ -221,6 +235,9 @@ async function validateEventError403Schema(testSubscriptions: TestSubscription[]
   }
 }
 
+/**
+ * Validate EventError404 schema
+ */
 async function validateEventError404Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating EventError404 schema: \n');
   const eventError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent404Response');
@@ -245,7 +262,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
 
     try {
       const eventResponse = await client.getEvent('non-existent-request-id');
-      fail(`❌ Request for event ${eventResponse} should have failed`);
+      fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
       // Node SDK adds "status" to the error response, just get rid of it and validate the rest
       delete error.status;
@@ -259,6 +276,9 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
   }
 }
 
+/**
+ * Validates VisitsError403 schema
+ */
 async function validateVisitsError403Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating VisitsError403 schema: \n');
   const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorVisits403');
@@ -283,7 +303,7 @@ async function validateVisitsError403Schema(testSubscriptions: TestSubscription[
 
     try {
       const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
-      fail(`❌ Request for visits ${visitsResponse} should have failed`);
+      fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
     } catch (error) {
       // Node SDK adds "status" to the error response, just get rid of it and validate the rest
       delete error.status;
@@ -297,6 +317,9 @@ async function validateVisitsError403Schema(testSubscriptions: TestSubscription[
   }
 }
 
+/**
+ * Validates VisitsError429
+ */
 async function validateVisitsError429Schema() {
   console.log('\nValidating VisitsError429 schema: \n');
   const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ManyRequestsResponse');
@@ -313,6 +336,9 @@ async function validateVisitsError429Schema() {
   );
 }
 
+/**
+ * Main function
+ */
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
