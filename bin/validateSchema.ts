@@ -31,6 +31,13 @@ ajv.addFormat('date-time', {
 // Load API definition
 const OPEN_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
 
+// Global exit code variable and helper
+let exitCode: number = 0;
+const fail = (message: string) => {
+  console.error(message);
+  exitCode = 1;
+};
+
 // Validation Helper
 const validateJson = ({
   json,
@@ -47,9 +54,7 @@ const validateJson = ({
   if (valid) {
     console.log(`✅ ${schemaName} schema matches ${jsonName}`);
   } else {
-    console.error(`❌ ${schemaName} schema does not match ${jsonName} schema `);
-    console.error(validator.errors);
-    exitCode = 1;
+    fail(`❌ ${schemaName} schema does not match ${jsonName} schema \n ${validator.errors}`);
   }
 };
 
@@ -121,7 +126,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
         schemaName: 'EventResponse',
       });
     } catch (error) {
-      console.error(error);
+      fail(`❌ Error while validating live Server API EventResponse \n ${error}`);
     }
   }
 }
@@ -157,7 +162,7 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
         schemaName: 'VisitsResponse',
       });
     } catch (error) {
-      console.error(error);
+      fail(`❌ Error while validating live Server API VisitsResponse \n ${error}`);
     }
   }
 }
@@ -202,13 +207,13 @@ async function validateEventError403Schema(testSubscriptions: TestSubscription[]
 
     try {
       const eventResponse = await client.getEvent(subscription.requestId);
-      throw new Error(`Request for ${eventResponse} should have failed`);
+      fail(`❌ Request for event ${eventResponse} should have failed`);
     } catch (error) {
       // Node SDK adds "status" to the error response, just get rid of it and validate the rest
       delete error.status;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
         validator: eventError403Validator,
         schemaName: 'EventError403Schema',
       });
@@ -240,13 +245,13 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
 
     try {
       const eventResponse = await client.getEvent('non-existent-request-id');
-      throw new Error(`Request for ${eventResponse} should have failed`);
+      fail(`❌ Request for event ${eventResponse} should have failed`);
     } catch (error) {
       // Node SDK adds "status" to the error response, just get rid of it and validate the rest
       delete error.status;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
         validator: eventError404Validator,
         schemaName: 'EventError404Schema',
       });
@@ -278,7 +283,7 @@ async function validateVisitsError403Schema(testSubscriptions: TestSubscription[
 
     try {
       const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
-      throw new Error(`Request for ${visitsResponse} should have failed`);
+      fail(`❌ Request for visits ${visitsResponse} should have failed`);
     } catch (error) {
       // Node SDK adds "status" to the error response, just get rid of it and validate the rest
       delete error.status;
@@ -308,8 +313,6 @@ async function validateVisitsError429Schema() {
   );
 }
 
-let exitCode: number = 0;
-
 (async () => {
   // Parse an array of test subscriptions objects from environment variables
   const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
@@ -327,6 +330,7 @@ let exitCode: number = 0;
   await validateEventResponseSchema(testSubscriptions);
   await validateVisitsResponseSchema(testSubscriptions);
   await validateWebhookSchema();
+
   await validateEventError403Schema(testSubscriptions);
   await validateEventError404Schema(testSubscriptions);
   await validateVisitsError403Schema(testSubscriptions);
@@ -335,7 +339,7 @@ let exitCode: number = 0;
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
   } else {
-    console.error('\n ❌❌❌ Some schemas are invalid, see errors above.');
+    console.error('\n ❌❌❌ Some schema checks failed, see errors above.');
   }
 
   process.exit(exitCode);
