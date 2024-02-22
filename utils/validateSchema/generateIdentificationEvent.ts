@@ -39,7 +39,7 @@ export async function generateIdentificationEvent(
           region,
         })
       );
-      return await (await fpPromise).get();
+      return await (await fpPromise).get({ linkedId: 'OpenAPI schema validation tests' });
     },
     { publicApiKey, region }
   );
