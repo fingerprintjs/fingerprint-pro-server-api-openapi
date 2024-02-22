@@ -723,8 +723,8 @@ components:
                 time:
                   title: Time
                   description: >
-                    Time in UTC for the Android client when recent factory reset was done. 
-                    If there is no sign of factory reset or the client isn't Android, the field will be epoch time.
+                    Time in UTC when the most recent factory reset of the Android or iOS device was done. 
+                    If there is no sign of factory reset or the client is not a mobile device, the field will contain the epoch time (1 January 1970) in UTC.
                   type: string
                   format: date-time
                   example: '2022-06-09T22:58:36Z'
@@ -753,9 +753,9 @@ components:
                 result:
                   type: boolean
                   description: >
-                    iOS specific [Frida](https://frida.re/docs/ios/) detection. There are 2 values:
+                    [Frida](https://frida.re/docs/) detection for Android and iOS devices. There are 2 values:
                     • `true` - Frida detected
-                    • `false` - No signs of Frida or the client is not iOS.
+                    • `false` - No signs of Frida or the client not a mobile device.
                   example: false
             ipBlocklist:
               $ref: '#/components/schemas/IpBlockListResult'
@@ -1187,8 +1187,8 @@ components:
                 time:
                   title: Time
                   description: >
-                   Time in UTC for the Android client when recent factory reset was done. 
-                   If there is no sign of factory reset or the client isn't Android, the field will be epoch time.
+                    Time in UTC when the most recent factory reset of the Android or iOS device was done. 
+                    If there is no sign of factory reset or the client is not a mobile device, the field will contain the epoch time (1 January 1970) in UTC.
                   type: string
                   format: date-time
                   example: '2022-06-09T22:58:36Z'
@@ -1234,9 +1234,9 @@ components:
                 result:
                   type: boolean
                   description: >
-                    iOS specific [Frida](https://frida.re/docs/ios/) detection. There are 2 values:
+                    [Frida](https://frida.re/docs/) detection for Android and iOS devices. There are 2 values:
                     • `true` - Frida detected
-                    • `false` - No signs of Frida or the client is not iOS.
+                    • `false` - No signs of Frida or the client not a mobile device.
                   example: false
               required:
                 - result
@@ -1610,7 +1610,7 @@ components:
       properties:
         result:
           type: boolean
-          description: Flag indicating whether the request came from a device with location spoofing enabled.
+          description: Flag indicating whether the request came from a mobile device with location spoofing enabled.
           example: false
       required:
         - result
