@@ -52,7 +52,7 @@ paths:
         request. 
 
         **Only for Enterprise customers:** Please note that the response
-        includes mobile signals (e.g. `rootApps`) even if the request orignated
+        includes mobile signals (e.g. `rootApps`) even if the request originated
         from a non-mobile platform.
 
         It is highly recommended that you **ignore** the mobile signals for such
@@ -384,6 +384,7 @@ paths:
                           incognito: true
                           linkedId: somelinkedId
                           time: '2019-05-21T16:40:13Z'
+                          tag: {}
                           timestamp: 1582299576512
                           url: https://www.example.com/login
                           ip: 61.127.217.15
@@ -435,6 +436,7 @@ paths:
                           requestId: 0KSh65EnVoB85JBmloQK
                           incognito: true
                           linkedId: somelinkedId
+                          tag: {}
                           time: '2019-05-21T16:40:13Z'
                           timestamp: 1582299576512
                           url: https://www.example.com/login
@@ -487,11 +489,17 @@ paths:
                           message: failed
                       botd:
                         data:
-                          url: https://example.com/login
                           bot:
-                            result: notDetected
-                          ip: 61.127.217.15
-                          time: '2019-05-21T16:40:13Z'
+                            result: bad
+                            type: headlessChrome
+                          url: https://example.com/login
+                          ip: 94.60.143.223
+                          time: '2024-02-23T10:20:25.287Z'
+                          userAgent: >-
+                            Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                            AppleWebKit/537.36 (KHTML, like Gecko)
+                            HeadlessChrome/121.0.6167.57 Safari/537.36
+                          requestId: 1708683625245.tuJ4nD
                 withIdentificationTooManyRequestsError:
                   summary: Identification too many requests error
                   value:
@@ -502,11 +510,17 @@ paths:
                           message: too many requests
                       botd:
                         data:
-                          url: https://example.com/login
                           bot:
-                            result: notDetected
-                          ip: 61.127.217.15
-                          time: '2019-05-21T16:40:13Z'
+                            result: bad
+                            type: headlessChrome
+                          url: https://example.com/login
+                          ip: 94.60.143.223
+                          time: '2024-02-23T10:20:25.287Z'
+                          userAgent: >-
+                            Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                            AppleWebKit/537.36 (KHTML, like Gecko)
+                            HeadlessChrome/121.0.6167.57 Safari/537.36
+                          requestId: 1708683625245.tuJ4nD
         '403':
           description: Forbidden
           content:
@@ -3748,7 +3762,7 @@ components:
                 format: date-time
                 example: '2022-06-09T22:58:36Z'
               url:
-                description: Page URL from which identification request was sent.
+                description: Page URL from which the identification request was sent.
                 type: string
                 format: uri
                 example: https://some.website/path?query=params
@@ -4004,7 +4018,7 @@ components:
           format: date-time
           example: '2022-06-09T22:58:36Z'
         url:
-          description: Page URL from which identification request was sent.
+          description: Page URL from which the identification request was sent.
           type: string
           format: uri
           example: https://some.website/path?query=params
@@ -4118,7 +4132,7 @@ components:
           format: date-time
           example: '2022-06-09T22:58:36Z'
         url:
-          description: Page URL from which identification request was sent.
+          description: Page URL from which the identification request was sent.
           type: string
           format: uri
           example: https://some.website/path?query=params
@@ -4421,7 +4435,7 @@ components:
                   format: date-time
                   example: '2022-06-09T22:58:36Z'
                 url:
-                  description: Page URL from which identification request was sent.
+                  description: Page URL from which the identification request was sent.
                   type: string
                   format: uri
                   example: https://some.website/path?query=params
@@ -4716,6 +4730,9 @@ components:
         requestId:
           type: string
           example: 1681392853693.lRiBBD
+        linkedId:
+          type: string
+          example: Automatic tests bot
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
       required:
