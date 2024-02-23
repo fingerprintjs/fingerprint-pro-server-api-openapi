@@ -642,140 +642,29 @@ components:
           description: Flag if user used incognito session.
           type: boolean
         rootApps:
-          title: WebhookSignalResponseRootApps
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                Android specific root management apps detection. There are 2
-                values: • `true` - Root Management Apps detected (e.g. Magisk) •
-                `false` - No Root Management Apps detected or the client isn't
-                Android.
-              example: false
+          $ref: '#/components/schemas/RootAppsResult'
         emulator:
-          title: WebhookSignalResponseEmulator
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                Android specific emulator detection. There are 2 values: •
-                `true` - Emulated environment detected (e.g. launch inside of
-                AVD) • `false` - No signs of emulated environment detected or
-                the client isn't Android.
-              example: false
+          $ref: '#/components/schemas/EmulatorResult'
         clonedApp:
-          title: WebhookSignalResponseClonedApp
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                Android specific cloned application detection. There are 2
-                values: • `true` - Presence of app cloners work detected (e.g.
-                fully cloned application found or launch of it inside of a not
-                main working profile detected). • `false` - No signs of cloned
-                application detected or the client is not Android.
-              example: false
+          $ref: '#/components/schemas/ClonedAppResult'
         factoryReset:
-          title: WebhookSignalResponseFactoryReset
-          type: object
-          additionalProperties: false
-          properties:
-            time:
-              title: Time
-              description: >
-                Time in UTC when the most recent factory reset of the Android or
-                iOS device was done.  If there is no sign of factory reset or
-                the client is not a mobile device, the field will contain the
-                epoch time (1 January 1970) in UTC.
-              type: string
-              format: date-time
-              example: '2022-06-09T22:58:36Z'
-            timestamp:
-              description: >-
-                Same value as it's in the `time` field but represented in
-                timestamp format.
-              type: integer
-              format: int64
-              example: 1654815517198
+          $ref: '#/components/schemas/FactoryResetResult'
         jailbroken:
-          title: WebhookSignalResponseJailbroken
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                iOS specific jailbreak detection. There are 2 values: • `true` -
-                Jailbreak detected • `false` - No signs of jailbreak or the
-                client is not iOS.
-              example: false
+          $ref: '#/components/schemas/JailbrokenResult'
         frida:
-          title: WebhookSignalResponseFrida
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                [Frida](https://frida.re/docs/) detection for Android and iOS
-                devices. There are 2 values: • `true` - Frida detected • `false`
-                - No signs of Frida or the client not a mobile device.
-              example: false
+          $ref: '#/components/schemas/FridaResult'
         ipBlocklist:
           $ref: '#/components/schemas/IpBlockListResult'
         tor:
-          title: WebhookSignalResponseTor
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                `true` if the request IP address is a known tor exit node,
-                `false` otherwise.
-              example: false
+          $ref: '#/components/schemas/TorResult'
         privacySettings:
-          title: WebhookSignalResponsePrivacySettings
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                `true` if the request is from a privacy aware browser (e.g. Tor)
-                or from a browser in which fingerprinting is blocked. Otherwise
-                `false`.
-              example: false
+          $ref: '#/components/schemas/PrivacySettingsResult'
         virtualMachine:
-          title: WebhookSignalResponseVirtualMachine
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                `true` if the request came from a browser running inside a
-                virtual machine (e.g. VMWare), `false` otherwise.
-              example: false
+          $ref: '#/components/schemas/VirtualMachineResult'
         vpn:
           $ref: '#/components/schemas/VpnResult'
         proxy:
-          title: WebhookSignalResponseProxy
-          type: object
-          additionalProperties: false
-          properties:
-            result:
-              type: boolean
-              description: >
-                `true` if the request IP address is used by a public proxy
-                provider, `false` otherwise.
-              example: false
+          $ref: '#/components/schemas/ProxyResult'
         tampering:
           $ref: '#/components/schemas/TamperingResult'
         rawDeviceAttributes:
@@ -1347,17 +1236,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    `true` if we detected incognito mode used in the browser,
-                    `false` otherwise.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/IncognitoResult'
             error:
               $ref: '#/components/schemas/ProductError'
         rootApps:
@@ -1366,19 +1245,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    Android specific root management apps detection. There are 2
-                    values: • `true` - Root Management Apps detected (e.g.
-                    Magisk) • `false` - No Root Management Apps detected or the
-                    client is not Android.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/RootAppsResult'
             error:
               $ref: '#/components/schemas/ProductError'
         emulator:
@@ -1387,19 +1254,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    Android specific emulator detection. There are 2 values: •
-                    `true` - Emulated environment detected (e.g. launch inside
-                    of AVD) • `false` - No signs of emulated environment
-                    detected or the client is not Android.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/EmulatorResult'
             error:
               $ref: '#/components/schemas/ProductError'
         clonedApp:
@@ -1408,21 +1263,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    Android specific cloned application detection. There are 2
-                    values: • `true` - Presence of app cloners work detected
-                    (e.g. fully cloned application found or launch of it inside
-                    of a not main working profile detected). • `false` - No
-                    signs of cloned application detected or the client is not
-                    Android.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/ClonedAppResult'
             error:
               $ref: '#/components/schemas/ProductError'
         factoryReset:
@@ -1431,29 +1272,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                time:
-                  title: Time
-                  description: >
-                    Time in UTC when the most recent factory reset of the
-                    Android or iOS device was done.  If there is no sign of
-                    factory reset or the client is not a mobile device, the
-                    field will contain the epoch time (1 January 1970) in UTC.
-                  type: string
-                  format: date-time
-                  example: '2022-06-09T22:58:36Z'
-                timestamp:
-                  description: >-
-                    Same value as it's in the `time` field but represented in
-                    timestamp format.
-                  type: integer
-                  format: int64
-                  example: 1654815517198
-              required:
-                - time
-                - timestamp
+              $ref: '#/components/schemas/FactoryResetResult'
             error:
               $ref: '#/components/schemas/ProductError'
         jailbroken:
@@ -1462,18 +1281,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    iOS specific jailbreak detection. There are 2 values: •
-                    `true` - Jailbreak detected • `false` - No signs of
-                    jailbreak or the client is not iOS.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/JailbrokenResult'
             error:
               $ref: '#/components/schemas/ProductError'
         frida:
@@ -1482,19 +1290,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    [Frida](https://frida.re/docs/) detection for Android and
-                    iOS devices. There are 2 values: • `true` - Frida detected •
-                    `false` - No signs of Frida or the client not a mobile
-                    device.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/FridaResult'
             error:
               $ref: '#/components/schemas/ProductError'
         ipBlocklist:
@@ -1512,17 +1308,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    `true` if the request IP address is a known tor exit node,
-                    `false` otherwise.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/TorResult'
             error:
               $ref: '#/components/schemas/ProductError'
         privacySettings:
@@ -1531,18 +1317,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    `true` if the request is from a privacy aware browser (e.g.
-                    Tor) or from a browser in which fingerprinting is blocked.
-                    Otherwise `false`.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/PrivacySettingsResult'
             error:
               $ref: '#/components/schemas/ProductError'
         virtualMachine:
@@ -1551,17 +1326,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    `true` if the request came from a browser running inside a
-                    virtual machine (e.g. VMWare), `false` otherwise.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/VirtualMachineResult'
             error:
               $ref: '#/components/schemas/ProductError'
         vpn:
@@ -1579,17 +1344,7 @@ components:
           additionalProperties: false
           properties:
             data:
-              type: object
-              additionalProperties: false
-              properties:
-                result:
-                  type: boolean
-                  description: >
-                    `true` if the request IP address is used by a public proxy
-                    provider, `false` otherwise.
-                  example: false
-              required:
-                - result
+              $ref: '#/components/schemas/ProxyResult'
             error:
               $ref: '#/components/schemas/ProductError'
         tampering:
@@ -1951,6 +1706,159 @@ components:
             type: object
           value:
             title: value
+    FactoryResetResult:
+      type: object
+      additionalProperties: false
+      properties:
+        time:
+          title: Time
+          description: >
+            Time in UTC when the most recent factory reset of the Android or iOS
+            device was done.  If there is no sign of factory reset or the client
+            is not a mobile device, the field will contain the epoch time (1
+            January 1970) in UTC.
+          type: string
+          format: date-time
+          example: '2022-06-09T22:58:36Z'
+        timestamp:
+          description: >-
+            Same value as it's in the `time` field but represented in timestamp
+            format.
+          type: integer
+          format: int64
+          example: 1654815517198
+      required:
+        - time
+        - timestamp
+    ClonedAppResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            Android specific cloned application detection. There are 2 values: •
+            `true` - Presence of app cloners work detected (e.g. fully cloned
+            application found or launch of it inside of a not main working
+            profile detected). • `false` - No signs of cloned application
+            detected or the client is not Android.
+          example: false
+      required:
+        - result
+    EmulatorResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            Android specific emulator detection. There are 2 values: • `true` -
+            Emulated environment detected (e.g. launch inside of AVD) • `false`
+            - No signs of emulated environment detected or the client is not
+            Android.
+          example: false
+      required:
+        - result
+    RootAppsResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            Android specific root management apps detection. There are 2 values:
+            • `true` - Root Management Apps detected (e.g. Magisk) • `false` -
+            No Root Management Apps detected or the client isn't Android.
+          example: false
+      required:
+        - result
+    IncognitoResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if we detected incognito mode used in the browser, `false`
+            otherwise.
+          example: false
+      required:
+        - result
+    JailbrokenResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            iOS specific jailbreak detection. There are 2 values: • `true` -
+            Jailbreak detected • `false` - No signs of jailbreak or the client
+            is not iOS.
+          example: false
+      required:
+        - result
+    FridaResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            [Frida](https://frida.re/docs/) detection for Android and iOS
+            devices. There are 2 values: • `true` - Frida detected • `false` -
+            No signs of Frida or the client is not a mobile device.
+          example: false
+      required:
+        - result
+    TorResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the request IP address is a known tor exit node, `false`
+            otherwise.
+          example: false
+      required:
+        - result
+    PrivacySettingsResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the request is from a privacy aware browser (e.g. Tor) or
+            from a browser in which fingerprinting is blocked. Otherwise
+            `false`.
+          example: false
+      required:
+        - result
+    VirtualMachineResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the request came from a browser running inside a virtual
+            machine (e.g. VMWare), `false` otherwise.
+          example: false
+      required:
+        - result
+    ProxyResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the request IP address is used by a public proxy provider,
+            `false` otherwise.
+          example: false
+      required:
+        - result
     ProductError:
       type: object
       additionalProperties: false
