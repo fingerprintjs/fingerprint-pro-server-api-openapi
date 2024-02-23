@@ -12,6 +12,10 @@ Code of demo application can be found in [src](src) folder. It uses [Swagger UI]
 
 ## Validation
 
-Schema is supported separately from the API code. It is a bad use case, but we will fix it in future API versions.
-To validate that schema is still actual there is [special script](/bin/validateSchema.js). It uses mocks from [examples](/examples) folder and makes requests to the API.
+Schema is supported separately from the API code. It is a bad practice, but we will fix it in future API versions.
+To validate that schema is still up to date there is a [special validation script](/bin/validateSchema.ts).
+
+- It uses mocks from [examples](/examples) folder to validate against. Note that some files in the examples folder appear unused like `get_event_extra_fields.json`, but they are downloaded and used for validation by individual SDK repositories.
+- It also generates fresh identification events using the TEST_SUBSCRIPTION [env variable](./.env.example), retrieves fresh Server API responses and validates the schema against those.
+
 Validation runs as a part of PR process and once a day. You can run it locally using `yarn validateSchema`.

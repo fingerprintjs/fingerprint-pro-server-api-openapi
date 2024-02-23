@@ -12,6 +12,10 @@ function resolveComponent(path, components) {
   return undefined;
 }
 
+/**
+ * Combines multiple objects/schemas together
+ * See spec for an example
+ */
 export function replaceAllOf(currentComponent, components) {
   const properties = {};
   let required = [];
