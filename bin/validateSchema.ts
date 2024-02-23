@@ -54,7 +54,8 @@ const validateJson = ({
   if (valid) {
     console.log(`✅ ${schemaName} schema matches ${jsonName}`);
   } else {
-    fail(`❌ ${schemaName} schema does not match ${jsonName} schema \n ${validator.errors}`);
+    console.log(validator.errors);
+    fail(`❌ ${schemaName} schema does not match ${jsonName} schema`);
   }
 };
 
