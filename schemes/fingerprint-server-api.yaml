@@ -3905,7 +3905,7 @@ components:
                   city:
                     type: object
                     additionalProperties: false
-                    title: IPLocationCity
+                    title: DeprecatedIPLocationCity
                     properties:
                       name:
                         type: string
@@ -4163,7 +4163,7 @@ components:
             city:
               type: object
               additionalProperties: false
-              title: IPLocationCity
+              title: DeprecatedIPLocationCity
               properties:
                 name:
                   type: string
@@ -4277,7 +4277,7 @@ components:
             city:
               type: object
               additionalProperties: false
-              title: IPLocationCity
+              title: DeprecatedIPLocationCity
               properties:
                 name:
                   type: string
@@ -4578,7 +4578,7 @@ components:
                     city:
                       type: object
                       additionalProperties: false
-                      title: IPLocationCity
+                      title: DeprecatedIPLocationCity
                       properties:
                         name:
                           type: string
