@@ -778,7 +778,7 @@ components:
           format: date-time
           example: '2022-06-09T22:58:36Z'
         url:
-          description: Page URL from which identification request was sent.
+          description: Page URL from which the identification request was sent.
           type: string
           format: uri
           example: 'https://some.website/path?query=params'
@@ -1248,6 +1248,9 @@ components:
         requestId:
           type: string
           example: '1681392853693.lRiBBD'
+        linkedId:
+          type: string
+          example: 'Automatic tests bot'
         bot:
           $ref: '#/components/schemas/BotdDetectionResult'
       required:
