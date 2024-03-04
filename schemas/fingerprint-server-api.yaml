@@ -91,7 +91,7 @@ paths:
                           tag: {}
                           time: '2019-05-21T16:40:13Z'
                           timestamp: 1582299576512
-                          url: https://www.example.com/login
+                          url: https://www.example.com/login?hope{this{works[!
                           ip: 61.127.217.15
                           ipLocation:
                             accuracyRadius: 10
@@ -131,7 +131,7 @@ paths:
                         data:
                           bot:
                             result: notDetected
-                          url: https://www.example.com/login
+                          url: https://www.example.com/login?hope{this{works}[!
                           ip: 61.127.217.15
                           time: '2019-05-21T16:40:13Z'
                           userAgent: >-
@@ -3934,7 +3934,6 @@ components:
               url:
                 description: Page URL from which the identification request was sent.
                 type: string
-                format: uri
                 example: https://some.website/path?query=params
               tag:
                 description: >-
@@ -4190,7 +4189,6 @@ components:
         url:
           description: Page URL from which the identification request was sent.
           type: string
-          format: uri
           example: https://some.website/path?query=params
         tag:
           description: >-
@@ -4304,7 +4302,6 @@ components:
         url:
           description: Page URL from which the identification request was sent.
           type: string
-          format: uri
           example: https://some.website/path?query=params
         tag:
           description: >-
@@ -4607,7 +4604,6 @@ components:
                 url:
                   description: Page URL from which the identification request was sent.
                   type: string
-                  format: uri
                   example: https://some.website/path?query=params
                 tag:
                   description: >-
@@ -4890,7 +4886,6 @@ components:
         url:
           description: Page URL from which identification request was sent.
           type: string
-          format: uri-reference
           example: https://example.com/login
         userAgent:
           type: string
