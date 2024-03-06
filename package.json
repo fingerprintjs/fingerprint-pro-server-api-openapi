@@ -10,7 +10,7 @@
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "pnpm lint --fix"
   },
   "engines": {
     "node": ">=18.0.0"
