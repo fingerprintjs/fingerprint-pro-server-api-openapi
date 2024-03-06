@@ -1,20 +1,20 @@
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import 'dotenv/config';
+import * as path from 'path'
+import { fileURLToPath } from 'url'
+import webpack from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import 'dotenv/config'
 import {
   readmeApiExplorerTransformers,
   removeExtraDocumentationTransformers,
   transformSchema,
-} from './utils/transformers/transformSchema.js';
+} from './utils/transformers/transformSchema.js'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-const outputPath = path.resolve(__dirname, 'dist');
+const outputPath = path.resolve(__dirname, 'dist')
 
 export default {
   mode: 'development',
@@ -90,4 +90,4 @@ export default {
     filename: '[name].bundle.js',
     path: outputPath,
   },
-};
+}

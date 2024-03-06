@@ -10,7 +10,9 @@
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
-    "lint:fix": "pnpm lint --fix"
+    "lint:fix": "pnpm lint --fix",
+    "prettier": "prettier . --check",
+    "prettier:fix": "pnpm prettier . --write"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -51,5 +53,10 @@
     "yaml-loader": "^0.8.1",
     "znv": "^0.4.0",
     "zod": "^3.22.4"
+  },
+  "dependencies": {
+    "@fingerprintjs/eslint-config-dx-team": "^0.1.0",
+    "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
+    "@fingerprintjs/tsconfig-dx-team": "^0.0.2"
   }
 }

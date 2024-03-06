@@ -4,9 +4,7 @@
     "es6": true,
     "node": true
   },
-  "extends": [
-    "plugin:@typescript-eslint/eslint-recommended"
-  ],
+  "extends": ["plugin:@typescript-eslint/eslint-recommended"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -24,26 +22,13 @@
       "version": "detect"
     }
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier"
-  ],
-  "ignorePatterns": [
-    "build/*"
-  ],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "ignorePatterns": ["build/*"],
   "rules": {
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
+    "linebreak-style": ["error", "unix"],
     "prefer-const": "error",
     "prettier/prettier": "error",
-    "@typescript-eslint/no-unused-vars": [
-      "error"
-    ],
-    "curly": [
-      2,
-      "all"
-    ]
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "curly": [2, "all"]
   }
 }

@@ -1,4 +1,4 @@
-import { convertOpenApiToJsonSchema } from './convertOpenApiToJsonSchema.js';
+import { convertOpenApiToJsonSchema } from './convertOpenApiToJsonSchema.js'
 
 describe('Test convertOpenApiToJsonSchema', () => {
   it('remove extra fields and add required fields', () => {
@@ -27,7 +27,7 @@ describe('Test convertOpenApiToJsonSchema', () => {
         },
       },
       '#/definitions/OurSchemaRef'
-    );
+    )
 
     expect(convertedSchema).toEqual({
       $ref: '#/definitions/OurSchemaRef',
@@ -44,8 +44,8 @@ describe('Test convertOpenApiToJsonSchema', () => {
           },
         },
       },
-    });
-  });
+    })
+  })
 
   it('remove examples', () => {
     const convertedSchema = convertOpenApiToJsonSchema(
@@ -80,7 +80,7 @@ describe('Test convertOpenApiToJsonSchema', () => {
         },
       },
       '#/definitions/OurSchemaRef'
-    );
+    )
     expect(convertedSchema).toEqual({
       $ref: '#/definitions/OurSchemaRef',
       $schema: 'http://json-schema.org/draft-04/schema#',
@@ -101,8 +101,8 @@ describe('Test convertOpenApiToJsonSchema', () => {
           },
         },
       },
-    });
-  });
+    })
+  })
 
   it('unwrap schema', () => {
     const convertedSchema = convertOpenApiToJsonSchema(
@@ -141,7 +141,7 @@ describe('Test convertOpenApiToJsonSchema', () => {
         },
       },
       '#/definitions/OurSchemaRef'
-    );
+    )
     expect(convertedSchema).toEqual({
       $ref: '#/definitions/OurSchemaRef',
       $schema: 'http://json-schema.org/draft-04/schema#',
@@ -162,6 +162,6 @@ describe('Test convertOpenApiToJsonSchema', () => {
           },
         },
       },
-    });
-  });
-});
+    })
+  })
+})
