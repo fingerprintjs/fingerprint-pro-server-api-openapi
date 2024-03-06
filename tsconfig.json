@@ -1,18 +1,10 @@
 {
+  "extends": "@fingerprintjs/tsconfig-dx-team/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
     "module": "es6",
     "moduleResolution": "node",
-    "target": "es2020",
-    "resolveJsonModule": true,
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "noErrorTruncation": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "exactOptionalPropertyTypes": true
+    "target": "es2020"
   },
   "files": ["src/index.ts"],
   "exclude": ["dist", "node_modules", "**/*.test.ts"]
