@@ -8,15 +8,9 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml">
-    <img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml/badge.svg" alt="CI badge" />
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/:license-mit-blue.svg?style=flat"/>
-  </a>
-  <a href="https://discord.gg/39EpE2neBg">
-    <img src="https://img.shields.io/discord/852099967190433792?style=logo&label=Discord&logo=Discord&logoColor=white" alt="Discord server">
-  </a>
+  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml/badge.svg" alt="CI badge" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/:license-mit-blue.svg?style=flat"/></a>
+  <a href="https://discord.gg/39EpE2neBg"><img src="https://img.shields.io/discord/852099967190433792?style=logo&label=Discord&logo=Discord&logoColor=white" alt="Discord server"></a>
 </p>
 
 # Fingerprint Pro Server API OpenAPI Schema
