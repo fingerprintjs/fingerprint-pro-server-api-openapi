@@ -18,4 +18,4 @@ To validate that schema is still up to date there is a [special validation scrip
 - It uses mocks from [examples](/examples) folder to validate against. Note that some files in the examples folder appear unused like `get_event_extra_fields.json`, but they are downloaded and used for validation by individual SDK repositories.
 - It also generates fresh identification events using the TEST_SUBSCRIPTION [env variable](./.env.example), retrieves fresh Server API responses and validates the schema against those.
 
-Validation runs as a part of PR process and once a day. You can run it locally using `yarn validateSchema`.
+Validation runs as a part of PR process and once a day. You can run it locally using `pnpm validateSchema`.

@@ -16,31 +16,29 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v3
+    - name: 'Install PNPM'
+      uses: pnpm/action-setup@ebcfd6995dade4b0104ac774445cef8b3b4635b0
       with:
-        node-version: '18'
-    - name: Cache
-      uses: actions/cache@v4
+        version: 8
+    - name: Set Node.js 20.x
+      uses: actions/setup-node@v4
       with:
-        path: |
-          **/node_modules
-          !**/dist/node_modules
-        key: nodemodules-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: nodemodules-
+        node-version: 20.x
+        cache: pnpm
     - name: Install Node packages
       shell: bash
-      run: yarn install
+      run: pnpm install --frozen-lockfile --prefer-offline
     - name: Lint
       shell: bash
-      run: yarn lint
+      run: pnpm lint
     - name: Tests
       shell: bash
-      run: yarn test
+      run: pnpm test
     - name: Build
       shell: bash
       env:
         PRIVATE_KEY: '${{ inputs.privateKey }}'
-      run: yarn build
+      run: pnpm build
     - name: Get installed Playwright version (used in cache key)
       shell: bash
       id: playwright-version
@@ -55,10 +53,10 @@ runs:
         key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
     - name: Install Playwright dependencies if necessary
       shell: bash
-      run: yarn playwright install --with-deps chromium
+      run: pnpm playwright install --with-deps chromium
       if: steps.playwright-cache.outputs.cache-hit != 'true'
     - name: Validate schema
       shell: bash
       env:
         TEST_SUBSCRIPTIONS: '${{ inputs.testSubscriptions }}'
-      run: yarn validateSchema
+      run: pnpm validateSchema
