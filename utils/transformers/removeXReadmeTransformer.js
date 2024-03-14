@@ -1,7 +1,7 @@
-import { walkJson } from '../walkJson.js'
+import { walkJson } from '../walkJson.js';
 
 export function removeXReadmeTransformer(apiDefinition) {
   walkJson(apiDefinition, 'x-readme', (partWithKey) => {
-    delete partWithKey['x-readme']
-  })
+    delete partWithKey['x-readme'];
+  });
 }

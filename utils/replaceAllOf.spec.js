@@ -1,4 +1,4 @@
-import { replaceAllOf } from './replaceAllOf.js'
+import { replaceAllOf } from './replaceAllOf.js';
 
 describe('Test replaceAllOf', () => {
   it('base test', () => {
@@ -20,7 +20,7 @@ describe('Test replaceAllOf', () => {
           $ref: '#/definitions/Visit',
         },
       ],
-    }
+    };
 
     replaceAllOf(schema, {
       Visit: {
@@ -46,7 +46,7 @@ describe('Test replaceAllOf', () => {
         },
         required: ['browserDetails', 'ip', 'ipLocation'],
       },
-    })
+    });
 
     expect(schema).toEqual({
       type: 'object',
@@ -76,6 +76,6 @@ describe('Test replaceAllOf', () => {
         },
       },
       required: ['visitorId', 'browserDetails', 'ip', 'ipLocation'],
-    })
-  })
-})
+    });
+  });
+});
