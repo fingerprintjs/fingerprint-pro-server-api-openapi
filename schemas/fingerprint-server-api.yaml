@@ -858,7 +858,7 @@ components:
           minimum: 0
           maximum: 1
         revision:
-          description: Confidence score method version used for calculation
+          description: The version of the method used to calculate the Confidence score. 
           type: string
       required:
         - score
