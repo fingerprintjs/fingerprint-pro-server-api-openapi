@@ -857,6 +857,9 @@ components:
           format: float
           minimum: 0
           maximum: 1
+        revision:
+          description: Confidence score method version used for calculation
+          type: string
       required:
         - score
       title: Confidence
