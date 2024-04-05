@@ -858,7 +858,7 @@ components:
           minimum: 0
           maximum: 1
         revision:
-          description: The version of the method used to calculate the Confidence score. 
+          description: The revision name of the method used to calculate the Confidence score. This field is only present for customers who opted in to an alternative calculation method.
           type: string
       required:
         - score
