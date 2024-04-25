@@ -1381,10 +1381,15 @@ components:
               type: boolean
               description: This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.
               example: false
+            osMismatch:
+              type: boolean
+              description: The browser runs on a different operating system than the operating system we have inferred from the incoming server traffic. This is highly indicative of tunneling (VPN/proxy) application usage.
+              example: false
           required:
             - timezoneMismatch
             - publicVPN
             - auxiliaryMobile
+            - osMismatch
       required:
         - result
         - originTimezone
