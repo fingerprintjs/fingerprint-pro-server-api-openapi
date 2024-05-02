@@ -516,6 +516,36 @@ paths:
               // Get visit history of a specific visitor
               var visits = api.GetVisits("VISITOR_ID");
               Console.WriteLine(visits);
+    delete:
+      tags:
+        - Visitors
+      operationId: 'deleteVisitorData'
+      summary: Delete data for a given visitorId
+      description: |
+        Use this API to  request that data belonging to the specificvisitorId be deleted. This API is useful for compliance with privacy regulations.
+        All requests to this endpoint will be queued and the data belonging to the requested visitors will be deleted within 24 hrs<sup>*</sup>
+        <sup>*</sup>Data from recent events (10 days or newer) will be deleted with 24 hrs. Data from older events will be deleted after 90 days.
+      parameters:
+        - name: visitor_id
+          description: The [visitorId](https://dev.fingerprint.com/docs/js-agent#visitorid) whose data must be deleted.
+          required: true
+          schema:
+            type: string
+          responses:
+            '200':
+              description: OK. The visitor_id is scheduled for deletion.
+            '403':
+              description: Forbidden. Access to this API is denied.
+              content:
+                application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorVisitsDelete403Response'
+            '404':
+              description: Not found. The visitor_id cannot be found in this subscription's data.
+              content:
+                application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorVisitsDelete404Response'
   /webhook:
     trace:
       tags:
@@ -651,6 +681,46 @@ components:
           example: 'request throttled'
       required:
         - error
+    ErrorVisitsDelete403Response:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: 'object'
+          additionalProperties: false
+          title: ErrorVisitsDelete403Response
+          properties:
+            code:
+              type: string
+              enum:
+                - FeatureNotEnabledForSubscription
+              description: >
+                This feature is not enabled for your subscription.
+            message:
+              type: string
+          required:
+            - code
+            - message
+    ErrorVisitsDelete404Response:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: 'object'
+          additionalProperties: false
+          title: ErrorVisitsDelete404ResponseError
+          properties:
+            code:
+              type: string
+              enum:
+                - VisitorNotFound
+              description: >
+                The visitor_id cannot be found in this subscription's data.
+            message:
+              type: string
+          required:
+            - code
+            - message
     WebhookVisit:
       allOf:
         - type: object
