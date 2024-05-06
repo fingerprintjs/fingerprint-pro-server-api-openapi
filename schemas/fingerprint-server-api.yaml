@@ -693,7 +693,7 @@ components:
             code:
               type: string
               enum:
-                - FeatureNotEnabledForSubscription
+                - FeatureNotEnabled
               description: >
                 This feature is not enabled for your subscription.
             message:
