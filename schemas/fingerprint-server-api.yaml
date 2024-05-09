@@ -527,25 +527,26 @@ paths:
         <sup>*</sup>Data from recent events (10 days or newer) will be deleted with 24 hrs. Data from older events will be deleted after 90 days.
       parameters:
         - name: visitor_id
+          in: path
           description: The [visitorId](https://dev.fingerprint.com/docs/js-agent#visitorid) whose data must be deleted.
           required: true
           schema:
             type: string
-          responses:
-            '200':
-              description: OK. The visitor_id is scheduled for deletion.
-            '403':
-              description: Forbidden. Access to this API is denied.
-              content:
-                application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorVisitsDelete403Response'
-            '404':
-              description: Not found. The visitor_id cannot be found in this subscription's data.
-              content:
-                application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorVisitsDelete404Response'
+      responses:
+        '200':
+          description: OK. The visitor_id is scheduled for deletion.
+        '403':
+          description: Forbidden. Access to this API is denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisitsDelete403Response'
+        '404':
+          description: Not found. The visitor_id cannot be found in this subscription's data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisitsDelete404Response'
   /webhook:
     trace:
       tags:
