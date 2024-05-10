@@ -542,11 +542,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorVisitsDelete403Response'
         '404':
-          description: Not found. The visitor_id cannot be found in this subscription's data.
+          description: Not found. The visitor ID cannot be found in this application's data.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorVisitsDelete404Response'
+              examples:
+                example:
+                  summary: Example 404 response
+                  externalValue: '/examples/delete_visits_404_error.json'
   /webhook:
     trace:
       tags:
@@ -652,7 +656,7 @@ components:
               type: string
               description: >
                 Error code:
-                 * `RequestNotFound` - request not found for specified id
+                 * `RequestNotFound` - The specified request ID was not found. It never existed, expired, or it has been deleted.
               enum:
                 - RequestNotFound
               example: 'RequestNotFound'
@@ -713,12 +717,15 @@ components:
           properties:
             code:
               type: string
+              description: >
+                Error code:
+                * `VisitorNotFound` - The specified visitor ID was not found. It never existed or it may have already been deleted.
               enum:
                 - VisitorNotFound
-              description: >
-                The visitor_id cannot be found in this subscription's data.
+              example: 'VisitorNotFound'
             message:
               type: string
+              example: 'visitor not found'
           required:
             - code
             - message
