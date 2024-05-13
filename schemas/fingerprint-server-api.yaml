@@ -522,13 +522,15 @@ paths:
       operationId: 'deleteVisitorData'
       summary: Delete data for a given visitorId
       description: |
-        Request deleting all data belonging to the specified visitor ID. This API is useful for compliance with privacy regulations.
-        All requests to this endpoint will be queued and the data belonging to the requested visitor will be deleted within 24 hrs<sup>*</sup>
-        <sup>*</sup>Data from recent events (10 days or newer) will be deleted with 24 hrs. Data from older events will be deleted after 90 days.
+        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.
+        All delete requests are queued: 
+        
+        * Recent data (10 days or newer) belonging to the specified visitor will be deleted within 24 hours.
+        * Data from older (11 days or more) identification events  will be deleted after 90 days.
       parameters:
         - name: visitor_id
           in: path
-          description: The [visitorId](https://dev.fingerprint.com/docs/js-agent#visitorid) whose data must be deleted.
+          description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) you want to delete.
           required: true
           schema:
             type: string
