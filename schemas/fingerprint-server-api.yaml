@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorEvent403Response'
+                $ref: '#/components/schemas/ErrorCommon403Response'
               examples:
                 example:
                   summary: Example response
@@ -540,7 +540,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitsDelete403Response'
+                $ref: '#/components/schemas/ErrorCommon403Response'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/delete_visits_403_error.json'
         '404':
           description: Not found. The visitor ID cannot be found in this application's data.
           content:
@@ -614,28 +618,30 @@ components:
         - visits
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided and there is more data to show
-    ErrorEvent403Response:
+    ErrorCommon403Response:
       type: object
       additionalProperties: false
       properties:
         error:
           type: 'object'
           additionalProperties: false
-          title: ErrorEvent403ResponseError
+          title: Common403ErrorResponse
           properties:
             code:
               type: string
               description: >
                 Error code:
                  * `TokenRequired` - `Auth-API-Key` header is missing or empty
-                 * `TokenNotFound` - subscription not found for specified secret key
-                 * `SubscriptionNotActive` - subscription is not active
-                 * `WrongRegion` - server and subscription region differ
+                 * `TokenNotFound` - No Fingerprint application found for specified secret key
+                 * `SubscriptionNotActive` - Fingerprint application is not active
+                 * `WrongRegion` - server and application region differ
+                 * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application 
               enum:
                 - TokenRequired
                 - TokenNotFound
                 - SubscriptionNotActive
                 - WrongRegion
+                - FeatureNotEnabled
               example: 'TokenRequired'
             message:
               type: string
@@ -686,26 +692,6 @@ components:
           example: 'request throttled'
       required:
         - error
-    ErrorVisitsDelete403Response:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          title: ErrorVisitsDelete403Response
-          properties:
-            code:
-              type: string
-              enum:
-                - FeatureNotEnabled
-              description: >
-                This feature is not enabled for your subscription.
-            message:
-              type: string
-          required:
-            - code
-            - message
     ErrorVisitsDelete404Response:
       type: object
       additionalProperties: false
