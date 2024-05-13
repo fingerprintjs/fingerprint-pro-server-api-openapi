@@ -5,6 +5,7 @@ import { removeWebhookTransformer } from './removeWebhookTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
 import { removeXReadmeTransformer } from './removeXReadmeTransformer.js';
+import { removeDeleteVisitorTransformer } from './removeDeleteVisitorTransformer.js';
 
 const commonTransformers = [resolveExternalValueTransformer, resolveAllOfTransformer];
 const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
@@ -14,6 +15,13 @@ export const removeExtraDocumentationTransformers = [
   ...defaultTransformers,
   removeBigExamplesTransformer,
   removeXReadmeTransformer,
+];
+
+export const schemaForSdksTransformers = [
+  ...defaultTransformers,
+  removeXReadmeTransformer,
+  removeBigExamplesTransformer,
+  removeDeleteVisitorTransformer,
 ];
 
 export function transformSchema(content, transformers = defaultTransformers) {

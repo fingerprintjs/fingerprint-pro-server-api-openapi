@@ -522,8 +522,8 @@ paths:
       operationId: 'deleteVisitorData'
       summary: Delete data for a given visitorId
       description: |
-        Use this API to  request that data belonging to the specificvisitorId be deleted. This API is useful for compliance with privacy regulations.
-        All requests to this endpoint will be queued and the data belonging to the requested visitors will be deleted within 24 hrs<sup>*</sup>
+        Request deleting all data belonging to the specified visitor ID. This API is useful for compliance with privacy regulations.
+        All requests to this endpoint will be queued and the data belonging to the requested visitor will be deleted within 24 hrs<sup>*</sup>
         <sup>*</sup>Data from recent events (10 days or newer) will be deleted with 24 hrs. Data from older events will be deleted after 90 days.
       parameters:
         - name: visitor_id
@@ -534,7 +534,7 @@ paths:
             type: string
       responses:
         '200':
-          description: OK. The visitor_id is scheduled for deletion.
+          description: OK. The visitor ID is scheduled for deletion.
         '403':
           description: Forbidden. Access to this API is denied.
           content:

@@ -8,6 +8,7 @@ import 'dotenv/config';
 import {
   readmeApiExplorerTransformers,
   removeExtraDocumentationTransformers,
+  schemaForSdksTransformers,
   transformSchema,
 } from './utils/transformers/transformSchema.js';
 
@@ -75,6 +76,11 @@ export default {
           from: 'schemas/fingerprint-server-api.yaml',
           to: 'schemas/fingerprint-server-api-compact.yaml',
           transform: (content) => transformSchema(content, removeExtraDocumentationTransformers),
+        },
+        {
+          from: 'schemas/fingerprint-server-api.yaml',
+          to: 'schemas/fingerprint-server-api-schema-for-sdks.yaml',
+          transform: (content) => transformSchema(content, schemaForSdksTransformers),
         },
         {
           from: 'examples',
