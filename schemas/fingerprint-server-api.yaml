@@ -42,7 +42,7 @@ paths:
       operationId: 'getEvent'
       summary: Get event by requestId
       description: |
-        This endpoint allows you to get a detailed analysis of an individual request. 
+        Get a detailed analysis of an individual identification event, including Smart Signals. 
         **Only for Enterprise customers:** Please note that the response includes mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform.
         It is highly recommended that you **ignore** the mobile signals for such requests. 
 
@@ -253,7 +253,7 @@ paths:
       operationId: 'getVisits'
       summary: Get visits by visitorId
       description: |
-        This endpoint allows you to get a history of visits for a specific `visitorId`. Use the `visitorId` as a URL path parameter.
+        Get a history of visits (identification events) for a specific `visitorId`. Use the `visitorId` as a URL path parameter.
         Only information from the _Identification_ product is returned.
 
         #### Headers
