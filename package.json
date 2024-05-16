@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --open",
     "build": "webpack",
+    "lintSchema": "vacuum lint ./schemas/fingerprint-server-api.yaml -d --errors",
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
@@ -22,6 +23,7 @@
     "@fingerprintjs/fingerprintjs-pro-server-api": "^3.1.0",
     "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
     "@fingerprintjs/tsconfig-dx-team": "^0.0.2",
+    "@quobix/vacuum": "^0.9.15",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.25",
     "@types/swagger-ui": "^3.52.4",

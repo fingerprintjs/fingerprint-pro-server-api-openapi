@@ -182,20 +182,20 @@ async function validateWebhookSchema() {
 }
 
 /**
- * Validates EventError403 schema
+ * Validates ErrorCommon403Response schema
  */
-async function validateEventError403Schema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating EventError403 schema: \n');
-  const eventError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorEvent403Response');
-  const eventError403Validator = ajv.compile(eventError403Schema);
+async function validateCommonError403Schema(testSubscriptions: TestSubscription[]) {
+  console.log('\nValidating CommonError403 schema: \n');
+  const commonError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorCommon403Response');
+  const commonError403Validator = ajv.compile(commonError403Schema);
 
   // Validate against example file
-  ['./examples/get_event_403_error.json'].forEach((examplePath) =>
+  ['./examples/get_event_403_error.json', './examples/delete_visits_403_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
-      validator: eventError403Validator,
-      schemaName: 'EventError403Schema',
+      validator: commonError403Validator,
+      schemaName: 'CommonError403Schema',
     })
   );
 
@@ -215,8 +215,8 @@ async function validateEventError403Schema(testSubscriptions: TestSubscription[]
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
-        validator: eventError403Validator,
-        schemaName: 'EventError403Schema',
+        validator: commonError403Validator,
+        schemaName: 'CommonError403Schema',
       });
     }
   }
@@ -344,7 +344,7 @@ async function validateVisitsError429Schema() {
   await validateVisitsResponseSchema(testSubscriptions);
   await validateWebhookSchema();
 
-  await validateEventError403Schema(testSubscriptions);
+  await validateCommonError403Schema(testSubscriptions);
   await validateEventError404Schema(testSubscriptions);
   await validateVisitsError403Schema(testSubscriptions);
   await validateVisitsError429Schema();

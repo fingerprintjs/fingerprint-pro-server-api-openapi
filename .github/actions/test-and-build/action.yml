@@ -31,6 +31,9 @@ runs:
     - name: Lint
       shell: bash
       run: pnpm lint
+    - name: Lint schema
+      shell: bash
+      run: pnpm lintSchema
     - name: Tests
       shell: bash
       run: pnpm test
@@ -55,7 +58,7 @@ runs:
       shell: bash
       run: pnpm playwright install --with-deps chromium
       if: steps.playwright-cache.outputs.cache-hit != 'true'
-    - name: Validate schema
+    - name: Validate schema against live API responses 
       shell: bash
       env:
         TEST_SUBSCRIPTIONS: '${{ inputs.testSubscriptions }}'
