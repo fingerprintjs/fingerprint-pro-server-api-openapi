@@ -223,50 +223,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManyRequestsResponse'
-    delete:
-      tags:
-        - Fingerprint
-      operationId: deleteVisitorData
-      summary: Delete data by visitor ID
-      description: >
-        Request deleting all data associated with the specified visitor ID. This
-        API is useful for compliance with privacy regulations.
-
-        All delete requests are queued: 
-
-
-        * Recent data (10 days or newer) belonging to the specified visitor will
-        be deleted within 24 hours.
-
-        * Data from older (11 days or more) identification events  will be
-        deleted after 90 days.
-      parameters:
-        - name: visitor_id
-          in: path
-          description: >-
-            The [visitor
-            ID](https://dev.fingerprint.com/docs/js-agent#visitorid) you want to
-            delete.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK. The visitor ID is scheduled for deletion.
-        '403':
-          description: Forbidden. Access to this API is denied.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorCommon403Response'
-        '404':
-          description: >-
-            Not found. The visitor ID cannot be found in this application's
-            data.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorVisitsDelete404Response'
   /webhook:
     trace:
       tags:
