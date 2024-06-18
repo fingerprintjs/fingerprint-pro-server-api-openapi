@@ -3488,8 +3488,8 @@ paths:
           headers:
             Retry-After:
               description: >-
-                Indicates how long you should wait before attempting the next
-                request.
+                Indicates how many seconds you should wait before attempting the
+                next request.
               schema:
                 type: integer
                 format: int32
