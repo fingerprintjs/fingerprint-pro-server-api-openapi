@@ -309,7 +309,7 @@ async function validateVisitsError403Schema(testSubscriptions: TestSubscription[
  */
 async function validateVisitsError429Schema() {
   console.log('\nValidating VisitsError429 schema: \n');
-  const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ManyRequestsResponse');
+  const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/TooManyRequestsResponse');
   const visitsError429Validator = ajv.compile(visitsError429Schema);
 
   // Validate against example file

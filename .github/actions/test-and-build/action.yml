@@ -19,7 +19,7 @@ runs:
     - name: 'Install PNPM'
       uses: pnpm/action-setup@ebcfd6995dade4b0104ac774445cef8b3b4635b0
       with:
-        version: 8
+        version: 9
     - name: Set Node.js 20.x
       uses: actions/setup-node@v4
       with:
@@ -58,7 +58,7 @@ runs:
       shell: bash
       run: pnpm playwright install --with-deps chromium
       if: steps.playwright-cache.outputs.cache-hit != 'true'
-    - name: Validate schema against live API responses 
+    - name: Validate schema against live API responses
       shell: bash
       env:
         TEST_SUBSCRIPTIONS: '${{ inputs.testSubscriptions }}'

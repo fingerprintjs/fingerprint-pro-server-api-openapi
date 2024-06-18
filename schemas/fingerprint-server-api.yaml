@@ -362,7 +362,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ManyRequestsResponse'
+                $ref: '#/components/schemas/TooManyRequestsResponse'
               examples:
                 example:
                   summary: Example too many requests error response
@@ -686,7 +686,7 @@ components:
           example: 'Forbidden (HTTP 403)'
       required:
         - error
-    ManyRequestsResponse:
+    TooManyRequestsResponse:
       type: object
       additionalProperties: false
       properties:
