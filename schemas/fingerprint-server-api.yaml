@@ -549,6 +549,16 @@ paths:
                 example:
                   summary: Example response
                   externalValue: '/examples/delete_visits_403_error.json'
+        '400':
+          description: Bad request. The visitor ID is missing or empty.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400DeleteVisitsResponse'
+              examples:
+                example:
+                  summary: Example response
+                  externalValue: '/examples/delete_visits_400_error.json'
         '404':
           description: Not found. The visitor ID cannot be found in this application's data.
           content:
@@ -559,6 +569,16 @@ paths:
                 example:
                   summary: Example 404 response
                   externalValue: '/examples/delete_visits_404_error.json'
+        '429':
+          description: Too Many Requests. The request is throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error429ServerResponse'
+              examples:
+                example:
+                  summary: Example too many requests error response
+                  externalValue: '/examples/server_429_too_many_requests_error.json'
   /webhook:
     trace:
       tags:
@@ -719,6 +739,48 @@ components:
           required:
             - code
             - message
+    Error400DeleteVisitsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: 'object'
+          additionalProperties: false
+          title: ErrorDeleteVisitsResponseError
+          properties:
+            code:
+              type: string
+              description: >
+                Error code:
+                * `RequestCannotBeParsed` - The visitor ID is invalid.
+                * `RequestCannotBeParsed` - The visitor ID is required.
+              enum:
+                - VisitorIdRequired
+              example: 'VisitorIdRequired'
+            message:
+              type: string
+              example: 'invalid visitor id'
+          required:
+            - code
+            - message
+    Error429ServerResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          description: >
+            Error code:
+            * `TooManyRequests` - The request is throttled.
+          enum:
+            - TooManyRequests
+          example: 'TooManyRequests'
+        message:
+          type: string
+          example: 'request throttled'
+      required:
+        - code
+        - message
     WebhookVisit:
       allOf:
         - type: object
