@@ -554,10 +554,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error400DeleteVisitsResponse'
+                $ref: '#/components/schemas/ErrorVisitsDelete400Response'
               examples:
                 example:
-                  summary: Example response
+                  summary: Example 400 response
                   externalValue: '/examples/delete_visits_400_error.json'
         '404':
           description: Not found. The visitor ID cannot be found in this application's data.
@@ -574,11 +574,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error429ServerResponse'
+                $ref: '#/components/schemas/ErrorCommon429Response'
               examples:
                 example:
                   summary: Example too many requests error response
-                  externalValue: '/examples/server_429_too_many_requests_error.json'
+                  externalValue: '/examples//delete_visits_429_error.json'
   /webhook:
     trace:
       tags:
@@ -739,7 +739,7 @@ components:
           required:
             - code
             - message
-    Error400DeleteVisitsResponse:
+    ErrorVisitsDelete400Response:
       type: object
       additionalProperties: false
       properties:
@@ -762,7 +762,7 @@ components:
           required:
             - code
             - message
-    Error429ServerResponse:
+    ErrorCommon429Response:
       type: object
       additionalProperties: false
       properties:
