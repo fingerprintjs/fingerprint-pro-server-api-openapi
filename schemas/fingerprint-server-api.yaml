@@ -754,8 +754,8 @@ components:
                 Error code:
                 * `RequestCannotBeParsed` - The visitor ID is missing or in the wrong format.
               enum:
-                - VisitorIdRequired
-              example: 'VisitorIdRequired'
+                - RequestCannotBeParsed
+              example: 'RequestCannotBeParsed'
             message:
               type: string
               example: 'invalid visitor id'
