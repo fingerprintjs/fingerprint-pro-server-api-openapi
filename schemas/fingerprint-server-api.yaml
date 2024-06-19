@@ -674,6 +674,24 @@ components:
           required:
             - code
             - message
+    ErrorCommon429Response:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          description: >
+            Error code:
+            * `TooManyRequests` - The request is throttled.
+          enum:
+            - TooManyRequests
+          example: 'TooManyRequests'
+        message:
+          type: string
+          example: 'request throttled'
+      required:
+        - code
+        - message
     ErrorEvent404Response:
       type: object
       additionalProperties: false
@@ -763,24 +781,6 @@ components:
           required:
             - code
             - message
-    ErrorCommon429Response:
-      type: object
-      additionalProperties: false
-      properties:
-        code:
-          type: string
-          description: >
-            Error code:
-            * `TooManyRequests` - The request is throttled.
-          enum:
-            - TooManyRequests
-          example: 'TooManyRequests'
-        message:
-          type: string
-          example: 'request throttled'
-      required:
-        - code
-        - message
     WebhookVisit:
       allOf:
         - type: object
