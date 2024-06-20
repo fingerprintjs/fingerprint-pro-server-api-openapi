@@ -186,7 +186,8 @@ async function validateWebhookSchema() {
  */
 async function validateCommonError403Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating CommonError403 schema: \n');
-  const commonError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorCommon403Response');
+  const schemaName = 'ErrorCommon403Response';
+  const commonError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const commonError403Validator = ajv.compile(commonError403Schema);
 
   // Validate against example file
@@ -195,7 +196,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: commonError403Validator,
-      schemaName: 'CommonError403Schema',
+      schemaName,
     })
   );
 
@@ -210,13 +211,29 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
       const eventResponse = await client.getEvent(subscription.requestId);
       fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" to the error response, just get rid of it and validate the rest
+      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
       delete error.status;
+      delete error.response;
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
         validator: commonError403Validator,
-        schemaName: 'CommonError403Schema',
+        schemaName,
+      });
+    }
+
+    try {
+      const eventResponse = await client.deleteVisitorData(subscription.visitorId);
+      fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
+    } catch (error) {
+      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
+      delete error.status;
+      delete error.response;
+      validateJson({
+        json: error,
+        jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: commonError403Validator,
+        schemaName,
       });
     }
   }
@@ -251,8 +268,9 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
       const eventResponse = await client.getEvent('non-existent-request-id');
       fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" to the error response, just get rid of it and validate the rest
+      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
       delete error.status;
+      delete error.response;
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
@@ -266,7 +284,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
 /**
  * Validates VisitsError403 schema
  */
-async function validateVisitsError403Schema(testSubscriptions: TestSubscription[]) {
+async function validateGetVisitsError403Schema(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating VisitsError403 schema: \n');
   const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorVisits403');
   const visitsError403Validator = ajv.compile(visitsError403Schema);
@@ -292,8 +310,9 @@ async function validateVisitsError403Schema(testSubscriptions: TestSubscription[
       const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" to the error response, just get rid of it and validate the rest
+      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
       delete error.status;
+      delete error.response;
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
@@ -307,7 +326,7 @@ async function validateVisitsError403Schema(testSubscriptions: TestSubscription[
 /**
  * Validates VisitsError429
  */
-async function validateVisitsError429Schema() {
+async function validateGetVisitsError429Schema() {
   console.log('\nValidating VisitsError429 schema: \n');
   const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/TooManyRequestsResponse');
   const visitsError429Validator = ajv.compile(visitsError429Schema);
@@ -321,6 +340,72 @@ async function validateVisitsError429Schema() {
       schemaName: 'VisitsError429Schema',
     })
   );
+}
+
+/**
+ * Validates ErrorCommon429Response
+ */
+async function validateDeleteVisitsError429Schema() {
+  console.log('\nValidating ErrorCommon429Response schema: \n');
+  const errorCommon429ResponseSchema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorCommon429Response'
+  );
+  const errorCommon429ResponseValidator = ajv.compile(errorCommon429ResponseSchema);
+
+  // Validate against example file
+  ['./examples/delete_visits_429_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: errorCommon429ResponseValidator,
+      schemaName: 'ErrorCommon429Response',
+    })
+  );
+}
+
+/**
+ * Validates ErrorVisitsDelete400Response schema
+ */
+async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscription[]) {
+  console.log('\nValidating DeleteVisitsError400 schema: \n');
+  const deleteVisitsError400Schema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorVisitsDelete400Response'
+  );
+  const deleteVisitsError400Validator = ajv.compile(deleteVisitsError400Schema);
+
+  // Validate against example file
+  ['./examples/delete_visits_400_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: deleteVisitsError400Validator,
+      schemaName: 'DeleteVisitsError400',
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const visitsResponse = await client.deleteVisitorData('malformed visitor id');
+      fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
+    } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { response, status, ...error } = e.error;
+      validateJson({
+        json: error,
+        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: deleteVisitsError400Validator,
+        schemaName: 'DeleteVisitsError400',
+      });
+    }
+  }
 }
 
 /**
@@ -346,8 +431,10 @@ async function validateVisitsError429Schema() {
 
   await validateCommonError403Schema(testSubscriptions);
   await validateEventError404Schema(testSubscriptions);
-  await validateVisitsError403Schema(testSubscriptions);
-  await validateVisitsError429Schema();
+  await validateGetVisitsError403Schema(testSubscriptions);
+  await validateGetVisitsError429Schema();
+  await validateErrorVisitsDelete400Schema(testSubscriptions);
+  await validateDeleteVisitsError429Schema();
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
