@@ -66,7 +66,7 @@ const testSubscriptionEnvVariableZod = z.object({
   serverApiKey: z.string(),
   region: z.union([z.literal('us'), z.literal('eu'), z.literal('ap')]),
   // Coerce "true" into true
-  deleteEnabled: z.coerce.boolean(),
+  deleteEnabled: z.coerce.boolean().optional(),
 });
 type TestSubscription = z.infer<typeof testSubscriptionEnvVariableZod> & { requestId: string; visitorId: string };
 
