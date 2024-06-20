@@ -65,6 +65,8 @@ const testSubscriptionEnvVariableZod = z.object({
   publicApiKey: z.string(),
   serverApiKey: z.string(),
   region: z.union([z.literal('us'), z.literal('eu'), z.literal('ap')]),
+  // Coerce "true" into true
+  deleteEnabled: z.coerce.boolean(),
 });
 type TestSubscription = z.infer<typeof testSubscriptionEnvVariableZod> & { requestId: string; visitorId: string };
 
@@ -409,6 +411,50 @@ async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscri
 }
 
 /**
+ * Validates ErrorVisitsDelete404Response schema
+ */
+async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscription[]) {
+  console.log('\nValidating DeleteVisitsError404 schema: \n');
+  const deleteVisitsError404Schema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorVisitsDelete404Response'
+  );
+  const deleteVisitsError404Validator = ajv.compile(deleteVisitsError404Schema);
+
+  // Validate against example file
+  ['./examples/delete_visits_404_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: deleteVisitsError404Validator,
+      schemaName: 'DeleteVisitsError404',
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    try {
+      const visitsResponse = await client.deleteVisitorData('e0srMXYG7PjFCAbE0yIH');
+      fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
+    } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { response, status, ...error } = e;
+      validateJson({
+        json: error,
+        jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: deleteVisitsError404Validator,
+        schemaName: 'DeleteVisitsError404',
+      });
+    }
+  }
+}
+
+/**
  * Main function
  */
 (async () => {
@@ -435,6 +481,7 @@ async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscri
   await validateGetVisitsError429Schema();
   await validateErrorVisitsDelete400Schema(testSubscriptions);
   await validateDeleteVisitsError429Schema();
+  await validateErrorVisitsDelete404Schema(testSubscriptions.filter((sub) => sub.deleteEnabled));
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
