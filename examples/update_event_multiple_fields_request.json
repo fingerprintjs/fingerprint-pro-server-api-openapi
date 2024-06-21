@@ -1,0 +1,7 @@
+{
+    "linkedId": "myNewLinkedId",
+    "tags": {
+        "myTag": "myNewValue"
+    },
+    "suspect": true
+}
