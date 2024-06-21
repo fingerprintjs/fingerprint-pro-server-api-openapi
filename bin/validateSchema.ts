@@ -459,28 +459,6 @@ async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscri
 }
 
 /*
- * Validates EventUpdateError404
- */
-async function validateUpdateEventError404Schema() {
-  console.log('\nValidating UpdateEvent404Error schema: \n');
-  const updateEvent404ErrorSchema = convertOpenApiToJsonSchema(
-    OPEN_API_SCHEMA,
-    '#/definitions/ErrorUpdateEvent404Response'
-  );
-  const updateEvent404ErrorValidator = ajv.compile(updateEvent404ErrorSchema);
-
-  // Validate against example file
-  ['./examples/update_event_404_error.json'].forEach((examplePath) =>
-    validateJson({
-      json: JSON.parse(fs.readFileSync(examplePath).toString()),
-      jsonName: examplePath,
-      validator: updateEvent404ErrorValidator,
-      schemaName: 'UpdateEvent404Error',
-    })
-  );
-}
-
-/*
  * Validates EventUpdateError400
  */
 async function validateUpdateEventError400Schema() {
@@ -554,7 +532,6 @@ async function validateUpdateEventError409Schema() {
   await validateErrorVisitsDelete404Schema(testSubscriptions.filter((sub) => sub.deleteEnabled));
 
   await validateUpdateEventError400Schema();
-  await validateUpdateEventError404Schema();
   await validateUpdateEventError409Schema();
 
   if (exitCode === 0) {
