@@ -528,7 +528,7 @@ paths:
         * Recent data (10 days or newer) belonging to the specified visitor will be deleted within 24 hours.
         * Data from older (11 days or more) identification events  will be deleted after 90 days.
 
-        If you are interested in using this API, please [contact our support team](https://fingerprint.com/support/) to activate it for you. Otherwise, you will receive a 403.
+        If you are interested in using this API, please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
       parameters:
         - name: visitor_id
           in: path
@@ -539,6 +539,73 @@ paths:
       responses:
         '200':
           description: OK. The visitor ID is scheduled for deletion.
+        '400':
+          description: Bad request. The visitor ID parameter is missing or in the wrong format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisitsDelete400Response'
+              examples:
+                example:
+                  summary: Bad request
+                  externalValue: '/examples/delete_visits_400_error.json'
+        '403':
+          description: Forbidden. Access to this API is denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCommon403Response'
+              examples:
+                example:
+                  summary: Forbidden
+                  externalValue: '/examples/delete_visits_403_error.json'
+
+        '404':
+          description: Not found. The visitor ID cannot be found in this application's data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisitsDelete404Response'
+              examples:
+                example:
+                  summary: Not found
+                  externalValue: '/examples/delete_visits_404_error.json'
+        '429':
+          description: Too Many Requests. The request is throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCommon429Response'
+              examples:
+                example:
+                  summary: Too Many Requests
+                  externalValue: '/examples/delete_visits_429_error.json'
+    /related-visitors?visitor_id={visitor_id}:
+      get:
+        tags:
+        - RelatedVisitors
+        operationId: 'getRelatedVisitors'
+        summary: Get Related Visitors
+        description: |
+        For mobile devices, the visitor ID that Fingerprint generates for in-app browsers is different from that generated for a regular browser.
+        You can use this API to unify and personalize the experience for your anonymous users who visit your website from regular and in-app browsers. 
+        This API will enable you to find if one or more web and in-app browser sessions originated from the same mobile device.
+      
+        When requested, this API will search identification events within the past 6 months to find the visitor IDs that belong to the same mobile device as the given visitor ID.
+
+        This API is available for all of [our plans](https://fingerprint.com/pricing/) and is billed at $1 per 1000 API calls.
+        
+        If you are interested in using this API, please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
+      parameters:
+        - name: visitor_id
+          in: query
+          description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK.
         '400':
           description: Bad request. The visitor ID parameter is missing or in the wrong format.
           content:
