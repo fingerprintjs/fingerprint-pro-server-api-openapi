@@ -99,7 +99,7 @@ paths:
               examples:
                 example:
                   summary: Not found
-                  externalValue: '/examples/event_404_error.json'
+                  externalValue: '/examples/get_event_404_error.json'
       x-readme:
         code-samples:
           - language: node
@@ -301,7 +301,7 @@ paths:
               examples:
                 example:
                   summary: Example response
-                  externalValue: '/examples/event_404_error.json'
+                  externalValue: '/examples/get_event_404_error.json'
         '409':
           description: Conflict
           content:
