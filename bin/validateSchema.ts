@@ -321,7 +321,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
   const eventError404Validator = ajv.compile(eventError404Schema);
 
   // Validate against example file
-  ['./examples/get_event_404_error.json'].forEach((examplePath) =>
+  ['./examples/get_event_404_error.json', './examples/update_event_404_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
