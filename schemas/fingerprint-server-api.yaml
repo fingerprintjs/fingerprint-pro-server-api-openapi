@@ -23,8 +23,8 @@ servers:
   - url: https://ap.api.fpjs.io
     description: Asia (Mumbai)
 security:
-  - ApiKeyHeader: []
-  - ApiKeyQuery: []
+  - ApiKeyHeader: [ ]
+  - ApiKeyQuery: [ ]
 x-readme:
   samples-languages:
     - curl
@@ -286,7 +286,7 @@ paths:
             type: string
           required:
             false
-            # example: some_id
+          # example: some_id
         - name: limit
           description: |
             Limit scanned results. 
@@ -315,7 +315,7 @@ paths:
             type: string
           required:
             false
-            # example: 1683900801733.Ogvu1j
+          # example: 1683900801733.Ogvu1j
         - name: before
           description: |
             ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results.
@@ -773,6 +773,8 @@ components:
               $ref: '#/components/schemas/LocationSpoofingResult'
             suspectScore:
               $ref: '#/components/schemas/SuspectScoreResult'
+            velocity:
+              $ref: '#/components/schemas/VelocityResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1260,6 +1262,13 @@ components:
               $ref: '#/components/schemas/RawDeviceAttributesResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        velocity:
+          title: SignalResponseVelocity
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              $ref: '#/components/schemas/VelocityResult'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
@@ -1518,6 +1527,22 @@ components:
           example: 0
       required:
         - result
+    VelocityResult:
+      type: object
+      description: >
+        Wraps multiple velocity signals for a particular visitorId. All the signals have aggregated results for predetermined
+        Intervals back, the response would be null in case of velocity data is not generated
+      additionalProperties: true
+      nullable: true
+      properties:
+        distinctIP:
+          $ref: '#/components/schemas/Intervals'
+        distinctLinkedId:
+          $ref: '#/components/schemas/Intervals'
+        distinctCountry:
+          $ref: '#/components/schemas/Intervals'
+        events:
+          $ref: '#/components/schemas/Intervals'
     RawDeviceAttributesResult:
       type: object
       description: >
@@ -1703,3 +1728,18 @@ components:
       required:
         - code
         - message
+    Intervals:
+      type: object
+      additionalProperties: false
+      nullable: true
+      properties:
+        '5m':
+          type: integer
+          example: 1
+        '1h':
+          type: integer
+          example: 1
+        '24h':
+          type: integer
+          example: 1
+
