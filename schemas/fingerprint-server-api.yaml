@@ -23,8 +23,8 @@ servers:
   - url: https://ap.api.fpjs.io
     description: Asia (Mumbai)
 security:
-  - ApiKeyHeader: [ ]
-  - ApiKeyQuery: [ ]
+  - ApiKeyHeader: []
+  - ApiKeyQuery: []
 x-readme:
   samples-languages:
     - curl
@@ -286,7 +286,7 @@ paths:
             type: string
           required:
             false
-          # example: some_id
+            # example: some_id
         - name: limit
           description: |
             Limit scanned results. 
@@ -315,7 +315,7 @@ paths:
             type: string
           required:
             false
-          # example: 1683900801733.Ogvu1j
+            # example: 1683900801733.Ogvu1j
         - name: before
           description: |
             ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results.
