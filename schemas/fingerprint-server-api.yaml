@@ -250,7 +250,7 @@ paths:
       tags:
         - Events
       operationId: 'updateEvent'
-      summary: Update an event with a given request ID 
+      summary: Update an event with a given request ID
       description: |
         Change information in existing events specified by `requestId` or *flag suspicious events*.
 
@@ -635,7 +635,7 @@ paths:
                   summary: Error response when the secret API key was not provided.
                   externalValue: '/examples/shared/403_error_token_required.json'
                 403-wrong-region:
-                  summary: Error response when the API region is different from the region, the calling application is configured with. 
+                  summary: Error response when the API region is different from the region, the calling application is configured with.
                   externalValue: '/examples/shared/403_error_wrong_region.json'
 
         '404':
@@ -918,6 +918,8 @@ components:
               $ref: '#/components/schemas/SuspectScoreResult'
             remoteControl:
               $ref: '#/components/schemas/RemoteControlResult'
+            velocity:
+              $ref: '#/components/schemas/VelocityResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1414,6 +1416,13 @@ components:
               $ref: '#/components/schemas/RemoteControlResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        velocity:
+          title: SignalResponseVelocity
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              $ref: '#/components/schemas/VelocityResult'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
@@ -1672,6 +1681,22 @@ components:
           example: 0
       required:
         - result
+    VelocityResult:
+      type: object
+      description: >
+        Wraps multiple velocity signals for a particular visitorId. All the signals have aggregated results for predetermined
+        Intervals back, the response would be null in case of velocity data is not generated
+      additionalProperties: true
+      nullable: true
+      properties:
+        distinctIP:
+          $ref: '#/components/schemas/Intervals'
+        distinctLinkedId:
+          $ref: '#/components/schemas/Intervals'
+        distinctCountry:
+          $ref: '#/components/schemas/Intervals'
+        events:
+          $ref: '#/components/schemas/Intervals'
     RawDeviceAttributesResult:
       type: object
       description: >
@@ -1931,3 +1956,18 @@ components:
           required:
             - code
             - message
+    Intervals:
+      type: object
+      additionalProperties: false
+      nullable: true
+      properties:
+        '5m':
+          type: integer
+          example: 1
+        '1h':
+          type: integer
+          example: 1
+        '24h':
+          type: integer
+          example: 1
+
