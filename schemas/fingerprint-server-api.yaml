@@ -838,6 +838,8 @@ components:
               $ref: '#/components/schemas/LocationSpoofingResult'
             suspectScore:
               $ref: '#/components/schemas/SuspectScoreResult'
+            velocity:
+              $ref: '#/components/schemas/VelocityResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1325,6 +1327,15 @@ components:
               $ref: '#/components/schemas/RawDeviceAttributesResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        velocity:
+          title: SignalResponseVelocity
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              $ref: '#/components/schemas/VelocityResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
@@ -1583,6 +1594,22 @@ components:
           example: 0
       required:
         - result
+    VelocityResult:
+      type: object
+      description: >
+        Wraps multiple velocity signals for a particular visitorId. All the signals have aggregated results for predetermined
+        Intervals back, the response would be null in case of velocity data is not generated
+      additionalProperties: false
+      nullable: true
+      properties:
+        distinctIp:
+          $ref: '#/components/schemas/VelocityIntervals'
+        distinctLinkedId:
+          $ref: '#/components/schemas/VelocityIntervals'
+        distinctCountry:
+          $ref: '#/components/schemas/VelocityIntervals'
+        events:
+          $ref: '#/components/schemas/VelocityIntervals'
     RawDeviceAttributesResult:
       type: object
       description: >
@@ -1768,3 +1795,25 @@ components:
       required:
         - code
         - message
+    VelocityIntervals:
+      type: object
+      additionalProperties: false
+      nullable: true
+      properties:
+        'intervals':
+          $ref: '#/components/schemas/VelocityIntervalResult'
+    VelocityIntervalResult:
+      type: object
+      additionalProperties: false
+      nullable: true
+      properties:
+        '5m':
+          type: integer
+          example: 1
+        '1h':
+          type: integer
+          example: 1
+        '24h':
+          type: integer
+          example: 1
+
