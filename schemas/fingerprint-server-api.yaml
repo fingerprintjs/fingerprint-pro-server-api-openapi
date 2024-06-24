@@ -1423,6 +1423,8 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/VelocityResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
