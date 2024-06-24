@@ -1686,7 +1686,7 @@ components:
       description: >
         Wraps multiple velocity signals for a particular visitorId. All the signals have aggregated results for predetermined
         Intervals back, the response would be null in case of velocity data is not generated
-      additionalProperties: true
+      additionalProperties: false
       nullable: true
       properties:
         distinctIP:
