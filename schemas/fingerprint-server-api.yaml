@@ -254,7 +254,7 @@ paths:
       description: |
         Change information in existing events specified by `requestId` or *flag suspicious events*.
 
-        When an event is created, it is assigned `linkedId` and `tags` submitted through the JS agent parameters. This information might not be available on the client so the Server API allows for updating the attributes after the fact.
+        When an event is created, it is assigned `linkedId` and `tag` submitted through the JS agent parameters. This information might not be available on the client so the Server API allows for updating the attributes after the fact.
 
         **Warning** It's not possible to update events older than 10 days.
       parameters:
@@ -1874,9 +1874,9 @@ components:
         linkedId:
           type: string
           description: LinkedID value to assign to the existing event
-        tags:
+        tag:
           type: object
-          description: Full tags value to be set to the existing event. Replaces any existing tags payload completely.
+          description: Full `tag` value to be set to the existing event. Replaces any existing `tag` payload completely.
         suspect:
           type: boolean
           description: Suspect flag indicating observed suspicious or fraudulent event
@@ -1919,7 +1919,7 @@ components:
               type: string
               description: >
                 Error code:
-                * `` - The event specified with request id is not ready for updates yet. Try again.
+                * `StateNotReady` - The event specified with request id is not ready for updates yet. Try again.
 
                 This error happens in rare cases when update API is called immediately after receiving the request id on the client. In case you need to send information right away, we recommend using the JS agent API instead.
               enum:
