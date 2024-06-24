@@ -1962,17 +1962,19 @@ components:
       nullable: true
       properties:
         'intervals':
-          type: object
-          additionalProperties: false
-          nullable: true
-          properties:
-            '5m':
-              type: integer
-              example: 1
-            '1h':
-              type: integer
-              example: 1
-            '24h':
-              type: integer
-              example: 1
+          $ref: '#/components/schemas/VelocityIntervalResult'
+    VelocityIntervalResult:
+      type: object
+      additionalProperties: false
+      nullable: true
+      properties:
+        '5m':
+          type: integer
+          example: 1
+        '1h':
+          type: integer
+          example: 1
+        '24h':
+          type: integer
+          example: 1
 
