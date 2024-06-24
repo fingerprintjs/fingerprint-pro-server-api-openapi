@@ -1964,6 +1964,7 @@ components:
         'intervals':
           type: object
           additionalProperties: false
+          nullable: true
           properties:
             '5m':
               type: integer
