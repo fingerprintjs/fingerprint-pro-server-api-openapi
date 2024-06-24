@@ -280,7 +280,7 @@
     },
     "velocity": {
       "data": {
-        "distinctIP": {
+        "distinctIp": {
           "intervals": {
             "5m": 1,
             "1h": 1,
