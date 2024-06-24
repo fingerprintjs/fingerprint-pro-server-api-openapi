@@ -1689,14 +1689,14 @@ components:
       additionalProperties: false
       nullable: true
       properties:
-        distinctIP:
-          $ref: '#/components/schemas/Intervals'
+        distinctIp:
+          $ref: '#/components/schemas/VelocityIntervals'
         distinctLinkedId:
-          $ref: '#/components/schemas/Intervals'
+          $ref: '#/components/schemas/VelocityIntervals'
         distinctCountry:
-          $ref: '#/components/schemas/Intervals'
+          $ref: '#/components/schemas/VelocityIntervals'
         events:
-          $ref: '#/components/schemas/Intervals'
+          $ref: '#/components/schemas/VelocityIntervals'
     RawDeviceAttributesResult:
       type: object
       description: >
@@ -1956,18 +1956,22 @@ components:
           required:
             - code
             - message
-    Intervals:
+    VelocityIntervals:
       type: object
       additionalProperties: false
       nullable: true
       properties:
-        '5m':
-          type: integer
-          example: 1
-        '1h':
-          type: integer
-          example: 1
-        '24h':
-          type: integer
-          example: 1
+        'intervals':
+          type: object
+          additionalProperties: false
+          properties:
+            '5m':
+              type: integer
+              example: 1
+            '1h':
+              type: integer
+              example: 1
+            '24h':
+              type: integer
+              example: 1
 
