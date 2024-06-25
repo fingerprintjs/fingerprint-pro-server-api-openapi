@@ -660,7 +660,7 @@ components:
                  * `TokenNotFound` - No Fingerprint application found for specified secret key
                  * `SubscriptionNotActive` - Fingerprint application is not active
                  * `WrongRegion` - server and application region differ
-                 * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application 
+                 * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application
               enum:
                 - TokenRequired
                 - TokenNotFound
@@ -681,7 +681,7 @@ components:
         error:
           type: 'object'
           additionalProperties: false
-          properties:          
+          properties:
             code:
               type: string
               description: >
@@ -1171,7 +1171,7 @@ components:
             data:
               $ref: '#/components/schemas/IncognitoResult'
             error:
-              $ref: '#/components/schemas/ProductError'
+              $ref: '#/components/schemas/IdentificationError'
         rootApps:
           title: SignalResponseRootApps
           type: object
@@ -1288,7 +1288,7 @@ components:
             data:
               $ref: '#/components/schemas/TamperingResult'
             error:
-              $ref: '#/components/schemas/ProductError'
+              $ref: '#/components/schemas/IdentificationError'
         highActivity:
           title: SignalResponseHighActivity
           type: object
@@ -1324,7 +1324,7 @@ components:
             data:
               $ref: '#/components/schemas/RawDeviceAttributesResult'
             error:
-              $ref: '#/components/schemas/ProductError'
+              $ref: '#/components/schemas/IdentificationError'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object

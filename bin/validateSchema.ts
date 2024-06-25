@@ -93,6 +93,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
     './examples/get_event_200_botd_too_many_requests_error.json',
     './examples/get_event_200_identification_failed_error.json',
     './examples/get_event_200_identification_too_many_requests_error.json',
+    './examples/get_event_200_identification_too_many_requests_error_all_fields.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
