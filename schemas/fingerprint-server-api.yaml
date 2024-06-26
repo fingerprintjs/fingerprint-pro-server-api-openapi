@@ -806,8 +806,7 @@ components:
               example: 'visitor not found'
           required:
             - code
-            - message
-    
+            - message    
     WebhookVisit:
       allOf:
         - type: object
