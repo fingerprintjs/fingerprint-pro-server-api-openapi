@@ -403,8 +403,8 @@ async function validateCommonError400Schema(testSubscriptions: TestSubscription[
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
-        validator: deleteVisitsError400Validator,
-        schemaName: 'DeleteVisitsError400',
+        validator: commonError400Validator,
+        schemaName: 'ErrorCommon400Response',
       });
     }
   }
