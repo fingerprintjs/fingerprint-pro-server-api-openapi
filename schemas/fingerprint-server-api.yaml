@@ -544,7 +544,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitsDelete400Response'
+                $ref: '#/components/schemas/ErrorCommon400Response'
               examples:
                 example:
                   summary: Bad request
@@ -565,7 +565,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitsDelete404Response'
+                $ref: '#/components/schemas/ErrorCommon404Response'
               examples:
                 example:
                   summary: Not found
