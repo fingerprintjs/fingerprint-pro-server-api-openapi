@@ -41,8 +41,8 @@ paths:
       Please visit the [Overview](https://dev.fingerprint.com/reference/related-visitors-api) page to learn more about this API.
       parameters:
         - name: visitor_id
-          in: query
           description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
+          in: query
           required: true
           schema:
             type: string
