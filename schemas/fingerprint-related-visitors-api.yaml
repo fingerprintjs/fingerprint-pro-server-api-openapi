@@ -1,10 +1,93 @@
 openapi: 3.0.3
 info:
   title: Related Visitors API
-  description: |
-    Fingerprint Pro Server API allows you to get information about visitors and about individual events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
-    Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
-  version: '3'
+  summary: |
+    Use this API to unify and personalize the experience for your anonymous users who visit your website from regular and in-app browsers. 
+  version: '1.0'
   contact:
     name: Fingerprint Support
     email: support@fingerprint.com
+tags:
+  - name: Related Visitors
+servers:
+  - url: https://api.fpjs.io
+    description: Recommended if your customer base is primarily in the Americas.
+  - url: https://eu.api.fpjs.io
+    description: Recommended if your customer base is primarily in Europe.
+  - url: https://ap.api.fpjs.io
+    description: Recommended if your customer base is primarily in the APAC region.
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: Auth-API-Key
+  APIKeyQueryParam:
+    type: apiKey
+    in: query
+    name: api_key
+security:
+  - APIKeyHeader: []
+  - APIKeyQueryParam: []
+paths:
+  /related-visitors?visitor_id={visitor_id}:
+    get:
+      tags:
+        - Related Visitors
+      operationId: 'getRelatedVisitors'
+      summary: Get Related Visitors
+      description: |
+      This API will enable you to find if one or more web and in-app browser sessions originated from the same mobile device.
+      When requested, this API will search identification events within the past 6 months to find the visitor IDs that belong to the same mobile device as the given visitor ID.
+      Please visit the [Overview](https://dev.fingerprint.com/reference/related-visitors-api) page to learn more about this API.
+    parameters:
+      - name: visitor_id
+        in: query
+        description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
+        required: true
+        schema:
+          type: string
+    responses:
+        '200':
+          description: OK.
+        '400':
+          description: Bad request. The visitor ID parameter is missing or in the wrong format.
+          content:
+            application/json:
+              schema:
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon400Response'
+              examples:
+                400-invalid-visitor-id:
+                  summary: Error response when the visitor ID is incorrectly formatted or is missing
+                  externalValue: '/examples/delete_visits_400_error.json'
+        '403':
+          description: Forbidden. Access to this API is denied.
+          content:
+            application/json:
+              schema:
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon403Response'
+              examples:
+                403-feature-not-enabled:
+                  summary: Error response when this feature is not enabled for a subscription.
+                  externalValue: '/examples/delete_visits_403_error.json'
+        '404':
+          description: Not found. The visitor ID cannot be found in this application's data.
+          content:
+            application/json:
+              schema:
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon404Response'
+              examples:
+                404-visitor-not-found:
+                  summary: Error response when the visitor ID cannot be found in this application's data.
+                  externalValue: '/examples/delete_visits_404_error.json'
+        '429':
+          description: Too Many Requests. The request is throttled.
+          content:
+            application/json:
+              schema:
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon429Response'
+              examples:
+                example:
+                  summary: Too Many Requests
+                  externalValue: '/examples/delete_visits_429_error.json'
+
+
