@@ -39,14 +39,14 @@ paths:
       This API will enable you to find if one or more web and in-app browser sessions originated from the same mobile device.
       When requested, this API will search identification events within the past 6 months to find the visitor IDs that belong to the same mobile device as the given visitor ID.
       Please visit the [Overview](https://dev.fingerprint.com/reference/related-visitors-api) page to learn more about this API.
-    parameters:
-      - name: visitor_id
-        in: query
-        description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
-        required: true
-        schema:
-          type: string
-    responses:
+      parameters:
+        - name: visitor_id
+          in: query
+          description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
+          required: true
+          schema:
+            type: string
+      responses:
         '200':
           description: OK.
         '400':
