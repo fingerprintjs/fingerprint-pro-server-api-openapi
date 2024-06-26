@@ -367,23 +367,23 @@ async function validateDeleteVisitsError429Schema() {
 }
 
 /**
- * Validates ErrorVisitsDelete400Response schema
+ * Validates ErrorCommon400Response schema
  */
-async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating DeleteVisitsError400 schema: \n');
-  const deleteVisitsError400Schema = convertOpenApiToJsonSchema(
+async function validateCommonError400Schema(testSubscriptions: TestSubscription[]) {
+  console.log('\nValidating CommonError400 schema: \n');
+  const errorCommon400ResponseSchema = convertOpenApiToJsonSchema(
     OPEN_API_SCHEMA,
-    '#/definitions/ErrorVisitsDelete400Response'
+    '#/definitions/ErrorCommon400Response'
   );
-  const deleteVisitsError400Validator = ajv.compile(deleteVisitsError400Schema);
+  const commonError400Validator = ajv.compile(errorCommon400ResponseSchema);
 
   // Validate against example file
   ['./examples/delete_visits_400_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
-      validator: deleteVisitsError400Validator,
-      schemaName: 'DeleteVisitsError400',
+      validator: commonError400Validator,
+      schemaName: 'ErrorCommon400Response',
     })
   );
 
@@ -479,7 +479,7 @@ async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscri
   await validateEventError404Schema(testSubscriptions);
   await validateGetVisitsError403Schema(testSubscriptions);
   await validateGetVisitsError429Schema();
-  await validateErrorVisitsDelete400Schema(testSubscriptions);
+  await validateCommonError400Schema(testSubscriptions);
   await validateDeleteVisitsError429Schema();
   await validateErrorVisitsDelete404Schema(testSubscriptions.filter((sub) => sub.deleteEnabled));
 
