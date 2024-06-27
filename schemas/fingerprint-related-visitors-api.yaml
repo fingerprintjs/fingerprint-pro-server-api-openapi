@@ -49,6 +49,14 @@ paths:
       responses:
         '200':
           description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200SuccessResponse'
+              examples:
+                200-success-response:
+                  summary: Success response
+                  externalValue: '/examples/related-visitors/200-success.json'
         '400':
           description: Bad request. The visitor ID parameter is missing or in the wrong format.
           content:
@@ -89,5 +97,29 @@ paths:
                 example:
                   summary: Too Many Requests
                   externalValue: '/examples/delete_visits_429_error.json'
-
+components:
+  schemas:
+    200SuccessResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        relatedVisitors:
+          type: array
+          items:
+            title: VisitorObjects
+            allOf:
+              - $ref: '#/components/schemas/200SuccessVisitorObject'
+      required:
+        - relatedVisitors
+    200SuccessVisitorObject:
+      type: object
+      additionalProperties: false
+      properties:
+        visitorId:
+          description: Visitor ID of a browser that originates from the same mobile device as the input visitor ID. 
+          type: string
+          example: 'Ibk1527CUFmcnjLwIs4A'
+      required:
+        - visitorId
+      
 
