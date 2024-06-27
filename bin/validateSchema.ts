@@ -356,7 +356,7 @@ async function validateDeleteVisitsError429Schema() {
   const errorCommon429ResponseValidator = ajv.compile(errorCommon429ResponseSchema);
 
   // Validate against example file
-  ['./examples/delete_visits_429_error.json'].forEach((examplePath) =>
+  ['./examples/shared/429_error_too_many_requests.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -422,7 +422,7 @@ async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscri
   const deleteVisitsError404Validator = ajv.compile(deleteVisitsError404Schema);
 
   // Validate against example file
-  ['./examples/delete_visits_404_error.json'].forEach((examplePath) =>
+  ['./examples/shared/404_error_visitor_not_found.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
