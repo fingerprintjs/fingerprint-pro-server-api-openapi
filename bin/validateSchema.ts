@@ -56,6 +56,7 @@ const validateJson = ({
   } else {
     fail(`❌ ${schemaName} schema does not match ${jsonName} schema, because:`);
     console.error(validator.errors);
+    console.log('Invalid JSON: ', JSON.stringify(json, null, 2));
   }
 };
 
@@ -76,6 +77,21 @@ const REGION_MAP = {
   eu: Region.EU,
   ap: Region.AP,
 } as const;
+
+// Update event request is not yet supported in the Node SDK
+type UpdateEventArgs = {
+  requestId: string;
+  subscription: TestSubscription;
+  payload: any;
+};
+function updateEventRequest({ requestId, subscription, payload }: UpdateEventArgs) {
+  const regionPrefix = subscription.region === 'us' ? '' : `${subscription.region}.`;
+  return fetch(`https://${regionPrefix}api.fpjs.io/events/${requestId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Auth-API-Key': subscription.serverApiKey },
+    body: JSON.stringify(payload),
+  });
+}
 
 /**
  * Validate EventResponse schema
@@ -114,7 +130,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
       const eventResponse = await client.getEvent(subscription.requestId);
       validateJson({
         json: eventResponse,
-        jsonName: `🌐 Live Server API EventResponse for '${subscription.name}' > '${subscription.requestId}'`,
+        jsonName: `🌐 Live Server API EventResponse for GET event '${subscription.name}' > '${subscription.requestId}'`,
         validator: eventValidator,
         schemaName: 'EventResponse',
       });
@@ -151,10 +167,10 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
     });
 
     try {
-      const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
+      const visitsResponse = await client.getVisitorHistory(subscription.visitorId, { limit: 3 });
       validateJson({
         json: visitsResponse,
-        jsonName: `🌐 Live Server API Visits Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Visits Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsResponseValidator,
         schemaName: 'VisitsResponse',
       });
@@ -194,7 +210,11 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
   const commonError403Validator = ajv.compile(commonError403Schema);
 
   // Validate against example file
-  ['./examples/get_event_403_error.json', './examples/delete_visits_403_error.json'].forEach((examplePath) =>
+  [
+    './examples/get_event_403_error.json',
+    './examples/delete_visits_403_error.json',
+    './examples/update_event_403_error.json',
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -219,10 +239,30 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
       delete error.response;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
+        jsonName: `🌐 Live Server API Response for GET event '${subscription.name}' > '${subscription.requestId}'`,
         validator: commonError403Validator,
         schemaName,
       });
+    }
+
+    try {
+      const eventResponse = await updateEventRequest({
+        requestId: subscription.requestId,
+        subscription: { ...subscription, serverApiKey: 'Wrong Server API Key' },
+        payload: { linkedId: 'OpenAPI spec test' },
+      });
+      if (eventResponse.status !== 403) {
+        fail(`❌ Updating event with wrong API key was expected to fail with status 403`);
+      } else {
+        validateJson({
+          json: await eventResponse.json(),
+          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
+          validator: commonError403Validator,
+          schemaName,
+        });
+      }
+    } catch (error) {
+      fail(`❌ Unexpected error when updating event ${error}`);
     }
 
     try {
@@ -234,7 +274,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
       delete error.response;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: commonError403Validator,
         schemaName,
       });
@@ -251,7 +291,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
   const eventError404Validator = ajv.compile(eventError404Schema);
 
   // Validate against example file
-  ['./examples/get_event_404_error.json'].forEach((examplePath) =>
+  ['./examples/get_event_404_error.json', './examples/update_event_404_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -259,6 +299,8 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
       schemaName: 'EventError404Schema',
     })
   );
+
+  const nonExistentRequestId = 'non-existent-request-id';
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
@@ -268,7 +310,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
     });
 
     try {
-      const eventResponse = await client.getEvent('non-existent-request-id');
+      const eventResponse = await client.getEvent(nonExistentRequestId);
       fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
       // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
@@ -276,10 +318,30 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
       delete error.response;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.requestId}'`,
+        jsonName: `🌐 Live Server API Response for GET event '${subscription.name}' > '${nonExistentRequestId}'`,
         validator: eventError404Validator,
         schemaName: 'EventError404Schema',
       });
+    }
+
+    try {
+      const eventResponse = await updateEventRequest({
+        requestId: nonExistentRequestId,
+        subscription,
+        payload: { linkedId: 'OpenAPI spec test' },
+      });
+      if (eventResponse.status !== 404) {
+        fail(`❌ Updating non-existed was expected to fail with status 404`);
+      } else {
+        validateJson({
+          json: await eventResponse.json(),
+          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${nonExistentRequestId}'`,
+          validator: eventError404Validator,
+          schemaName: 'EventError404Schema',
+        });
+      }
+    } catch (error) {
+      fail(`❌ Unexpected error when updating event ${error}`);
     }
   }
 }
@@ -318,7 +380,7 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
       delete error.response;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError403Validator,
         schemaName: 'VisitsError403Schema',
       });
@@ -403,7 +465,7 @@ async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscri
       const { response, status, ...error } = e.error;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: deleteVisitsError400Validator,
         schemaName: 'DeleteVisitsError400',
       });
@@ -439,18 +501,123 @@ async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscri
       region: REGION_MAP[subscription.region || 'us'],
     });
 
+    const nonExistentVisitorId = 'e1srMXYG7PjFCAbE0yIH';
     try {
-      const visitsResponse = await client.deleteVisitorData('e0srMXYG7PjFCAbE0yIH');
+      const visitsResponse = await client.deleteVisitorData(nonExistentVisitorId);
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { response, status, ...error } = e;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${nonExistentVisitorId}'`,
         validator: deleteVisitsError404Validator,
         schemaName: 'DeleteVisitsError404',
       });
+    }
+  }
+}
+
+/*
+ * Validates EventUpdateError400
+ */
+async function validateUpdateEventError400Schema(testSubscriptions: TestSubscription[]) {
+  const schemaName = 'ErrorUpdateEvent400Response';
+  console.log(`\nValidating ${schemaName} schema: \n`);
+  const updateEvent400ErrorSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
+  const updateEvent400ErrorValidator = ajv.compile(updateEvent400ErrorSchema);
+
+  // Validate against example file
+  ['./examples/update_event_400_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: updateEvent400ErrorValidator,
+      schemaName,
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    try {
+      const updateEventResponse = await updateEventRequest({
+        subscription,
+        requestId: subscription.requestId,
+        payload: { invalid: 'payload' },
+      });
+      // TODO on Server API side: fix malformed response
+      // Remove console logs once fixed
+      console.log(updateEventResponse.status);
+      console.log(await updateEventResponse.clone().text());
+      if (updateEventResponse.status !== 400) {
+        fail(`❌ Updating event ${subscription.requestId} in ${subscription.name} should have failed`);
+      } else {
+        validateJson({
+          json: await updateEventResponse.json(),
+          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
+          validator: updateEvent400ErrorValidator,
+          schemaName,
+        });
+      }
+    } catch (e) {
+      fail(`❌ Unexpected error while updating an event ${e}`);
+    }
+  }
+}
+
+/**
+ * Validates EventUpdateError409
+ */
+async function validateUpdateEventError409Schema(testSubscriptions: TestSubscription[]) {
+  const schemaName = 'ErrorUpdateEvent409Response';
+  console.log(`\nValidating ${schemaName} schema: \n`);
+  const updateEvent409ErrorSchema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorUpdateEvent409Response'
+  );
+  const updateEvent409ErrorValidator = ajv.compile(updateEvent409ErrorSchema);
+
+  // Validate against example file
+  ['./examples/update_event_409_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: updateEvent409ErrorValidator,
+      schemaName,
+    })
+  );
+
+  /**
+   * Validate against live Server API responses
+   * Must generate fresh event and try updating it immediately to get the 409 Response
+   */
+  for (const subscription of testSubscriptions) {
+    const { requestId } = await generateIdentificationEvent(
+      subscription.publicApiKey,
+      subscription.region,
+      subscription.name
+    );
+
+    try {
+      const updateEventResponse = await updateEventRequest({
+        subscription,
+        requestId,
+        payload: { linkedId: '409test' },
+      });
+      if (updateEventResponse.status !== 409) {
+        fail(
+          `❌ Updating event ${subscription.requestId} in ${subscription.name} was expected to fail with status 409`
+        );
+      } else {
+        validateJson({
+          json: await updateEventResponse.json(),
+          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${requestId}'`,
+          validator: updateEvent409ErrorValidator,
+          schemaName,
+        });
+      }
+    } catch (e) {
+      fail(`❌ Unexpected error while updating an event ${e}`);
     }
   }
 }
@@ -483,6 +650,9 @@ async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscri
   await validateErrorVisitsDelete400Schema(testSubscriptions);
   await validateDeleteVisitsError429Schema();
   await validateErrorVisitsDelete404Schema(testSubscriptions.filter((sub) => sub.deleteEnabled));
+
+  await validateUpdateEventError400Schema(testSubscriptions);
+  await validateUpdateEventError409Schema(testSubscriptions.slice(1, 2));
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
