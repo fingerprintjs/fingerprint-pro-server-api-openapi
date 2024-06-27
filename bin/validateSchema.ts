@@ -383,7 +383,7 @@ async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscri
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: deleteVisitsError400Validator,
-      schemaName: 'ErrorVisitsDelete400Response',
+      schemaName: 'DeleteVisitsError400',
     })
   );
 
@@ -403,8 +403,8 @@ async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscri
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
-        validator: commonError400Validator,
-        schemaName: 'ErrorCommon400Response',
+        validator: deleteVisitsError400Validator,
+        schemaName: 'DeleteVisitsError400',
       });
     }
   }
