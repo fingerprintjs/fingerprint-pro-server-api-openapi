@@ -546,9 +546,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorCommon400Response'
               examples:
-                example:
-                  summary: Bad request
-                  externalValue: '/examples/delete_visits_400_error.json'
+                400-empty-visitor-id:
+                  summary: Error response when the request does not include a visitor ID
+                  externalValue: '/examples/shared/400_error_empty_visitor_id.json'
+                400-invalid-visitor-id:
+                  summary: Error response when the visitor ID is incorrectly formatted
+                  externalValue: '/examples/shared/400_error_incorrect_visitor_id.json'
         '403':
           description: Forbidden. Access to this API is denied.
           content:
@@ -569,7 +572,7 @@ paths:
               examples:
                 example:
                   summary: Not found
-                  externalValue: '/examples/delete_visits_404_error.json'
+                  externalValue: '/examples/shared/404_error_visitor_not_found.json'
         '429':
           description: Too Many Requests. The request is throttled.
           content:
@@ -579,7 +582,7 @@ paths:
               examples:
                 example:
                   summary: Too Many Requests
-                  externalValue: '/examples/delete_visits_429_error.json'
+                  externalValue: '/examples/shared/429_error_too_many_requests.json'
   /webhook:
     trace:
       tags:
