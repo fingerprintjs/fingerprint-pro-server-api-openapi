@@ -646,28 +646,6 @@ components:
         - visits
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided and there is more data to show
-    ErrorVisitsDelete400Response:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          properties:
-            code:
-              type: string
-              description: >
-                Error code:
-                * `RequestCannotBeParsed` - The visitor ID parameter is missing or in the wrong format.
-              enum:
-                - RequestCannotBeParsed
-              example: 'RequestCannotBeParsed'
-            message:
-              type: string
-              example: 'invalid visitor id'
-          required:
-            - code
-            - message
     ErrorCommon403Response:
       type: object
       additionalProperties: false
@@ -696,29 +674,6 @@ components:
             message:
               type: string
               example: 'secret key is required'
-          required:
-            - code
-            - message
-    ErrorCommon404Response:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          title: Common404ErrorResponse
-          properties:
-            code:
-              type: string
-              description: >
-                Error code:
-                * `VisitorNotFound` - The specified visitor ID was not found. It never existed or it may have already been deleted.
-              enum:
-                - VisitorNotFound
-              example: 'VisitorNotFound'
-            message:
-              type: string
-              example: 'visitor not found'
           required:
             - code
             - message
@@ -787,6 +742,51 @@ components:
           example: 'request throttled'
       required:
         - error
+    ErrorVisitsDelete404Response:	
+      type: object	
+      additionalProperties: false	
+      properties:	
+        error:	
+          type: 'object'	
+          additionalProperties: false	
+          title: ErrorVisitsDelete404ResponseError	
+          properties:	
+            code:	
+              type: string	
+              description: >	
+                Error code:	
+                * `VisitorNotFound` - The specified visitor ID was not found. It never existed or it may have already been deleted.	
+              enum:	
+                - VisitorNotFound	
+              example: 'VisitorNotFound'	
+            message:	
+              type: string	
+              example: 'visitor not found'	
+          required:	
+            - code	
+            - message	
+    ErrorVisitsDelete400Response:	
+      type: object	
+      additionalProperties: false	
+      properties:	
+        error:	
+          type: 'object'	
+          additionalProperties: false	
+          properties:	
+            code:	
+              type: string	
+              description: >	
+                Error code:	
+                * `RequestCannotBeParsed` - The visitor ID parameter is missing or in the wrong format.	
+              enum:	
+                - RequestCannotBeParsed	
+              example: 'RequestCannotBeParsed'	
+            message:	
+              type: string	
+              example: 'invalid visitor id'	
+          required:	
+            - code	
+            - message    
     WebhookVisit:
       allOf:
         - type: object
