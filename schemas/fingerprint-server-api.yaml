@@ -544,7 +544,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorCommon400Response'
+                $ref: '#/components/schemas/ErrorVisitsDelete400Response'
               examples:
                 400-empty-visitor-id:
                   summary: Error response when the request does not include a visitor ID
@@ -646,7 +646,7 @@ components:
         - visits
       title: PaginatedResponse
       description: Fields `lastTimestamp` and `paginationKey` added when `limit` or `before` parameter provided and there is more data to show
-    ErrorCommon400Response:
+    ErrorVisitsDelete400Response:
       type: object
       additionalProperties: false
       properties:
