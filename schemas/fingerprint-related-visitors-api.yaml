@@ -89,7 +89,7 @@ paths:
               examples:
                 404-visitor-not-found:
                   summary: Error response when the visitor ID cannot be found in this application's data.
-                  externalValue: '/examples/404_error_visitor_not_found.json'
+                  externalValue: '/examples/shared/404_error_visitor_not_found.json'
         '429':
           description: Too Many Requests. The request is throttled.
           content:
