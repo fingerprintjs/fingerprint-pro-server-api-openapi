@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon400Response'
+                $ref: 'shared-error-responses.yaml#/components/schemas/400ErrorResponse'
               examples:
                 400-invalid-visitor-id:
                   summary: Error response when the visitor ID is incorrectly formatted or is missing
@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon403Response'
+                $ref: 'shared-error-responses.yaml#/components/schemas/403ErrorResponse'
               examples:
                 403-feature-not-enabled:
                   summary: Error response when this feature is not enabled for a subscription.
@@ -74,7 +74,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon404Response'
+                $ref: 'shared-error-responses.yaml#/components/schemas/404ErrorResponse'
               examples:
                 404-visitor-not-found:
                   summary: Error response when the visitor ID cannot be found in this application's data.
@@ -84,7 +84,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon429Response'
+                $ref: 'shared-error-responses.yaml#/components/schemas/429ErrorResponse'
               examples:
                 example:
                   summary: Too Many Requests
