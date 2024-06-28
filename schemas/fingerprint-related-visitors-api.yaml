@@ -20,7 +20,7 @@ security:
   - ApiKeyHeader: []
   - ApiKeyQuery: []
 paths:
-  /related-visitors?visitor_id={visitor_id}:
+  /related-visitors:
     get:
       tags:
         - Related Visitors
