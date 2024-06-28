@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Related Visitors API
-  summary: |
+  description: |
     Use this API to unify and personalize the experience for your anonymous users who visit your website from regular and in-app browsers. 
   version: '1.0'
   contact:
@@ -16,18 +16,9 @@ servers:
     description: Recommended if your customer base is primarily in Europe.
   - url: https://ap.api.fpjs.io
     description: Recommended if your customer base is primarily in the APAC region.
-securityDefinitions:
-  APIKeyHeader:
-    type: apiKey
-    in: header
-    name: Auth-API-Key
-  APIKeyQueryParam:
-    type: apiKey
-    in: query
-    name: api_key
 security:
-  - APIKeyHeader: []
-  - APIKeyQueryParam: []
+  - ApiKeyHeader: []
+  - ApiKeyQuery: []
 paths:
   /related-visitors?visitor_id={visitor_id}:
     get:
@@ -62,7 +53,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/400ErrorResponse'
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorVisitor400Response'
               examples:
                 400-empty-visitor-id:
                   summary: Error response when the request does not include a visitor ID
@@ -75,7 +66,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/403ErrorResponse'
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon403Response'
               examples:
                 403-feature-not-enabled:
                   summary: Error response when this feature is not enabled for a subscription.
@@ -85,7 +76,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/404ErrorResponse'
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorVisitor404Response'
               examples:
                 404-visitor-not-found:
                   summary: Error response when the visitor ID cannot be found in this application's data.
@@ -95,12 +86,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/429ErrorResponse'
+                $ref: 'fingerprint-server-api.yaml#/components/schemas/ErrorCommon429Response'
               examples:
                 example:
                   summary: Too Many Requests
                   externalValue: '/examples/shared/429_error_too_many_requests.json'
 components:
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header # can be "header", "query" or "cookie"
+      name: Auth-API-Key # name of the header, query parameter or cookie
+    ApiKeyQuery:
+      type: apiKey
+      in: query # can be "header", "query" or "cookie"
+      name: api_key # name of the header, query parameter or cookie
   schemas:
     200SuccessResponse:
       type: object
@@ -124,100 +124,4 @@ components:
           example: 'Ibk1527CUFmcnjLwIs4A'
       required:
         - visitorId
-    400ErrorResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          properties:
-            code:
-              type: string
-              enum:
-                - RequestCannotBeParsed
-              description: >
-                Error code:
-                * `RequestCannotBeParsed` - The visitor ID parameter is missing or in the wrong format.
-              example: 'RequestCannotBeParsed'
-            message:
-              type: string
-              example: 'invalid visitor id'
-          required:
-            - code
-            - message
-    403ErrorResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          properties:
-            code:
-              type: string
-              enum:
-                - TokenRequired
-                - TokenNotFound
-                - SubscriptionNotActive
-                - WrongRegion
-                - FeatureNotEnabled
-              description: >
-                Error code:
-                 * `TokenRequired` - `Auth-API-Key` header is missing or empty
-                 * `TokenNotFound` - No Fingerprint application found for specified secret key
-                 * `SubscriptionNotActive` - Fingerprint application is not active
-                 * `WrongRegion` - server and application region differ
-                 * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application 
-              example: 'TokenRequired'
-            message:
-              type: string
-              example: 'secret key is required'
-          required:
-            - code
-            - message
-    404ErrorResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          properties:
-            code:
-              type: string
-              enum:
-                - VisitorNotFound
-              description: >
-                Error code:
-                * `VisitorNotFound` - The specified visitor ID was not found. It never existed or it may have already been deleted.
-              example: 'VisitorNotFound'
-            message:
-              type: string
-              example: 'visitor not found'
-          required:
-            - code
-            - message
-    429ErrorResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: 'object'
-          additionalProperties: false
-          properties:          
-            code:
-              type: string
-              enum:
-                - TooManyRequests
-              description: >
-                Error code:
-                * `TooManyRequests` - The request is throttled.
-              example: 'TooManyRequests'
-            message:
-              type: string
-              example: 'request throttled'
-          required:
-            - code
-            - message        
 

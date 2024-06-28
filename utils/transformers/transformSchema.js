@@ -6,8 +6,13 @@ import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
 import { removeXReadmeTransformer } from './removeXReadmeTransformer.js';
 import { removeDeleteVisitorTransformer } from './removeDeleteVisitorTransformer.js';
+import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 
-const commonTransformers = [resolveExternalValueTransformer, resolveAllOfTransformer];
+const commonTransformers = [
+  resolveExternalValueTransformer,
+  resolveAllOfTransformer,
+  appendExternalSchemaRefTransformer,
+];
 const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
 export const readmeApiExplorerTransformers = [...commonTransformers, removeWebhookTransformer];
 

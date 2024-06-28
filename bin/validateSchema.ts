@@ -347,7 +347,7 @@ async function validateGetVisitsError429Schema() {
 /**
  * Validates ErrorCommon429Response
  */
-async function validateDeleteVisitsError429Schema() {
+async function validateErrorCommon429Response() {
   console.log('\nValidating ErrorCommon429Response schema: \n');
   const errorCommon429ResponseSchema = convertOpenApiToJsonSchema(
     OPEN_API_SCHEMA,
@@ -367,13 +367,13 @@ async function validateDeleteVisitsError429Schema() {
 }
 
 /**
- * Validates ErrorVisitsDelete400Response schema
+ * Validates ErrorVisitor400Response schema
  */
-async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscription[]) {
+async function validateErrorVisitor400Response(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating DeleteVisitsError400 schema: \n');
   const deleteVisitsError400Schema = convertOpenApiToJsonSchema(
     OPEN_API_SCHEMA,
-    '#/definitions/ErrorVisitsDelete400Response'
+    '#/definitions/ErrorVisitor400Response'
   );
   const deleteVisitsError400Validator = ajv.compile(deleteVisitsError400Schema);
 
@@ -411,13 +411,13 @@ async function validateErrorVisitsDelete400Schema(testSubscriptions: TestSubscri
 }
 
 /**
- * Validates ErrorVisitsDelete404Response schema
+ * Validates ErrorVisitor404Response schema
  */
-async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscription[]) {
+async function validateErrorVisitor404Response(testSubscriptions: TestSubscription[]) {
   console.log('\nValidating DeleteVisitsError404 schema: \n');
   const deleteVisitsError404Schema = convertOpenApiToJsonSchema(
     OPEN_API_SCHEMA,
-    '#/definitions/ErrorVisitsDelete404Response'
+    '#/definitions/ErrorVisitor404Response'
   );
   const deleteVisitsError404Validator = ajv.compile(deleteVisitsError404Schema);
 
@@ -479,9 +479,9 @@ async function validateErrorVisitsDelete404Schema(testSubscriptions: TestSubscri
   await validateEventError404Schema(testSubscriptions);
   await validateGetVisitsError403Schema(testSubscriptions);
   await validateGetVisitsError429Schema();
-  await validateErrorVisitsDelete400Schema(testSubscriptions);
-  await validateDeleteVisitsError429Schema();
-  await validateErrorVisitsDelete404Schema(testSubscriptions.filter((sub) => sub.deleteEnabled));
+  await validateErrorVisitor400Response(testSubscriptions);
+  await validateErrorCommon429Response();
+  await validateErrorVisitor404Response(testSubscriptions.filter((sub) => sub.deleteEnabled));
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
