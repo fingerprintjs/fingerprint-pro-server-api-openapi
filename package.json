@@ -8,6 +8,7 @@
     "dev": "webpack-dev-server --open",
     "build": "webpack",
     "lintSchema": "vacuum lint ./schemas/*.yaml -d --errors --base schemas",
+    "lintSchemaDist": "vacuum lint ./dist/schemas/*.yaml -d --errors --base dist/schemas",
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
