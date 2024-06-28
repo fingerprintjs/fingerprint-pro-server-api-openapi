@@ -403,13 +403,14 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
   const visitorError400Validator = ajv.compile(visitorError400Schema);
 
   // Validate against example file
-  ['./examples/delete_visits_400_error.json'].forEach((examplePath) =>
-    validateJson({
-      json: JSON.parse(fs.readFileSync(examplePath).toString()),
-      jsonName: examplePath,
-      validator: visitorError400Validator,
-      schemaName,
-    })
+  ['./examples/delete_visits_400_error.json', './examples/shared/400_error_empty_visitor_id.json'].forEach(
+    (examplePath) =>
+      validateJson({
+        json: JSON.parse(fs.readFileSync(examplePath).toString()),
+        jsonName: examplePath,
+        validator: visitorError400Validator,
+        schemaName,
+      })
   );
 
   // Validate against live Server API responses
@@ -450,19 +451,17 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
  * Validates ErrorVisitor404Response schema
  */
 async function validateErrorVisitor404Response(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating DeleteVisitsError404 schema: \n');
-  const deleteVisitsError404Schema = convertOpenApiToJsonSchema(
-    OPEN_API_SCHEMA,
-    '#/definitions/ErrorVisitor404Response'
-  );
-  const deleteVisitsError404Validator = ajv.compile(deleteVisitsError404Schema);
+  const schemaName = 'ErrorVisitor404Response';
+  console.log(`\nValidating ${schemaName} schema: \n`);
+  const visitorError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
+  const visitorError404Validator = ajv.compile(visitorError404Schema);
 
   // Validate against example file
   ['./examples/shared/404_error_visitor_not_found.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
-      validator: deleteVisitsError404Validator,
+      validator: visitorError404Validator,
       schemaName: 'DeleteVisitsError404',
     })
   );
@@ -483,10 +482,18 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${subscription.visitorId}'`,
-        validator: deleteVisitsError404Validator,
+        validator: visitorError404Validator,
         schemaName: 'DeleteVisitsError404',
       });
     }
+
+    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: 'e0srMXYG7PjFCAbE0yIH', subscription });
+    validateJson({
+      json: await relatedVisitorsResponse.json(),
+      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+      validator: visitorError404Validator,
+      schemaName,
+    });
   }
 }
 
@@ -538,17 +545,19 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
   }
 
   // Validate all parts of the schema against static examples AND live Server API responses from each test subscription
-  // await validateEventResponseSchema(testSubscriptions);
-  // await validateVisitsResponseSchema(testSubscriptions);
-  // await validateWebhookSchema();
+  await validateEventResponseSchema(testSubscriptions);
+  await validateVisitsResponseSchema(testSubscriptions);
+  await validateWebhookSchema();
 
   await validateCommonError403Schema(testSubscriptions);
-  // await validateEventError404Schema(testSubscriptions);
-  // await validateGetVisitsError403Schema(testSubscriptions);
-  // await validateGetVisitsError429Schema();
+  await validateEventError404Schema(testSubscriptions);
+  await validateGetVisitsError403Schema(testSubscriptions);
+  await validateGetVisitsError429Schema();
   await validateErrorVisitor400Response(testSubscriptions);
-  // await validateErrorCommon429Response();
-  // await validateErrorVisitor404Response(testSubscriptions.filter((sub) => sub.deleteEnabled));
+  await validateErrorCommon429Response();
+  await validateErrorVisitor404Response(
+    testSubscriptions.filter((sub) => sub.deleteEnabled && sub.relatedVisitorsEnabled)
+  );
   await validateRelatedVisitorsResponseSchema(testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled));
 
   if (exitCode === 0) {
