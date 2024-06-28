@@ -10,7 +10,7 @@ info:
 tags:
   - name: Related Visitors
     description: |
-      This API will enable you to find if one or more web and in-app browser sessions originated from the same mobile device.
+      Find visitor IDs that originated from a different browser on the same mobile device.
 servers:
   - url: https://api.fpjs.io
     description: Recommended if your customer base is primarily in the Americas.
