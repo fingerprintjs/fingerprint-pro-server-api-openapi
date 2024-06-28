@@ -8,7 +8,7 @@ import fs from 'fs';
  * @param {object} apiDefinition - The API definition object.
  * @return {void} This function does not return anything.
  */
-export function appendExternalSchemaRefTransformer(apiDefinition) {
+export function appendExternalSchemaRefTransformer(apiDefinition, schemaDir = './schemas') {
   walkJson(apiDefinition, '$ref', (json) => {
     const ref = json.$ref;
     // We only care about references to external schemas
@@ -23,7 +23,7 @@ export function appendExternalSchemaRefTransformer(apiDefinition) {
 
     // Get the schema from the referenced file and append it to this one
     /** @type {object} */
-    const referencedApiDefinition = yaml.load(fs.readFileSync('./schemas/' + filename, 'utf8'));
+    const referencedApiDefinition = yaml.load(fs.readFileSync(schemaDir + '/' + filename, 'utf8'));
     const schema = referencedApiDefinition.components.schemas[schemaName];
     apiDefinition.components = {
       ...apiDefinition.components,
