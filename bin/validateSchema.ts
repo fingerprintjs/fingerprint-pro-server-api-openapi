@@ -468,29 +468,31 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
+    const nonExistentVisitor = 'e0srMXYG7PjFCAbE0yIH';
+
     const client = new FingerprintJsServerApiClient({
       apiKey: subscription.serverApiKey,
       region: REGION_MAP[subscription.region || 'us'],
     });
 
     try {
-      const visitsResponse = await client.deleteVisitorData('e0srMXYG7PjFCAbE0yIH');
+      const visitsResponse = await client.deleteVisitorData(nonExistentVisitor);
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { response, status, ...error } = e;
       validateJson({
         json: error,
-        jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Live Server API Error Response for Delete '${subscription.name}' > '${nonExistentVisitor}'`,
         validator: visitorError404Validator,
         schemaName: 'DeleteVisitsError404',
       });
     }
 
-    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: 'e0srMXYG7PjFCAbE0yIH', subscription });
+    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: nonExistentVisitor, subscription });
     validateJson({
       json: await relatedVisitorsResponse.json(),
-      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${nonExistentVisitor}'`,
       validator: visitorError404Validator,
       schemaName,
     });
