@@ -43,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/200SuccessResponse'
+                $ref: '#/components/schemas/RelatedVisitorsResponse'
               examples:
                 200-success-response:
                   summary: Success response
@@ -102,7 +102,7 @@ components:
       in: query # can be "header", "query" or "cookie"
       name: api_key # name of the header, query parameter or cookie
   schemas:
-    200SuccessResponse:
+    RelatedVisitorsResponse:
       type: object
       additionalProperties: false
       properties:
@@ -111,10 +111,10 @@ components:
           items:
             title: VisitorObjects
             allOf:
-              - $ref: '#/components/schemas/200SuccessVisitorObject'
+              - $ref: '#/components/schemas/RelatedVisitor'
       required:
         - relatedVisitors
-    200SuccessVisitorObject:
+    RelatedVisitor:
       type: object
       additionalProperties: false
       properties:
