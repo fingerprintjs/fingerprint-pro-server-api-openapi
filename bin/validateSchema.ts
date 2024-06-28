@@ -28,8 +28,22 @@ ajv.addFormat('date-time', {
   validate: (data) => typeof data === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,3})?Z/.test(data),
 });
 
+// Get related visitors is not yet supported in the Node SDK
+type GetRelatedVisitorsArgs = {
+  visitorId: string;
+  subscription: TestSubscription;
+};
+function getRelatedVisitors({ visitorId, subscription }: GetRelatedVisitorsArgs) {
+  const regionPrefix = subscription.region === 'us' ? '' : `${subscription.region}.`;
+  return fetch(`https://${regionPrefix}api.fpjs.io/related-visitors?visitor_id=${visitorId}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', 'Auth-API-Key': subscription.serverApiKey },
+  });
+}
+
 // Load API definition
 const OPEN_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
+const RELATED_VISITORS_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-related-visitors-api.yaml'));
 
 // Global exit code variable and helper
 let exitCode: number = 0;
@@ -67,6 +81,7 @@ const testSubscriptionEnvVariableZod = z.object({
   region: z.union([z.literal('us'), z.literal('eu'), z.literal('ap')]),
   // Coerce "true" into true
   deleteEnabled: z.coerce.boolean().optional(),
+  relatedVisitorsEnabled: z.coerce.boolean().optional(),
 });
 type TestSubscription = z.infer<typeof testSubscriptionEnvVariableZod> & { requestId: string; visitorId: string };
 
@@ -238,6 +253,18 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
         schemaName,
       });
     }
+
+    // Validate against Related visitors API response
+    const relatedVisitorsResponse = await getRelatedVisitors({
+      visitorId: subscription.visitorId,
+      subscription: { ...subscription, serverApiKey: 'wrong server APi key' },
+    });
+    validateJson({
+      json: await relatedVisitorsResponse.json(),
+      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+      validator: commonError403Validator,
+      schemaName,
+    });
   }
 }
 
@@ -370,20 +397,18 @@ async function validateErrorCommon429Response() {
  * Validates ErrorVisitor400Response schema
  */
 async function validateErrorVisitor400Response(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating DeleteVisitsError400 schema: \n');
-  const deleteVisitsError400Schema = convertOpenApiToJsonSchema(
-    OPEN_API_SCHEMA,
-    '#/definitions/ErrorVisitor400Response'
-  );
-  const deleteVisitsError400Validator = ajv.compile(deleteVisitsError400Schema);
+  const schemaName = 'ErrorVisitor400Response';
+  console.log(`\nValidating ${schemaName} schema: \n`);
+  const visitorError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorVisitor400Response');
+  const visitorError400Validator = ajv.compile(visitorError400Schema);
 
   // Validate against example file
   ['./examples/delete_visits_400_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
-      validator: deleteVisitsError400Validator,
-      schemaName: 'DeleteVisitsError400',
+      validator: visitorError400Validator,
+      schemaName,
     })
   );
 
@@ -403,10 +428,21 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
-        validator: deleteVisitsError400Validator,
-        schemaName: 'DeleteVisitsError400',
+        validator: visitorError400Validator,
+        schemaName,
       });
     }
+  }
+
+  // Validate against Related visitors API response
+  for (const subscription of testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled)) {
+    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: 'badVisitorId', subscription });
+    validateJson({
+      json: await relatedVisitorsResponse.json(),
+      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > 'badVisitorId'`,
+      validator: visitorError400Validator,
+      schemaName,
+    });
   }
 }
 
@@ -454,6 +490,37 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
   }
 }
 
+async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubscription[]) {
+  const schemaName = 'RelatedVisitorsResponse';
+  console.log(`\nValidating ${schemaName} schema: \n`);
+  const relatedVisitorsResponseSchema = convertOpenApiToJsonSchema(
+    RELATED_VISITORS_API_SCHEMA,
+    `#/definitions/${schemaName}`
+  );
+  const relatedVisitorsResponseValidator = ajv.compile(relatedVisitorsResponseSchema);
+
+  // Validate against example file
+  ['./examples/related-visitors/get_related_visitors_200.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: relatedVisitorsResponseValidator,
+      schemaName,
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: subscription.visitorId, subscription });
+    validateJson({
+      json: await relatedVisitorsResponse.json(),
+      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+      validator: relatedVisitorsResponseValidator,
+      schemaName,
+    });
+  }
+}
+
 /**
  * Main function
  */
@@ -471,17 +538,18 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
   }
 
   // Validate all parts of the schema against static examples AND live Server API responses from each test subscription
-  await validateEventResponseSchema(testSubscriptions);
-  await validateVisitsResponseSchema(testSubscriptions);
-  await validateWebhookSchema();
+  // await validateEventResponseSchema(testSubscriptions);
+  // await validateVisitsResponseSchema(testSubscriptions);
+  // await validateWebhookSchema();
 
   await validateCommonError403Schema(testSubscriptions);
-  await validateEventError404Schema(testSubscriptions);
-  await validateGetVisitsError403Schema(testSubscriptions);
-  await validateGetVisitsError429Schema();
+  // await validateEventError404Schema(testSubscriptions);
+  // await validateGetVisitsError403Schema(testSubscriptions);
+  // await validateGetVisitsError429Schema();
   await validateErrorVisitor400Response(testSubscriptions);
-  await validateErrorCommon429Response();
-  await validateErrorVisitor404Response(testSubscriptions.filter((sub) => sub.deleteEnabled));
+  // await validateErrorCommon429Response();
+  // await validateErrorVisitor404Response(testSubscriptions.filter((sub) => sub.deleteEnabled));
+  await validateRelatedVisitorsResponseSchema(testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled));
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');

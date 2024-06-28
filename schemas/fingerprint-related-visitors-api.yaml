@@ -49,7 +49,7 @@ paths:
               examples:
                 200-success-response:
                   summary: Success response
-                  externalValue: '/examples/related-visitors/200_success.json'
+                  externalValue: '/examples/related-visitors/get_related_visitors_200.json'
         '400':
           description: Bad request. The visitor ID parameter is missing or in the wrong format.
           content:
