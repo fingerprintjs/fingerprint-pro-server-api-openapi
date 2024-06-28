@@ -7,6 +7,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import 'dotenv/config';
 import {
   readmeApiExplorerTransformers,
+  relatedVisitorsApiTransformers,
   removeExtraDocumentationTransformers,
   schemaForSdksTransformers,
   transformSchema,
@@ -58,13 +59,18 @@ export default {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'schemas',
-          to: 'schemas',
+          from: 'schemas/fingerprint-server-api.yaml',
+          to: 'schemas/fingerprint-server-api.yaml',
           transform: (content) => transformSchema(content),
         },
         {
-          from: 'schemas',
-          to: 'schemes', // backward compatibility
+          from: 'schemas/fingerprint-related-visitors-api.yaml',
+          to: 'schemas/fingerprint-related-visitors-api.yaml',
+          transform: (content) => transformSchema(content, relatedVisitorsApiTransformers),
+        },
+        {
+          from: 'schemas/fingerprint-server-api.yaml',
+          to: 'schemes/fingerprint-server-api.yaml', // backward compatibility
           transform: (content) => transformSchema(content),
         },
         {
