@@ -403,7 +403,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
   const visitorError400Validator = ajv.compile(visitorError400Schema);
 
   // Validate against example file
-  ['./examples/delete_visits_400_error.json', './examples/shared/400_error_empty_visitor_id.json'].forEach(
+  ['./examples/shared/400_error_incorrect_visitor_id.json', './examples/shared/400_error_empty_visitor_id.json'].forEach(
     (examplePath) =>
       validateJson({
         json: JSON.parse(fs.readFileSync(examplePath).toString()),
