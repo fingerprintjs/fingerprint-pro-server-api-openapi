@@ -407,12 +407,12 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
     './examples/shared/400_error_incorrect_visitor_id.json',
     './examples/shared/400_error_empty_visitor_id.json',
   ].forEach((examplePath) =>
-      validateJson({
-        json: JSON.parse(fs.readFileSync(examplePath).toString()),
-        jsonName: examplePath,
-        validator: visitorError400Validator,
-        schemaName,
-      })
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: visitorError400Validator,
+      schemaName,
+    })
   );
 
   // Validate against live Server API responses
