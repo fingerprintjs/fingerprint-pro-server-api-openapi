@@ -31,7 +31,7 @@ runs:
     - name: Lint
       shell: bash
       run: pnpm lint
-    - name: Lint schema
+    - name: Lint schemas
       shell: bash
       run: pnpm lintSchema
     - name: Tests
@@ -42,6 +42,9 @@ runs:
       env:
         PRIVATE_KEY: '${{ inputs.privateKey }}'
       run: pnpm build
+    - name: Lint built schemas in `dist`
+      shell: bash
+      run: pnpm lintSchemaDist
     - name: Get installed Playwright version (used in cache key)
       shell: bash
       id: playwright-version
