@@ -3687,8 +3687,8 @@ paths:
 
 
         If you are interested in using this API, please [contact our support
-        team](https://fingerprint.com/support/) to activate it for you.
-        Otherwise, you will receive a 403.
+        team](https://fingerprint.com/support/) to enable it for you. Otherwise,
+        you will receive a 403.
       parameters:
         - name: visitor_id
           in: path
@@ -3709,10 +3709,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitsDelete400Response'
+                $ref: '#/components/schemas/ErrorVisitor400Response'
               examples:
-                example:
-                  summary: Bad request
+                400-empty-visitor-id:
+                  summary: >-
+                    Error response when the request does not include a visitor
+                    ID
+                  value:
+                    error:
+                      code: RequestCannotBeParsed
+                      message: visitor id is required
+                400-invalid-visitor-id:
+                  summary: Error response when the visitor ID is incorrectly formatted
                   value:
                     error:
                       code: RequestCannotBeParsed
@@ -3737,7 +3745,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitsDelete404Response'
+                $ref: '#/components/schemas/ErrorVisitor404Response'
               examples:
                 example:
                   summary: Not found
@@ -4181,14 +4189,14 @@ components:
           example: request throttled
       required:
         - error
-    ErrorVisitsDelete404Response:
+    ErrorVisitor404Response:
       type: object
       additionalProperties: false
       properties:
         error:
           type: object
           additionalProperties: false
-          title: ErrorVisitsDelete404ResponseError
+          title: ErrorVisitor404ResponseError
           properties:
             code:
               type: string
@@ -4204,7 +4212,7 @@ components:
           required:
             - code
             - message
-    ErrorVisitsDelete400Response:
+    ErrorVisitor400Response:
       type: object
       additionalProperties: false
       properties:

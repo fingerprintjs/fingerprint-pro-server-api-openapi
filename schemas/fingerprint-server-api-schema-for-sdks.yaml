@@ -646,14 +646,14 @@ components:
           example: request throttled
       required:
         - error
-    ErrorVisitsDelete404Response:
+    ErrorVisitor404Response:
       type: object
       additionalProperties: false
       properties:
         error:
           type: object
           additionalProperties: false
-          title: ErrorVisitsDelete404ResponseError
+          title: ErrorVisitor404ResponseError
           properties:
             code:
               type: string
@@ -669,7 +669,7 @@ components:
           required:
             - code
             - message
-    ErrorVisitsDelete400Response:
+    ErrorVisitor400Response:
       type: object
       additionalProperties: false
       properties:
