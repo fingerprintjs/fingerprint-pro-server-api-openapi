@@ -512,7 +512,10 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
   const relatedVisitorsResponseValidator = ajv.compile(relatedVisitorsResponseSchema);
 
   // Validate against example file
-  ['./examples/related-visitors/get_related_visitors_200.json'].forEach((examplePath) =>
+  [
+    './examples/related-visitors/get_related_visitors_200_empty.json',
+    './examples/related-visitors/get_related_visitors_200.json',
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
