@@ -47,6 +47,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/RelatedVisitorsResponse'
               examples:
+                200-success-empty-response:
+                  summary: Success, empty response
+                  externalValue: '/examples/related-visitors/get_related_visitors_200_empty.json'
                 200-success-response:
                   summary: Success response
                   externalValue: '/examples/related-visitors/get_related_visitors_200.json'
