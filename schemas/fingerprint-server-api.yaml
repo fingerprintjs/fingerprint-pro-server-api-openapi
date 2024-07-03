@@ -1789,7 +1789,7 @@ components:
         result:
           type: boolean
           description: >
-            `true` if the request came from a machine being remotely controlled (e.g. TeamViewer) or remotely controlling another machine, `false` otherwise.
+            `true` if the request came from a machine being remotely controlled (e.g. TeamViewer), `false` otherwise.
           example: false
       required:
         - result
