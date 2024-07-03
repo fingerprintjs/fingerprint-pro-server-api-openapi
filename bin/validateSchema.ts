@@ -497,7 +497,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
-        validator: deleteVisitsError400Validator,
+        validator: visitorError400Validator,
         schemaName: 'DeleteVisitsError400',
       });
     }
@@ -553,7 +553,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${nonExistentVisitorId}'`,
-        validator: deleteVisitsError404Validator,
+        validator: visitorError404Validator,
         schemaName: 'DeleteVisitsError404',
       });
     }

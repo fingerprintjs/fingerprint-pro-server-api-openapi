@@ -1,6 +1,6 @@
 {
     "error": {
         "code":"RequestCannotBeParsed",
-        "message":"request body is not valid json"
+        "message":"request body is not valid"
     }
 }
