@@ -209,7 +209,13 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
   const commonError403Validator = ajv.compile(commonError403Schema);
 
   // Validate against example file
-  ['./examples/get_event_403_error.json', './examples/delete_visits_403_error.json'].forEach((examplePath) =>
+  [
+    './examples/get_event_403_error.json', 
+    './examples/shared/403_error_feature_not_enabled.json',
+    './examples/shared/403_error_token_not_found.json',
+    './examples/shared/403_error_token_required.json',
+    './examples/shared/403_error_wrong_region.json',
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
