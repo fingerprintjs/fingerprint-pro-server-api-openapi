@@ -210,7 +210,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
 
   // Validate against example file
   [
-    './examples/get_event_403_error.json', 
+    './examples/get_event_403_error.json',
     './examples/shared/403_error_feature_not_enabled.json',
     './examples/shared/403_error_token_not_found.json',
     './examples/shared/403_error_token_required.json',
