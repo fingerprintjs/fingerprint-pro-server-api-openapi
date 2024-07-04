@@ -629,10 +629,7 @@ async function validateUpdateEventError400Schema(testSubscriptions: TestSubscrip
         requestId: subscription.requestId,
         payload: { invalid: 'payload' },
       });
-      // TODO on Server API side: fix malformed response
-      // Remove console logs once fixed
-      console.log(updateEventResponse.status);
-      console.log(await updateEventResponse.clone().text());
+
       if (updateEventResponse.status !== 400) {
         fail(`❌ Updating event ${subscription.requestId} in ${subscription.name} should have failed`);
       } else {
