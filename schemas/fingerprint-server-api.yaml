@@ -1967,6 +1967,10 @@ components:
           $ref: '#/components/schemas/VelocityIntervalResult'
     VelocityIntervalResult:
       type: object
+      description: >
+        In some cases 24h interval could be null if the visitor has extremely high activity
+        (which confidently signifies automation activity) and 24h window doesnt make sense as the numbers would be 
+        too high to make any relevance
       additionalProperties: false
       nullable: true
       properties:
