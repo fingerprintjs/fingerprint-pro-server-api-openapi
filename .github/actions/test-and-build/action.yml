@@ -17,7 +17,7 @@ runs:
   using: 'composite'
   steps:
     - name: 'Install PNPM'
-      uses: pnpm/action-setup@ebcfd6995dade4b0104ac774445cef8b3b4635b0
+      uses: pnpm/action-setup@0eb0e970826653e8af98de91bec007fbd58a23e0
       with:
         version: 9
     - name: Set Node.js 20.x
