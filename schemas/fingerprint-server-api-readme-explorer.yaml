@@ -280,6 +280,9 @@ paths:
                       locationSpoofing:
                         data:
                           result: false
+                      remoteControl:
+                        data:
+                          result: false
                 allErrorsResponse:
                   summary: All failed signals
                   value:
@@ -371,6 +374,10 @@ paths:
                           code: Failed
                           message: internal server error
                       suspectScore:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      remoteControl:
                         error:
                           code: Failed
                           message: internal server error
@@ -4118,6 +4125,8 @@ components:
           $ref: '#/components/schemas/LocationSpoofingResult'
         suspectScore:
           $ref: '#/components/schemas/SuspectScoreResult'
+        remoteControl:
+          $ref: '#/components/schemas/RemoteControlResult'
         requestId:
           description: Unique identifier of the user's identification request.
           type: string
@@ -4838,6 +4847,15 @@ components:
               $ref: '#/components/schemas/RawDeviceAttributesResult'
             error:
               $ref: '#/components/schemas/IdentificationError'
+        remoteControl:
+          title: SignalResponseRemoteControl
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              $ref: '#/components/schemas/RemoteControlResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: >-
         Contains results from all activated products - Fingerprint Pro, Bot
@@ -5334,3 +5352,15 @@ components:
       required:
         - code
         - message
+    RemoteControlResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the request came from a machine being remotely controlled
+            (e.g. TeamViewer), `false` otherwise.
+          example: false
+      required:
+        - result
