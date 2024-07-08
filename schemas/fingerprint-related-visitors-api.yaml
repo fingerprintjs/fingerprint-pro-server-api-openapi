@@ -83,7 +83,7 @@ paths:
                   summary: Error response when the secret API key was not provided.
                   externalValue: '/examples/shared/403_error_token_required.json'
                 403-wrong-region:
-                  summary: Error response when the provided visitor ID and the calling application belong to different regions.
+                  summary: Error response when the API region is different from the region, the calling application is configured with.
                   externalValue: '/examples/shared/403_error_wrong_region.json'
         '404':
           description: Not found. The visitor ID cannot be found in this application's data.
