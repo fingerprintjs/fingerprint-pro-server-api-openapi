@@ -41,9 +41,8 @@ paths:
         Get a detailed analysis of an individual identification event, including
         Smart Signals. 
 
-        **Only for Enterprise customers:** Please note that the response
-        includes mobile signals (e.g. `rootApps`) even if the request originated
-        from a non-mobile platform.
+        Please note that the response includes mobile signals (e.g. `rootApps`)
+        even if the request originated from a non-mobile platform.
 
         It is highly recommended that you **ignore** the mobile signals for such
         requests. 

@@ -50,9 +50,8 @@ paths:
         Get a detailed analysis of an individual identification event, including
         Smart Signals. 
 
-        **Only for Enterprise customers:** Please note that the response
-        includes mobile signals (e.g. `rootApps`) even if the request originated
-        from a non-mobile platform.
+        Please note that the response includes mobile signals (e.g. `rootApps`)
+        even if the request originated from a non-mobile platform.
 
         It is highly recommended that you **ignore** the mobile signals for such
         requests. 
@@ -3739,12 +3738,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorCommon403Response'
               examples:
-                example:
-                  summary: Forbidden
+                403-feature-not-enabled:
+                  summary: >-
+                    Error response when this feature is not enabled for a
+                    subscription.
                   value:
                     error:
                       code: FeatureNotEnabled
                       message: feature not enabled
+                403-token-not-found:
+                  summary: >-
+                    Error response when the provided secret API key does not
+                    exist.
+                  value:
+                    error:
+                      code: TokenNotFound
+                      message: secret key is not found
+                403-token-required:
+                  summary: Error response when the secret API key was not provided.
+                  value:
+                    error:
+                      code: TokenRequired
+                      message: secret key is required
+                403-wrong-region:
+                  summary: >-
+                    Error response when the API region is different from the
+                    region, the calling application is configured with.
+                  value:
+                    error:
+                      code: WrongRegion
+                      message: wrong region
         '404':
           description: >-
             Not found. The visitor ID cannot be found in this application's

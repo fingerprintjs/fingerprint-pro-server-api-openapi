@@ -60,6 +60,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/RelatedVisitorsResponse'
               examples:
+                200-success-empty-response:
+                  summary: Success, empty response
+                  value:
+                    relatedVisitors: []
                 200-success-response:
                   summary: Success response
                   value:
@@ -104,6 +108,28 @@ paths:
                     error:
                       code: FeatureNotEnabled
                       message: feature not enabled
+                403-token-not-found:
+                  summary: >-
+                    Error response when the provided secret API key does not
+                    exist.
+                  value:
+                    error:
+                      code: TokenNotFound
+                      message: secret key is not found
+                403-token-required:
+                  summary: Error response when the secret API key was not provided.
+                  value:
+                    error:
+                      code: TokenRequired
+                      message: secret key is required
+                403-wrong-region:
+                  summary: >-
+                    Error response when the API region is different from the
+                    region, the calling application is configured with.
+                  value:
+                    error:
+                      code: WrongRegion
+                      message: wrong region
         '404':
           description: >-
             Not found. The visitor ID cannot be found in this application's
