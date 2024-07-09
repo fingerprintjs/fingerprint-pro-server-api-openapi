@@ -215,6 +215,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     './examples/shared/403_error_token_not_found.json',
     './examples/shared/403_error_token_required.json',
     './examples/shared/403_error_wrong_region.json',
+    './examples/update_event_403_error.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
@@ -284,7 +285,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
   const eventError404Validator = ajv.compile(eventError404Schema);
 
   // Validate against example file
-  ['./examples/get_event_404_error.json'].forEach((examplePath) =>
+  ['./examples/get_event_404_error.json', './examples/update_event_404_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -542,6 +543,72 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
   }
 }
 
+/*
+ * Validates EventUpdateError404
+ */
+async function validateUpdateEventError404Schema() {
+  console.log('\nValidating UpdateEvent404Error schema: \n');
+  const updateEvent404ErrorSchema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorUpdateEvent404Response'
+  );
+  const updateEvent404ErrorValidator = ajv.compile(updateEvent404ErrorSchema);
+
+  // Validate against example file
+  ['./examples/update_event_404_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: updateEvent404ErrorValidator,
+      schemaName: 'UpdateEvent404Error',
+    })
+  );
+}
+
+/*
+ * Validates EventUpdateError400
+ */
+async function validateUpdateEventError400Schema() {
+  console.log('\nValidating UpdateEvent400Error schema: \n');
+  const updateEvent400ErrorSchema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorUpdateEvent400Response'
+  );
+  const updateEvent400ErrorValidator = ajv.compile(updateEvent400ErrorSchema);
+
+  // Validate against example file
+  ['./examples/update_event_400_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: updateEvent400ErrorValidator,
+      schemaName: 'UpdateEvent400Error',
+    })
+  );
+}
+
+/**
+ * Validates EventUpdateError409
+ */
+async function validateUpdateEventError409Schema() {
+  console.log('\nValidating UpdateEvent409Error schema: \n');
+  const updateEvent409ErrorSchema = convertOpenApiToJsonSchema(
+    OPEN_API_SCHEMA,
+    '#/definitions/ErrorUpdateEvent409Response'
+  );
+  const updateEvent409ErrorValidator = ajv.compile(updateEvent409ErrorSchema);
+
+  // Validate against example file
+  ['./examples/update_event_409_error.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: updateEvent409ErrorValidator,
+      schemaName: 'UpdateEvent409Error',
+    })
+  );
+}
+
 /**
  * Main function
  */
@@ -573,6 +640,10 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
     testSubscriptions.filter((sub) => sub.deleteEnabled && sub.relatedVisitorsEnabled)
   );
   await validateRelatedVisitorsResponseSchema(testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled));
+
+  await validateUpdateEventError400Schema();
+  await validateUpdateEventError404Schema();
+  await validateUpdateEventError409Schema();
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
