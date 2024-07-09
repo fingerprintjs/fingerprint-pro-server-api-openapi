@@ -12,7 +12,7 @@ You can find the schemas definitions in the [schemas](/schemas) folder. You can 
 - Authoring schemas is easier with IDE support. For VS Code, you can use [OpenAPI (Swagger) Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi). You can look for similar extensions for your IDE of choice.
 - OpenAPI schema is repetitive, the easiest way to add something (schema, endpoint, response, property...) is to copy-paste an existing entity and modify it. Try to follow the established patterns for naming, ordering, example values, example files, etc.
 - You can reference the [OpenAPI specification](https://spec.openapis.org/oas/v3.0.3) for more information.
-- If you are adding a new signal, please also add it to `get_event_200.json`, `webhook.json` and other relevant files in the `examples` folder.
+- If you are adding a new signal, please also add it to `get_event_200.json`, `webhook.json`, `get_event_200_all_errors.json` and other relevant files in the `examples` folder.
 
 ### Previewing changes
 
