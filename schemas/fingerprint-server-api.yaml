@@ -43,7 +43,7 @@ paths:
       summary: Get event by request ID
       description: |
         Get a detailed analysis of an individual identification event, including Smart Signals. 
-        **Only for Enterprise customers:** Please note that the response includes mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform.
+        Please note that the response includes mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform.
         It is highly recommended that you **ignore** the mobile signals for such requests. 
 
         Use `requestId` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `requestId`.
@@ -559,9 +559,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorCommon403Response'
               examples:
-                example:
-                  summary: Forbidden
-                  externalValue: '/examples/delete_visits_403_error.json'
+                403-feature-not-enabled:
+                  summary: Error response when this feature is not enabled for a subscription.
+                  externalValue: '/examples/shared/403_error_feature_not_enabled.json'
+                403-token-not-found:
+                  summary: Error response when the provided secret API key does not exist.
+                  externalValue: '/examples/shared/403_error_token_not_found.json'
+                403-token-required:
+                  summary: Error response when the secret API key was not provided.
+                  externalValue: '/examples/shared/403_error_token_required.json'
+                403-wrong-region:
+                  summary: Error response when the API region is different from the region, the calling application is configured with. 
+                  externalValue: '/examples/shared/403_error_wrong_region.json'
 
         '404':
           description: Not found. The visitor ID cannot be found in this application's data.
@@ -841,6 +850,8 @@ components:
               $ref: '#/components/schemas/LocationSpoofingResult'
             suspectScore:
               $ref: '#/components/schemas/SuspectScoreResult'
+            remoteControl:
+              $ref: '#/components/schemas/RemoteControlResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1328,6 +1339,15 @@ components:
               $ref: '#/components/schemas/RawDeviceAttributesResult'
             error:
               $ref: '#/components/schemas/IdentificationError'
+        remoteControl:
+          title: SignalResponseRemoteControl
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              $ref: '#/components/schemas/RemoteControlResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
@@ -1771,3 +1791,14 @@ components:
       required:
         - code
         - message
+    RemoteControlResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the request came from a machine being remotely controlled (e.g. TeamViewer), `false` otherwise.
+          example: false
+      required:
+        - result
