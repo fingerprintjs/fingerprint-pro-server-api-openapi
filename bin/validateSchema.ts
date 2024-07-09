@@ -434,7 +434,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { response, status, ...error } = e.error;
+      const { response, status, ...error } = e;
       validateJson({
         json: error,
         jsonName: `🌐 Live Server API Error Response for '${subscription.name}' > '${subscription.visitorId}'`,
