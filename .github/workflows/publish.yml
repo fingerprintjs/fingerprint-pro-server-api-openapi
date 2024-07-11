@@ -17,7 +17,7 @@ jobs:
         with:
           testSubscriptions: '${{ secrets.TEST_SUBSCRIPTIONS }}'
       - name: Deploy to GitHub pages 🚀📘
-        uses: JamesIves/github-pages-deploy-action@8817a56e5bfec6e2b08345c81f4d422db53a2cdc
+        uses: JamesIves/github-pages-deploy-action@94f3c658273cf92fb48ef99e5fbc02bd2dc642b2
         with:
           branch: gh-pages
           folder: dist
