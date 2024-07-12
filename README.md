@@ -27,6 +27,10 @@ This repository contains the [OpenAPI](https://swagger.io/docs/specification/abo
 > [!NOTE]  
 > Please note that some signals and attributes present in the schema are only available to Enterprise or Pro Plus customers on request, as indicated in the signal description.
 
+## Editing the schema
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+
 ## FAQ
 
 #### Why OpenAPI 3.0.3 version?
