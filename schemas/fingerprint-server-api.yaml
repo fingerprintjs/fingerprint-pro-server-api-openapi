@@ -1686,8 +1686,14 @@ components:
     VelocityResult:
       type: object
       description: >
-        Wraps multiple velocity signals for a particular visitorId. All the signals have aggregated results for predetermined
-        Intervals back, the response would be null in case of velocity data is not generated
+        Sums key data points for a specific `visitorId` at three distinct time intervals: 5 minutes, 1 hour, and 24 hours as follows: 
+
+        - Number of unique IP addresses linked to the visitor ID
+        - Number of events attributed to the visitor ID
+        - Number of unique countries associated with a visitor ID
+        - Number of unique `linkedId`s associated with the visitor ID
+
+        Is `null` if the velocity data could not be generated for the visitor ID.
       additionalProperties: false
       nullable: true
       properties:
