@@ -200,8 +200,7 @@
         "24h": 1
       }
     },
-    "distinctLinkedId": {
-    },
+    "distinctLinkedId": {},
     "distinctCountry": {
       "intervals": {
         "5m": 1,
