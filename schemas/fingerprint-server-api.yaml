@@ -1693,9 +1693,7 @@ components:
         - Number of unique countries associated with a visitor ID
         - Number of unique `linkedId`s associated with the visitor ID
 
-        Is `null` if the velocity data could not be generated for the visitor ID.
       additionalProperties: false
-      nullable: true
       properties:
         distinctIp:
           $ref: '#/components/schemas/VelocityIntervals'
@@ -1705,6 +1703,11 @@ components:
           $ref: '#/components/schemas/VelocityIntervals'
         events:
           $ref: '#/components/schemas/VelocityIntervals'
+      required:
+        - distinctIp
+        - distinctLinkedId
+        - distinctCountry
+        - events
     RawDeviceAttributesResult:
       type: object
       description: >
@@ -1967,18 +1970,14 @@ components:
     VelocityIntervals:
       type: object
       additionalProperties: false
-      nullable: true
       properties:
         'intervals':
           $ref: '#/components/schemas/VelocityIntervalResult'
     VelocityIntervalResult:
       type: object
       description: >
-        In some cases 24h interval could be null if the visitor has extremely high activity
-        (which confidently signifies automation activity) and 24h window doesnt make sense as the numbers would be 
-        too high to make any relevance
+        Is absent if the velocity data could not be generated for the visitor ID.
       additionalProperties: false
-      nullable: true
       properties:
         '5m':
           type: integer
@@ -1988,5 +1987,12 @@ components:
           example: 1
         '24h':
           type: integer
+          description: >
+            In some cases 24h interval could be absent if the visitor has extremely high activity
+            (which confidently signifies automation activity) thereby 24h window doesn't make sense as the numbers would be
+            too high to make any relevance
           example: 1
+      required:
+        - 5m
+        - 1h
 
