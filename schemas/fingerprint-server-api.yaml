@@ -1688,10 +1688,10 @@ components:
       description: >
         Sums key data points for a specific `visitorId` at three distinct time intervals: 5 minutes, 1 hour, and 24 hours as follows: 
 
-        - Number of unique IP addresses linked to the visitor ID
+        - Number of unique IP addresses linked to the visitor ID, '24h' window will be skipped if the amount of events visits is higher than 20k.
         - Number of events attributed to the visitor ID
-        - Number of unique countries associated with a visitor ID
-        - Number of unique `linkedId`s associated with the visitor ID
+        - Number of unique countries associated with a visitor ID, '24h' window will be skipped if the amount of events visits is higher than 20k.
+        - Number of unique `linkedId`s associated with the visitor ID, '24h' window will be skipped if the amount of events visits is higher than 20k.
 
       additionalProperties: false
       properties:
