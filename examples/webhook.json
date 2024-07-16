@@ -191,5 +191,8 @@
   },
   "remoteControl": {
     "result": false
+  },
+  "developerTools": {
+    "result": false
   }
 }

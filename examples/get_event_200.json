@@ -277,6 +277,11 @@
       "data": {
         "result": false
       }
+    },
+    "developerTools": {
+      "data": {
+        "result": false
+      }
     }
   }
 }
