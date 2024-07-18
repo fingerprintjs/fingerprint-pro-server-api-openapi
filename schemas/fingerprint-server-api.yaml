@@ -1924,7 +1924,7 @@ components:
         result:
           type: boolean
           description: >
-            `true` if browser has open devtools, `false` otherwise. Supports Chrome and Firefox.
+            `true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise.
           example: false
       required:
         - result
