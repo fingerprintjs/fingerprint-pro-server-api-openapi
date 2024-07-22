@@ -921,6 +921,8 @@ components:
               $ref: '#/components/schemas/RemoteControlResult'
             velocity:
               $ref: '#/components/schemas/VelocityResult'
+            developerTools:
+              $ref: '#/components/schemas/DeveloperToolsResult'
           required:
             - visitorId
         - $ref: '#/components/schemas/Visit'
@@ -1426,6 +1428,15 @@ components:
               $ref: '#/components/schemas/VelocityResult'
             error:
               $ref: '#/components/schemas/ProductError'
+        developerTools:
+          title: SignalResponseDeveloperTools
+          type: object
+          additionalProperties: false
+          properties:
+            data:
+              $ref: '#/components/schemas/DeveloperToolsResult'
+            error:
+              $ref: '#/components/schemas/ProductError'
     EventResponse:
       description: Contains results from all activated products - Fingerprint Pro, Bot Detection, and others.
       type: object
@@ -1904,6 +1915,17 @@ components:
           type: boolean
           description: >
             `true` if the request came from a machine being remotely controlled (e.g. TeamViewer), `false` otherwise.
+          example: false
+      required:
+        - result
+    DeveloperToolsResult:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise.
           example: false
       required:
         - result
