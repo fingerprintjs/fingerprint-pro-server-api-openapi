@@ -4238,8 +4238,8 @@ components:
               - time
               - timestamp
               - url
-              - tag
               - visitorFound
+              - tag
         lastTimestamp:
           description: >
             ⚠️ Deprecated paging attribute, please use `paginationKey` instead.
@@ -4566,7 +4566,6 @@ components:
         - time
         - timestamp
         - url
-        - tag
         - visitorFound
     Visit:
       type: object
@@ -4677,7 +4676,6 @@ components:
         - time
         - timestamp
         - url
-        - tag
         - visitorFound
       title: Visit
     BrowserDetails:
@@ -4997,9 +4995,9 @@ components:
                 - time
                 - timestamp
                 - url
-                - tag
                 - visitorFound
                 - visitorId
+                - tag
             error:
               $ref: '#/components/schemas/IdentificationError'
         botd:
