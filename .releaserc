@@ -1,0 +1,51 @@
+{
+  "branches": [
+    "main",
+    "INTER-810-semantic-release"
+  ],
+  "repositoryUrl": "https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi",
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "releaseRules": "@fingerprintjs/conventional-changelog-dx-team/release-rules"
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+      }
+    ],
+    "@semantic-release/changelog",
+    "./scripts/saveReleaseNotes.plugin.js",
+    "@semantic-release/npm",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "pnpm build"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "CHANGELOG.md",
+          "package.json"
+        ]
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/schemas/**"
+          },
+          {
+            "path": "release-notes.json"
+          }
+        ]
+      }
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+      - test
+      # TODO Remove
+      - INTER-810-semantic-release
+
+jobs:
+  build-and-release:
+    name: 'Build project, run CI checks and publish new release'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/release-typescript-project.yml@v1
+    with:
+      appId: ${{ vars.APP_ID }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

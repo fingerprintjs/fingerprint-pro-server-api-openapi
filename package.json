@@ -1,5 +1,6 @@
 {
   "name": "fingerprint-pro-server-api-openapi",
+  "private": true,
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
@@ -11,10 +12,12 @@
     "lintSchemaDist": "vacuum lint ./dist/schemas/*.yaml -d --errors --base dist/schemas",
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:dts": "echo 'No typescript tests' && exit 0",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
     "lint:fix": "pnpm lint --fix",
     "prettier": "prettier . --check",
-    "prettier:fix": "pnpm prettier . --write"
+    "prettier:fix": "pnpm prettier . --write",
+    "release": "semantic-release --dry-run"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -25,6 +28,13 @@
     "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
     "@fingerprintjs/tsconfig-dx-team": "^0.0.2",
     "@quobix/vacuum": "^0.9.16",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.1.3",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",
     "@types/swagger-ui": "^3.52.4",
@@ -41,6 +51,7 @@
     "js-yaml": "^4.1.0",
     "json-loader": "^0.5.7",
     "playwright": "^1.45.1",
+    "semantic-release": "^24.0.0",
     "style-loader": "^3.3.4",
     "swagger-ui": "^5.17.14",
     "ts-loader": "^9.5.1",
@@ -53,5 +64,8 @@
     "yaml-loader": "^0.8.1",
     "znv": "^0.4.0",
     "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0"
   }
 }
