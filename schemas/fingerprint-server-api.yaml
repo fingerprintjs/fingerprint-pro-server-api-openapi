@@ -1026,7 +1026,6 @@ components:
         - time
         - timestamp
         - url
-        - tag
         - visitorFound
       title: Visit
     BrowserDetails:
@@ -1228,6 +1227,8 @@ components:
                         - Ibk1527CUFmcnjLwIs4A
                   required:
                     - visitorId
+                - required:
+                    - tag
             error:
               $ref: '#/components/schemas/IdentificationError'
         botd:
