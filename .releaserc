@@ -22,7 +22,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "pnpm build"
+        "prepareCmd": "pnpm build && zip -r examples.zip examples"
       }
     ],
     [
@@ -42,7 +42,7 @@
             "path": "dist/schemas/**"
           },
           {
-            "path": "examples/**"
+            "path": "examples.zip"
           },
           {
             "path": "release-notes.json"
