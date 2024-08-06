@@ -28,7 +28,12 @@ function parseNotes(notes) {
     }
 
     if (part.startsWith(HEADER_INDICATOR)) {
-      currentHeader = part.replace(HEADER_INDICATOR, '').trim();
+      currentHeader = part
+        .replace(HEADER_INDICATOR, '')
+        .toLowerCase()
+        // Replace whitespaces with dash
+        .replace(/\s+/g, '-')
+        .trim();
 
       return;
     }
@@ -49,7 +54,16 @@ function parseNotes(notes) {
     }
   });
 
-  return result;
+  return Object.entries(result).reduce(
+    (acc, [type, notes]) => [
+      ...acc,
+      {
+        type,
+        notes,
+      },
+    ],
+    []
+  );
 }
 
 /**
