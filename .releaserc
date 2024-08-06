@@ -42,6 +42,9 @@
             "path": "dist/schemas/**"
           },
           {
+            "path": "examples/**"
+          },
+          {
             "path": "release-notes.json"
           }
         ]
