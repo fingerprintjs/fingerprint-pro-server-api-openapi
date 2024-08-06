@@ -30,10 +30,10 @@ function parseNotes(notes) {
     if (part.startsWith(HEADER_INDICATOR)) {
       currentHeader = part
         .replace(HEADER_INDICATOR, '')
+        .trim()
         .toLowerCase()
         // Replace whitespaces with dash
-        .replace(/\s+/g, '-')
-        .trim();
+        .replace(/\s+/g, '-');
 
       return;
     }
