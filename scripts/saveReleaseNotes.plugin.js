@@ -21,6 +21,7 @@ const HEADER_INDICATOR = '###';
 function parseNotes(notes) {
   let currentHeader = '';
   const result = {};
+  const seenNotes = new Set<string>()
 
   notes.split('\n').forEach((part) => {
     if (!part) {
@@ -38,7 +39,7 @@ function parseNotes(notes) {
       return;
     }
 
-    if (!currentHeader) {
+    if (!currentHeader || seenNotes.has(part)) {
       return;
     }
 
@@ -52,6 +53,8 @@ function parseNotes(notes) {
     } catch (e) {
       console.error(`Failed to parse note ${part}`, e);
     }
+
+    seenNotes.add(part)
   });
 
   return Object.entries(result).reduce(
