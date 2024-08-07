@@ -21,7 +21,7 @@ const HEADER_INDICATOR = '###';
 function parseNotes(notes) {
   let currentHeader = '';
   const result = {};
-  const seenNotes = new Set<string>()
+  const seenNotes = new Set()
 
   notes.split('\n').forEach((part) => {
     if (!part) {
