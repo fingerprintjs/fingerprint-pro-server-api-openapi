@@ -1,0 +1,35 @@
+on:
+  release:
+    types:
+      - published
+      - released
+name: Notify Server-Side SDKs
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # List of SDKs that will be notified about the release
+        sdk: [fingerprintjs/fingerprint-pro-server-api-go-sdk]
+
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: 'Get token for the GitHub App'
+        if: ${{ inputs.appId != '' }}
+        uses: actions/create-github-app-token@f2acddfb5195534d487896a656232b016a682f3c
+        id: app-token
+        with:
+          app-id: ${{ inputs.appId }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          repository: ${{ matrix.sdk }}
+          event-type: schema-released
+          client-payload: '{"version": "${{ github.event.release.tag_name }}"}'
