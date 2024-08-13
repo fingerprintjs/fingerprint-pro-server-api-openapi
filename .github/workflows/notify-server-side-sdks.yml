@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         # List of SDKs that will be notified about the release
-        sdk: [fingerprintjs/fingerprint-pro-server-api-go-sdk]
+        sdk: [fingerprintjs/fingerprintjs-pro-server-api-node-sdk]
 
     steps:
       - name: 'Checkout repository'
