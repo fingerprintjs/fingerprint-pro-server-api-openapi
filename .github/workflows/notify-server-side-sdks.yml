@@ -19,11 +19,10 @@ jobs:
           ref: ${{ github.event.release.tag_name }}
 
       - name: 'Get token for the GitHub App'
-        if: ${{ inputs.appId != '' }}
         uses: actions/create-github-app-token@f2acddfb5195534d487896a656232b016a682f3c
         id: app-token
         with:
-          app-id: ${{ inputs.appId }}
+          app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Repository Dispatch
