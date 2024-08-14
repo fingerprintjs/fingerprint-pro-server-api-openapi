@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         # List of SDKs that will be notified about the release
-        sdk: [fingerprintjs/fingerprintjs-pro-server-api-node-sdk]
+        sdk: [fingerprintjs-pro-server-api-node-sdk]
 
     steps:
       - name: 'Checkout repository'
@@ -31,6 +31,6 @@ jobs:
         uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0
         with:
           token: ${{ steps.app-token.outputs.token }}
-          repository: ${{ matrix.sdk }}
+          repository: fingerprintjs/${{ matrix.sdk }}
           event-type: schema-released
           client-payload: '{"version": "${{ github.event.release.tag_name }}"}'
