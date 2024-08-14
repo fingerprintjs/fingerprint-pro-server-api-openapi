@@ -3,9 +3,9 @@ on:
     types:
       - published
       - released
-name: Notify Server-Side SDKs
+name: Sync Server-Side SDKs schema
 jobs:
-  notify-node:
+  sync-node:
     name: 'Sync schema in Node SDK'
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
