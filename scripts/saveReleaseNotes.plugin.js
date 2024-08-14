@@ -1,4 +1,3 @@
-// TODO Remove semantic-release from project
 import fs from 'fs';
 
 /**
