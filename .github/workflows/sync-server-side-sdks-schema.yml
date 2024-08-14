@@ -1,0 +1,22 @@
+on:
+  release:
+    types:
+      - published
+      - released
+name: Notify Server-Side SDKs
+jobs:
+  notify-node:
+    name: 'Sync schema in Node SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@chore/use-gh-app-for-sync
+    with:
+      tag: ${{ github.event.release.tag_name }}
+      language: node
+      language-version: 21
+      generate-command: 'pnpm generateTypes'
+      schema-path: resources/fingerprint-server-api.yaml
+      examples-path: tests/mocked-responses-tests/mocked-responses-data
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprintjs-pro-server-api-node-sdk
+      owner: fingerprintjs
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
