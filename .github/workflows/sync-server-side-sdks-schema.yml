@@ -17,6 +17,5 @@ jobs:
       examples-path: tests/mocked-responses-tests/mocked-responses-data
       app-id: ${{ vars.APP_ID }}
       repository: fingerprintjs-pro-server-api-node-sdk
-      owner: fingerprintjs
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
