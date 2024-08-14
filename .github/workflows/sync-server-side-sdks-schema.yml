@@ -7,7 +7,7 @@ name: Notify Server-Side SDKs
 jobs:
   notify-node:
     name: 'Sync schema in Node SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@chore/use-gh-app-for-sync
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ github.event.release.tag_name }}
       language: node
