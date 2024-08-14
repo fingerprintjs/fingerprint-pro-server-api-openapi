@@ -7,11 +7,10 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       '@fingerprintjs/conventional-changelog-dx-team':
         specifier: ^0.1.0
         version: 0.1.0
-    devDependencies:
       '@fingerprintjs/eslint-config-dx-team':
         specifier: ^0.1.0
         version: 0.1.0(@types/eslint@8.56.10)(prettier@3.2.5)(typescript@5.5.3)

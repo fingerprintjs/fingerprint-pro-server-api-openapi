@@ -23,6 +23,7 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
+    "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0",
     "@fingerprintjs/eslint-config-dx-team": "^0.1.0",
     "@fingerprintjs/fingerprintjs-pro-server-api": "^4.1.2",
     "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
@@ -64,8 +65,5 @@
     "yaml-loader": "^0.8.1",
     "znv": "^0.4.0",
     "zod": "^3.23.8"
-  },
-  "dependencies": {
-    "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0"
   }
 }
