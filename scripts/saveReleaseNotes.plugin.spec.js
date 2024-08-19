@@ -22,10 +22,22 @@ describe('Save release notes semantic-release plugin', () => {
 ### Bug Fixes
 
 * make tag field optional for Webhook ([cff6198](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/cff61982ae13945e057a62d7db0004ae2bfe02c6))
+
+### Build System
+
+* **deps:** remove redundant packages ([da386da](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/da386dae91fc8b3a2710b24c06178b9fa4235e85))
 `;
 
     const result = parseNotes(notes);
 
     expect(result).toMatchSnapshot();
+  });
+
+  it('with incorrect notes', () => {
+    const notes = `Incorrect...`;
+
+    const result = parseNotes(notes);
+
+    expect(result).toHaveLength(0);
   });
 });

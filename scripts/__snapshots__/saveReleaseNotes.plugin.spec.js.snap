@@ -57,5 +57,15 @@ exports[`Save release notes semantic-release plugin with correct notes 1`] = `
     ],
     "type": "bug-fixes",
   },
+  {
+    "notes": [
+      {
+        "commitLink": "https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/da386dae91fc8b3a2710b24c06178b9fa4235e85",
+        "commitTag": "da386da",
+        "note": "**deps:** remove redundant packages",
+      },
+    ],
+    "type": "build-system",
+  },
 ]
 `;
