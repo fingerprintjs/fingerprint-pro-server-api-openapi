@@ -1,15 +1,21 @@
 on:
-  release:
-    types:
-      - published
-      - released
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag'
+        required: true
+        type: string
+      pre-release:
+        description: 'Whether to create a pre-release first for the SDKs'
+        required: false
+        default: false
 name: Sync Server-Side SDKs schema
 jobs:
   sync-node:
     name: 'Sync schema in Node SDK'
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
-      tag: ${{ github.event.release.tag_name }}
+      tag: ${{ inputs.tag }}
       language: node
       language-version: 21
       generate-command: 'pnpm generateTypes'
@@ -17,5 +23,6 @@ jobs:
       examples-path: tests/mocked-responses-tests/mocked-responses-data
       app-id: ${{ vars.APP_ID }}
       repository: fingerprintjs-pro-server-api-node-sdk
+      pre-release: ${{ inputs.pre-release }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
