@@ -13,11 +13,18 @@ export async function generateNotes(config, context) {
 }
 
 const HEADER_INDICATOR = '###';
+const BREAKING_CHANGES_HEADER = 'breaking-changes';
+
+class InvalidReleaseNoteError extends Error {
+  constructor() {
+    super('Release note format is invalid or does not match expected pattern.');
+  }
+}
 
 /**
  * @param {string} notes
  * */
-function parseNotes(notes) {
+export function parseNotes(notes) {
   let currentHeader = '';
   const result = {};
   const seenNotes = new Set();
@@ -30,6 +37,10 @@ function parseNotes(notes) {
     if (part.startsWith(HEADER_INDICATOR)) {
       currentHeader = part
         .replace(HEADER_INDICATOR, '')
+        .replace(
+          /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+          ''
+        )
         .trim()
         .toLowerCase()
         // Replace whitespaces with dash
@@ -50,6 +61,16 @@ function parseNotes(notes) {
       const note = extractReleaseNoteData(part);
       result[currentHeader].push(note);
     } catch (e) {
+      if (e instanceof InvalidReleaseNoteError && currentHeader === BREAKING_CHANGES_HEADER) {
+        result[currentHeader].push({
+          note: part.replace('*', '').trim(),
+          commitTag: null,
+          commitLink: null,
+        });
+
+        return;
+      }
+
       console.error(`Failed to parse note ${part}`, e);
     }
 
@@ -84,6 +105,6 @@ function extractReleaseNoteData(releaseNote) {
       commitLink: match.groups.commitLink,
     };
   } else {
-    throw new Error('Release note format is invalid or does not match expected pattern.');
+    throw new InvalidReleaseNoteError();
   }
 }
