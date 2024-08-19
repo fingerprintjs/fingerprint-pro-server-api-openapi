@@ -1,7 +1,6 @@
 {
   "branches": [
-    "main",
-    "INTER-810-semantic-release"
+    "main"
   ],
   "repositoryUrl": "https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi",
   "plugins": [
