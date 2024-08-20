@@ -5,24 +5,28 @@ exports[`Save release notes semantic-release plugin with correct notes 1`] = `
   {
     "notes": [
       {
-        "commitLink": null,
-        "commitTag": null,
+        "commitLink": "https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/3a4975d6f2641cffd132dce48700895c9301e1cd",
+        "commitTag": "3a4975d",
         "note": "rename \`ErrorVisitsDelete400Response\` to \`ErrorVisitor400Response\`",
+        "scope": null,
       },
       {
-        "commitLink": null,
-        "commitTag": null,
+        "commitLink": "https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/3a4975d6f2641cffd132dce48700895c9301e1cd",
+        "commitTag": "3a4975d",
         "note": "rename \`ErrorVisitsDelete404ResponseError\` to \`ErrorVisitor404ResponseError\`",
+        "scope": null,
       },
       {
-        "commitLink": null,
-        "commitTag": null,
+        "commitLink": "https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/3a4975d6f2641cffd132dce48700895c9301e1cd",
+        "commitTag": "3a4975d",
         "note": "rename \`ErrorVisitsDelete404Response\` to \`ErrorVisitor404Respons",
+        "scope": null,
       },
       {
-        "commitLink": null,
-        "commitTag": null,
+        "commitLink": "https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/3a4975d6f2641cffd132dce48700895c9301e1cd",
+        "commitTag": "3a4975d",
         "note": "renamed \`status\` in error object to \`statusCode\`",
+        "scope": null,
       },
       {
         "commitLink": null,

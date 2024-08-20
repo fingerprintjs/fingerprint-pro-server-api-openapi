@@ -5,9 +5,7 @@ import fs from 'fs';
  * @param {import('semantic-release').GenerateNotesContext} context
  * */
 export async function generateNotes(config, context) {
-  const parsedNotes = parseNotes(context.nextRelease.notes);
-
-  console.log(parsedNotes);
+  const parsedNotes = parseNotes(context.nextRelease.notes, context.commits);
 
   fs.writeFileSync('./release-notes.json', JSON.stringify(parsedNotes));
 }
@@ -23,13 +21,18 @@ class InvalidReleaseNoteError extends Error {
 
 /**
  * @param {string} notes
+ * @param {Commit[]} commits
  * */
-export function parseNotes(notes) {
+export function parseNotes(notes, commits) {
   let currentHeader = '';
   const result = {};
-  const seenNotes = new Set();
 
-  notes.split('\n').forEach((part) => {
+  const seenNotes = new Set();
+  const notesShaMap = new Map();
+
+  const notesArray = notes.split('\n');
+
+  notesArray.forEach((part) => {
     if (!part) {
       return;
     }
@@ -60,6 +63,7 @@ export function parseNotes(notes) {
     try {
       const note = extractReleaseNoteData(part);
       result[currentHeader].push(note);
+      notesShaMap.set(note.commitTag, note);
     } catch (e) {
       if (e instanceof InvalidReleaseNoteError && currentHeader === BREAKING_CHANGES_HEADER) {
         result[currentHeader].push({
@@ -76,6 +80,30 @@ export function parseNotes(notes) {
 
     seenNotes.add(part);
   });
+
+  if (result[BREAKING_CHANGES_HEADER]) {
+    // Find missing note metadata for breaking changes by mapping them to the actual commit
+    result[BREAKING_CHANGES_HEADER] = result[BREAKING_CHANGES_HEADER].map((note) => {
+      const commit = commits.find((c) => c.body?.includes(note.note));
+
+      if (!commit) {
+        return note;
+      }
+
+      const noteForCommit = notesShaMap.get(commit.commit.short);
+
+      if (!noteForCommit) {
+        return note;
+      }
+
+      return {
+        ...note,
+        scope: noteForCommit.scope,
+        commitTag: noteForCommit.commitTag,
+        commitLink: noteForCommit.commitLink,
+      };
+    });
+  }
 
   return Object.entries(result).reduce(
     (acc, [type, notes]) => [
