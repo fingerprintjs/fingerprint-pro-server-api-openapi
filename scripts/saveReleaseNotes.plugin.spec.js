@@ -15,7 +15,7 @@ describe('Save release notes semantic-release plugin', () => {
 
 ### Features
 
-* add remoteControl, velocity and developerTools signals ([45564cd](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/45564cd351a8c1c40de5b7442d9ed0685a32889f))
+* **signals:** add remoteControl, velocity and developerTools signals ([45564cd](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/45564cd351a8c1c40de5b7442d9ed0685a32889f))
 * improve thrown errors, introduce classes per specific error ([3a4975d](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/3a4975d6f2641cffd132dce48700895c9301e1cd))
 
 

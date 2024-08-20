@@ -99,12 +99,36 @@ function extractReleaseNoteData(releaseNote) {
   const match = releaseNote.match(regex);
 
   if (match && match.groups) {
+    const { message, scope } = extractScopeAndMessage(match.groups.note);
+
     return {
-      note: match.groups.note.replace('*', '').trim(),
+      note: message,
+      scope,
       commitTag: match.groups.commitTag,
       commitLink: match.groups.commitLink,
     };
-  } else {
-    throw new InvalidReleaseNoteError();
   }
+
+  throw new InvalidReleaseNoteError();
+}
+
+function extractScopeAndMessage(note) {
+  const regex = /^\*\s\*\*(\w+):\*\*\s*(.+)$/;
+
+  const match = note.match(regex);
+
+  if (match) {
+    const scope = match[1];
+    const message = match[2];
+
+    return {
+      message,
+      scope,
+    };
+  }
+
+  return {
+    message: note.replace('*', '').trim(),
+    scope: null,
+  };
 }
