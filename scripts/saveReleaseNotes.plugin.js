@@ -21,7 +21,7 @@ class InvalidReleaseNoteError extends Error {
 
 /**
  * @param {string} notes
- * @param {Commit[]} commits
+ * @param {import('semantic-release').Commit[]} commits
  * */
 export function parseNotes(notes, commits) {
   let currentHeader = '';
