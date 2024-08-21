@@ -149,11 +149,19 @@ function extractScopeAndMessage(note) {
     const scope = match[1];
     const message = match[2];
 
+    console.info('Found scope in note', {
+      note,
+      scope,
+      message,
+    });
+
     return {
       message,
       scope,
     };
   }
+
+  console.info(`No scope found in note "${note}"`);
 
   return {
     message: note.replace('*', '').trim(),
