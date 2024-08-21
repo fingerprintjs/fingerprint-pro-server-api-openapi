@@ -8,7 +8,7 @@ describe('Save release notes semantic-release plugin', () => {
           long: '45564cd351a8c1c40de5b7442d9ed0685a32889f',
           short: '45564cd',
         },
-        subject: 'feat(signals): add remoteControl, velocity and developerTools signals',
+        subject: 'feat(smart-signals): add remoteControl, velocity and developerTools signals',
       },
       {
         commit: {
@@ -58,7 +58,7 @@ BREAKING CHANGE: rename \`ErrorVisitsDelete404Response\` to \`ErrorVisitor404Res
 
 ### Features
 
-* **signals:** add remoteControl, velocity and developerTools signals ([45564cd](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/45564cd351a8c1c40de5b7442d9ed0685a32889f))
+* **smart-signals:** add remoteControl, velocity and developerTools signals ([45564cd](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/45564cd351a8c1c40de5b7442d9ed0685a32889f))
 * improve thrown errors, introduce classes per specific error ([3a4975d](https://github.com/fingerprintjs/fingerprintjs-pro-server-api-node-sdk/commit/3a4975d6f2641cffd132dce48700895c9301e1cd))
 
 

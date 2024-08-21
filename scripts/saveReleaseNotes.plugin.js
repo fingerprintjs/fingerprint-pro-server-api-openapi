@@ -141,7 +141,7 @@ function extractReleaseNoteData(releaseNote) {
 }
 
 function extractScopeAndMessage(note) {
-  const regex = /^\*\s\*\*(\w+):\*\*\s*(.+)$/;
+  const regex = /^\*\s\*\*(\w.+):\*\*\s*(.+)$/;
 
   const match = note.match(regex);
 
