@@ -1,0 +1,21 @@
+get:
+  parameters:
+    - name: visitor_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: mcEozNgqhKgmfXx7ZaMW
+  responses:
+    '200':
+      description: Auto generated using Swagger Inspector
+      content:
+        application/json:
+          schema:
+            $ref: '../components/Response.yaml'
+    '500':
+      description: Internal errror
+      content:
+        application/json:
+          schema:
+            $ref: '../components/Error.yaml'

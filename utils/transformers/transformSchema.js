@@ -7,8 +7,13 @@ import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js'
 import { removeXReadmeTransformer } from './removeXReadmeTransformer.js';
 import { removeDeleteVisitorTransformer } from './removeDeleteVisitorTransformer.js';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
+import { resolveRefTransformer } from './resolveRefTransformer.js';
 
-export const commonTransformers = [resolveExternalValueTransformer, resolveAllOfTransformer];
+export const commonTransformers = [
+  resolveRefTransformer({ schemaPath: './schemas' }),
+  resolveExternalValueTransformer,
+  resolveAllOfTransformer,
+];
 
 const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
 

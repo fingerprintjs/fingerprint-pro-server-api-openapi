@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: Fingerprint server API
+  version: '0.1'
+paths:
+  /visitors/{visitor_id}:
+    $ref: paths/visitors.yml
