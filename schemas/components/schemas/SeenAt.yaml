@@ -1,0 +1,20 @@
+type: object
+additionalProperties: false
+properties:
+  global:
+    type: string
+    nullable: true
+    format: date-time
+    example: '2022-05-05T18:28:54.535Z'
+  subscription:
+    type: string
+    nullable: true
+    format: date-time
+    example: '2022-06-09T22:58:05.576Z'
+required:
+  - global
+  - subscription
+title: SeenAt
+example:
+  global: '2022-05-05T18:28:54.535Z'
+  subscription: null

@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+properties:
+  error:
+    type: string
+    description: Error text.
+    example: request throttled
+required:
+  - error

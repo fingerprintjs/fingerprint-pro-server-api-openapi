@@ -1,0 +1,238 @@
+type: object
+description: >-
+  Contains all information about the request identified by `requestId`,
+  depending on the pricing plan (Pro, Pro Plus, Enterprise)
+additionalProperties: false
+properties:
+  identification:
+    type: object
+    additionalProperties: false
+    title: ProductsResponseIdentification
+    properties:
+      data:
+        title: ProductsResponseIdentificationData
+        allOf:
+          - $ref: Visit.yaml
+          - type: object
+            additionalProperties: false
+            properties:
+              visitorId:
+                type: string
+                description: >
+                  String of 20 characters that uniquely identifies the visitor's
+                  browser.
+                example:
+                  - Ibk1527CUFmcnjLwIs4A
+            required:
+              - visitorId
+          - required:
+              - tag
+      error:
+        $ref: IdentificationError.yaml
+  botd:
+    title: ProductsResponseBotd
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: BotdResult.yaml
+      error:
+        $ref: ProductError.yaml
+  ipInfo:
+    title: SignalResponseIpInfo
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: IpInfoResult.yaml
+      error:
+        $ref: ProductError.yaml
+  incognito:
+    title: SignalResponseIncognito
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: IncognitoResult.yaml
+      error:
+        $ref: IdentificationError.yaml
+  rootApps:
+    title: SignalResponseRootApps
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: RootAppsResult.yaml
+      error:
+        $ref: ProductError.yaml
+  emulator:
+    title: SignalResponseEmulator
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: EmulatorResult.yaml
+      error:
+        $ref: ProductError.yaml
+  clonedApp:
+    title: SignalResponseClonedApp
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: ClonedAppResult.yaml
+      error:
+        $ref: ProductError.yaml
+  factoryReset:
+    title: SignalResponseFactoryReset
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: FactoryResetResult.yaml
+      error:
+        $ref: ProductError.yaml
+  jailbroken:
+    title: SignalResponseJailbroken
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: JailbrokenResult.yaml
+      error:
+        $ref: ProductError.yaml
+  frida:
+    title: SignalResponseFrida
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: FridaResult.yaml
+      error:
+        $ref: ProductError.yaml
+  ipBlocklist:
+    title: SignalResponseIpBlocklist
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: IpBlockListResult.yaml
+      error:
+        $ref: ProductError.yaml
+  tor:
+    title: SignalResponseTor
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: TorResult.yaml
+      error:
+        $ref: ProductError.yaml
+  privacySettings:
+    title: SignalResponsePrivacySettings
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: PrivacySettingsResult.yaml
+      error:
+        $ref: ProductError.yaml
+  virtualMachine:
+    title: SignalResponseVirtualMachine
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: VirtualMachineResult.yaml
+      error:
+        $ref: ProductError.yaml
+  vpn:
+    title: SignalResponseVpn
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: VpnResult.yaml
+      error:
+        $ref: ProductError.yaml
+  proxy:
+    title: SignalResponseProxy
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: ProxyResult.yaml
+      error:
+        $ref: ProductError.yaml
+  tampering:
+    title: SignalResponseTampering
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: TamperingResult.yaml
+      error:
+        $ref: IdentificationError.yaml
+  highActivity:
+    title: SignalResponseHighActivity
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: HighActivityResult.yaml
+      error:
+        $ref: ProductError.yaml
+  locationSpoofing:
+    title: SignalResponseLocationSpoofing
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: LocationSpoofingResult.yaml
+      error:
+        $ref: ProductError.yaml
+  suspectScore:
+    title: SignalResponseSuspectScore
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: SuspectScoreResult.yaml
+      error:
+        $ref: ProductError.yaml
+  rawDeviceAttributes:
+    title: SignalResponseRawDeviceAttributes
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: RawDeviceAttributesResult.yaml
+      error:
+        $ref: IdentificationError.yaml
+  remoteControl:
+    title: SignalResponseRemoteControl
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: RemoteControlResult.yaml
+      error:
+        $ref: ProductError.yaml
+  velocity:
+    title: SignalResponseVelocity
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: VelocityResult.yaml
+      error:
+        $ref: ProductError.yaml
+  developerTools:
+    title: SignalResponseDeveloperTools
+    type: object
+    additionalProperties: false
+    properties:
+      data:
+        $ref: DeveloperToolsResult.yaml
+      error:
+        $ref: ProductError.yaml

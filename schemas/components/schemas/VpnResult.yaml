@@ -1,0 +1,52 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: VPN or other anonymizing service has been used when sending the request.
+    example: false
+  originTimezone:
+    type: string
+    description: Local timezone which is used in timezoneMismatch method.
+    example: Europe/Berlin
+  originCountry:
+    type: string
+    description: >-
+      Country of the request (only for Android SDK version >= 2.4.0, ISO 3166
+      format or unknown).
+    example: unknown
+  methods:
+    type: object
+    additionalProperties: false
+    properties:
+      timezoneMismatch:
+        type: boolean
+        description: >-
+          The browser timezone doesn't match the timezone inferred from the
+          request IP address.
+        example: false
+      publicVPN:
+        type: boolean
+        description: Request IP address is owned and used by a public VPN service provider.
+        example: false
+      auxiliaryMobile:
+        type: boolean
+        description: >-
+          This method applies to mobile devices only. Indicates the result of
+          additional methods used to detect a VPN in mobile devices.
+        example: false
+      osMismatch:
+        type: boolean
+        description: >-
+          The browser runs on a different operating system than the operating
+          system inferred from the  request network signature.
+        example: false
+    required:
+      - timezoneMismatch
+      - publicVPN
+      - auxiliaryMobile
+      - osMismatch
+required:
+  - result
+  - originTimezone
+  - methods

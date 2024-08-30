@@ -1,0 +1,12 @@
+description: >-
+  Contains results from all activated products - Fingerprint Pro, Bot Detection,
+  and others.
+type: object
+additionalProperties: false
+properties:
+  products:
+    $ref: ProductsResponse.yaml
+  error:
+    $ref: ProductError.yaml
+required:
+  - products

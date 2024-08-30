@@ -1,0 +1,13 @@
+type: object
+properties:
+  linkedId:
+    type: string
+    description: LinkedID value to assign to the existing event
+  tag:
+    type: object
+    description: >-
+      Full `tag` value to be set to the existing event. Replaces any existing
+      `tag` payload completely.
+  suspect:
+    type: boolean
+    description: Suspect flag indicating observed suspicious or fraudulent event

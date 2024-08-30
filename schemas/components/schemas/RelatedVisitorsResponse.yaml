@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+properties:
+  relatedVisitors:
+    type: array
+    items:
+      $ref: 'RelatedVisitor.yaml'
+required:
+  - relatedVisitors
