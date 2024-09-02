@@ -35,7 +35,7 @@ Code of demo application is in [src](src) folder.
 The schema is currently created separately from the API code. This is a bad practice, but we will fix it in future API versions.
 To validate that schema matches the actual API implementation we use a [special validation script](/bin/validateSchema.ts).
 
-- It validates the schema against JSON examples file from [examples](/examples) folder. Note that some files in the examples folder appear unused like `get_event_extra_fields.json`, but they are downloaded and used for validation by individual SDK repositories.
+- It validates the schema against JSON examples file from [examples](/schemas/paths/examples) folder. Note that some files in the examples folder appear unused like `get_event_extra_fields.json`, but they are downloaded and used for validation by individual SDK repositories.
 - It also generates fresh identification events using the TEST_SUBSCRIPTION [env variable](./.env.example), retrieves fresh Server API responses and validates the schema against those.
 - You can run `pnpm run validateSchema` to validate the schema locally.
   - You can create a `.env` file according to `.env.example` and set the TEST_SUBSCRIPTIONS variable to include your personal Fingerprint subscription.

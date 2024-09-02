@@ -100,7 +100,7 @@ get:
           examples:
             example:
               summary: Forbidden
-              externalValue: '/examples/get_visits_403_error.json'
+              externalValue: 'examples/get_visits_403_error.json'
     '429':
       description: Too Many Requests
       headers:
@@ -117,7 +117,7 @@ get:
           examples:
             example:
               summary: Too Many Requests
-              externalValue: '/examples/get_visits_429_too_many_requests_error.json'
+              externalValue: 'examples/get_visits_429_too_many_requests_error.json'
   x-readme:
     code-samples:
       - language: node
@@ -299,10 +299,10 @@ delete:
           examples:
             400-empty-visitor-id:
               summary: Error response when the request does not include a visitor ID
-              externalValue: '/examples/shared/400_error_empty_visitor_id.json'
+              externalValue: 'examples/shared/400_error_empty_visitor_id.json'
             400-invalid-visitor-id:
               summary: Error response when the visitor ID is incorrectly formatted
-              externalValue: '/examples/shared/400_error_incorrect_visitor_id.json'
+              externalValue: 'examples/shared/400_error_incorrect_visitor_id.json'
     '403':
       description: Forbidden. Access to this API is denied.
       content:
@@ -312,16 +312,16 @@ delete:
           examples:
             403-feature-not-enabled:
               summary: Error response when this feature is not enabled for a subscription.
-              externalValue: '/examples/shared/403_error_feature_not_enabled.json'
+              externalValue: 'examples/shared/403_error_feature_not_enabled.json'
             403-token-not-found:
               summary: Error response when the provided secret API key does not exist.
-              externalValue: '/examples/shared/403_error_token_not_found.json'
+              externalValue: 'examples/shared/403_error_token_not_found.json'
             403-token-required:
               summary: Error response when the secret API key was not provided.
-              externalValue: '/examples/shared/403_error_token_required.json'
+              externalValue: 'examples/shared/403_error_token_required.json'
             403-wrong-region:
               summary: Error response when the API region is different from the region, the calling application is configured with.
-              externalValue: '/examples/shared/403_error_wrong_region.json'
+              externalValue: 'examples/shared/403_error_wrong_region.json'
 
     '404':
       description: Not found. The visitor ID cannot be found in this application's data.
@@ -332,7 +332,7 @@ delete:
           examples:
             example:
               summary: Not found
-              externalValue: '/examples/shared/404_error_visitor_not_found.json'
+              externalValue: 'examples/shared/404_error_visitor_not_found.json'
     '429':
       description: Too Many Requests. The request is throttled.
       content:
@@ -342,4 +342,4 @@ delete:
           examples:
             example:
               summary: Too Many Requests
-              externalValue: '/examples/shared/429_error_too_many_requests.json'
+              externalValue: 'examples/shared/429_error_too_many_requests.json'

@@ -26,22 +26,22 @@ get:
           examples:
             fullResponse:
               summary: Example response
-              externalValue: '/examples/get_event_200.json'
+              externalValue: 'examples/get_event_200.json'
             allErrorsResponse:
               summary: All failed signals
-              externalValue: '/examples/get_event_200_all_errors.json'
+              externalValue: 'examples/get_event_200_all_errors.json'
             withBotdError:
               summary: BotD error
-              externalValue: '/examples/get_event_200_botd_failed_error.json'
+              externalValue: 'examples/get_event_200_botd_failed_error.json'
             withBotdTooManyRequestsError:
               summary: BotD too many requests error
-              externalValue: '/examples/get_event_200_botd_too_many_requests_error.json'
+              externalValue: 'examples/get_event_200_botd_too_many_requests_error.json'
             withIdentificationError:
               summary: Identification error
-              externalValue: '/examples/get_event_200_identification_failed_error.json'
+              externalValue: 'examples/get_event_200_identification_failed_error.json'
             withIdentificationTooManyRequestsError:
               summary: Identification too many requests error
-              externalValue: '/examples/get_event_200_identification_too_many_requests_error.json'
+              externalValue: 'examples/get_event_200_identification_too_many_requests_error.json'
     '403':
       description: Forbidden
       content:
@@ -51,7 +51,7 @@ get:
           examples:
             example:
               summary: Forbidden
-              externalValue: '/examples/get_event_403_error.json'
+              externalValue: 'examples/get_event_403_error.json'
     '404':
       description: Not found
       content:
@@ -61,7 +61,7 @@ get:
           examples:
             example:
               summary: Not found
-              externalValue: '/examples/get_event_404_error.json'
+              externalValue: 'examples/get_event_404_error.json'
   x-readme:
     code-samples:
       - language: node
@@ -244,7 +244,7 @@ put:
           examples:
             example:
               summary: Example response
-              externalValue: '/examples/update_event_400_error.json'
+              externalValue: 'examples/update_event_400_error.json'
     '403':
       description: Forbidden
       content:
@@ -254,7 +254,7 @@ put:
           examples:
             example:
               summary: Example response
-              externalValue: '/examples/update_event_403_error.json'
+              externalValue: 'examples/update_event_403_error.json'
     '404':
       description: Not found
       content:
@@ -264,7 +264,7 @@ put:
           examples:
             example:
               summary: Example response
-              externalValue: '/examples/get_event_404_error.json'
+              externalValue: 'examples/get_event_404_error.json'
     '409':
       description: Conflict
       content:
@@ -274,4 +274,4 @@ put:
           examples:
             example:
               summary: Example response
-              externalValue: '/examples/update_event_409_error.json'
+              externalValue: 'examples/update_event_409_error.json'

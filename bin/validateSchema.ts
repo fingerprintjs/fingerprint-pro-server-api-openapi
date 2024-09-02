@@ -33,6 +33,7 @@ type GetRelatedVisitorsArgs = {
   visitorId: string;
   subscription: TestSubscription;
 };
+
 function getRelatedVisitors({ visitorId, subscription }: GetRelatedVisitorsArgs) {
   const regionPrefix = subscription.region === 'us' ? '' : `${subscription.region}.`;
   return fetch(`https://${regionPrefix}api.fpjs.io/related-visitors?visitor_id=${visitorId}`, {
@@ -99,6 +100,7 @@ type UpdateEventArgs = {
   subscription: TestSubscription;
   payload: any;
 };
+
 function updateEventRequest({ requestId, subscription, payload }: UpdateEventArgs) {
   const regionPrefix = subscription.region === 'us' ? '' : `${subscription.region}.`;
   return fetch(`https://${regionPrefix}api.fpjs.io/events/${requestId}`, {
@@ -118,13 +120,13 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
 
   // Validate against example files
   [
-    './examples/get_event_200.json',
-    './examples/get_event_200_all_errors.json',
-    './examples/get_event_200_botd_failed_error.json',
-    './examples/get_event_200_botd_too_many_requests_error.json',
-    './examples/get_event_200_identification_failed_error.json',
-    './examples/get_event_200_identification_too_many_requests_error.json',
-    './examples/get_event_200_identification_too_many_requests_error_all_fields.json',
+    './schemas/paths/examples/get_event_200.json',
+    './schemas/paths/examples/get_event_200_all_errors.json',
+    './schemas/paths/examples/get_event_200_botd_failed_error.json',
+    './schemas/paths/examples/get_event_200_botd_too_many_requests_error.json',
+    './schemas/paths/examples/get_event_200_identification_failed_error.json',
+    './schemas/paths/examples/get_event_200_identification_too_many_requests_error.json',
+    './schemas/paths/examples/get_event_200_identification_too_many_requests_error_all_fields.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
@@ -165,7 +167,10 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
   const visitsResponseValidator = ajv.compile(visitsResponseSchema);
 
   // Validate against example files
-  ['./examples/get_visits_200_limit_1.json', './examples/get_visits_200_limit_500.json'].forEach((examplePath) =>
+  [
+    './schemas/paths/examples/get_visits_200_limit_1.json',
+    './schemas/paths/examples/get_visits_200_limit_500.json',
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -205,7 +210,7 @@ async function validateWebhookSchema() {
   const webhookValidator = ajv.compile(webhookSchema);
 
   // Validate against example file
-  ['./examples/webhook.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/webhook.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -226,12 +231,12 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
 
   // Validate against example file
   [
-    './examples/get_event_403_error.json',
-    './examples/shared/403_error_feature_not_enabled.json',
-    './examples/shared/403_error_token_not_found.json',
-    './examples/shared/403_error_token_required.json',
-    './examples/shared/403_error_wrong_region.json',
-    './examples/update_event_403_error.json',
+    './schemas/paths/examples/get_event_403_error.json',
+    './schemas/paths/examples/shared/403_error_feature_not_enabled.json',
+    './schemas/paths/examples/shared/403_error_token_not_found.json',
+    './schemas/paths/examples/shared/403_error_token_required.json',
+    './schemas/paths/examples/shared/403_error_wrong_region.json',
+    './schemas/paths/examples/update_event_403_error.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
@@ -321,13 +326,14 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
   const eventError404Validator = ajv.compile(eventError404Schema);
 
   // Validate against example file
-  ['./examples/get_event_404_error.json', './examples/update_event_404_error.json'].forEach((examplePath) =>
-    validateJson({
-      json: JSON.parse(fs.readFileSync(examplePath).toString()),
-      jsonName: examplePath,
-      validator: eventError404Validator,
-      schemaName: 'EventError404Schema',
-    })
+  ['./schemas/paths/examples/get_event_404_error.json', './schemas/paths/examples/update_event_404_error.json'].forEach(
+    (examplePath) =>
+      validateJson({
+        json: JSON.parse(fs.readFileSync(examplePath).toString()),
+        jsonName: examplePath,
+        validator: eventError404Validator,
+        schemaName: 'EventError404Schema',
+      })
   );
 
   const nonExistentRequestId = 'non-existent-request-id';
@@ -385,7 +391,7 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
   const visitsError403Validator = ajv.compile(visitsError403Schema);
 
   // Validate against example file
-  ['./examples/get_visits_403_error.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/get_visits_403_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -427,7 +433,7 @@ async function validateGetVisitsError429Schema() {
   const visitsError429Validator = ajv.compile(visitsError429Schema);
 
   // Validate against example file
-  ['./examples/get_visits_429_too_many_requests_error.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/get_visits_429_too_many_requests_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -449,7 +455,7 @@ async function validateErrorCommon429Response() {
   const errorCommon429ResponseValidator = ajv.compile(errorCommon429ResponseSchema);
 
   // Validate against example file
-  ['./examples/shared/429_error_too_many_requests.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/shared/429_error_too_many_requests.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -470,8 +476,8 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
 
   // Validate against example file
   [
-    './examples/shared/400_error_incorrect_visitor_id.json',
-    './examples/shared/400_error_empty_visitor_id.json',
+    './schemas/paths/examples/shared/400_error_incorrect_visitor_id.json',
+    './schemas/paths/examples/shared/400_error_empty_visitor_id.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
@@ -525,7 +531,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
   const visitorError404Validator = ajv.compile(visitorError404Schema);
 
   // Validate against example file
-  ['./examples/shared/404_error_visitor_not_found.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/shared/404_error_visitor_not_found.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -579,8 +585,8 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
 
   // Validate against example file
   [
-    './examples/related-visitors/get_related_visitors_200_empty.json',
-    './examples/related-visitors/get_related_visitors_200.json',
+    './schemas/paths/examples/related-visitors/get_related_visitors_200_empty.json',
+    './schemas/paths/examples/related-visitors/get_related_visitors_200.json',
   ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
@@ -612,7 +618,7 @@ async function validateUpdateEventError400Schema(testSubscriptions: TestSubscrip
   const updateEvent400ErrorValidator = ajv.compile(updateEvent400ErrorSchema);
 
   // Validate against example file
-  ['./examples/update_event_400_error.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/update_event_400_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
@@ -659,7 +665,7 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
   const updateEvent409ErrorValidator = ajv.compile(updateEvent409ErrorSchema);
 
   // Validate against example file
-  ['./examples/update_event_409_error.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/update_event_409_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,

@@ -11,7 +11,7 @@ import { resolveRefTransformer } from './resolveRefTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
-  resolveExternalValueTransformer,
+  resolveExternalValueTransformer({ examplesPath: './schemas/paths/' }),
   resolveAllOfTransformer,
 ];
 
