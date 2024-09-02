@@ -3,6 +3,11 @@ import yaml from 'js-yaml';
 import { walkJson } from '../walkJson.js';
 import path from 'path';
 
+/**
+ * Load and parse yaml file
+ * @param {string} path
+ * @returns {object}
+ */
 export function loadYaml(path) {
   return yaml.load(readFileSync(path, 'utf8'));
 }
@@ -13,6 +18,12 @@ class ModelsCache {
     this.refs = {};
   }
 
+  /**
+   * Get model by $ref
+   * @param {string} modelRef
+   * @param {string} schemaPath
+   * @returns {string}
+   */
   get(modelRef, schemaPath = '.') {
     if (this.refs.hasOwnProperty(modelRef)) {
       return this.refs[modelRef];
@@ -42,6 +53,14 @@ class ModelsCache {
   }
 }
 
+/**
+ * Resolves external refs
+ * For components replace ref to local and adds component to ModelsCache
+ * For other external refs just inline code
+ * @param {string} apiDefinition
+ * @param {ModelsCache} modelsCache
+ * @param {string} schemaPath
+ */
 function findAndResolveRefs(apiDefinition, modelsCache, schemaPath) {
   walkJson(apiDefinition, '$ref', (partWithKey) => {
     // Find ref that use yaml file
@@ -61,10 +80,16 @@ function findAndResolveRefs(apiDefinition, modelsCache, schemaPath) {
   });
 }
 
+/**
+ * Resolves external references in an API definition and replaces them with inline code or local references.
+ * @param {object} options
+ * @param {string} options.schemaPath
+ * @returns {(function({object}): void)}
+ */
 export function resolveRefTransformer(options) {
   const schemaPath = options.schemaPath || './';
   return function (apiDefinition) {
-    const modelsCache = new ModelsCache(schemaPath);
+    const modelsCache = new ModelsCache();
     // resolve external refs and replace them with inline code or local ref
     findAndResolveRefs(apiDefinition, modelsCache, schemaPath);
     const models = modelsCache.serialize();
