@@ -45,5 +45,6 @@ To validate that schema matches the actual API implementation we use a [special 
 
 ### Publishing changes
 
+- We use [changesets](https://github.com/changesets/changesets) for handling release notes. We have a handy script that simplifies the process of creating notes available via `pnpm changeset`
 - When a PR is merged into `main`, the latest schema is automatically published to the [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
 - The changes are currently NOT automatically published to the [Documentation API Reference](https://dev.fingerprint.com/reference) repository. You need to publish them manually using Readme CLI or Readme dashboard. The DX team is happy to assist.
