@@ -1,0 +1,39 @@
+name: Upload changesets
+on:
+  release:
+    types:
+      - released
+      - published
+
+jobs:
+  upload-changesets:
+    name: Upload changesets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: 'Install pnpm'
+        uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
+        with:
+          version: 9
+          run_install: true
+
+      - name: Upload an Asset in GitHub Release
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const script = require('./scripts/uploadChangesets.cjs')
+            script({github, context, token: ${{ secrets.GITHUB_TOKEN }}})
+
+      - name: Remove changesets zip files
+        run: rm changesets-*.zip
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5
+        with:
+          add: '.'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'chore(skip-ci): remove changesets zip files'
