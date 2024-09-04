@@ -2,7 +2,6 @@ name: Upload changesets
 on:
   release:
     types:
-      - released
       - published
 
 jobs:
