@@ -5,7 +5,23 @@ on:
       - main
 
 jobs:
+  get-token:
+    name: Get token
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.app-token.outputs.token }}
+    steps:
+      - name: 'Get token for the GitHub App'
+        uses: actions/create-github-app-token@f2acddfb5195534d487896a656232b016a682f3c
+        id: app-token
+        with:
+          app-id: ${{ inputs.app-id }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          repositories: '${{ inputs.repository }}'
+          owner: '${{ inputs.owner }}'
+
   release:
+    needs: [get-token]
     name: 'Release project'
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/release-sdk-changesets.yml@v1
     with:
@@ -16,4 +32,5 @@ jobs:
       prepare-command: |
         pnpm build
     secrets:
-      GH_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # We can't use default token, because it will result on not triggering the "upload-changesets.yml" workflow on release
+      GH_RELEASE_TOKEN: ${{ needs.get-token.outputs.token }}
