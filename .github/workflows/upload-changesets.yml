@@ -27,6 +27,14 @@ jobs:
             const script = require('./scripts/uploadChangesets.cjs')
             script({github, context, token: ${{ secrets.GITHUB_TOKEN }}})
 
+  cleanup-changesets:
+    runs-on: ubuntu-latest
+    needs: upload-changesets
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
       - name: Remove changesets zip files
         run: rm changesets-*.zip
 
