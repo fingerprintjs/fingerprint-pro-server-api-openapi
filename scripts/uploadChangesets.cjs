@@ -30,7 +30,7 @@ module.exports = async ({ github, context }) => {
     name: 'changesets.zip',
     owner: context.repo.owner,
     repo: context.repo.repo,
-    release_id: github.event.release.id,
+    release_id: context.payload.release.id,
     data: await fs.readFile('changesets.zip'),
     headers: {
       'content-type': 'application/zip',
