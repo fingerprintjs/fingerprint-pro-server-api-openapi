@@ -1,0 +1,151 @@
+/visitors/{visitor_id}:
+  get:
+    x-readme:
+      code-samples:
+        - language: node
+          name: Node SDK
+          install: npm install @fingerprintjs/fingerprintjs-pro-server-api
+          code: |
+            import {
+              FingerprintJsServerApiClient,
+              Region,
+            } from '@fingerprintjs/fingerprintjs-pro-server-api'
+  
+            const client = new FingerprintJsServerApiClient({
+              apiKey: 'SERVER_API_KEY', // Replace with your key
+              region: Region.Global, // Replace with your region
+            })
+  
+            // Get visit history of a specific visitor
+            client.getVisitorHistory('VISITOR_ID').then((visitorHistory) => {
+              console.log(visitorHistory)
+            })
+        - language: php
+          name: PHP SDK
+          install: composer require fingerprint/fingerprint-pro-server-api-sdk
+          code: |
+            <?php
+            require_once(__DIR__ . '/vendor/autoload.php');
+            use Fingerprint\ServerAPI\Api\FingerprintApi;
+            use Fingerprint\ServerAPI\Configuration;
+            use GuzzleHttp\Client;
+  
+            $config = Configuration::getDefaultConfiguration(
+              "SERVER_API_KEY", // Replace with your key
+              Configuration::REGION_GLOBAL // Replace with your region
+            );
+  
+            $client = new FingerprintApi(
+              new Client(),
+              $config
+            );
+  
+            // Get visit history of a specific visitor
+            try {
+              $response = $client->getVisits("VISITOR_ID");
+              echo "<pre>" . $response->__toString() . "</pre>";
+            } catch (Exception $e) {
+              echo $e->getMessage(), PHP_EOL;
+            }
+        - language: python
+          name: Python SDK
+          install: pip install fingerprint_pro_server_api_sdk
+          code: |
+            import fingerprint_pro_server_api_sdk
+            from fingerprint_pro_server_api_sdk import EventResponse
+            from fingerprint_pro_server_api_sdk import Response
+            from fingerprint_pro_server_api_sdk.rest import ApiException
+  
+            configuration = fingerprint_pro_server_api_sdk.Configuration(
+              api_key="SERVER_API_KEY", // Replace with your key
+              region="us" // Replace with your region
+            )
+            api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+  
+            # Get visit history of a specific visitor
+            try:
+              visits: Response = api_instance.get_visits("VISITOR_ID", limit=10)
+              print(visits)
+            except ApiException as e:
+              print("Exception when getting visits: %s\n" % e)
+        - language: golang
+          name: Go SDK
+          install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk
+          code: |
+            package main
+  
+            import (
+              "context"
+              "fmt"
+              "github.com/antihax/optional"
+              "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v3/sdk"
+              "log"
+            )
+  
+            func main() {
+              cfg := sdk.NewConfiguration()
+              client := sdk.NewAPIClient(cfg)
+  
+              auth := context.WithValue(
+                context.Background(),
+                sdk.ContextAPIKey,
+                sdk.APIKey{Key: "SERVER_API_KEY"}, // Replace with your key
+              )
+              cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
+  
+              // Get visit history of a specific visitor
+              getVisitsOpts := sdk.FingerprintApiGetVisitsOpts{
+                Limit: optional.NewInt32(10),
+              }
+              history, historyHttpRes, historyErr :=
+                client.FingerprintApi.GetVisits(auth, "VISITOR_ID", &getVisitsOpts)
+              if err != nil {
+                log.Fatal(err)
+              }
+              fmt.Printf("Visitor history: %s", history)
+            }
+        - language: java
+          name: Java SDK
+          code: |
+            import com.fingerprint.api.FingerprintApi;
+            import com.fingerprint.models.EventResponse;
+            import com.fingerprint.models.Response;
+            import com.fingerprint.sdk.ApiClient;
+            import com.fingerprint.sdk.ApiException;
+            import com.fingerprint.sdk.Configuration;
+            import com.fingerprint.sdk.Region;
+  
+            public class FingerprintApiExample {
+              public static void main(String... args) {
+                ApiClient client = Configuration.getDefaultApiClient(
+                  "SERVER_API_KEY", // Replace with your key
+                  Region.GLOBAL // Replace with your region
+                );
+                FingerprintApi api = new FingerprintApi(client);
+  
+                // Get visit history of a specific visitor
+                try {
+                  Response response = api.getVisits("VISITOR_ID");
+                  System.out.println(response.getVisits().toString());
+                } catch (ApiException e) {
+                  System.err.println(e.getMessage());
+                }
+              }
+            }
+        - language: csharp
+          name: C# SDK
+          install: dotnet add package FingerprintPro.ServerSdk
+          code: |
+            using FingerprintPro.ServerSdk.Api;
+            using FingerprintPro.ServerSdk.Client;
+  
+            var configuration = new Configuration("SERVER_API_KEY"); // Replace with your key
+            configuration.Region = Region.Us; // Replace with your region
+  
+            var api = new FingerprintApi(
+                configuration
+            );
+  
+            // Get visit history of a specific visitor
+            var visits = api.GetVisits("VISITOR_ID");
+            Console.WriteLine(visits);

@@ -8,7 +8,7 @@ import path from 'path';
  * @param {string} path
  * @returns {object}
  */
-export function loadYaml(path) {
+function loadYaml(path) {
   return yaml.load(readFileSync(path, 'utf8'));
 }
 

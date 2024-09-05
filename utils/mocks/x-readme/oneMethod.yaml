@@ -1,0 +1,22 @@
+/visitors/{visitor_id}:
+  get:
+    x-readme:
+      code-samples:
+        - language: node
+          name: Node SDK
+          install: npm install @fingerprintjs/fingerprintjs-pro-server-api
+          code: |
+            import {
+              FingerprintJsServerApiClient,
+              Region,
+            } from '@fingerprintjs/fingerprintjs-pro-server-api'
+            
+            const client = new FingerprintJsServerApiClient({
+              apiKey: 'SERVER_API_KEY', // Replace with your key
+              region: Region.Global, // Replace with your region
+            })
+            
+            // Get visit history of a specific visitor
+            client.getVisitorHistory('VISITOR_ID').then((visitorHistory) => {
+              console.log(visitorHistory)
+            })

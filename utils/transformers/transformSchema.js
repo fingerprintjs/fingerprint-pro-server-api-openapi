@@ -8,6 +8,7 @@ import { removeXReadmeTransformer } from './removeXReadmeTransformer.js';
 import { removeDeleteVisitorTransformer } from './removeDeleteVisitorTransformer.js';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 import { resolveRefTransformer } from './resolveRefTransformer.js';
+import { addXReadmeTransformer } from './addXReadmeTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -17,7 +18,11 @@ export const commonTransformers = [
 
 const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
 
-export const readmeApiExplorerTransformers = [...commonTransformers, removeWebhookTransformer];
+export const readmeApiExplorerTransformers = [
+  ...commonTransformers,
+  removeWebhookTransformer,
+  addXReadmeTransformer(['./x-readme/events.yaml', './x-readme/visitors.yaml']),
+];
 
 export const relatedVisitorsApiTransformers = [...commonTransformers, appendExternalSchemaRefTransformer];
 
