@@ -36,7 +36,7 @@ jobs:
           ref: main
 
       - name: Remove changesets zip files
-        run: rm changesets-*.zip
+        run: rm .changeset/changesets-*.zip
 
       - name: Commit changes
         uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5
