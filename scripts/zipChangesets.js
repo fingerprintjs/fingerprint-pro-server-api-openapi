@@ -11,6 +11,6 @@ if (changesets.length) {
     archive.addFile(changeset);
   });
 
-  const fileName = `changesets-${humanId({ capitalize: false, separator: '-' })}.zip`;
+  const fileName = `.changeset/changesets-${humanId({ capitalize: false, separator: '-' })}.zip`;
   await archive.archive(fileName);
 }
