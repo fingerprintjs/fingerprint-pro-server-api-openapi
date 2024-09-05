@@ -31,7 +31,7 @@ export async function generateIdentificationEvent(
   console.log(bodyText);
 
   // Identify the browser with Fingerprint
-  console.log(`Identifying the browser with Fingerprint, using publicApiKey: ${publicApiKey}, region: ${region}`);
+  console.log(`Identifying the browser with Fingerprint, using publicApiKey: ${publicApiKey.substring(0, 5)}XXXXXXXXXXXXXX, region: ${region}`);
   const { requestId, visitorId } = await page.evaluate(
     async ({ publicApiKey, region }) => {
       const fpPromise = import(`https://fpjscdn.net/v3/${publicApiKey}`).then((FingerprintJS) =>
