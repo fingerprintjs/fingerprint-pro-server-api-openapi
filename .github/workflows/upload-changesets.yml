@@ -32,8 +32,6 @@ jobs:
     needs: upload-changesets
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.release.tag_name }}
 
       - name: Remove changesets zip files
         run: rm changesets-*.zip
