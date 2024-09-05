@@ -32,6 +32,8 @@ jobs:
     needs: upload-changesets
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Remove changesets zip files
         run: rm changesets-*.zip
