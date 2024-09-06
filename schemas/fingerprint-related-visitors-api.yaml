@@ -3,7 +3,7 @@ info:
   title: Related Visitors API
   description: >
     Use this API to unify and personalize the experience for your anonymous
-    users who visit your website from regular and in-app browsers. 
+    users who visit your website from regular and in-app browsers.
   version: '1.0'
   contact:
     name: Fingerprint Support
@@ -171,16 +171,6 @@ components:
       in: query
       name: api_key
   schemas:
-    RelatedVisitorsResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        relatedVisitors:
-          type: array
-          items:
-            $ref: '#/components/schemas/RelatedVisitor'
-      required:
-        - relatedVisitors
     RelatedVisitor:
       type: object
       additionalProperties: false
@@ -193,6 +183,16 @@ components:
           example: Ibk1527CUFmcnjLwIs4A
       required:
         - visitorId
+    RelatedVisitorsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        relatedVisitors:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedVisitor'
+      required:
+        - relatedVisitors
     ErrorVisitor400Response:
       type: object
       additionalProperties: false
