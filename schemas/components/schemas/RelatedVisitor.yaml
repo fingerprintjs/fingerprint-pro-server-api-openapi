@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+properties:
+  visitorId:
+    description: Visitor ID of a browser that originates from the same mobile device as the input visitor ID.
+    type: string
+    example: 'Ibk1527CUFmcnjLwIs4A'
+required:
+  - visitorId

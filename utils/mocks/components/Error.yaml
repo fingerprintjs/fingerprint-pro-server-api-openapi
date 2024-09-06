@@ -1,0 +1,25 @@
+type: object
+additionalProperties: false
+properties:
+  error:
+    type: 'object'
+    additionalProperties: false
+    title: ErrorUpdateEvent400ResponseError
+    properties:
+      code:
+        type: string
+        description: >
+          Error code:
+          * `RequestCannotBeParsed` - the JSON content of the request contains some errors that prevented us from parsing it (wrong type/surpassed limits)
+          * `Failed` - the event is more than 10 days old and cannot be updated
+        enum:
+          - RequestCannotBeParsed
+          - Failed
+        example: 'RequestCannotBeParsed'
+      message:
+        type: string
+        description: Details about the underlying issue with the input payload
+        example: 'suspect flag must be a boolean'
+    required:
+      - code
+      - message

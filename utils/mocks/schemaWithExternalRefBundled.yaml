@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Fingerprint server API
+  version: '0.1'
+paths:
+  /visitors/{visitor_id}:
+    get:
+      parameters:
+        - name: visitor_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: mcEozNgqhKgmfXx7ZaMW
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal errror
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Response:
+      type: object
+      additionalProperties: false
+      properties:
+        visitorId:
+          type: string
+      required:
+        - visitorId
+        - visits
+      title: Response
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          title: ErrorUpdateEvent400ResponseError
+          properties:
+            code:
+              type: string
+              description: >
+                Error code: * `RequestCannotBeParsed` - the JSON content of the
+                request contains some errors that prevented us from parsing it
+                (wrong type/surpassed limits) * `Failed` - the event is more
+                than 10 days old and cannot be updated
+              enum:
+                - RequestCannotBeParsed
+                - Failed
+              example: RequestCannotBeParsed
+            message:
+              type: string
+              description: Details about the underlying issue with the input payload
+              example: suspect flag must be a boolean
+          required:
+            - code
+            - message

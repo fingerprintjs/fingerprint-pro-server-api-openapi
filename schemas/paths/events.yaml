@@ -1,0 +1,131 @@
+get:
+  tags:
+    - Events
+  operationId: 'getEvent'
+  summary: Get event by request ID
+  description: |
+    Get a detailed analysis of an individual identification event, including Smart Signals. 
+    Please note that the response includes mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform.
+    It is highly recommended that you **ignore** the mobile signals for such requests. 
+    
+    Use `requestId` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `requestId`.
+  parameters:
+    - name: request_id
+      in: path
+      description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each identification request.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/EventResponse.yaml'
+          examples:
+            fullResponse:
+              summary: Example response
+              externalValue: 'examples/get_event_200.json'
+            allErrorsResponse:
+              summary: All failed signals
+              externalValue: 'examples/get_event_200_all_errors.json'
+            withBotdError:
+              summary: BotD error
+              externalValue: 'examples/get_event_200_botd_failed_error.json'
+            withBotdTooManyRequestsError:
+              summary: BotD too many requests error
+              externalValue: 'examples/get_event_200_botd_too_many_requests_error.json'
+            withIdentificationError:
+              summary: Identification error
+              externalValue: 'examples/get_event_200_identification_failed_error.json'
+            withIdentificationTooManyRequestsError:
+              summary: Identification too many requests error
+              externalValue: 'examples/get_event_200_identification_too_many_requests_error.json'
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorCommon403Response.yaml'
+          examples:
+            example:
+              summary: Forbidden
+              externalValue: 'examples/get_event_403_error.json'
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorEvent404Response.yaml'
+          examples:
+            example:
+              summary: Not found
+              externalValue: 'examples/get_event_404_error.json'
+put:
+  tags:
+    - Events
+  operationId: 'updateEvent'
+  summary: Update an event with a given request ID
+  description: |
+    Change information in existing events specified by `requestId` or *flag suspicious events*.
+    
+    When an event is created, it is assigned `linkedId` and `tag` submitted through the JS agent parameters. This information might not be available on the client so the Server API allows for updating the attributes after the fact.
+    
+    **Warning** It's not possible to update events older than 10 days.
+  parameters:
+    - name: request_id
+      in: path
+      description: The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/EventUpdateRequest.yaml'
+  responses:
+    '200':
+      description: OK
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorUpdateEvent400Response.yaml'
+          examples:
+            example:
+              summary: Example response
+              externalValue: 'examples/update_event_400_error.json'
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorCommon403Response.yaml'
+          examples:
+            example:
+              summary: Example response
+              externalValue: 'examples/update_event_403_error.json'
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorEvent404Response.yaml'
+          examples:
+            example:
+              summary: Example response
+              externalValue: 'examples/get_event_404_error.json'
+    '409':
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorUpdateEvent409Response.yaml'
+          examples:
+            example:
+              summary: Example response
+              externalValue: 'examples/update_event_409_error.json'

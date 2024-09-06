@@ -89,7 +89,7 @@ export default {
           transform: (content) => transformSchema(content, schemaForSdksTransformers),
         },
         {
-          from: 'examples',
+          from: 'schemas/paths/examples',
           to: 'examples',
         },
         {

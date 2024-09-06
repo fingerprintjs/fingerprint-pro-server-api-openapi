@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: Flag indicating whether the request came from a high activity visitor.
+    example: false
+  dailyRequests:
+    type: number
+    description: Number of requests from the same visitor in the previous day.
+    example: 10
+    minimum: 1
+required:
+  - result

@@ -22,10 +22,10 @@ paths:
               examples:
                 exampleA:
                   summary: Example A
-                  externalValue: '/utils/mocks/exampleA.json'
+                  externalValue: 'exampleA.json'
                 exampleB:
                   summary: Example B
-                  externalValue: '/utils/mocks/exampleB.json'
+                  externalValue: 'exampleB.json'
 components:
   schemas:
     Response:

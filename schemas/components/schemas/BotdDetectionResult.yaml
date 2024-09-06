@@ -1,0 +1,21 @@
+type: object
+additionalProperties: false
+description: Stores bot detection result
+properties:
+  result:
+    type: string
+    description: |
+      Bot detection result:
+       * `notDetected` - the visitor is not a bot
+       * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on
+       * `bad` - bad bot detected, such as Selenium, Puppeteer, Playwright, headless browsers, and so on
+    enum:
+      - notDetected
+      - good
+      - bad
+    example: bad
+  type:
+    type: string
+    example: selenium
+required:
+  - result

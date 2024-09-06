@@ -9,7 +9,8 @@ const oneDependencyResolved = fs.readFileSync('./utils/mocks/oneDependencyResolv
 const twoDependencyYaml = fs.readFileSync('./utils/mocks/twoDependency.yaml');
 const twoDependencyResolved = fs.readFileSync('./utils/mocks/twoDependencyResolved.yaml');
 
-const resolveExternal = (yaml) => transformSchema(yaml, [resolveExternalValueTransformer]);
+const resolveExternal = (yaml) =>
+  transformSchema(yaml, [resolveExternalValueTransformer({ examplesPath: './utils/mocks' })]);
 
 describe('Test resolveExternalValueTransformer', () => {
   it('don`t need to do anything', () => {

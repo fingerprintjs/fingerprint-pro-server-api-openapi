@@ -1,0 +1,16 @@
+type: object
+additionalProperties: false
+properties:
+  asn:
+    type: string
+    example: '7922'
+  network:
+    type: string
+    example: 73.136.0.0/13
+  name:
+    type: string
+    example: COMCAST-7922
+required:
+  - asn
+  - network
+title: ASN

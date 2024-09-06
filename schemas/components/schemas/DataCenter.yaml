@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+  name:
+    type: string
+    example: DediPath
+required:
+  - result
+title: DataCenter

@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: >
+      `true` if we detected incognito mode used in the browser, `false`
+      otherwise.
+    example: false
+required:
+  - result

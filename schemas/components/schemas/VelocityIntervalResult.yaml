@@ -1,0 +1,22 @@
+type: object
+description: |
+  Is absent if the velocity data could not be generated for the visitor ID.
+additionalProperties: false
+properties:
+  5m:
+    type: integer
+    example: 1
+  1h:
+    type: integer
+    example: 1
+  24h:
+    type: integer
+    description: >
+      The `24h` interval of `distinctIp`, `distinctLinkedId`, and
+      `distinctCountry` will be omitted if the number of `events`` for the
+      visitor ID in the last 24 hours (`events.intervals.['24h']`) is higher
+      than 20.000.
+    example: 1
+required:
+  - 5m
+  - 1h
