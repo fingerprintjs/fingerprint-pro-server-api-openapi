@@ -1,6 +1,7 @@
 {
   "name": "fingerprint-pro-server-api-openapi",
-  "version": "0.0.1",
+  "private": true,
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
@@ -11,15 +12,20 @@
     "lintSchemaDist": "vacuum lint ./dist/schemas/*.yaml -d --errors --base dist/schemas",
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:dts": "echo 'No typescript tests' && exit 0",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
     "lint:fix": "pnpm lint --fix",
     "prettier": "prettier . --check",
-    "prettier:fix": "pnpm prettier . --write"
+    "prettier:fix": "pnpm prettier . --write",
+    "changeset": "node scripts/changeset.js",
+    "changeset-version": "node scripts/zipChangesets.js && pnpm exec changeset version"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0",
     "@fingerprintjs/eslint-config-dx-team": "^0.1.0",
     "@fingerprintjs/fingerprintjs-pro-server-api": "^4.1.2",
     "@fingerprintjs/prettier-config-dx-team": "^0.1.0",
@@ -36,7 +42,9 @@
     "css-loader": "^6.11.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "glob": "^11.0.0",
     "html-webpack-plugin": "^5.6.0",
+    "human-id": "^4.1.1",
     "jest": "^29.7.0",
     "js-yaml": "^4.1.0",
     "json-loader": "^0.5.7",
@@ -51,7 +59,12 @@
     "webpack-dev-server": "^5.0.4",
     "yaml": "^2.4.5",
     "yaml-loader": "^0.8.1",
+    "zip-lib": "^1.0.4",
     "znv": "^0.4.0",
     "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "@types/prompts": "^2.4.9",
+    "prompts": "^2.4.2"
   }
 }
