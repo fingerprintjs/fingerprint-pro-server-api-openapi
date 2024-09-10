@@ -30,6 +30,7 @@ jobs:
   cleanup-changesets:
     runs-on: ubuntu-latest
     needs: upload-changesets
+    environment: production
     steps:
       - name: 'Get token for the GitHub App'
         if: ${{ vars.appId != '' }}
