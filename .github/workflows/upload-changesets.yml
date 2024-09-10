@@ -31,9 +31,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: upload-changesets
     steps:
+      - name: 'Get token for the GitHub App'
+        if: ${{ vars.appId != '' }}
+        uses: actions/create-github-app-token@f2acddfb5195534d487896a656232b016a682f3c
+        id: app-token
+        with:
+          app-id: ${{ vars.appId }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         with:
           ref: main
+          token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
 
       - name: Remove changesets zip files
         run: rm .changeset/changesets-*.zip
@@ -42,5 +51,5 @@ jobs:
         uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5
         with:
           add: '.'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
           message: 'chore(skip-ci): remove changesets zip files'
