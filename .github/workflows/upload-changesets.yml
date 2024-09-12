@@ -25,7 +25,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const script = require('./scripts/uploadChangesets.cjs')
-            script({github, context, token: ${{ secrets.GITHUB_TOKEN }}})
+            script({github, context, token: '${{ secrets.GITHUB_TOKEN }}'})
 
   cleanup-changesets:
     runs-on: ubuntu-latest
