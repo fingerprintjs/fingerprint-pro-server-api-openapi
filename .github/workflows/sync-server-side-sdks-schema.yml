@@ -9,6 +9,7 @@ on:
         description: 'Whether to create a pre-release first for the SDKs'
         required: false
         default: false
+        type: boolean
 name: Sync Server-Side SDKs schema
 jobs:
   sync-node:
