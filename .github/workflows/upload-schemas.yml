@@ -1,0 +1,44 @@
+name: Upload schemas
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  upload-schemas:
+    name: Upload schemas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: 'Install pnpm'
+        uses: pnpm/action-setup@129abb77bf5884e578fcaf1f37628e41622cc371
+        with:
+          version: 9
+          run_install: true
+
+      - name: 'Build schemas'
+        run: pnpm build
+
+      - name: 'Zip examples'
+        run: zip -r examples.zip examples
+
+      - name: Upload schemas to a GitHub release
+        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: 'dist/schemas/*.yaml'
+          file_glob: true
+          tag: ${{ github.event.release.tag_name }}
+
+      - name: Upload examples to a GitHub release
+        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: examples.zip
+          tag: ${{ github.event.release.tag_name }}
+
+
+
