@@ -1,0 +1,18 @@
+events:
+  path: /events/{request_id}
+  methods:
+    - get
+    - put
+visitors:
+  path: /visitors/{visitor_id}
+  methods:
+    - get
+    - delete
+webhook:
+  path: /webhook
+  methods:
+    - trace
+related-visitors:
+  path: /related-visitors
+  methods:
+    - get
