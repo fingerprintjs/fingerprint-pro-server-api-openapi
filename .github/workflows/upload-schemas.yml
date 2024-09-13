@@ -23,7 +23,8 @@ jobs:
         run: pnpm build
 
       - name: 'Zip examples'
-        run: zip -r examples.zip dist/examples
+        run: zip -r examples.zip examples
+        working-directory: dist
 
       - name: Upload schemas to a GitHub release
         uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
