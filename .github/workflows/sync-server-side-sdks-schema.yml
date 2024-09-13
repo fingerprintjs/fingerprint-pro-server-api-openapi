@@ -25,6 +25,6 @@ jobs:
       app-id: ${{ vars.APP_ID }}
       repository: fingerprintjs-pro-server-api-node-sdk
       pre-release: ${{ inputs.pre-release }}
-      ignored-scopes: visitors-api
+      allowed-scopes: events,visitors,webhook
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
