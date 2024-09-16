@@ -38,7 +38,7 @@ jobs:
         uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: examples.zip
+          file: dist/examples.zip
           tag: ${{ github.event.release.tag_name }}
 
       - name: Upload scopes to a GitHub release
