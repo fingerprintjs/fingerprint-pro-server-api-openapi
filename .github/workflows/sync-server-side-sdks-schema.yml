@@ -28,3 +28,20 @@ jobs:
       allowed-scopes: events,visitors,webhook
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-go:
+    name: 'Sync schema in GO SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: golang
+      language-version: 1.21
+      generate-command: 'go run generate.go'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: test/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-go-sdk
+      pre-release: ${{ inputs.pre-release }}
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}

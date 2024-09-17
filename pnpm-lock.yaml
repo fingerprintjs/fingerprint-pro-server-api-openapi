@@ -18,6 +18,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.7
         version: 2.27.7
+      '@fingerprintjs/changesets-changelog-format':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@fingerprintjs/conventional-changelog-dx-team':
         specifier: ^0.1.0
         version: 0.1.0
@@ -528,6 +531,9 @@ packages:
   '@eslint/js@8.56.0':
     resolution: {integrity: sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  '@fingerprintjs/changesets-changelog-format@0.1.0':
+    resolution: {integrity: sha512-d9lIoTuBpo1p35esSEh4/RPbo9DNT4XeLm2oICH4alj8fJMc/2KJWKjv7hfcpkCDjXRioa8I83bvVQ3snn1VbQ==}
 
   '@fingerprintjs/conventional-changelog-dx-team@0.1.0':
     resolution: {integrity: sha512-d30rCGvQ5VTMSY0JUgIYEtbSQF11/tbGxbgVRj96lM8YJasL2dSq/zS2s4IwosfX5/XsfeEvg5t1W8IAyknqWg==}
@@ -4510,6 +4516,10 @@ snapshots:
       - supports-color
 
   '@eslint/js@8.56.0': {}
+
+  '@fingerprintjs/changesets-changelog-format@0.1.0':
+    dependencies:
+      '@changesets/types': 6.0.0
 
   '@fingerprintjs/conventional-changelog-dx-team@0.1.0':
     dependencies:
