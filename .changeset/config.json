@@ -11,5 +11,10 @@
     "tag": true,
     "version": true
   },
-  "changelog": "@fingerprintjs/changesets-changelog-format"
+  "changelog": [
+    "@fingerprintjs/changesets-changelog-format",
+    {
+      "repo": "fingerprintjs/fingerprint-pro-server-api-openapi"
+    }
+  ]
 }
