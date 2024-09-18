@@ -36,7 +36,6 @@ export const schemaForSdksTransformers = [
   ...defaultTransformers,
   removeXReadmeTransformer,
   removeBigExamplesTransformer,
-  removeDeleteVisitorTransformer,
 ];
 
 export function transformSchema(content, transformers = defaultTransformers) {
