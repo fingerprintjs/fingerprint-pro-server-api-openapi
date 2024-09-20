@@ -45,3 +45,20 @@ jobs:
       allowed-scopes: events,visitors,webhook
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-dotnet:
+    name: 'Sync schema in Dotnet SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: dotnet
+      language-version: '8.x'
+      generate-command: 'bash ./generate.sh'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: src/FingerprintPro.ServerSdk.Test/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-dotnet-sdk
+      pre-release: ${{ inputs.pre-release }}
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
