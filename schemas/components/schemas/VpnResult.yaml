@@ -48,6 +48,7 @@ properties:
       - osMismatch
   confidence:
     type: string
+    enum: [low, medium, high]
     description: >-
       provides the confidence of the detected vpn based on reliability of source and algorithm
       we will be categorising the response into low/medium/high (which are the 3 supported values for the response type)
