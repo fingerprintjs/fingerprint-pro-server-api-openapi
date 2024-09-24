@@ -56,3 +56,4 @@ required:
   - result
   - originTimezone
   - methods
+  - confidence
