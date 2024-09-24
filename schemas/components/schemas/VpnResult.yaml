@@ -50,8 +50,7 @@ properties:
     type: string
     enum: [low, medium, high]
     description: >-
-      provides the confidence of the detected vpn based on reliability of source and algorithm
-      we will be categorising the response into low/medium/high (which are the 3 supported values for the response type)
+      A confidence rating for the VPN detection result — "low", "medium", or "high". Depends on the combination of results returned from all VPN detection methods.
     example: low
 required:
   - result
