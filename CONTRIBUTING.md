@@ -43,8 +43,24 @@ To validate that schema matches the actual API implementation we use a [special 
 - This check also runs in the CI pipeline for your PR and once a day as a scheduled job.
 - If you are adding things to the schema, you can also try adding the appropriate validations for the changes to the `validateSchema.ts` script. If you run into problems, the repository maintainers will be happy to help or to add the validations themselves as part of the PR review.
 
+### Describing changes
+[Releases](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/releases) from this repository are propagated to our server-side SDKs, that's why it's important to provide meaningful release notes if there are relevant changes.
+We use [changesets](https://github.com/changesets/changesets) for that. If you want to describe your changes, run:
+```sh
+pnpm run changeset
+``` 
+and follow steps in the CLI. It will create a new markdown file in `.changeset` folder, don't forget to commit it with your changes.
+Example changeset looks like this:
+```markdown
+---
+'fingerprint-pro-server-api-openapi': minor
+---
+
+**visitors**: Add the confidence field to the VPN Detection Smart Signal
+```
+
 ### Publishing changes
 
-- We use [changesets](https://github.com/changesets/changesets) for handling release notes. We have a handy script that simplifies the process of creating notes available via `pnpm changeset`
+- On merge into `main`, if there are relevant changes, the [Release](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/release.yml) workflow can be triggered, which will consume created changeset files and create PR with bumped version and updated changelog.
 - When a PR is merged into `main`, the latest schema is automatically published to the [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
 - The changes are currently NOT automatically published to the [Documentation API Reference](https://dev.fingerprint.com/reference) repository. You need to publish them manually using Readme CLI or Readme dashboard. The DX team is happy to assist.
