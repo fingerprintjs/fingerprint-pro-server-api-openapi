@@ -1,0 +1,15 @@
+name: Preview changesets release notes
+on:
+  pull_request:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+  preview-changesets:
+    name: Preview changesets
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/preview-changeset-release.yml@v1
+    with:
+      pr-title: ${{ github.event.pull_request.title }}
+      changeset-command: pnpm run changeset
+
