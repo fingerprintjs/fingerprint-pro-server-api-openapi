@@ -60,7 +60,7 @@ Example changeset looks like this:
 ```
 
 #### Legend
-- `visitors` - scope of the changes. Scopes are defined [here](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/blob/f54f5a2ae3fcc329ce236968165202b55a99e6e4/scripts/changeset.js#L6). Certain scopes are ignored in certain SDKs if they are not supported, meaning that they will be ignored for them. You will be prompted to select scope in the CLI.
+- `visitors` - scope of the changes. Scopes are defined in the [config/scopes.yaml](config/scopes.yaml) file. Certain scopes are ignored in certain SDKs if they are not supported, meaning that they will be ignored for them. You will be prompted to select scope in the CLI.
 - `Add the confidence field to the VPN Detection Smart Signal` - meaningful description of the change.
 - `fingerprint-pro-server-api-openapi` - name of the package
 - `minor` - version of the change, can be: `patch`, `minor`, `major`

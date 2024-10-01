@@ -2,8 +2,14 @@ import prompt from 'prompts';
 import pkg from '../package.json' assert { type: 'json' };
 import { humanId } from 'human-id';
 import fs from 'fs';
+import yaml from 'js-yaml';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-const scopes = ['events', 'related-visitors', 'visitors', 'webhook'];
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const scopesYaml = yaml.load(fs.readFileSync(path.resolve(dirname, '../config/scopes.yaml')));
+const scopes = Object.keys(scopesYaml);
 
 const data = await prompt([
   {
