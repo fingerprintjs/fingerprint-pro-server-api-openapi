@@ -6,6 +6,7 @@ permissions:
   pull-requests: write
   contents: write
 
+jobs:
   preview-changesets:
     name: Preview changesets
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/preview-changeset-release.yml@v1
