@@ -6,13 +6,39 @@ on:
         required: true
         type: string
       pre-release:
-        description: 'Whether to create a pre-release first for the SDKs'
+        description: 'Create pre-release'
         required: false
         default: false
         type: boolean
+      sync-node:
+        description: 'Sync Node SDK'
+        type: boolean
+        default: true
+      sync-go:
+        description: 'Sync Go SDK'
+        type: boolean
+        default: true
+      sync-dotnet:
+        description: 'Sync Dotnet SDK'
+        type: boolean
+        default: true
+      sync-python:
+        description: 'Sync Python SDK'
+        type: boolean
+        default: true
+      sync-java:
+        description: 'Sync Java SDK'
+        type: boolean
+        default: true
+      sync-php:
+        description: 'Sync PHP SDK'
+        type: boolean
+        default: true
+
 name: Sync Server-Side SDKs schema
 jobs:
   sync-node:
+    if: inputs.sync-node
     name: 'Sync schema in Node SDK'
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
@@ -30,6 +56,7 @@ jobs:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
   sync-go:
+    if: inputs.sync-go
     name: 'Sync schema in GO SDK'
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
@@ -47,6 +74,7 @@ jobs:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
   sync-dotnet:
+    if: inputs.sync-dotnet
     name: 'Sync schema in Dotnet SDK'
     uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
@@ -59,6 +87,64 @@ jobs:
       app-id: ${{ vars.APP_ID }}
       repository: fingerprint-pro-server-api-dotnet-sdk
       pre-release: ${{ inputs.pre-release }}
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-python:
+    if: inputs.sync-python
+    name: 'Sync schema in Python SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: python
+      language-version: '3.12'
+      generate-command: 'bash ./generate.sh'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: test/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-python-sdk
+      pre-release: ${{ inputs.pre-release }}
+      pre-release-tag: rc
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-java:
+    if: inputs.sync-java
+    name: 'Sync schema in Java SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: java
+      language-version: '11'
+      java-version: '11'
+      generate-command: 'bash ./scripts/generate.sh'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: sdk/src/test/resources/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-java-sdk
+      pre-release: ${{ inputs.pre-release }}
+      pre-release-tag: develop
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-php:
+    if: inputs.sync-php
+    name: 'Sync schema in PHP SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: php
+      language-version: '8.3'
+      generate-command: 'bash ./scripts/generate.sh'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: test/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-php-sdk
+      pre-release: ${{ inputs.pre-release }}
+      pre-release-tag: develop
       allowed-scopes: events,visitors,webhook
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
