@@ -80,3 +80,22 @@ jobs:
       allowed-scopes: events,visitors,webhook
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-java:
+    name: 'Sync schema in Java SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: java
+      language-version: '11'
+      java-version: '11'
+      generate-command: 'bash ./scripts/generate.sh'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: sdk/src/test/resources/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-java-sdk
+      pre-release: ${{ inputs.pre-release }}
+      pre-release-tag: develop
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
