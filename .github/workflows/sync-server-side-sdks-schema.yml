@@ -99,3 +99,21 @@ jobs:
       allowed-scopes: events,visitors,webhook
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  sync-php:
+    name: 'Sync schema in PHP SDK'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
+    with:
+      tag: ${{ inputs.tag }}
+      language: php
+      language-version: '8.3'
+      generate-command: 'bash ./scripts/generate.sh'
+      schema-path: res/fingerprint-server-api.yaml
+      examples-path: test/mocks
+      app-id: ${{ vars.APP_ID }}
+      repository: fingerprint-pro-server-api-php-sdk
+      pre-release: ${{ inputs.pre-release }}
+      pre-release-tag: develop
+      allowed-scopes: events,visitors,webhook
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
