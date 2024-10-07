@@ -5,7 +5,7 @@ properties:
     type: boolean
     description: >-
       Flag indicating whether browser tampering was detected according to our
-      internal thresholds.
+      internal thresholds or anti-detect browser was detected.
     example: false
   anomalyScore:
     type: number
@@ -16,6 +16,12 @@ properties:
     example: 0
     minimum: 0
     maximum: 1
+  antiDetectBrowser:
+    type: boolean
+    description: >-
+      Flag indicating whether anti-detect browser was detected.
+    example: false
 required:
   - result
   - anomalyScore
+  - antiDetectBrowser

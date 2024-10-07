@@ -197,7 +197,8 @@
     "tampering": {
       "data": {
         "result": false,
-        "anomalyScore": 0.1955
+        "anomalyScore": 0.1955,
+        "antiDetectBrowser": false
       }
     },
     "clonedApp": {
