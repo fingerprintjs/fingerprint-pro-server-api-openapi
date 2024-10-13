@@ -19,7 +19,7 @@ properties:
   antiDetectBrowser:
     type: boolean
     description: >-
-      Flag indicating whether anti-detect browser was detected.
+      Is `true` if the identified browser is one of "anti-detect" browsers specifically designed to evade identification and fingerprinting.
     example: false
 required:
   - result
