@@ -31,7 +31,7 @@ describe('Test resolveExternalValueTransformer', () => {
 
 describe('Test on real schema', () => {
   it('fingerprint-server-api', () => {
-    const yaml = fs.readFileSync('./schemas/fingerprint-server-api.yaml');
+    const yaml = fs.readFileSync('./schemas/fingerprint-server-api-for-sdks.yaml');
     const result = resolveExternal(yaml);
     expect(result).toBeTruthy();
   });

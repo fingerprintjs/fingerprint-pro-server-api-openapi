@@ -65,7 +65,7 @@ export default {
         },
         {
           from: 'schemas/fingerprint-related-visitors-api-readme-explorer.yaml',
-          to: 'schemas/fingerprint-related-visitors-api.yaml',
+          to: 'schemas/fingerprint-related-visitors-api-readme-explorer.yaml',
           transform: (content) => transformSchema(content, relatedVisitorsApiTransformers),
         },
         {
