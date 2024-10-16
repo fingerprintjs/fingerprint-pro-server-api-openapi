@@ -69,11 +69,6 @@ export default {
           transform: (content) => transformSchema(content, relatedVisitorsApiTransformers),
         },
         {
-          from: 'schemas/fingerprint-server-api-for-sdks.yaml',
-          to: 'schemes/fingerprint-server-api.yaml', // backward compatibility
-          transform: (content) => transformSchema(content),
-        },
-        {
           from: 'schemas/fingerprint-server-api-readme-explorer.yaml',
           to: 'schemas/fingerprint-server-api-readme-explorer.yaml',
           transform: (content) => transformSchema(content, readmeApiExplorerTransformers),
