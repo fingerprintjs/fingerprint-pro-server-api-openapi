@@ -51,7 +51,7 @@ jobs:
       app-id: ${{ vars.APP_ID }}
       repository: fingerprintjs-pro-server-api-node-sdk
       pre-release: ${{ inputs.pre-release }}
-      allowed-scopes: events,visitors,webhook
+      allowed-scopes: events,visitors,webhook,related-visitors
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -69,7 +69,7 @@ jobs:
       app-id: ${{ vars.APP_ID }}
       repository: fingerprint-pro-server-api-go-sdk
       pre-release: ${{ inputs.pre-release }}
-      allowed-scopes: events,visitors,webhook
+      allowed-scopes: events,visitors,webhook,related-visitors
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -87,7 +87,7 @@ jobs:
       app-id: ${{ vars.APP_ID }}
       repository: fingerprint-pro-server-api-dotnet-sdk
       pre-release: ${{ inputs.pre-release }}
-      allowed-scopes: events,visitors,webhook
+      allowed-scopes: events,visitors,webhook,related-visitors
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
