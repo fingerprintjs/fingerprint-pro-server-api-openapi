@@ -4,8 +4,7 @@ properties:
   result:
     type: boolean
     description: >-
-      Flag indicating whether browser tampering was detected according to our
-      internal thresholds or internal thresholds or anti-detect browser was detected.
+      true if tampering is identified based on an anomalyScore or antiDetectBrowser signal by comparing their browser signature to our statistical model and checking whether the visitor is using an anti-detect browser such as Incogniton.
     example: false
   anomalyScore:
     type: number
@@ -19,7 +18,7 @@ properties:
   antiDetectBrowser:
     type: boolean
     description: >-
-      Is `true` if the identified browser is one of "anti-detect" browsers specifically designed to evade identification and fingerprinting.
+      Is `true` if the identified browser is one of "anti-detect" browsers specifically designed to evade identification and fingerprinting. Anti-detect browsers are specialized browsers designed to mask or manipulate the user's fingerprint by mimicking legitimate browser configuration
     example: false
 required:
   - result
