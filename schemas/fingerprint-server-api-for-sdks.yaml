@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Fingerprint Pro Server API
+  description: |
+    Fingerprint Pro Server API allows you to get information about visitors and about individual events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
+    Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+  version: '3'
+  contact:
+    name: Fingerprint Support
+    email: support@fingerprint.com
+tags:
+  - name: Events
+    description: |
+      Using the Server API you can retrieve information about individual analysis events using the event's `requestId`.
+  - name: Visitors
+    description: |
+      Using the Server API you can retrieve visitor history of individual visitors using their `visitorId`.
+  - name: Related Visitors
+    description: |
+      Find visitor IDs that originated from a different browser on the same mobile device.
+servers:
+  - url: https://api.fpjs.io
+    description: Global
+  - url: https://eu.api.fpjs.io
+    description: EU
+  - url: https://ap.api.fpjs.io
+    description: Asia (Mumbai)
+security:
+  - ApiKeyHeader: []
+  - ApiKeyQuery: []
+paths:
+  /events/{request_id}:
+    $ref: 'paths/events.yaml'
+  /visitors/{visitor_id}:
+    $ref: 'paths/visitors.yaml'
+  /webhook:
+    $ref: 'paths/webhook.yaml'
+  /related-visitors:
+    $ref: './paths/related-visitors.yaml'
+components:
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header # can be "header", "query" or "cookie"
+      name: Auth-API-Key # name of the header, query parameter or cookie
+    ApiKeyQuery:
+      type: apiKey
+      in: query # can be "header", "query" or "cookie"
+      name: api_key # name of the header, query parameter or cookie
