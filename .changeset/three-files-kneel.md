@@ -1,5 +1,5 @@
 ---
-'fingerprint-pro-server-api-openapi': undefined
+'fingerprint-pro-server-api-openapi': minor
 ---
 
-undefined
+**events**: Add AntiDetectBrowser field to tampering and update tampering result type description
