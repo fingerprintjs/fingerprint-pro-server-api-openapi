@@ -44,8 +44,6 @@ function getRelatedVisitors({ visitorId, subscription }: GetRelatedVisitorsArgs)
 
 // Load API definition
 const OPEN_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
-const RELATED_VISITORS_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-related-visitors-api.yaml'));
-
 // Global exit code variable and helper
 let exitCode: number = 0;
 const fail = (message: string) => {
@@ -577,10 +575,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
 async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'RelatedVisitorsResponse';
   console.log(`\nValidating ${schemaName} schema: \n`);
-  const relatedVisitorsResponseSchema = convertOpenApiToJsonSchema(
-    RELATED_VISITORS_API_SCHEMA,
-    `#/definitions/${schemaName}`
-  );
+  const relatedVisitorsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const relatedVisitorsResponseValidator = ajv.compile(relatedVisitorsResponseSchema);
 
   // Validate against example file

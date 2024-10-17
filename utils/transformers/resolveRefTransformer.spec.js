@@ -23,7 +23,7 @@ describe('Test resolveRefTransformer', () => {
 
 describe('Test on real schema', () => {
   it('fingerprint-server-api', () => {
-    const yaml = fs.readFileSync('./schemas/fingerprint-server-api.yaml');
+    const yaml = fs.readFileSync('./schemas/fingerprint-server-api-for-sdks.yaml');
     const result = resolveRef(yaml, './schemas');
     expect(result).toBeTruthy();
   });

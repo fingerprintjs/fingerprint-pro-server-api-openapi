@@ -59,32 +59,27 @@ export default {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'schemas/fingerprint-server-api.yaml',
+          from: 'schemas/fingerprint-server-api-for-sdks.yaml',
           to: 'schemas/fingerprint-server-api.yaml',
           transform: (content) => transformSchema(content),
         },
         {
-          from: 'schemas/fingerprint-related-visitors-api.yaml',
-          to: 'schemas/fingerprint-related-visitors-api.yaml',
+          from: 'schemas/fingerprint-related-visitors-api-readme-explorer.yaml',
+          to: 'schemas/fingerprint-related-visitors-api-readme-explorer.yaml',
           transform: (content) => transformSchema(content, relatedVisitorsApiTransformers),
         },
         {
-          from: 'schemas/fingerprint-server-api.yaml',
-          to: 'schemes/fingerprint-server-api.yaml', // backward compatibility
-          transform: (content) => transformSchema(content),
-        },
-        {
-          from: 'schemas/fingerprint-server-api.yaml',
+          from: 'schemas/fingerprint-server-api-readme-explorer.yaml',
           to: 'schemas/fingerprint-server-api-readme-explorer.yaml',
           transform: (content) => transformSchema(content, readmeApiExplorerTransformers),
         },
         {
-          from: 'schemas/fingerprint-server-api.yaml',
+          from: 'schemas/fingerprint-server-api-for-sdks.yaml',
           to: 'schemas/fingerprint-server-api-compact.yaml',
           transform: (content) => transformSchema(content, removeExtraDocumentationTransformers),
         },
         {
-          from: 'schemas/fingerprint-server-api.yaml',
+          from: 'schemas/fingerprint-server-api-for-sdks.yaml',
           to: 'schemas/fingerprint-server-api-schema-for-sdks.yaml',
           transform: (content) => transformSchema(content, schemaForSdksTransformers),
         },

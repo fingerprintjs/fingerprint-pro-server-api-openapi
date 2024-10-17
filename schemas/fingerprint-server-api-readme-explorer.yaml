@@ -39,8 +39,6 @@ paths:
     $ref: 'paths/events.yaml'
   /visitors/{visitor_id}:
     $ref: 'paths/visitors.yaml'
-  /webhook:
-    $ref: 'paths/webhook.yaml'
 components:
   securitySchemes:
     ApiKeyHeader:
