@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events**: Add AntiDetectBrowser field to tampering and update tampering result type description
+**events**: Add `antiDetectBrowser` detection method to the `tampering` Smart Signal.
