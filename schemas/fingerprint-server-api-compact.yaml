@@ -578,6 +578,69 @@ paths:
               responses:
                 default:
                   description: The server doesn't validate the answer.
+  /related-visitors:
+    get:
+      tags:
+        - Fingerprint
+      operationId: getRelatedVisitors
+      summary: Get Related Visitors
+      description: >
+        This API will enable you to find if one or more web and in-app browser
+        sessions originated from the same mobile device.
+
+        When requested, this API will search identification events within the
+        past 6 months to find the visitor IDs that belong to the same mobile
+        device as the given visitor ID.
+
+        Please visit the
+        [Overview](https://dev.fingerprint.com/reference/related-visitors-api)
+        page to learn more about this API.
+      parameters:
+        - name: visitor_id
+          description: >-
+            The [visitor
+            ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which
+            you want to find the other visitor IDs that originated from the same
+            mobile device.
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelatedVisitorsResponse'
+        '400':
+          description: >-
+            Bad request. The visitor ID parameter is missing or in the wrong
+            format.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisitor400Response'
+        '403':
+          description: Forbidden. Access to this API is denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCommon403Response'
+        '404':
+          description: >-
+            Not found. The visitor ID cannot be found in this application's
+            data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorVisitor404Response'
+        '429':
+          description: Too Many Requests. The request is throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorCommon429Response'
 components:
   securitySchemes:
     ApiKeyHeader:
@@ -2360,3 +2423,25 @@ components:
         - timestamp
         - url
         - visitorFound
+    RelatedVisitor:
+      type: object
+      additionalProperties: false
+      properties:
+        visitorId:
+          description: >-
+            Visitor ID of a browser that originates from the same mobile device
+            as the input visitor ID.
+          type: string
+          example: Ibk1527CUFmcnjLwIs4A
+      required:
+        - visitorId
+    RelatedVisitorsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        relatedVisitors:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedVisitor'
+      required:
+        - relatedVisitors
