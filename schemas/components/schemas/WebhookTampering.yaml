@@ -8,6 +8,7 @@ properties:
       internal thresholds.
   anomalyScore:
     type: number
+    format: double
     minimum: 0
     maximum: 1
     description: >-

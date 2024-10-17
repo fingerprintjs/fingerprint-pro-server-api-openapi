@@ -5,12 +5,6 @@ required:
   - ip
   - time
   - timestamp
-  - visitorId
-  - visitorFound
-  - firstSeenAt
-  - lastSeenAt
-  - browserDetails
-  - incognito
 properties:
   requestId:
     type: string
