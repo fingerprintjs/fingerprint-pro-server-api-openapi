@@ -18,7 +18,7 @@ properties:
   antiDetectBrowser:
     type: boolean
     description: >-
-      Is `true` if the identified browser resembles one of "anti-detect" browsers, for example, Incognition. Anti-detect browsers try to to evade identification by masking or manipulating their fingerprint to imitate legitimate browser configurations.
+      Is `true` if the identified browser resembles one of "anti-detect" browsers, for example, Incognition. Anti-detect browsers try to evade identification by masking or manipulating their fingerprint to imitate legitimate browser configurations.
     example: false
 required:
   - result
