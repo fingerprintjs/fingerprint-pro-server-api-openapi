@@ -13,6 +13,7 @@ properties:
       whether the visitor is using an anti-detect browser such as Incogniton.
   anomalyScore:
     type: number
+    format: double
     minimum: 0
     maximum: 1
     description: >-

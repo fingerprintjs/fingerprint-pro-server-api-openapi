@@ -4,6 +4,7 @@ required:
   - result
   - confidence
   - originTimezone
+  - originCountry
   - methods
 properties:
   result:

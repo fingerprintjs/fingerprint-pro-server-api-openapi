@@ -1,5 +1,8 @@
 type: object
 additionalProperties: false
+required:
+  - isoCode
+  - name
 properties:
   isoCode:
     type: string
