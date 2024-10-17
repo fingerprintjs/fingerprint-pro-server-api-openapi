@@ -1,37 +1,27 @@
 type: object
 additionalProperties: false
+required:
+  - browserName
+  - browserFullVersion
+  - browserMajorVersion
+  - os
+  - osVersion
+  - device
+  - userAgent
 properties:
   browserName:
     type: string
-    example: Chrome
   browserMajorVersion:
     type: string
-    example: '101'
   browserFullVersion:
     type: string
-    example: 101.0.4951
   os:
     type: string
-    example: Windows
   osVersion:
     type: string
-    example: '10'
   device:
     type: string
-    example: Other
   userAgent:
     type: string
-    example: >-
-      Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like
-      Gecko) Chrome/101.0.4951.41 Safari/537.36
   botProbability:
     type: integer
-required:
-  - browserFullVersion
-  - browserMajorVersion
-  - browserName
-  - device
-  - os
-  - osVersion
-  - userAgent
-title: BrowserDetails
