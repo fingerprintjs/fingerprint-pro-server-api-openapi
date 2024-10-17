@@ -1,5 +1,12 @@
 # fingerprint-pro-server-api-openapi
 
+## 1.3.0
+
+### Minor Changes
+
+- **related-visitors**: Add GET `/related-visitors` endpoint ([d576d69](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/d576d69b495c7b8609a481505ca7d536e33b21e6))
+- **events**: Add `antiDetectBrowser` detection method to the `tampering` Smart Signal. ([c11f7f8](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/c11f7f8b657104abb4df1d08c98ac78ee1adad0e))
+
 ## 1.2.0
 
 ### Minor Changes
