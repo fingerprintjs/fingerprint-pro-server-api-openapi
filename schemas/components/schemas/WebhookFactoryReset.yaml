@@ -1,8 +1,5 @@
 type: object
 additionalProperties: false
-required:
-  - time
-  - timestamp
 properties:
   time:
     type: string

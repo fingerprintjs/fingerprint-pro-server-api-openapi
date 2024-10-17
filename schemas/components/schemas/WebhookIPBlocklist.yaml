@@ -1,8 +1,5 @@
 type: object
 additionalProperties: false
-required:
-  - result
-  - details
 properties:
   result:
     type: boolean

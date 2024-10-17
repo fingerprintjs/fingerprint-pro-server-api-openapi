@@ -1,8 +1,5 @@
 type: object
 additionalProperties: false
-required:
-  - name
-  - message
 properties:
   name:
     type: string

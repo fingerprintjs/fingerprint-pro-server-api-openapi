@@ -1,9 +1,5 @@
 type: object
 additionalProperties: false
-required:
-  - result
-  - anomalyScore
-  - antiDetectBrowser
 properties:
   result:
     type: boolean
@@ -13,6 +9,7 @@ properties:
         * The browser signature resembles one of "anti-detect" browsers specifically designed to evade identification and fingerprinting, for example, Incognition (indicated by `antiDetectBrowser`).
   anomalyScore:
     type: number
+    format: double
     minimum: 0
     maximum: 1
     description: >-

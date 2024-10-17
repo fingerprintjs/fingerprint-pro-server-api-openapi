@@ -1,7 +1,5 @@
 type: object
 additionalProperties: false
-required:
-  - result
 properties:
   result:
     type: integer

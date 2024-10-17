@@ -11,6 +11,8 @@ required:
 properties:
   bot:
     $ref: BotdBot.yaml
+  meta:
+    $ref: Tag.yaml
   linkedId:
     type: string
     description: A customer-provided id that was sent with the request.

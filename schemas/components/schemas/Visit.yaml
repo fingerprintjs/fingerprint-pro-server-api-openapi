@@ -55,3 +55,5 @@ properties:
     $ref: IdentificationSeenAt.yaml
   lastSeenAt:
     $ref: IdentificationSeenAt.yaml
+  components:
+    $ref: RawDeviceAttributes.yaml

@@ -23,5 +23,3 @@ properties:
     type: string
   userAgent:
     type: string
-  botProbability:
-    type: integer

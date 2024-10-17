@@ -16,14 +16,6 @@ description: |
   if the number of `events` for the visitor ID in the last 24
   hours (`events.intervals.['24h']`) is higher than 20.000.
 additionalProperties: false
-required:
-  - distinctIp
-  - distinctLinkedId
-  - distinctCountry
-  - events
-  - ipEvents
-  - distinctIpByLinkedId
-  - distinctVisitorIdByLinkedId
 properties:
   distinctIp:
     $ref: VelocityData.yaml

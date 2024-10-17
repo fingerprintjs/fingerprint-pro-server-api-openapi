@@ -1,10 +1,5 @@
 type: object
 additionalProperties: false
-required:
-  - result
-  - confidence
-  - originTimezone
-  - methods
 properties:
   result:
     type: boolean

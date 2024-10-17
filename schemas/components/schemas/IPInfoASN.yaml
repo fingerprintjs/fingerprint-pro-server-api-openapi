@@ -2,6 +2,7 @@ type: object
 additionalProperties: false
 required:
   - asn
+  - name
   - network
 properties:
   asn:
