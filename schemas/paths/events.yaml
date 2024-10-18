@@ -12,56 +12,59 @@ get:
   parameters:
     - name: request_id
       in: path
-      description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each identification request.
       required: true
       schema:
         type: string
+      description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each identification request.
   responses:
     '200':
-      description: OK
+      description: OK.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/EventResponse.yaml'
+            $ref: '../components/schemas/EventsGetResponse.yaml'
           examples:
-            fullResponse:
+            200-full:
               summary: Example response
               externalValue: 'examples/get_event_200.json'
-            allErrorsResponse:
+            200-all-errors:
               summary: All failed signals
               externalValue: 'examples/get_event_200_all_errors.json'
-            withBotdError:
-              summary: BotD error
-              externalValue: 'examples/get_event_200_botd_failed_error.json'
-            withBotdTooManyRequestsError:
-              summary: BotD too many requests error
-              externalValue: 'examples/get_event_200_botd_too_many_requests_error.json'
-            withIdentificationError:
+            200-identification-error:
               summary: Identification error
               externalValue: 'examples/get_event_200_identification_failed_error.json'
-            withIdentificationTooManyRequestsError:
-              summary: Identification too many requests error
-              externalValue: 'examples/get_event_200_identification_too_many_requests_error.json'
+            200-botd-error:
+              summary: BotD error
+              externalValue: 'examples/get_event_200_botd_failed_error.json'
+            200-too-many-requests-error:
+              summary: Too many requests error
+              externalValue: 'examples/get_event_200_too_many_requests_error.json'
     '403':
-      description: Forbidden
+      description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorCommon403Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Forbidden
-              externalValue: 'examples/get_event_403_error.json'
+            403-token-required:
+              summary: Error response when the secret API key was not provided.
+              externalValue: 'examples/errors/403_token_required.json'
+            403-token-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: 'examples/errors/403_token_not_found.json'
+            403-wrong-region:
+              summary: Error response when the API region is different from the region, the calling application is configured with.
+              externalValue: 'examples/errors/403_wrong_region.json'
     '404':
-      description: Not found
+      description: Not found. The request ID cannot be found in this application's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorEvent404Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Not found
-              externalValue: 'examples/get_event_404_error.json'
+            404-request-not-found:
+              summary: Error response when the provided request ID does not exist.
+              externalValue: 'examples/errors/404_request_not_found.json'
 put:
   tags:
     - Events
@@ -76,56 +79,62 @@ put:
   parameters:
     - name: request_id
       in: path
-      description: The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
       required: true
       schema:
         type: string
+      description: The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../components/schemas/EventUpdateRequest.yaml'
+          $ref: '../components/schemas/EventsUpdateRequest.yaml'
   responses:
     '200':
-      description: OK
+      description: OK.
     '400':
-      description: Bad request
+      description: Bad request. The request payload is not valid.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorUpdateEvent400Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
             example:
-              summary: Example response
-              externalValue: 'examples/update_event_400_error.json'
+              summary: Error response when the specified request payload is not valid and cannot be parsed.
+              externalValue: 'examples/errors/400_request_body_invalid.json'
     '403':
-      description: Forbidden
+      description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorCommon403Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Example response
-              externalValue: 'examples/update_event_403_error.json'
+            403-token-required:
+              summary: Error response when the secret API key was not provided.
+              externalValue: 'examples/errors/403_token_required.json'
+            403-token-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: 'examples/errors/403_token_not_found.json'
+            403-wrong-region:
+              summary: Error response when the API region is different from the region, the calling application is configured with.
+              externalValue: 'examples/errors/403_wrong_region.json'
     '404':
-      description: Not found
+      description: Not found. The request ID cannot be found in this application's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorEvent404Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Example response
-              externalValue: 'examples/get_event_404_error.json'
+            404-request-not-found:
+              summary: Error response when the provided request ID does not exist.
+              externalValue: 'examples/errors/404_request_not_found.json'
     '409':
-      description: Conflict
+      description: Conflict. The event is not mutable yet.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorUpdateEvent409Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
             example:
-              summary: Example response
-              externalValue: 'examples/update_event_409_error.json'
+              summary: Error response when the event is not mutable yet.
+              externalValue: 'examples/errors/409_state_not_ready.json'

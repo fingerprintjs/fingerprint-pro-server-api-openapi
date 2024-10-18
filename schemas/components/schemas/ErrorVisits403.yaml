@@ -1,9 +1,0 @@
-type: object
-additionalProperties: false
-properties:
-  error:
-    type: string
-    description: Error text.
-    example: Forbidden (HTTP 403)
-required:
-  - error

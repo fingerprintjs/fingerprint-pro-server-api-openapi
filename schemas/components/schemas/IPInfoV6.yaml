@@ -1,0 +1,15 @@
+type: object
+additionalProperties: false
+required:
+  - address
+  - geolocation
+properties:
+  address:
+    type: string
+    format: ipv6
+  geolocation:
+    $ref: Geolocation.yaml
+  asn:
+    $ref: IPInfoASN.yaml
+  datacenter:
+    $ref: IPInfoDataCenter.yaml

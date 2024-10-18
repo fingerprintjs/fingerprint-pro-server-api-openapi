@@ -1,0 +1,54 @@
+type: object
+description: >-
+  Contains all information about the request identified by `requestId`,
+  depending on the pricing plan (Pro, Pro Plus, Enterprise)
+additionalProperties: false
+properties:
+  identification:
+    $ref: ProductIdentification.yaml
+  botd:
+    $ref: ProductBotd.yaml
+  rootApps:
+    $ref: ProductRootApps.yaml
+  emulator:
+    $ref: ProductEmulator.yaml
+  ipInfo:
+    $ref: ProductIPInfo.yaml
+  ipBlocklist:
+    $ref: ProductIPBlocklist.yaml
+  tor:
+    $ref: ProductTor.yaml
+  vpn:
+    $ref: ProductVPN.yaml
+  proxy:
+    $ref: ProductProxy.yaml
+  incognito:
+    $ref: ProductIncognito.yaml
+  tampering:
+    $ref: ProductTampering.yaml
+  clonedApp:
+    $ref: ProductClonedApp.yaml
+  factoryReset:
+    $ref: ProductFactoryReset.yaml
+  jailbroken:
+    $ref: ProductJailbroken.yaml
+  frida:
+    $ref: ProductFrida.yaml
+  privacySettings:
+    $ref: ProductPrivacySettings.yaml
+  virtualMachine:
+    $ref: ProductVirtualMachine.yaml
+  rawDeviceAttributes:
+    $ref: ProductRawDeviceAttributes.yaml
+  highActivity:
+    $ref: ProductHighActivity.yaml
+  locationSpoofing:
+    $ref: ProductLocationSpoofing.yaml
+  suspectScore:
+    $ref: ProductSuspectScore.yaml
+  remoteControl:
+    $ref: ProductRemoteControl.yaml
+  velocity:
+    $ref: ProductVelocity.yaml
+  developerTools:
+    $ref: ProductDeveloperTools.yaml

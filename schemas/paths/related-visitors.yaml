@@ -13,11 +13,11 @@ get:
     To learn more, see [Related visitors API reference](https://dev.fingerprint.com/reference/related-visitors-api).
   parameters:
     - name: visitor_id
-      description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
       in: query
       required: true
       schema:
         type: string
+      description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
   responses:
     '200':
       description: OK.
@@ -37,50 +37,53 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorVisitor400Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            400-empty-visitor-id:
-              summary: Error response when the request does not include a visitor ID
-              externalValue: 'examples/shared/400_error_empty_visitor_id.json'
-            400-invalid-visitor-id:
-              summary: Error response when the visitor ID is incorrectly formatted
-              externalValue: 'examples/shared/400_error_incorrect_visitor_id.json'
+            400-visitor-id-required:
+              summary: Error response when the request does not include a visitor ID.
+              externalValue: 'examples/errors/400_visitor_id_required.json'
+            400-visitor-id-invalid:
+              summary: Error response when the visitor ID is incorrectly formatted.
+              externalValue: 'examples/errors/400_visitor_id_invalid.json'
     '403':
       description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorCommon403Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            403-feature-not-enabled:
-              summary: Error response when this feature is not enabled for a subscription.
-              externalValue: 'examples/shared/403_error_feature_not_enabled.json'
-            403-token-not-found:
-              summary: Error response when the provided secret API key does not exist.
-              externalValue: 'examples/shared/403_error_token_not_found.json'
             403-token-required:
               summary: Error response when the secret API key was not provided.
-              externalValue: 'examples/shared/403_error_token_required.json'
+              externalValue: 'examples/errors/403_token_required.json'
+            403-token-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: 'examples/errors/403_token_not_found.json'
             403-wrong-region:
               summary: Error response when the API region is different from the region, the calling application is configured with.
-              externalValue: 'examples/shared/403_error_wrong_region.json'
+              externalValue: 'examples/errors/403_wrong_region.json'
+            403-subscription-not-active:
+              summary: Error response when the subscription is not active.
+              externalValue: 'examples/errors/403_subscription_not_active.json'
+            403-feature-not-enabled:
+              summary: Error response when this feature is not enabled for a subscription.
+              externalValue: 'examples/errors/403_feature_not_enabled.json'
     '404':
       description: Not found. The visitor ID cannot be found in this application's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorVisitor404Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
             404-visitor-not-found:
               summary: Error response when the visitor ID cannot be found in this application's data.
-              externalValue: 'examples/shared/404_error_visitor_not_found.json'
+              externalValue: 'examples/errors/404_visitor_not_found.json'
     '429':
       description: Too Many Requests. The request is throttled.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorCommon429Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Too Many Requests
-              externalValue: 'examples/shared/429_error_too_many_requests.json'
+            429-too-many-requests:
+              summary: Error response when the limit on the provided secret API key requests per second has been exceeded.
+              externalValue: 'examples/errors/429_too_many_requests.json'

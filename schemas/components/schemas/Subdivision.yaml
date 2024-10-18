@@ -1,9 +1,0 @@
-type: object
-additionalProperties: false
-properties:
-  isoCode:
-    type: string
-    example: '10'
-  name:
-    type: string
-    example: Hlavni mesto Praha
