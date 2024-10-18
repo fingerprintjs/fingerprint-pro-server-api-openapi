@@ -1,12 +1,15 @@
 type: object
 description: >
-  Sums key data points for a specific `visitorId` at three distinct time
+  Sums key data points for a specific `visitorId`, `ipAddress` and `linkedId` at three distinct time
   intervals: 5 minutes, 1 hour, and 24 hours as follows: 
 
   - Number of identification events attributed to the visitor ID - Number of
   distinct IP addresses associated to the visitor ID. - Number of distinct
   countries associated with the visitor ID. - Number of distinct `linkedId`s
   associated with the visitor ID.
+  - Number of events recorded for the detected IpAddress
+  - Number of Distinct Ip addresses associated and Number of distinct visitors
+    for the provided LinkedId 
 
   The `24h` interval of `distinctIp`, `distinctLinkedId`, and `distinctCountry`
   will be omitted if the number of `events` for the visitor ID in the last 24
@@ -21,8 +24,17 @@ properties:
     $ref: VelocityIntervals.yaml
   events:
     $ref: VelocityIntervals.yaml
+  ipEvents:
+    $ref: VelocityIntervals.yaml
+  distinctIpByLinkedId:
+    $ref: VelocityIntervals.yaml
+  distinctVisitorIdByLinkedId:
+    $ref: VelocityIntervals.yaml
 required:
   - distinctIp
   - distinctLinkedId
   - distinctCountry
   - events
+  - ipEvents
+  - distinctIpByLinkedId
+  - distinctVisitorIdByLinkedId
