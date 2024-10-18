@@ -3,11 +3,14 @@ get:
     - Related Visitors
   operationId: 'getRelatedVisitors'
   summary: Get Related Visitors
-  description: |
-    ⚠️ Please note that this API is billable. ⚠️
-    This API will enable you to find if one or more web and in-app browser sessions originated from the same mobile device.
-    When requested, this API will search identification events within the past 6 months to find the visitor IDs that belong to the same mobile device as the given visitor ID.
-    To learn more, visit the [Overview](https://dev.fingerprint.com/reference/related-visitors-api) page.
+  description: | 
+    Related visitors API lets you link web visits and in-app browser visits that originated from the same mobile device.
+    It searches the past 6 months of identification events to find the visitor IDs that belong to the same mobile device as the given visitor ID.
+
+    ⚠️ Please note that this API is not enabled by default and is billable separately. ⚠️
+
+    If you would like to use Related visitors API, please contact our [support team](https://fingerprint.com/support).
+    To learn more, see [Related visitors API reference](https://dev.fingerprint.com/reference/related-visitors-api).
   parameters:
     - name: visitor_id
       description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
