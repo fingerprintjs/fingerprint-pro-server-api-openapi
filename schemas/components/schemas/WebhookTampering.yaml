@@ -1,0 +1,23 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: >-
+      Flag indicating whether browser tampering was detected according to our
+      internal thresholds.
+  anomalyScore:
+    type: number
+    minimum: 0
+    maximum: 1
+    description: >-
+      Confidence score (`0.0 - 1.0`) for the tampering detection. Values above
+      `0.5` suggest that we're reasonably sure there was a tampering attempt.
+      Values below `0.5` are genuine browsers.
+  antiDetectBrowser:
+    type: boolean
+    description: >-
+      Is `true` if the identified browser is one of "anti-detect" browsers 
+      specifically designed to evade identification and fingerprinting. 
+      Anti-detect browsers are specialized browsers designed to mask or 
+      manipulate the user's fingerprint by mimicking legitimate browser configuration.

@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+properties:
+  isoCode:
+    type: string
+  name:
+    type: string
