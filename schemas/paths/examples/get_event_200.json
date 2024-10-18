@@ -173,6 +173,7 @@
     "vpn": {
       "data": {
         "result": false,
+        "confidence": "high",
         "originTimezone": "Europe/Berlin",
         "originCountry": "unknown",
         "methods": {
@@ -180,8 +181,7 @@
           "publicVPN": false,
           "auxiliaryMobile": false,
           "osMismatch": false
-        },
-        "confidence": "high"
+        }
       }
     },
     "proxy": {
