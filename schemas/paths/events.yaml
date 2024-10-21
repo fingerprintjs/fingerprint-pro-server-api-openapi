@@ -15,7 +15,7 @@ get:
       required: true
       schema:
         type: string
-      description: The unique [identifier](https://dev.fingerprint.com/docs/js-agent#requestid) of each identification request.
+      description: The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request.
   responses:
     '200':
       description: OK.
@@ -82,7 +82,7 @@ put:
       required: true
       schema:
         type: string
-      description: The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
+      description: The unique event [identifier](https://dev.fingerprint.com/reference/get-function#requestid).
   requestBody:
     required: true
     content:

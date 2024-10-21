@@ -16,7 +16,7 @@ get:
       required: true
       schema:
         type: string
-      description: Unique [visitor identifier](https://dev.fingerprint.com/docs/js-agent#visitorid) issued by Fingerprint Pro.
+      description: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.
       # example: uYIm7Ksp5rf00SllPhFp
     - name: request_id
       in: query
@@ -25,7 +25,7 @@ get:
       description: |
         Filter visits by `requestId`. 
         
-        Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/docs/js-agent#requestid). When you filter visits by `requestId`, only one visit will be returned.
+        Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/reference/get-function#requestid). When you filter visits by `requestId`, only one visit will be returned.
       # example: 1654815516083.OX6kx8
     - name: linked_id
       in: query
@@ -34,7 +34,7 @@ get:
       description: |
         Filter visits by your custom identifier. 
         
-        You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        You can use [`linkedId`](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
       # example: some_id
     - name: limit
       in: query
@@ -160,7 +160,7 @@ delete:
       required: true
       schema:
         type: string
-      description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) you want to delete.
+      description: The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete.
   responses:
     '200':
       description: OK. The visitor ID is scheduled for deletion.

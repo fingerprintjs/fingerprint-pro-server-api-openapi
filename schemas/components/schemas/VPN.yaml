@@ -17,8 +17,6 @@ properties:
     description: Local timezone which is used in timezoneMismatch method.
   originCountry:
     type: string
-    description: >-
-      Country of the request (only for Android SDK version >= 2.4.0, ISO 3166
-      format or unknown).
+    description: Country of the request (only for Android SDK version >= 2.4.0, ISO 3166 format or unknown).
   methods:
     $ref: VPNMethods.yaml

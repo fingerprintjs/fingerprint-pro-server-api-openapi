@@ -1,7 +1,6 @@
 type: object
 description: >-
-  Contains all information about the request identified by `requestId`,
-  depending on the pricing plan (Pro, Pro Plus, Enterprise)
+  Contains all information about the request identified by `requestId`, depending on the pricing plan (Pro, Pro Plus, Enterprise)
 additionalProperties: false
 properties:
   identification:

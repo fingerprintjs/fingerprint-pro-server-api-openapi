@@ -1,5 +1,4 @@
 type: object
 description: >-
-  A customer-provided value or an object that was sent with identification
-  request.
+  A customer-provided value or an object that was sent with identification request.
 additionalProperties: true

@@ -6,5 +6,4 @@ properties:
   result:
     type: boolean
     description: >
-      `true` if we detected incognito mode used in the browser, `false`
-      otherwise.
+      `true` if we detected incognito mode used in the browser, `false` otherwise.

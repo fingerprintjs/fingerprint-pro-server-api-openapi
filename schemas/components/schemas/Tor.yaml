@@ -6,5 +6,4 @@ properties:
   result:
     type: boolean
     description: >
-      `true` if the request IP address is a known tor exit node, `false`
-      otherwise.
+      `true` if the request IP address is a known tor exit node, `false` otherwise.

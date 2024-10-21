@@ -17,7 +17,7 @@ get:
       required: true
       schema:
         type: string
-      description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
+      description: The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
   responses:
     '200':
       description: OK.

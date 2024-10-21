@@ -23,8 +23,7 @@ properties:
     format: date-time
     description: >-
       Time expressed according to ISO 8601 in UTC format, when the request from the JS agent was made. We recommend to
-      treat requests that are older than 2 minutes as malicious. Otherwise,
-      request replay attacks are possible
+      treat requests that are older than 2 minutes as malicious. Otherwise, request replay attacks are possible.
   timestamp:
     type: integer
     format: int64
@@ -36,9 +35,7 @@ properties:
     description: A customer-provided id that was sent with the request.
   visitorId:
     type: string
-    description: >
-      String of 20 characters that uniquely identifies the visitor's
-      browser.
+    description: String of 20 characters that uniquely identifies the visitor's browser.
   visitorFound:
     type: boolean
     description: Attribute represents if a visitor had been identified before.

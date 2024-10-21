@@ -28,8 +28,7 @@ properties:
     format: date-time
     description: >-
       Time in UTC when the request from the JS agent was made. We recommend to
-      treat requests that are older than 2 minutes as malicious. Otherwise,
-      request replay attacks are possible
+      treat requests that are older than 2 minutes as malicious. Otherwise, request replay attacks are possible.
   userAgent:
     type: string
   requestId:

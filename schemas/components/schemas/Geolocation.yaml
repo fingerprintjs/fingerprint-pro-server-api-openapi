@@ -5,8 +5,7 @@ properties:
     type: integer
     minimum: 0
     description: >-
-      The IP address is likely to be within this radius (in km) of the specified
-      location.
+      The IP address is likely to be within this radius (in km) of the specified location.
   latitude:
     type: number
     format: double

@@ -5,7 +5,7 @@ required:
 properties:
   result:
     type: boolean
-    description: Flag indicating whether the request came from a high activity visitor.
+    description: Flag indicating if the request came from a high-activity visitor.
   dailyRequests:
     type: integer
     format: int64

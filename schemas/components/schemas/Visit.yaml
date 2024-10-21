@@ -38,9 +38,8 @@ properties:
     type: string
     format: date-time
     description: >-
-      Time expressed according to ISO 8601 in UTC format, when the request from the JS agent was made. We recommend to
-      treat requests that are older than 2 minutes as malicious. Otherwise,
-      request replay attacks are possible
+      Time expressed according to ISO 8601 in UTC format, when the request from the client agent was made. We recommend to
+      treat requests that are older than 2 minutes as malicious. Otherwise, request replay attacks are possible.
   url:
     type: string
     description: Page URL from which the request was sent.

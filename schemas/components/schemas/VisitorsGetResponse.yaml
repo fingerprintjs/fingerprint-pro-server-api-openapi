@@ -1,7 +1,6 @@
 type: object
 description: >-
-  Fields `lastTimestamp` and `paginationKey` added when `limit` or `before`
-  parameter provided and there is more data to show
+  Pagination-related fields `lastTimestamp` and `paginationKey` are included if you use a pagination parameter like `limit` or `before` and there is more data available on the next page.
 additionalProperties: false
 required:
   - visitorId
