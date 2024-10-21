@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 1.3.1
+
+### Patch Changes
+
+- **related-visitors**: Add mention that the API is billable ([ac4380a](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ac4380a6c9bacca2a7810523b069ec3bb948c294))
+
 ## 1.3.0
 
 ### Minor Changes
