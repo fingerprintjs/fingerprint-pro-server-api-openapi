@@ -1,28 +1,41 @@
 type: object
-description: >
-  Sums key data points for a specific `visitorId` at three distinct time
+description: |
+  Sums key data points for a specific `visitorId`, `ipAddress` and `linkedId` at three distinct time
   intervals: 5 minutes, 1 hour, and 24 hours as follows: 
 
-  - Number of identification events attributed to the visitor ID - Number of
-  distinct IP addresses associated to the visitor ID. - Number of distinct
-  countries associated with the visitor ID. - Number of distinct `linkedId`s
-  associated with the visitor ID.
+  - Number of identification events associated with the visitor ID. 
+  - Number of distinct linked IDs associated with the visitor ID.
+  - Number of distinct IP addresses associated to the visitor ID.
+  - Number of distinct countries associated with the visitor ID.
+  - Number of events associated for the detected IP address.
+  - Number of distinct IP addresses associated with the provided linked ID.
+  - Number of distinct visitor IDs associated with the provided linked ID.
 
-  The `24h` interval of `distinctIp`, `distinctLinkedId`, and `distinctCountry`
-  will be omitted if the number of `events` for the visitor ID in the last 24
+  The `24h` interval of `distinctIp`, `distinctLinkedId`, `distinctCountry`,
+  `distinctIpByLinkedId` and `distinctVisitorIdByLinkedId` will be omitted 
+  if the number of `events` for the visitor ID in the last 24
   hours (`events.intervals.['24h']`) is higher than 20.000.
 additionalProperties: false
 properties:
-  distinctIp:
+  events:
     $ref: VelocityIntervals.yaml
   distinctLinkedId:
     $ref: VelocityIntervals.yaml
+  distinctIp:
+    $ref: VelocityIntervals.yaml
   distinctCountry:
     $ref: VelocityIntervals.yaml
-  events:
+  ipEvents:
+    $ref: VelocityIntervals.yaml
+  distinctIpByLinkedId:
+    $ref: VelocityIntervals.yaml
+  distinctVisitorIdByLinkedId:
     $ref: VelocityIntervals.yaml
 required:
-  - distinctIp
-  - distinctLinkedId
-  - distinctCountry
   - events
+  - distinctLinkedId
+  - distinctIp
+  - distinctCountry
+  - ipEvents
+  - distinctIpByLinkedId
+  - distinctVisitorIdByLinkedId
