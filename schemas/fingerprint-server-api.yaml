@@ -292,6 +292,21 @@ paths:
                               5m: 1
                               1h: 5
                               24h: 5
+                          ipEvents:
+                            intervals:
+                              5m: 1
+                              1h: 5
+                              24h: 5
+                          distinctIpByLinkedId:
+                            intervals:
+                              5m: 1
+                              1h: 5
+                              24h: 5
+                          distinctVisitorIdByLinkedId:
+                            intervals:
+                              5m: 1
+                              1h: 5
+                              24h: 5
                       developerTools:
                         data:
                           result: false
@@ -3807,6 +3822,21 @@ paths:
                               5m: 1
                               1h: 5
                               24h: 5
+                          ipEvents:
+                            intervals:
+                              5m: 1
+                              1h: 5
+                              24h: 5
+                          distinctIpByLinkedId:
+                            intervals:
+                              5m: 1
+                              1h: 5
+                              24h: 5
+                          distinctVisitorIdByLinkedId:
+                            intervals:
+                              5m: 1
+                              1h: 5
+                              24h: 5
                         developerTools:
                           result: false
               responses:
@@ -4801,10 +4831,11 @@ components:
         24h:
           type: integer
           description: >
-            The `24h` interval of `distinctIp`, `distinctLinkedId`, and
-            `distinctCountry` will be omitted if the number of `events`` for the
-            visitor ID in the last 24 hours (`events.intervals.['24h']`) is
-            higher than 20.000.
+            The `24h` interval of `distinctIp`, `distinctLinkedId`,
+            `distinctCountry`, `distinctIpByLinkedId` and
+            `distinctVisitorIdByLinkedId` will be omitted if the number of
+            `events`` for the visitor ID in the last 24 hours
+            (`events.intervals.['24h']`) is higher than 20.000.
           example: 1
       required:
         - 5m
@@ -4818,33 +4849,61 @@ components:
     VelocityResult:
       type: object
       description: >
-        Sums key data points for a specific `visitorId` at three distinct time
+        Sums key data points for a specific `visitorId`, `ipAddress` and
+        `linkedId` at three distinct time
+
         intervals: 5 minutes, 1 hour, and 24 hours as follows: 
 
-        - Number of identification events attributed to the visitor ID - Number
-        of distinct IP addresses associated to the visitor ID. - Number of
-        distinct countries associated with the visitor ID. - Number of distinct
-        `linkedId`s associated with the visitor ID.
 
-        The `24h` interval of `distinctIp`, `distinctLinkedId`, and
-        `distinctCountry` will be omitted if the number of `events` for the
-        visitor ID in the last 24 hours (`events.intervals.['24h']`) is higher
-        than 20.000.
+        - Number of identification events associated with the visitor ID. 
+
+        - Number of distinct linked IDs associated with the visitor ID.
+
+        - Number of distinct IP addresses associated to the visitor ID.
+
+        - Number of distinct countries associated with the visitor ID.
+
+        - Number of events associated for the detected IP address.
+
+        - Number of distinct IP addresses associated with the provided linked
+        ID.
+
+        - Number of distinct visitor IDs associated with the provided linked ID.
+
+
+        The `24h` interval of `distinctIp`, `distinctLinkedId`,
+        `distinctCountry`,
+
+        `distinctIpByLinkedId` and `distinctVisitorIdByLinkedId` will be
+        omitted 
+
+        if the number of `events` for the visitor ID in the last 24
+
+        hours (`events.intervals.['24h']`) is higher than 20.000.
       additionalProperties: false
       properties:
-        distinctIp:
+        events:
           $ref: '#/components/schemas/VelocityIntervals'
         distinctLinkedId:
           $ref: '#/components/schemas/VelocityIntervals'
+        distinctIp:
+          $ref: '#/components/schemas/VelocityIntervals'
         distinctCountry:
           $ref: '#/components/schemas/VelocityIntervals'
-        events:
+        ipEvents:
+          $ref: '#/components/schemas/VelocityIntervals'
+        distinctIpByLinkedId:
+          $ref: '#/components/schemas/VelocityIntervals'
+        distinctVisitorIdByLinkedId:
           $ref: '#/components/schemas/VelocityIntervals'
       required:
-        - distinctIp
-        - distinctLinkedId
-        - distinctCountry
         - events
+        - distinctLinkedId
+        - distinctIp
+        - distinctCountry
+        - ipEvents
+        - distinctIpByLinkedId
+        - distinctVisitorIdByLinkedId
     DeveloperToolsResult:
       type: object
       additionalProperties: false

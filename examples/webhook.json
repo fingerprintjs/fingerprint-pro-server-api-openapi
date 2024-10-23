@@ -216,6 +216,27 @@
         "1h": 5,
         "24h": 5
       }
+    },
+    "ipEvents": {
+      "intervals": {
+        "5m": 1,
+        "1h": 5,
+        "24h": 5
+      }
+    },
+    "distinctIpByLinkedId": {
+      "intervals": {
+        "5m": 1,
+        "1h": 5,
+        "24h": 5
+      }
+    },
+    "distinctVisitorIdByLinkedId": {
+      "intervals": {
+        "5m": 1,
+        "1h": 5,
+        "24h": 5
+      }
     }
   },
   "developerTools": {
