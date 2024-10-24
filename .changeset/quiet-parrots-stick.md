@@ -19,7 +19,7 @@
 - Rename `FactoryResetResult` -> `FactoryReset`.
 - Rename `FridaResult` -> `Frida`.
 - Rename `IPLocation` -> `Geolocation`:
-  - Extract `city` type as `GeolocationCity`.
+  - Rename `IPLocationCity` -> `GeolocationCity`.
   - Extract `subdivisions` type as `GeolocationSubdivisions`.
   - Rename `Location` -> `GeolocationContinent`:
   - Introduce a dedicated type `GeolocationCountry`.
@@ -31,15 +31,15 @@
 - Rename `IpBlockListResult` -> `IPBlocklist`:
   - Extract `details` type as `IPBlocklistDetails`.
 - Rename `IpInfoResult` -> `IPInfo`:
-  - Extract `v4` type as `IPInfoV4`.
-  - Extract `v6` type as `IPInfoV6`.
+  - Rename `IpInfoResultV4` -> `IPInfoV4`.
+  - Rename `IpInfoResultV6` -> `IPInfoV6`.
   - Rename `ASN` -> `IPInfoASN`.
   - Rename `DataCenter` -> `IPInfoDataCenter`.
 - Rename `JailbrokenResult` -> `Jailbroken`.
 - Rename `LocationSpoofingResult` -> `LocationSpoofing`.
 - Rename `PrivacySettingsResult` -> `PrivacySettings`.
 - Rename `ProductsResponse` -> `Products`:
-  - Extract inner types: `ProductIdentification`, `ProductBotd`, `ProductRootApps`, `ProductEmulator`, `ProductIPInfo`, `ProductIPBlocklist`, `ProductTor`, `ProductVPN`, `ProductProxy`, `ProductIncognito`, `ProductTampering`, `ProductClonedApp`, `ProductFactoryReset`, `ProductJailbroken`, `ProductFrida`, `ProductPrivacySettings`, `ProductVirtualMachine`, `ProductRawDeviceAttributes`, `ProductHighActivity`, `ProductLocationSpoofing`, `ProductSuspectScore`, `ProductRemoteControl`, `ProductVelocity`, `ProductDeveloperTools`.
+  - Rename inner types: `ProductsResponseIdentification` -> `ProductIdentification`, `ProductsResponseIdentificationData` -> `Identification`,  `ProductsResponseBotd` -> `ProductBotd`, `SignalResponseRootApps` -> `ProductRootApps`, `SignalResponseEmulator` -> `ProductEmulator`, `SignalResponseIpInfo` -> `ProductIPInfo`, `SignalResponseIpBlocklist` -> `ProductIPBlocklist`, `SignalResponseTor` -> `ProductTor`, `SignalResponseVpn` -> `ProductVPN`, `SignalResponseProxy` -> `ProductProxy`, `ProxyResult` -> `Proxy`, `SignalResponseIncognito` -> `ProductIncognito`, `SignalResponseTampering` -> `ProductTampering`, `SignalResponseClonedApp` -> `ProductClonedApp`, `SignalResponseFactoryReset` -> `ProductFactoryReset`, `SignalResponseJailbroken` -> `ProductJailbroken`, `SignalResponseFrida` -> `ProductFrida`, `SignalResponsePrivacySettings` -> `ProductPrivacySettings`, `SignalResponseVirtualMachine` -> `ProductVirtualMachine`, `SignalResponseRawDeviceAttributes` -> `ProductRawDeviceAttributes`, `RawDeviceAttributesResultValue` -> `RawDeviceAttributes`, `SignalResponseHighActivity` -> `ProductHighActivity`, `SignalResponseLocationSpoofing` -> `ProductLocationSpoofing`, `SignalResponseSuspectScore` -> `ProductSuspectScore`, `SignalResponseRemoteControl` -> `ProductRemoteControl`, `SignalResponseVelocity` -> `ProductVelocity`, `SignalResponseDeveloperTools` -> `ProductDeveloperTools`.
   - Extract `identification.data` type as `Identification`.
 - Rename `RawDeviceAttributesResult` -> `RawDeviceAttributes`:
   - Extract item type as `RawDeviceAttribute`.
@@ -54,8 +54,10 @@
   - Rename `VelocityIntervals` -> `VelocityData`.
   - Rename `VelocityIntervalResult` -> `VelocityIntervals`.
 - Rename `VirtualMachineResult` -> `VirtualMachine`.
-- Extract the `Visit` field `ipLocation` type as `DeprecatedGeolocation`.
+- Rename the `Visit` field `ipLocation` type `DeprecatedIPLocation` -> `DeprecatedGeolocation`.
+  - Instead of `DeprecatedIPLocationCity` use common `GeolocationCity`
 - Rename `Response` -> `VisitorsGetResponse`.
+  - Omit extra inner type `ResponseVisits`
 - Rename `VpnResult` -> `VPN`.
   - Extract `confidence` type as `VPNConfidence`.
   - Extract `methods` type as `VPNMethods`.
