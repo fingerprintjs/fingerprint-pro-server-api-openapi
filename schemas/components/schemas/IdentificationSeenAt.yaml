@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+required:
+  - global
+  - subscription
+properties:
+  global:
+    type: string
+    nullable: true
+    format: date-time
+  subscription:
+    type: string
+    nullable: true
+    format: date-time

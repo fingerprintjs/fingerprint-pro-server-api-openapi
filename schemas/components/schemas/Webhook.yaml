@@ -1,0 +1,104 @@
+type: object
+required:
+  - requestId
+  - url
+  - ip
+  - time
+  - timestamp
+properties:
+  requestId:
+    type: string
+    description: Unique identifier of the user's request.
+  url:
+    type: string
+    description: Page URL from which the request was sent.
+  ip:
+    type: string
+    format: ipv4
+    description: IP address of the requesting browser or bot.
+  tag:
+    $ref: Tag.yaml
+  time:
+    type: string
+    format: date-time
+    description: >-
+      Time expressed according to ISO 8601 in UTC format, when the request from the JS agent was made. We recommend to
+      treat requests that are older than 2 minutes as malicious. Otherwise, request replay attacks are possible.
+  timestamp:
+    type: integer
+    format: int64
+    description: Timestamp of the event with millisecond precision in Unix time.
+  ipLocation:
+    $ref: DeprecatedGeolocation.yaml
+  linkedId:
+    type: string
+    description: A customer-provided id that was sent with the request.
+  visitorId:
+    type: string
+    description: String of 20 characters that uniquely identifies the visitor's browser.
+  visitorFound:
+    type: boolean
+    description: Attribute represents if a visitor had been identified before.
+  confidence:
+    $ref: IdentificationConfidence.yaml
+  firstSeenAt:
+    $ref: IdentificationSeenAt.yaml
+  lastSeenAt:
+    $ref: IdentificationSeenAt.yaml
+  browserDetails:
+    $ref: BrowserDetails.yaml
+  incognito:
+    type: boolean
+    description: Flag if user used incognito session.
+  clientReferrer:
+    type: string
+  components:
+    $ref: RawDeviceAttributes.yaml
+  bot:
+    $ref: BotdBot.yaml
+  userAgent:
+    type: string
+  rootApps:
+    $ref: WebhookRootApps.yaml
+  emulator:
+    $ref: WebhookEmulator.yaml
+  ipInfo:
+    $ref: WebhookIPInfo.yaml
+  ipBlocklist:
+    $ref: WebhookIPBlocklist.yaml
+  tor:
+    $ref: WebhookTor.yaml
+  vpn:
+    $ref: WebhookVPN.yaml
+  proxy:
+    $ref: WebhookProxy.yaml
+  # no incognito
+  tampering:
+    $ref: WebhookTampering.yaml
+  clonedApp:
+    $ref: WebhookClonedApp.yaml
+  factoryReset:
+    $ref: WebhookFactoryReset.yaml
+  jailbroken:
+    $ref: WebhookJailbroken.yaml
+  frida:
+    $ref: WebhookFrida.yaml
+  privacySettings:
+    $ref: WebhookPrivacySettings.yaml
+  virtualMachine:
+    $ref: WebhookVirtualMachine.yaml
+  rawDeviceAttributes:
+    $ref: WebhookRawDeviceAttributes.yaml
+  # highActivity has required `result` unlike other smart signals
+  highActivity:
+    $ref: WebhookHighActivity.yaml
+  locationSpoofing:
+    $ref: WebhookLocationSpoofing.yaml
+  suspectScore:
+    $ref: WebhookSuspectScore.yaml
+  remoteControl:
+    $ref: WebhookRemoteControl.yaml
+  velocity:
+    $ref: WebhookVelocity.yaml
+  developerTools:
+    $ref: WebhookDeveloperTools.yaml

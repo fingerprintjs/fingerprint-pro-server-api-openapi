@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+required:
+  - result
+properties:
+  result:
+    type: boolean
+    description: >
+      `true` if the request came from a machine being remotely controlled (e.g. TeamViewer), `false` otherwise.

@@ -2,6 +2,11 @@ trace:
   tags:
     - Fingerprint
   description: Fake path to describe webhook format. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/Webhook.yaml'
   responses:
     default:
       description: Dummy for the schema
@@ -14,7 +19,7 @@ trace:
             content:
               application/json:
                 schema:
-                  $ref: '../components/schemas/WebhookVisit.yaml'
+                  $ref: '../components/schemas/Webhook.yaml'
                 example:
                   externalValue: 'examples/webhook.json'
           responses:

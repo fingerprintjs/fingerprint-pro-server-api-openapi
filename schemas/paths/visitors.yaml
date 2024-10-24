@@ -12,38 +12,31 @@ get:
     * `Retry-After` — Present in case of `429 Too many requests`. Indicates how long you should wait before making a follow-up request. The value is non-negative decimal integer indicating the seconds to delay after the response is received.
   parameters:
     - name: visitor_id
-      description: Unique [visitor identifier](https://dev.fingerprint.com/docs/js-agent#visitorid) issued by Fingerprint Pro.
       in: path
       required: true
       schema:
         type: string
-      example: uYIm7Ksp5rf00SllPhFp
+      description: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.
+      # example: uYIm7Ksp5rf00SllPhFp
     - name: request_id
+      in: query
+      schema:
+        type: string
       description: |
         Filter visits by `requestId`. 
         
-        Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/docs/js-agent#requestid). When you filter visits by `requestId`, only one visit will be returned.
+        Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/reference/get-function#requestid). When you filter visits by `requestId`, only one visit will be returned.
+      # example: 1654815516083.OX6kx8
+    - name: linked_id
       in: query
       schema:
         type: string
-        # example: 1654815516083.OX6kx8
-    - name: linked_id
       description: |
         Filter visits by your custom identifier. 
         
-        You can use [`linkedId`](https://dev.fingerprint.com/docs/js-agent#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
-      in: query
-      schema:
-        type: string
-      required:
-        false
+        You can use [`linkedId`](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
       # example: some_id
     - name: limit
-      description: |
-        Limit scanned results. 
-        
-        For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
-        By default, the most recent 100 visits are scanned, the maximum is 500.
       in: query
       schema:
         type: integer
@@ -51,7 +44,15 @@ get:
         minimum: 0
         # default: 0
         # example: 10
+      description: |
+        Limit scanned results. 
+        
+        For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
+        By default, the most recent 100 visits are scanned, the maximum is 500.
     - name: paginationKey
+      in: query
+      schema:
+        type: string
       description: |
         Use `paginationKey` to get the next page of results. 
         
@@ -61,48 +62,54 @@ get:
         2. Use `response.paginationKey` to get the next page of results: `GET api-base-url/visitors/:visitorId?limit=200&paginationKey=1683900801733.Ogvu1j`
         
         Pagination happens during scanning and before filtering, so you can get less visits than the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `paginationKey` attribute is not returned.
-      in: query
-      schema:
-        type: string
-      required:
-        false
       # example: 1683900801733.Ogvu1j
     - name: before
-      description: |
-        ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results.
       in: query
+      deprecated: true
       schema:
         type: integer
         format: int64
         minimum: 0
         # default: 0
         # example: 1654815517198
+      description: |
+        ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results.
   responses:
     '200':
-      description: OK
+      description: OK.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/Response.yaml'
+            $ref: '../components/schemas/VisitorsGetResponse.yaml'
           examples:
-            limit1:
+            200-limit-1:
               summary: Example response with limit=1
-              externalValue: '/examples/get_visits_200_limit_1.json'
-            limit500:
+              externalValue: 'examples/get_visitors_200_limit_1.json'
+            200-limit-500:
               summary: Example response with limit=500
-              externalValue: '/examples/get_visits_200_limit_500.json'
-    '403':
-      description: Forbidden. The API Key is probably missing or incorrect.
+              externalValue: 'examples/get_visitors_200_limit_500.json'
+    '400':
+      description: Bad request. The visitor ID or query parameters are missing or in the wrong format.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorVisits403.yaml'
+            $ref: '../components/schemas/ErrorPlainResponse.yaml'
           examples:
-            example:
-              summary: Forbidden
-              externalValue: 'examples/get_visits_403_error.json'
+            400-bad-request:
+              summary: Error response when the visitor ID or query parameters are missing or in the wrong format.
+              externalValue: 'examples/get_visitors_400_bad_request.json'
+    '403':
+      description: Forbidden. Access to this API is denied.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorPlainResponse.yaml'
+          examples:
+            403-forbidden:
+              summary: Error response when the secret API Key is missing or incorrect.
+              externalValue: 'examples/get_visitors_403_forbidden.json'
     '429':
-      description: Too Many Requests
+      description: Too Many Requests. The request is throttled.
       headers:
         Retry-After:
           description: Indicates how many seconds you should wait before attempting the next request.
@@ -113,11 +120,11 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/TooManyRequestsResponse.yaml'
+            $ref: '../components/schemas/ErrorPlainResponse.yaml'
           examples:
-            example:
-              summary: Too Many Requests
-              externalValue: 'examples/get_visits_429_too_many_requests_error.json'
+            429-too-many-requests:
+              summary: Error response when the limit on the provided secret API key requests per second has been exceeded.
+              externalValue: 'examples/get_visitors_429_too_many_requests.json'
 delete:
   tags:
     - Visitors
@@ -150,10 +157,10 @@ delete:
   parameters:
     - name: visitor_id
       in: path
-      description: The [visitor ID](https://dev.fingerprint.com/docs/js-agent#visitorid) you want to delete.
       required: true
       schema:
         type: string
+      description: The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete.
   responses:
     '200':
       description: OK. The visitor ID is scheduled for deletion.
@@ -162,51 +169,53 @@ delete:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorVisitor400Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            400-empty-visitor-id:
-              summary: Error response when the request does not include a visitor ID
-              externalValue: 'examples/shared/400_error_empty_visitor_id.json'
-            400-invalid-visitor-id:
-              summary: Error response when the visitor ID is incorrectly formatted
-              externalValue: 'examples/shared/400_error_incorrect_visitor_id.json'
+            400-visitor-id-required:
+              summary: Error response when the request does not include a visitor ID.
+              externalValue: 'examples/errors/400_visitor_id_required.json'
+            400-visitor-id-invalid:
+              summary: Error response when the visitor ID is incorrectly formatted.
+              externalValue: 'examples/errors/400_visitor_id_invalid.json'
     '403':
       description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorCommon403Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            403-feature-not-enabled:
-              summary: Error response when this feature is not enabled for a subscription.
-              externalValue: 'examples/shared/403_error_feature_not_enabled.json'
-            403-token-not-found:
-              summary: Error response when the provided secret API key does not exist.
-              externalValue: 'examples/shared/403_error_token_not_found.json'
             403-token-required:
               summary: Error response when the secret API key was not provided.
-              externalValue: 'examples/shared/403_error_token_required.json'
+              externalValue: 'examples/errors/403_token_required.json'
+            403-token-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: 'examples/errors/403_token_not_found.json'
             403-wrong-region:
               summary: Error response when the API region is different from the region, the calling application is configured with.
-              externalValue: 'examples/shared/403_error_wrong_region.json'
-
+              externalValue: 'examples/errors/403_wrong_region.json'
+            403-subscription-not-active:
+              summary: Error response when the subscription is not active.
+              externalValue: 'examples/errors/403_subscription_not_active.json'
+            403-feature-not-enabled:
+              summary: Error response when this feature is not enabled for a subscription.
+              externalValue: 'examples/errors/403_feature_not_enabled.json'
     '404':
       description: Not found. The visitor ID cannot be found in this application's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorVisitor404Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Not found
-              externalValue: 'examples/shared/404_error_visitor_not_found.json'
+            404-visitor-not-found:
+              summary: Error response when the visitor ID cannot be found in this application's data.
+              externalValue: 'examples/errors/404_visitor_not_found.json'
     '429':
       description: Too Many Requests. The request is throttled.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/ErrorCommon429Response.yaml'
+            $ref: '../components/schemas/ErrorResponse.yaml'
           examples:
-            example:
-              summary: Too Many Requests
-              externalValue: 'examples/shared/429_error_too_many_requests.json'
+            429-too-many-requests:
+              summary: Error response when the limit on the provided secret API key requests per second has been exceeded.
+              externalValue: 'examples/errors/429_too_many_requests.json'
