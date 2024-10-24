@@ -50,15 +50,15 @@ paths:
         reference](https://dev.fingerprint.com/reference/related-visitors-api).
       parameters:
         - name: visitor_id
-          description: >-
-            The [visitor
-            ID](https://dev.fingerprint.com/docs/js-agent#visitorid) for which
-            you want to find the other visitor IDs that originated from the same
-            mobile device.
           in: query
           required: true
           schema:
             type: string
+          description: >-
+            The [visitor
+            ID](https://dev.fingerprint.com/reference/get-function#visitorid)
+            for which you want to find the other visitor IDs that originated
+            from the same mobile device.
       responses:
         '200':
           description: OK.
@@ -84,18 +84,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitor400Response'
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
-                400-empty-visitor-id:
+                400-visitor-id-required:
                   summary: >-
                     Error response when the request does not include a visitor
-                    ID
+                    ID.
                   value:
                     error:
                       code: RequestCannotBeParsed
                       message: visitor id is required
-                400-invalid-visitor-id:
-                  summary: Error response when the visitor ID is incorrectly formatted
+                400-visitor-id-invalid:
+                  summary: Error response when the visitor ID is incorrectly formatted.
                   value:
                     error:
                       code: RequestCannotBeParsed
@@ -105,16 +105,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorCommon403Response'
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
-                403-feature-not-enabled:
-                  summary: >-
-                    Error response when this feature is not enabled for a
-                    subscription.
+                403-token-required:
+                  summary: Error response when the secret API key was not provided.
                   value:
                     error:
-                      code: FeatureNotEnabled
-                      message: feature not enabled
+                      code: TokenRequired
+                      message: secret key is required
                 403-token-not-found:
                   summary: >-
                     Error response when the provided secret API key does not
@@ -123,12 +121,6 @@ paths:
                     error:
                       code: TokenNotFound
                       message: secret key is not found
-                403-token-required:
-                  summary: Error response when the secret API key was not provided.
-                  value:
-                    error:
-                      code: TokenRequired
-                      message: secret key is required
                 403-wrong-region:
                   summary: >-
                     Error response when the API region is different from the
@@ -137,6 +129,20 @@ paths:
                     error:
                       code: WrongRegion
                       message: wrong region
+                403-subscription-not-active:
+                  summary: Error response when the subscription is not active.
+                  value:
+                    error:
+                      code: FeatureNotEnabled
+                      message: feature not enabled
+                403-feature-not-enabled:
+                  summary: >-
+                    Error response when this feature is not enabled for a
+                    subscription.
+                  value:
+                    error:
+                      code: SubscriptionNotActive
+                      message: forbidden
         '404':
           description: >-
             Not found. The visitor ID cannot be found in this application's
@@ -144,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorVisitor404Response'
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 404-visitor-not-found:
                   summary: >-
@@ -159,10 +165,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorCommon429Response'
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
-                example:
-                  summary: Too Many Requests
+                429-too-many-requests:
+                  summary: >-
+                    Error response when the limit on the provided secret API key
+                    requests per second has been exceeded.
                   value:
                     error:
                       code: TooManyRequests
@@ -181,119 +189,74 @@ components:
     RelatedVisitor:
       type: object
       additionalProperties: false
+      required:
+        - visitorId
       properties:
         visitorId:
+          type: string
           description: >-
             Visitor ID of a browser that originates from the same mobile device
             as the input visitor ID.
-          type: string
-          example: Ibk1527CUFmcnjLwIs4A
-      required:
-        - visitorId
     RelatedVisitorsResponse:
       type: object
       additionalProperties: false
+      required:
+        - relatedVisitors
       properties:
         relatedVisitors:
           type: array
           items:
             $ref: '#/components/schemas/RelatedVisitor'
+    ErrorCode:
+      type: string
+      enum:
+        - RequestCannotBeParsed
+        - TokenRequired
+        - TokenNotFound
+        - SubscriptionNotActive
+        - WrongRegion
+        - FeatureNotEnabled
+        - RequestNotFound
+        - VisitorNotFound
+        - TooManyRequests
+        - 429 Too Many Requests
+        - StateNotReady
+        - Failed
+      description: |
+        Error code:
+         * `RequestCannotBeParsed` - the query parameters or JSON payload contains some errors 
+                  that prevented us from parsing it (wrong type/surpassed limits).
+         * `TokenRequired` - `Auth-API-Key` header is missing or empty.
+         * `TokenNotFound` - no Fingerprint application found for specified secret key.
+         * `SubscriptionNotActive` - Fingerprint application is not active.
+         * `WrongRegion` - server and application region differ.
+         * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application.
+         * `RequestNotFound` - the specified request ID was not found. It never existed, expired, or it has been deleted.
+         * `VisitorNotFound` - The specified visitor ID was not found. It never existed or it may have already been deleted.
+         * `TooManyRequests` - the limit on secret API key requests per second has been exceeded.
+         * `429 Too Many Requests` - the limit on secret API key requests per second has been exceeded.
+         * `StateNotReady` - The event specified with request id is
+                  not ready for updates yet. Try again.
+                  This error happens in rare cases when update API is called immediately
+                  after receiving the request id on the client. In case you need to send
+                  information right away, we recommend using the JS agent API instead.
+         * `Failed` - internal server error.
+    Error:
+      type: object
+      additionalProperties: false
       required:
-        - relatedVisitors
-    ErrorVisitor400Response:
+        - code
+        - message
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+    ErrorResponse:
       type: object
       additionalProperties: false
+      required:
+        - error
       properties:
         error:
-          type: object
-          additionalProperties: false
-          properties:
-            code:
-              type: string
-              description: >
-                Error code: * `RequestCannotBeParsed` - The visitor ID parameter
-                is missing or in the wrong format.
-              enum:
-                - RequestCannotBeParsed
-              example: RequestCannotBeParsed
-            message:
-              type: string
-              example: invalid visitor id
-          required:
-            - code
-            - message
-    ErrorCommon403Response:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: object
-          additionalProperties: false
-          title: Common403ErrorResponse
-          properties:
-            code:
-              type: string
-              description: |
-                Error code:
-                 * `TokenRequired` - `Auth-API-Key` header is missing or empty
-                 * `TokenNotFound` - No Fingerprint application found for specified secret key
-                 * `SubscriptionNotActive` - Fingerprint application is not active
-                 * `WrongRegion` - server and application region differ
-                 * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application
-              enum:
-                - TokenRequired
-                - TokenNotFound
-                - SubscriptionNotActive
-                - WrongRegion
-                - FeatureNotEnabled
-              example: TokenRequired
-            message:
-              type: string
-              example: secret key is required
-          required:
-            - code
-            - message
-    ErrorVisitor404Response:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: object
-          additionalProperties: false
-          title: ErrorVisitor404ResponseError
-          properties:
-            code:
-              type: string
-              description: >
-                Error code: * `VisitorNotFound` - The specified visitor ID was
-                not found. It never existed or it may have already been deleted.
-              enum:
-                - VisitorNotFound
-              example: VisitorNotFound
-            message:
-              type: string
-              example: visitor not found
-          required:
-            - code
-            - message
-    ErrorCommon429Response:
-      type: object
-      additionalProperties: false
-      properties:
-        error:
-          type: object
-          additionalProperties: false
-          properties:
-            code:
-              type: string
-              description: |
-                Error code: * `TooManyRequests` - The request is throttled.
-              enum:
-                - TooManyRequests
-              example: TooManyRequests
-            message:
-              type: string
-              example: request throttled
-          required:
-            - code
-            - message
+          $ref: '#/components/schemas/Error'
