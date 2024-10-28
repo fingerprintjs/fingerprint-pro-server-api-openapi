@@ -1,5 +1,15 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.1.0
+
+### Minor Changes
+
+- Remove `ipv4` format from `ip` field in `Botd`, `Identification`, `Visit` and `Webhook` models. ([ed991f6](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ed991f6914c696a4dfbd003ded4a1c117b52a1df))
+
+### Patch Changes
+
+- Fix errors examples `403_feature_not_enabled` and `403_subscription_not_active`. ([a2d7e87](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/a2d7e87e146fe184bbf85593fc4eb58f349d4000))
+
 ## 2.0.0
 
 ### Major Changes
