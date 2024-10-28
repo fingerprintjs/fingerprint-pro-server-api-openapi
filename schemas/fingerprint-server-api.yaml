@@ -3531,16 +3531,16 @@ paths:
                   summary: Error response when the subscription is not active.
                   value:
                     error:
-                      code: FeatureNotEnabled
-                      message: feature not enabled
+                      code: SubscriptionNotActive
+                      message: forbidden
                 403-feature-not-enabled:
                   summary: >-
                     Error response when this feature is not enabled for a
                     subscription.
                   value:
                     error:
-                      code: SubscriptionNotActive
-                      message: forbidden
+                      code: FeatureNotEnabled
+                      message: feature not enabled
         '404':
           description: >-
             Not found. The visitor ID cannot be found in this application's
@@ -3897,16 +3897,16 @@ paths:
                   summary: Error response when the subscription is not active.
                   value:
                     error:
-                      code: FeatureNotEnabled
-                      message: feature not enabled
+                      code: SubscriptionNotActive
+                      message: forbidden
                 403-feature-not-enabled:
                   summary: >-
                     Error response when this feature is not enabled for a
                     subscription.
                   value:
                     error:
-                      code: SubscriptionNotActive
-                      message: forbidden
+                      code: FeatureNotEnabled
+                      message: feature not enabled
         '404':
           description: >-
             Not found. The visitor ID cannot be found in this application's
