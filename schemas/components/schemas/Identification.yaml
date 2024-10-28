@@ -27,7 +27,6 @@ properties:
     type: boolean
   ip:
     type: string
-    format: ipv4
     description: IP address of the requesting browser or bot.
   ipLocation:
     $ref: DeprecatedGeolocation.yaml
