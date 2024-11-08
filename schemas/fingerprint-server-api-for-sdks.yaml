@@ -18,6 +18,9 @@ tags:
   - name: Related Visitors
     description: |
       Find visitor IDs that originated from a different browser on the same mobile device.
+  - name: Event Search
+    description: |
+      Using the Server API you can search for events matching one or more filters.
 servers:
   - url: https://api.fpjs.io
     description: Global
@@ -29,8 +32,6 @@ security:
   - ApiKeyHeader: []
   - ApiKeyQuery: []
 paths:
-  /events/search:
-    $ref: 'paths/event-search.yaml'
   /events/{request_id}:
     $ref: 'paths/events.yaml'
   /visitors/{visitor_id}:
@@ -39,6 +40,8 @@ paths:
     $ref: 'paths/webhook.yaml'
   /related-visitors:
     $ref: './paths/related-visitors.yaml'
+  /events/search:
+    $ref: 'paths/event-search.yaml'
 components:
   securitySchemes:
     ApiKeyHeader:

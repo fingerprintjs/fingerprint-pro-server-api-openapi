@@ -1,6 +1,6 @@
 get:
   tags:
-    - Events
+    - Event Search
   operationId: 'getEventSearch'
   summary: Get events via search
   description: |
