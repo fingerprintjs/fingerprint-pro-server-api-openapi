@@ -84,14 +84,14 @@ get:
         Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent).
   responses:
     '200':
-      description: OK.
+      description: Events matching the filter(s).
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/EventsGetSearchEventsResponse.yaml'
+            $ref: '../components/schemas/SearchEventsResponse.yaml'
           examples:
             200-full:
-              summary: Example response
+              summary: Example search results
               externalValue: 'examples/get_event_search_200.json'
     '403':
       description: Forbidden. Access to this API is denied.
