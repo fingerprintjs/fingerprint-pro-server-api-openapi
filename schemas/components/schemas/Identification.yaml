@@ -33,6 +33,9 @@ properties:
   linkedId:
     type: string
     description: A customer-provided id that was sent with the request.
+  suspect:
+    description: Flag if the event has been tagged as suspicious or not.
+    type: boolean
   timestamp:
     description: Timestamp of the event with millisecond precision in Unix time.
     type: integer

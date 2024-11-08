@@ -29,6 +29,8 @@ security:
   - ApiKeyHeader: []
   - ApiKeyQuery: []
 paths:
+  /events/search:
+    $ref: 'paths/event-search.yaml'
   /events/{request_id}:
     $ref: 'paths/events.yaml'
   /visitors/{visitor_id}:
