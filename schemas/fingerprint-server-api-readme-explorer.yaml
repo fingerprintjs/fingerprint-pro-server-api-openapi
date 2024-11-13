@@ -37,6 +37,8 @@ x-readme:
 paths:
   /events/{request_id}:
     $ref: 'paths/events.yaml'
+  /events/search:
+    $ref: 'paths/event-search.yaml'
   /visitors/{visitor_id}:
     $ref: 'paths/visitors.yaml'
 components:
