@@ -16,3 +16,7 @@ related-visitors:
   path: /related-visitors
   methods:
     - get
+events-search:
+  path: /events/search
+  methods:
+    - get
