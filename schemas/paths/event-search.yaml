@@ -4,10 +4,9 @@ get:
   operationId: 'getEventSearch'
   summary: Get events via search
   description: |
-    Get one or more identification events, including Smart Signals, via searching. 
-    Please note that the response includes mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform.
-    It is highly recommended that you **ignore** the mobile signals for such requests. 
-    If a `start` or `end` time are not supplied, the default search range is the last 7 days.
+    Search for identification events, including Smart Signals, using multiple filtering criteria. If you don't provide `start` or `end` parameters, the default search range is the last 7 days.
+    
+    Please note that events include mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform. We recommend you **ignore** mobile signals for such requests.
   parameters:
     - name: visitor_id
       in: query
@@ -62,7 +61,7 @@ get:
         type: integer
         format: int64
       description: |
-        Filter events with a timestamp greater than the start time, in unix time (milliseconds).
+        Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
     - name: end
       in: query
       schema:
@@ -107,7 +106,7 @@ get:
               summary: Error response when the provided secret API key does not exist.
               externalValue: 'examples/errors/403_token_not_found.json'
             403-wrong-region:
-              summary: Error response when the API region is different from the region, the calling application is configured with.
+              summary: Error response when the API region does not match the region of your Fingerprint workspace.
               externalValue: 'examples/errors/403_wrong_region.json'
     '400':
       description: Bad request. One or more supplied search parameters are invalid, or a required parameter is missing.
@@ -123,7 +122,7 @@ get:
               summary: Error response when an invalid IP address is supplied, or is not using CIDR notation.
               externalValue: 'examples/errors/400_ip_address_invalid.json'
             400-bot-type-invalid:
-              summary: Error response when an invalid bot type is specified, must be one of good, bad, all, none.
+              summary: Error response when an invalid bot type is specified, must be one of `good`, `bad`, `all`, or `none`.
               externalValue: 'examples/errors/400_bot_type_invalid.json'
             400-reverse-invalid:
               summary: Error response when the reverse parameter is invalid.
@@ -135,10 +134,10 @@ get:
               summary: Error response when an invalid end time is supplied.
               externalValue: 'examples/errors/400_end_time_invalid.json'
             400-visitor-id-invalid:
-              summary: Error response when an invalid visitor id is supplied.
+              summary: Error response when an invalid visitor ID is supplied.
               externalValue: 'examples/errors/400_visitor_id_invalid.json'
             400-linked-id-invalid:
-              summary: Error response when an invalid linked id is supplied (too large).
+              summary: Error response when an invalid (too large) linked ID is supplied.
               externalValue: 'examples/errors/400_linked_id_invalid.json'
             400-pagination-key-invalid:
               summary: Error response when an invalid pagination key is supplied.

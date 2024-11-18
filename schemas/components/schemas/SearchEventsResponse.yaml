@@ -1,6 +1,6 @@
 type: object
 description: >-
-  Contains a list of events from all activated products
+  Contains a list of all identification events matching the specified search criteria.
 additionalProperties: false
 properties:
   events:
@@ -8,7 +8,7 @@ properties:
     items:
       type: object
       description: >-
-        Results for each identification event
+        Device intelligence results for the identification event.
       required:
         - products
       properties:

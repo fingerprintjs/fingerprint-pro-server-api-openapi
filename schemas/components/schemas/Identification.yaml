@@ -34,7 +34,7 @@ properties:
     type: string
     description: A customer-provided id that was sent with the request.
   suspect:
-    description: Flag if the event has been tagged as suspicious or not.
+    description: `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://dev.fingerprint.com/reference/updateevent).
     type: boolean
   timestamp:
     description: Timestamp of the event with millisecond precision in Unix time.
