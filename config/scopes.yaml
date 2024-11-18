@@ -3,6 +3,10 @@ events:
   methods:
     - get
     - put
+search:
+  path: /events/search
+  methods:
+    - get
 visitors:
   path: /visitors/{visitor_id}
   methods:
