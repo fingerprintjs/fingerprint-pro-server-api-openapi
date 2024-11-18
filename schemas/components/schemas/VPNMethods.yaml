@@ -5,6 +5,7 @@ required:
   - publicVPN
   - auxiliaryMobile
   - osMismatch
+  - relay
 properties:
   timezoneMismatch:
     type: boolean
@@ -20,3 +21,7 @@ properties:
     type: boolean
     description: >-
       The browser runs on a different operating system than the operating system inferred from the request network signature.
+  relay:
+    type: boolean
+    description: >-
+      Request IP address belongs to a relay service provider.
