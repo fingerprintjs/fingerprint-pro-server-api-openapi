@@ -8,6 +8,15 @@ get:
     
     Please note that events include mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform. We recommend you **ignore** mobile signals for such requests.
   parameters:
+    - name: limit
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+      description: |
+        Limit the number of events returned.
     - name: visitor_id
       in: query
       schema:
@@ -46,15 +55,6 @@ get:
         
         You can use [`linked_id`](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
       # example: some_id
-    - name: limit
-      in: query
-      required: true
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-      description: |
-        Limit the number of events returned.
     - name: start
       in: query
       schema:
