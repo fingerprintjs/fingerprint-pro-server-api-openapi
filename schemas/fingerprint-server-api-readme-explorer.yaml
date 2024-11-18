@@ -11,10 +11,13 @@ info:
 tags:
   - name: Events
     description: |
-      Using the Server API you can retrieve information about individual analysis events using the event's `requestId`.
+      Retrieve or update information about individual events using the event's `requestId`.
+  - name: Event Search
+    description: |
+      Search for events matching one or more filters.
   - name: Visitors
     description: |
-      Using the Server API you can retrieve visitor history of individual visitors using their `visitorId`.
+      Retrieve all events of an individual visitor using their `visitorId`.
 servers:
   - url: https://api.fpjs.io
     description: Global
