@@ -11,10 +11,13 @@ info:
 tags:
   - name: Events
     description: |
-      Using the Server API you can retrieve information about individual analysis events using the event's `requestId`.
+      Retrieve or update information about individual events using the event's request ID.
+  - name: Event Search
+    description: |
+      Search for events matching one or more filters.
   - name: Visitors
     description: |
-      Using the Server API you can retrieve visitor history of individual visitors using their `visitorId`.
+      Retrieve all events of an individual visitor using their visitor ID.
   - name: Related Visitors
     description: |
       Find visitor IDs that originated from a different browser on the same mobile device.
@@ -31,12 +34,14 @@ security:
 paths:
   /events/{request_id}:
     $ref: 'paths/events.yaml'
+  /events/search:
+    $ref: 'paths/event-search.yaml'
   /visitors/{visitor_id}:
     $ref: 'paths/visitors.yaml'
-  /webhook:
-    $ref: 'paths/webhook.yaml'
   /related-visitors:
     $ref: './paths/related-visitors.yaml'
+  /webhook:
+    $ref: 'paths/webhook.yaml'
 components:
   securitySchemes:
     ApiKeyHeader:

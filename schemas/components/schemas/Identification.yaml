@@ -33,6 +33,9 @@ properties:
   linkedId:
     type: string
     description: A customer-provided id that was sent with the request.
+  suspect:
+    description: Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://dev.fingerprint.com/reference/updateevent).
+    type: boolean
   timestamp:
     description: Timestamp of the event with millisecond precision in Unix time.
     type: integer

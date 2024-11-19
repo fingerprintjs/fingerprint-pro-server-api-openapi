@@ -1,0 +1,145 @@
+get:
+  tags:
+    - Event Search
+  operationId: 'searchEvents'
+  summary: Get events via search
+  description: |
+    Search for identification events, including Smart Signals, using multiple filtering criteria. If you don't provide `start` or `end` parameters, the default search range is the last 7 days.
+    
+    Please note that events include mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform. We recommend you **ignore** mobile signals for such requests.
+  parameters:
+    - name: limit
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        example: 10
+      description: |
+        Limit the number of events returned.
+    - name: visitor_id
+      in: query
+      schema:
+        type: string
+      description: | 
+        Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.
+        Filter for events matching this `visitor_id`.
+    - name: bot
+      in: query
+      schema:
+        type: string
+        enum:
+          - all
+          - good
+          - bad
+          - none
+      description: |
+        Filter events by the bot detection result, specifically: 
+          - events where any kind of bot was detected.
+          - events where a good bot was detected.
+          - events where a bad bot was detected.
+          - events where no bot was detected.
+    - name: ip_address
+      in: query
+      schema:
+        type: string
+      description: |
+        Filter events by IP address range. The range can be as specific as a single IP (/32 for IPv4 or /128 for IPv6) 
+        All ip_address filters must use CIDR notation, for example, 10.0.0.0/24, 192.168.0.1/32
+    - name: linked_id
+      in: query
+      schema:
+        type: string
+      description: |
+        Filter events by your custom identifier. 
+        
+        You can use [linked IDs](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+      # example: some_id
+    - name: start
+      in: query
+      schema:
+        type: integer
+        format: int64
+      description: |
+        Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
+    - name: end
+      in: query
+      schema:
+        type: integer
+        format: int64
+      description: |
+        Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
+    - name: reverse
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Sort events in reverse timestamp order.
+    - name: suspect
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent).
+  responses:
+    '200':
+      description: Events matching the filter(s).
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/SearchEventsResponse.yaml'
+          examples:
+            200-full:
+              summary: Example search results
+              externalValue: 'examples/get_event_search_200.json'
+    '403':
+      description: Forbidden. Access to this API is denied.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorResponse.yaml'
+          examples:
+            403-token-required:
+              summary: Error response when the secret API key was not provided.
+              externalValue: 'examples/errors/403_token_required.json'
+            403-token-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: 'examples/errors/403_token_not_found.json'
+            403-wrong-region:
+              summary: Error response when the API region does not match the region of your Fingerprint workspace.
+              externalValue: 'examples/errors/403_wrong_region.json'
+    '400':
+      description: Bad request. One or more supplied search parameters are invalid, or a required parameter is missing.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/ErrorResponse.yaml'
+          examples:
+            400-limit-invalid:
+              summary: Error response when no limit is supplied, or is invalid.
+              externalValue: 'examples/errors/400_limit_invalid.json'
+            400-ip-address-invalid:
+              summary: Error response when an invalid IP address is supplied, or is not using CIDR notation.
+              externalValue: 'examples/errors/400_ip_address_invalid.json'
+            400-bot-type-invalid:
+              summary: Error response when an invalid bot type is specified, must be one of `good`, `bad`, `all`, or `none`.
+              externalValue: 'examples/errors/400_bot_type_invalid.json'
+            400-reverse-invalid:
+              summary: Error response when the reverse parameter is invalid.
+              externalValue: 'examples/errors/400_reverse_invalid.json'
+            400-start-time-invalid:
+              summary: Error response when an invalid start time is supplied.
+              externalValue: 'examples/errors/400_start_time_invalid.json'
+            400-end-time-invalid:
+              summary: Error response when an invalid end time is supplied.
+              externalValue: 'examples/errors/400_end_time_invalid.json'
+            400-visitor-id-invalid:
+              summary: Error response when an invalid visitor ID is supplied.
+              externalValue: 'examples/errors/400_visitor_id_invalid.json'
+            400-linked-id-invalid:
+              summary: Error response when an invalid (too large) linked ID is supplied.
+              externalValue: 'examples/errors/400_linked_id_invalid.json'
+            400-pagination-key-invalid:
+              summary: Error response when an invalid pagination key is supplied.
+              externalValue: 'examples/errors/400_pagination_key_invalid.json'
