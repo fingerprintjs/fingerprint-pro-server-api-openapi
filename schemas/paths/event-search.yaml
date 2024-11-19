@@ -15,6 +15,7 @@ get:
         type: integer
         format: int32
         minimum: 1
+        example: 10
       description: |
         Limit the number of events returned.
     - name: visitor_id
