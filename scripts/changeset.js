@@ -1,5 +1,5 @@
 import prompt from 'prompts';
-import pkg from '../package.json' assert { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 import { humanId } from 'human-id';
 import fs from 'fs';
 import yaml from 'js-yaml';
