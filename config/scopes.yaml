@@ -3,7 +3,7 @@ events:
   methods:
     - get
     - put
-search:
+events-search:
   path: /events/search
   methods:
     - get
@@ -18,9 +18,5 @@ webhook:
     - trace
 related-visitors:
   path: /related-visitors
-  methods:
-    - get
-events-search:
-  path: /events/search
   methods:
     - get
