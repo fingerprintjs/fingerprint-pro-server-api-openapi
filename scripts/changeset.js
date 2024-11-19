@@ -1,5 +1,5 @@
 import prompt from 'prompts';
-import pkg from '../package.json' assert { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 import { humanId } from 'human-id';
 import fs from 'fs';
 import yaml from 'js-yaml';
@@ -58,8 +58,8 @@ const data = await prompt([
 ]);
 
 const description = data.scope ? `**${data.scope}**: ${data.description}` : data.description;
-
-const changeset = `
+if (description) {
+  const changeset = `
 ---
 '${pkg.name}': ${data.version}
 ---
@@ -68,9 +68,12 @@ ${description}
 
   `.trim();
 
-const fileName = `${humanId({ separator: '-', capitalize: false })}.md`;
-const filePath = `.changeset/${fileName}`;
+  const fileName = `${humanId({ separator: '-', capitalize: false })}.md`;
+  const filePath = `.changeset/${fileName}`;
 
-fs.writeFileSync(filePath, changeset, 'utf-8');
+  fs.writeFileSync(filePath, changeset, 'utf-8');
 
-console.info(`✅ Created changeset ${fileName}. \n\n${changeset}`);
+  console.info(`✅ Created changeset ${fileName}. \n\n${changeset}`);
+} else {
+  console.info(`❌ Changeset creation cancelled`);
+}
