@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events**: Add `suspect` field to the `Identification`
+**events**: Add a `suspect` field to the `identification` product schema

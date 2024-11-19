@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events-search**: Add the new event search API
+**events-search**: Add a new events search API endpoint
