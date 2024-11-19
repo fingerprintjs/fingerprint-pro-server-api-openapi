@@ -1,7 +1,7 @@
 get:
   tags:
     - Event Search
-  operationId: 'getEventSearch'
+  operationId: 'searchEvents'
   summary: Get events via search
   description: |
     Search for identification events, including Smart Signals, using multiple filtering criteria. If you don't provide `start` or `end` parameters, the default search range is the last 7 days.
