@@ -35,18 +35,18 @@ get:
           - bad
           - none
       description: |
-        Filter events by the classification of bot type, specifically: 
-          - all events classified as any kind of bot.
-          - events detected classified as a good bot.
-          - events detected classified as a bad bot.
-          - only non-bot events.
+        Filter events by the bot detection result, specifically: 
+          - events where any kind of bot was detected.
+          - events where a good bot was detected.
+          - events where a bad bot was detected.
+          - events where no bot was detected.
     - name: ip_address
       in: query
       schema:
         type: string
       description: |
-        Filter events by IP address range. Range can be as specific as a single IP (/32 for IPv4 or /128 for IPv6) 
-        All ip_address filters must use CIDR notation, for example: 10.0.0.0/24, 192.168.0.1/32
+        Filter events by IP address range. The range can be as specific as a single IP (/32 for IPv4 or /128 for IPv6) 
+        All ip_address filters must use CIDR notation, for example, 10.0.0.0/24, 192.168.0.1/32
     - name: linked_id
       in: query
       schema:
@@ -54,7 +54,7 @@ get:
       description: |
         Filter events by your custom identifier. 
         
-        You can use [`linked_id`](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        You can use [linked IDs](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
       # example: some_id
     - name: start
       in: query
@@ -69,7 +69,7 @@ get:
         type: integer
         format: int64
       description: |
-        Filter events with a timestamp less than the end time, in unix time (milliseconds).
+        Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
     - name: reverse
       in: query
       schema:
