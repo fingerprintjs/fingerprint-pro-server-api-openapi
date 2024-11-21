@@ -182,7 +182,8 @@
             "timezoneMismatch": false,
             "publicVPN": false,
             "auxiliaryMobile": false,
-            "osMismatch": false
+            "osMismatch": false,
+            "relay": false
           }
         }
       },
