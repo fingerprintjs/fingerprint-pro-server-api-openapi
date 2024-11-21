@@ -221,6 +221,7 @@ paths:
                             publicVPN: false
                             auxiliaryMobile: false
                             osMismatch: false
+                            relay: false
                       proxy:
                         data:
                           result: false
@@ -1082,6 +1083,7 @@ paths:
                                 publicVPN: false
                                 auxiliaryMobile: false
                                 osMismatch: false
+                                relay: false
                           proxy:
                             data:
                               result: false
@@ -4982,6 +4984,7 @@ components:
         - publicVPN
         - auxiliaryMobile
         - osMismatch
+        - relay
       properties:
         timezoneMismatch:
           type: boolean
@@ -5003,6 +5006,23 @@ components:
           description: >-
             The browser runs on a different operating system than the operating
             system inferred from the request network signature.
+        relay:
+          type: boolean
+          description: >
+            Request IP address belongs to a relay service provider, indicating
+            the use of relay services like [Apple Private
+            relay](https://support.apple.com/en-us/102602) or [Cloudflare
+            Warp](https://developers.cloudflare.com/warp-client/). 
+
+
+            * Like VPNs, relay services anonymize the visitor's true IP address.
+
+            * Unlike traditional VPNs, relay services don't let visitors spoof
+            their location by choosing an exit node in a different country.
+
+
+            This field allows you to differentiate VPN users and relay service
+            users in your fraud prevention logic.
     VPN:
       type: object
       additionalProperties: false
