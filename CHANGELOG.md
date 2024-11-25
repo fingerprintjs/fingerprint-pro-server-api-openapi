@@ -1,5 +1,13 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.2.0
+
+### Minor Changes
+
+- Add `relay` detection method to the VPN Detection Smart Signal ([adf30a1](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/adf30a1b58cf122d5f9b26343edf844fd0f6b4df))
+- **events-search**: Add a new `events/search` API endpoint. Allow users to search for identification events matching one or more search criteria, for example, visitor ID, IP address, bot detection result, etc. ([3634610](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/36346101110e3061c5ae497d52d8b2ebb088e688))
+- **events**: Add a `suspect` field to the `identification` product schema ([3634610](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/36346101110e3061c5ae497d52d8b2ebb088e688))
+
 ## 2.1.0
 
 ### Minor Changes
