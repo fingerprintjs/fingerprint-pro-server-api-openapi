@@ -601,8 +601,9 @@ paths:
 
               // Get a specific fingerprinting event
               try {
-                $response = $client->getEvent("REQUEST_ID");
-                echo "<pre>" . $response->__toString() . "</pre>";
+                list($model, $response) = $client->getEvent("REQUEST_ID");
+                echo "Status: " . $response_upd->getStatusCode();
+                echo "<pre>" . $model . "</pre>";
               } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
               }
@@ -611,10 +612,6 @@ paths:
             install: pip install fingerprint_pro_server_api_sdk
             code: >
               import fingerprint_pro_server_api_sdk
-
-              from fingerprint_pro_server_api_sdk import EventResponse
-
-              from fingerprint_pro_server_api_sdk import Response
 
               from fingerprint_pro_server_api_sdk.rest import ApiException
 
@@ -631,13 +628,15 @@ paths:
               # Get a specific fingerprinting event
 
               try:
-                  event: EventResponse = api_instance.get_event("REQUEST_ID")
+                  event = api_instance.get_event("REQUEST_ID")
                   print(event)
               except ApiException as e:
                   print("Exception when getting an event: %s\n" % e)
           - language: golang
             name: Go SDK
-            install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk
+            install: >-
+              go get
+              github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7
             code: |
               package main
 
@@ -645,7 +644,7 @@ paths:
                 "context"
                 "fmt"
                 "github.com/antihax/optional"
-                "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v3/sdk"
+                "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7/sdk"
                 "log"
               )
 
@@ -672,8 +671,7 @@ paths:
             name: Java SDK
             code: |
               import com.fingerprint.api.FingerprintApi;
-              import com.fingerprint.models.EventResponse;
-              import com.fingerprint.models.Response;
+              import com.fingerprint.models.EventsGetResponse;
               import com.fingerprint.sdk.ApiClient;
               import com.fingerprint.sdk.ApiException;
               import com.fingerprint.sdk.Configuration;
@@ -689,7 +687,7 @@ paths:
 
                   // Get a specific fingerprinting event
                   try {
-                    EventResponse response = api.getEvent("REQUEST_ID");
+                    EventsGetResponse response = api.getEvent("REQUEST_ID");
                     System.out.println(response.getProducts().toString());
                   } catch (ApiException e) {
                     System.err.println(e.getMessage());
@@ -4074,8 +4072,9 @@ paths:
 
               // Get visit history of a specific visitor
               try {
-                $response = $client->getVisits("VISITOR_ID");
-                echo "<pre>" . $response->__toString() . "</pre>";
+                list($model, $response) = $client->getVisits("VISITOR_ID");
+                echo "Status: " . $response_upd->getStatusCode();
+                echo "<pre>" . $model . "</pre>";
               } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
               }
@@ -4084,10 +4083,6 @@ paths:
             install: pip install fingerprint_pro_server_api_sdk
             code: >
               import fingerprint_pro_server_api_sdk
-
-              from fingerprint_pro_server_api_sdk import EventResponse
-
-              from fingerprint_pro_server_api_sdk import Response
 
               from fingerprint_pro_server_api_sdk.rest import ApiException
 
@@ -4104,13 +4099,15 @@ paths:
               # Get visit history of a specific visitor
 
               try:
-                visits: Response = api_instance.get_visits("VISITOR_ID", limit=10)
+                visits = api_instance.get_visits("VISITOR_ID", limit=10)
                 print(visits)
               except ApiException as e:
                 print("Exception when getting visits: %s\n" % e)
           - language: golang
             name: Go SDK
-            install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk
+            install: >-
+              go get
+              github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7
             code: |
               package main
 
@@ -4118,7 +4115,7 @@ paths:
                 "context"
                 "fmt"
                 "github.com/antihax/optional"
-                "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v3/sdk"
+                "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7/sdk"
                 "log"
               )
 
@@ -4148,8 +4145,7 @@ paths:
             name: Java SDK
             code: |
               import com.fingerprint.api.FingerprintApi;
-              import com.fingerprint.models.EventResponse;
-              import com.fingerprint.models.Response;
+              import com.fingerprint.models.VisitorsGetResponse;
               import com.fingerprint.sdk.ApiClient;
               import com.fingerprint.sdk.ApiException;
               import com.fingerprint.sdk.Configuration;
@@ -4165,7 +4161,7 @@ paths:
 
                   // Get visit history of a specific visitor
                   try {
-                    Response response = api.getVisits("VISITOR_ID");
+                    VisitorsGetResponse response = api.getVisits("VISITOR_ID");
                     System.out.println(response.getVisits().toString());
                   } catch (ApiException e) {
                     System.err.println(e.getMessage());
