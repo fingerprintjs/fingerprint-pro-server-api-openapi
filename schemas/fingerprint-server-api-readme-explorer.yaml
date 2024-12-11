@@ -4047,7 +4047,7 @@ paths:
               })
 
               // Get visit history of a specific visitor
-              client.getVisitorHistory('VISITOR_ID').then((visitorHistory) => {
+              client.getVisits('VISITOR_ID').then((visitorHistory) => {
                 console.log(visitorHistory)
               })
           - language: php
