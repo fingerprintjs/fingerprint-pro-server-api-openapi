@@ -10,6 +10,11 @@ on:
         required: false
         default: false
         type: boolean
+      force:
+        description: "Whenever to force update to given tag, even if it was already updated before"
+        required: false
+        default: false
+        type: boolean
       sync-node:
         description: 'Sync Node SDK'
         type: boolean
@@ -52,6 +57,7 @@ jobs:
       repository: fingerprintjs-pro-server-api-node-sdk
       pre-release: ${{ inputs.pre-release }}
       allowed-scopes: events,visitors,webhook,related-visitors
+      force: ${{ inputs.force }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -70,6 +76,7 @@ jobs:
       repository: fingerprint-pro-server-api-go-sdk
       pre-release: ${{ inputs.pre-release }}
       allowed-scopes: events,visitors,webhook,related-visitors
+      force: ${{ inputs.force }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -88,6 +95,7 @@ jobs:
       repository: fingerprint-pro-server-api-dotnet-sdk
       pre-release: ${{ inputs.pre-release }}
       allowed-scopes: events,visitors,webhook,related-visitors
+      force: ${{ inputs.force }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -107,6 +115,7 @@ jobs:
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: rc
       allowed-scopes: events,visitors,webhook,related-visitors
+      force: ${{ inputs.force }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -127,6 +136,7 @@ jobs:
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: develop
       allowed-scopes: events,visitors,webhook,related-visitors
+      force: ${{ inputs.force }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -146,5 +156,6 @@ jobs:
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: develop
       allowed-scopes: events,visitors,webhook,related-visitors
+      force: ${{ inputs.force }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
