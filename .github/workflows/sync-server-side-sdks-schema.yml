@@ -106,7 +106,7 @@ jobs:
       repository: fingerprint-pro-server-api-python-sdk
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: rc
-      allowed-scopes: events,visitors,webhook
+      allowed-scopes: events,visitors,webhook,related-visitors
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -126,7 +126,7 @@ jobs:
       repository: fingerprint-pro-server-api-java-sdk
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: develop
-      allowed-scopes: events,visitors,webhook
+      allowed-scopes: events,visitors,webhook,related-visitors
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
 
@@ -145,6 +145,6 @@ jobs:
       repository: fingerprint-pro-server-api-php-sdk
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: develop
-      allowed-scopes: events,visitors,webhook
+      allowed-scopes: events,visitors,webhook,related-visitors
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
