@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.3.0
+
+### Minor Changes
+
+- **events-search**: Add 'pagination_key' parameter ([031c4ef](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/031c4efafa7dee2aac18a65ac54b4aeda1946d42))
+
 ## 2.2.1
 
 ### Patch Changes
