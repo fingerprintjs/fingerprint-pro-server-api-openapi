@@ -1338,7 +1338,7 @@ paths:
           description: >-
             Unique [visitor
             identifier](https://dev.fingerprint.com/reference/get-function#visitorid)
-            issued by Fingerprint Pro.
+            issued by Fingerprint Pro.\
         - name: request_id
           in: query
           schema:
@@ -1353,6 +1353,7 @@ paths:
             [result](https://dev.fingerprint.com/reference/get-function#requestid).
             When you filter visits by `requestId`, only one visit will be
             returned.
+          x-go-skip-pointer: true
         - name: linked_id
           in: query
           schema:
@@ -1367,6 +1368,7 @@ paths:
             example: session ID, purchase ID, or transaction ID. You can then
             use this `linked_id` parameter to retrieve all events associated
             with your custom identifier.
+          x-go-skip-pointer: true
         - name: limit
           in: query
           schema:
@@ -1385,6 +1387,7 @@ paths:
 
             By default, the most recent 100 visits are scanned, the maximum is
             500.
+          x-go-skip-pointer: true
         - name: paginationKey
           in: query
           schema:
@@ -1413,6 +1416,7 @@ paths:
             get less visits than the `limit` you specified with more available
             on the next page. When there are no more results available for
             scanning, the `paginationKey` attribute is not returned.
+          x-go-skip-pointer: true
         - name: before
           in: query
           deprecated: true
@@ -1423,6 +1427,7 @@ paths:
           description: >
             ⚠️ Deprecated pagination method, please use `paginationKey` instead.
             Timestamp (in milliseconds since epoch) used to paginate results.
+          x-go-skip-pointer: true
       responses:
         '200':
           description: OK.
@@ -5586,7 +5591,7 @@ components:
         suspect:
           type: boolean
           description: Suspect flag indicating observed suspicious or fraudulent event
-          x-go-skip-omitempty: true
+          x-go-force-pointer: true
     SearchEventsResponse:
       type: object
       description: >-
