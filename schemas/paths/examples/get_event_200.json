@@ -337,6 +337,11 @@
       "data": {
         "result": false
       }
+    },
+    "mitmAttack": {
+      "data": {
+        "result": false
+      }
     }
   }
 }
