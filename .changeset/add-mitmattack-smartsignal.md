@@ -2,4 +2,4 @@
 "fingerprint-pro-server-api-openapi": minor
 ---
 
-Add schemas for MitMAttack Smart Signal
+Add `mitmAttack` (man-in-the-middle attack) Smart Signal.
