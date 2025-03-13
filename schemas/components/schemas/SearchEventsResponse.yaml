@@ -16,3 +16,5 @@ properties:
           $ref: Products.yaml
   paginationKey:
     type: string
+    description: >-
+      Use this value in the `pagination_key` parameter to request the next page of search results.

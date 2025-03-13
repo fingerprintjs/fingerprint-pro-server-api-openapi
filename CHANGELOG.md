@@ -1,5 +1,17 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.3.0
+
+### Minor Changes
+
+- **events-search**: Add 'pagination_key' parameter ([031c4ef](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/031c4efafa7dee2aac18a65ac54b4aeda1946d42))
+
+## 2.2.1
+
+### Patch Changes
+
+- **events-search**: Improve parameter descriptions for `bot`, `suspect` ([8633780](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/863378093a0397c5cb3c642c778c35f53e2ef072))
+
 ## 2.2.0
 
 ### Minor Changes
