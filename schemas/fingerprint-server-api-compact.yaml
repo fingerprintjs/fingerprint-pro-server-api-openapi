@@ -314,6 +314,7 @@ paths:
         how long you should wait before making a follow-up request. The value is
         non-negative decimal integer indicating the seconds to delay after the
         response is received.
+      x-flatten-optional-params: true
       parameters:
         - name: visitor_id
           in: path
@@ -645,6 +646,7 @@ paths:
                 You can use HTTP basic authentication and set up credentials in
                 your [Fingerprint
                 account](https://dashboard.fingerprint.com/login)
+              x-flatten-optional-params: true
               requestBody:
                 content:
                   application/json:
