@@ -95,6 +95,92 @@ get:
       description: |
         Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). 
         > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
+    - name: vpn
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by VPN detection.
+    - name: virtual_machine
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by virtual machine detection.
+    - name: tampering
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by tampering detection.
+    - name: anti_detect_browser
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by anti-detect browser usage.
+    - name: incognito
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by incognito mode detection.
+    - name: privacy_settings
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by privacy settings detection.
+    - name: jailbroken
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by jailbroken device detection.
+    - name: frida
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by Frida instrumentation detection.
+    - name: factory_reset
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by factory reset detection.
+    - name: cloned_app
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by cloned app detection.
+    - name: emulator
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by emulator usage.
+    - name: root_apps
+      in: query
+      schema:
+        type: boolean
+      description: >
+        Filter events by root apps detection.
+    - name: vpn_confidence
+      in: query
+      schema:
+        type: string
+        enum: [HIGH, MEDIUM, LOW]
+      description: >
+        Filter events by VPN confidence level.
+    - name: min_suspect_score
+      in: query
+      schema:
+        type: number
+        format: float
+      description: >
+        Minimum suspect score threshold for filtering events.
   responses:
     '200':
       description: Events matching the filter(s).
