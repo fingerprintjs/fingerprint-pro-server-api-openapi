@@ -311,6 +311,9 @@ paths:
                       developerTools:
                         data:
                           result: false
+                      mitmAttack:
+                        data:
+                          result: false
                 200-all-errors:
                   summary: All failed signals
                   value:
@@ -414,6 +417,10 @@ paths:
                           code: Failed
                           message: internal server error
                       developerTools:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      mitmAttack:
                         error:
                           code: Failed
                           message: internal server error
@@ -1036,6 +1043,9 @@ paths:
                                   1h: 5
                                   24h: 5
                           developerTools:
+                            data:
+                              result: false
+                          mitmAttack:
                             data:
                               result: false
                     paginationKey: '1655373953086'
@@ -4428,6 +4438,8 @@ paths:
                               24h: 5
                         developerTools:
                           result: false
+                        mitmAttack:
+                          result: false
               responses:
                 default:
                   description: The server doesn't validate the answer.
@@ -5540,6 +5552,31 @@ components:
           $ref: '#/components/schemas/DeveloperTools'
         error:
           $ref: '#/components/schemas/Error'
+    MitMAttack:
+      type: object
+      additionalProperties: false
+      required:
+        - result
+      properties:
+        result:
+          type: boolean
+          description: >
+            * `true` - When requests made from your users' mobile devices to
+            Fingerprint servers have been intercepted and potentially modified. 
+
+            * `false` - Otherwise or when the request originated from a browser.
+
+            See [MitM Attack
+            Detection](https://dev.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection)
+            to learn more about this Smart Signal.
+    ProductMitMAttack:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/MitMAttack'
+        error:
+          $ref: '#/components/schemas/Error'
     Products:
       type: object
       description: >-
@@ -5595,6 +5632,8 @@ components:
           $ref: '#/components/schemas/ProductVelocity'
         developerTools:
           $ref: '#/components/schemas/ProductDeveloperTools'
+        mitmAttack:
+          $ref: '#/components/schemas/ProductMitMAttack'
     EventsGetResponse:
       type: object
       description: >-
@@ -6074,6 +6113,21 @@ components:
           description: >
             `true` if the browser is Chrome with DevTools open or Firefox with
             Developer Tools open, `false` otherwise.
+    WebhookMitMAttack:
+      type: object
+      additionalProperties: false
+      properties:
+        result:
+          type: boolean
+          description: >
+            * `true` - When requests made from your users' mobile devices to
+            Fingerprint servers have been intercepted and potentially modified. 
+
+            * `false` - Otherwise or when the request originated from a browser.
+
+            See [MitM Attack
+            Detection](https://dev.fingerprint.com/docs/smart-signals-overview#mitm-attack-detection)
+            to learn more about this Smart Signal.
     Webhook:
       type: object
       required:
@@ -6180,3 +6234,5 @@ components:
           $ref: '#/components/schemas/WebhookVelocity'
         developerTools:
           $ref: '#/components/schemas/WebhookDeveloperTools'
+        mitmAttack:
+          $ref: '#/components/schemas/WebhookMitMAttack'

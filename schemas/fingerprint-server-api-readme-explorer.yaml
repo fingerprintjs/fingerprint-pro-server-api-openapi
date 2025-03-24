@@ -323,6 +323,9 @@ paths:
                       developerTools:
                         data:
                           result: false
+                      mitmAttack:
+                        data:
+                          result: false
                 200-all-errors:
                   summary: All failed signals
                   value:
@@ -426,6 +429,10 @@ paths:
                           code: Failed
                           message: internal server error
                       developerTools:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      mitmAttack:
                         error:
                           code: Failed
                           message: internal server error
@@ -1208,6 +1215,9 @@ paths:
                                   1h: 5
                                   24h: 5
                           developerTools:
+                            data:
+                              result: false
+                          mitmAttack:
                             data:
                               result: false
                     paginationKey: '1655373953086'
@@ -5507,6 +5517,31 @@ components:
           $ref: '#/components/schemas/DeveloperTools'
         error:
           $ref: '#/components/schemas/Error'
+    MitMAttack:
+      type: object
+      additionalProperties: false
+      required:
+        - result
+      properties:
+        result:
+          type: boolean
+          description: >
+            * `true` - When requests made from your users' mobile devices to
+            Fingerprint servers have been intercepted and potentially modified. 
+
+            * `false` - Otherwise or when the request originated from a browser.
+
+            See [MitM Attack
+            Detection](https://dev.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection)
+            to learn more about this Smart Signal.
+    ProductMitMAttack:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/MitMAttack'
+        error:
+          $ref: '#/components/schemas/Error'
     Products:
       type: object
       description: >-
@@ -5562,6 +5597,8 @@ components:
           $ref: '#/components/schemas/ProductVelocity'
         developerTools:
           $ref: '#/components/schemas/ProductDeveloperTools'
+        mitmAttack:
+          $ref: '#/components/schemas/ProductMitMAttack'
     EventsGetResponse:
       type: object
       description: >-
