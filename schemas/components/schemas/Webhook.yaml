@@ -101,3 +101,5 @@ properties:
     $ref: WebhookVelocity.yaml
   developerTools:
     $ref: WebhookDeveloperTools.yaml
+  mitmAttack:
+    $ref: WebhookMitMAttack.yaml
