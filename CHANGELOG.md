@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.4.0
+
+### Minor Changes
+
+- Add `mitmAttack` (man-in-the-middle attack) Smart Signal. ([5c06fc5](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/5c06fc587b70c084ac25c1c6a08b3b281ae80488))
+
 ## 2.3.0
 
 ### Minor Changes
