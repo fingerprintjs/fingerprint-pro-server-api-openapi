@@ -16,7 +16,6 @@ trace:
       webhook:
         post:
           description: You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
-          x-flatten-optional-params: true
           requestBody:
             content:
               application/json:
