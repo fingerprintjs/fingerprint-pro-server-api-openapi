@@ -30,15 +30,14 @@ jobs:
   cleanup-changesets:
     runs-on: ubuntu-latest
     needs: upload-changesets
-    environment: production
     steps:
       - name: 'Get token for the GitHub App'
-        if: ${{ vars.APP_ID != '' }}
+        if: ${{ vars.RUNNER_APP_ID != '' }}
         uses: actions/create-github-app-token@f2acddfb5195534d487896a656232b016a682f3c
         id: app-token
         with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          app-id: ${{ vars.RUNNER_APP_ID }}
+          private-key: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}
 
       - uses: actions/checkout@v4
         with:
@@ -53,4 +52,12 @@ jobs:
         with:
           add: '.'
           github_token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
-          message: 'chore(skip-ci): remove changesets zip files'
+          message: 'chore: remove changesets zip files'
+          push: 'false'
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c
+        with:
+          title: 'Remove changesets zip after release ${{ github.event.release.tag_name }}'
+          token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+          branch: chore/remove-changesets-zip-${{ github.event.release.tag_name }}
