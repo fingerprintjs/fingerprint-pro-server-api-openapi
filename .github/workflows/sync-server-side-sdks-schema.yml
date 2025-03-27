@@ -45,7 +45,7 @@ jobs:
   sync-node:
     if: inputs.sync-node
     name: 'Sync schema in Node SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@feat/INTER-1181-remove-manual-approval
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ inputs.tag }}
       language: node
@@ -64,7 +64,7 @@ jobs:
   sync-go:
     if: inputs.sync-go
     name: 'Sync schema in GO SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@feat/INTER-1181-remove-manual-approval
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ inputs.tag }}
       language: golang
@@ -83,7 +83,7 @@ jobs:
   sync-dotnet:
     if: inputs.sync-dotnet
     name: 'Sync schema in Dotnet SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@feat/INTER-1181-remove-manual-approval
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ inputs.tag }}
       language: dotnet
@@ -102,7 +102,7 @@ jobs:
   sync-python:
     if: inputs.sync-python
     name: 'Sync schema in Python SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@feat/INTER-1181-remove-manual-approval
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ inputs.tag }}
       language: python
@@ -122,7 +122,7 @@ jobs:
   sync-java:
     if: inputs.sync-java
     name: 'Sync schema in Java SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@feat/INTER-1181-remove-manual-approval
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ inputs.tag }}
       language: java
@@ -143,7 +143,7 @@ jobs:
   sync-php:
     if: inputs.sync-php
     name: 'Sync schema in PHP SDK'
-    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@feat/INTER-1181-remove-manual-approval
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/update-server-side-sdk-schema.yml@v1
     with:
       tag: ${{ inputs.tag }}
       language: php
