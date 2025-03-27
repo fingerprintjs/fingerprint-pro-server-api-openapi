@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.4.1
+
+### Patch Changes
+
+- **webhook**: Apply x-flatten-optional-params: true in correct place in the webhook.yaml ([ab92861](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ab92861b58aac17c29e893cb1b50e1d669aa8066))
+
 ## 2.4.0
 
 ### Minor Changes
