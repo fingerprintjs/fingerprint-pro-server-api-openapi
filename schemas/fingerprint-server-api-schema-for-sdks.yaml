@@ -630,6 +630,7 @@ paths:
         Fake path to describe webhook format. More information about webhooks
         can be found in the
         [documentation](https://dev.fingerprint.com/docs/webhooks)
+      x-flatten-optional-params: true
       requestBody:
         content:
           application/json:
@@ -646,7 +647,6 @@ paths:
                 You can use HTTP basic authentication and set up credentials in
                 your [Fingerprint
                 account](https://dashboard.fingerprint.com/login)
-              x-flatten-optional-params: true
               requestBody:
                 content:
                   application/json:
