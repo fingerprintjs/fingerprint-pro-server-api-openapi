@@ -99,88 +99,102 @@ get:
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by VPN detection.
+      description: |
+        Filter events by VPN detection.  
+        > Note: When using this parameter, only events with the `vpn` property explicitly set to `true` or `false` are returned. Events with undefined `vpn` property are left out of the response.
     - name: virtual_machine
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by virtual machine detection.
+      description: |
+        Filter events by virtual machine detection.  
+        > Note: When using this parameter, only events with the `virtual_machine` property explicitly set to `true` or `false` are returned. Events with undefined `virtual_machine` property are left out of the response.
     - name: tampering
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by tampering detection.
+      description: |
+        Filter events by tampering detection.  
+        > Note: When using this parameter, only events with the `tampering` property explicitly set to `true` or `false` are returned. Events with undefined `tampering` property are left out of the response.
     - name: anti_detect_browser
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by anti-detect browser usage.
+      description: |
+        Filter events by anti-detect browser usage.  
+        > Note: When using this parameter, only events with the `anti_detect_browser` property explicitly set to `true` or `false` are returned. Events with undefined `anti_detect_browser` property are left out of the response.
     - name: incognito
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by incognito mode detection.
+      description: |
+        Filter events by incognito mode detection.  
+        > Note: When using this parameter, only events with the `incognito` property explicitly set to `true` or `false` are returned. Events with undefined `incognito` property are left out of the response.
     - name: privacy_settings
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by privacy settings detection.
+      description: |
+        Filter events by privacy settings detection.  
+        > Note: When using this parameter, only events with the `privacy_settings` property explicitly set to `true` or `false` are returned. Events with undefined `privacy_settings` property are left out of the response.
     - name: jailbroken
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by jailbroken device detection.
+      description: |
+        Filter events by jailbroken device detection.  
+        > Note: When using this parameter, only events with the `jailbroken` property explicitly set to `true` or `false` are returned. Events with undefined `jailbroken` property are left out of the response.
     - name: frida
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by Frida instrumentation detection.
+      description: |
+        Filter events by Frida instrumentation detection.  
+        > Note: When using this parameter, only events with the `frida` property explicitly set to `true` or `false` are returned. Events with undefined `frida` property are left out of the response.
     - name: factory_reset
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by factory reset detection.
+      description: |
+        Filter events by factory reset detection.  
+        > Note: When using this parameter, only events with the `factory_reset` property explicitly set to `true` or `false` are returned. Events with undefined `factory_reset` property are left out of the response.
     - name: cloned_app
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by cloned app detection.
+      description: |
+        Filter events by cloned app detection.  
+        > Note: When using this parameter, only events with the `cloned_app` property explicitly set to `true` or `false` are returned. Events with undefined `cloned_app` property are left out of the response.
     - name: emulator
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by emulator usage.
+      description: |
+        Filter events by emulator usage.  
+        > Note: When using this parameter, only events with the `emulator` property explicitly set to `true` or `false` are returned. Events with undefined `emulator` property are left out of the response.
     - name: root_apps
       in: query
       schema:
         type: boolean
-      description: >
-        Filter events by root apps detection.
+      description: |
+        Filter events by root apps detection.  
+        > Note: When using this parameter, only events with the `root_apps` property explicitly set to `true` or `false` are returned. Events with undefined `root_apps` property are left out of the response.
     - name: vpn_confidence
       in: query
       schema:
         type: string
         enum: [HIGH, MEDIUM, LOW]
-      description: >
-        Filter events by VPN confidence level.
+      description: |
+        Filter events by VPN confidence level.  
+        > Note: When using this parameter, only events with the `vpn_confidence` property explicitly set to a valid value are returned. Events with undefined `vpn_confidence` property are left out of the response.
     - name: min_suspect_score
       in: query
       schema:
         type: number
         format: float
-      description: >
-        Minimum suspect score threshold for filtering events.
+      description: |
+        Minimum suspect score threshold for filtering events.  
+        > Note: When using this parameter, only events with the `min_suspect_score` property explicitly set to a valid value are returned. Events with undefined `min_suspect_score` property are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).
