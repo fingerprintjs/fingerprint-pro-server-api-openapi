@@ -1,5 +1,0 @@
----
-'fingerprint-pro-server-api-openapi': minor
----
-
-events-search was enhanced with a new set of filter parameters (vpn, virtual_machine, tampering, anti_detect_browser, incognito, privacy_settings, jailbroken, frida, factory_reset, cloned_app, emulator, root_apps, vpn_confidence, min_suspect_score
