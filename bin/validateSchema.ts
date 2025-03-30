@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema';
 import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent';
-import { FingerprintJsServerApiClient, Region } from '@fingerprintjs/fingerprintjs-pro-server-api';
+import { FingerprintJsServerApiClient, Region, RequestError } from '@fingerprintjs/fingerprintjs-pro-server-api';
 import { z } from 'zod';
 import { parseEnv } from 'znv';
 import 'dotenv/config';
@@ -58,7 +58,7 @@ const validateJson = ({
   jsonName,
   schemaName,
 }: {
-  json: Record<string, any>;
+  json: any;
   validator: ValidateFunction;
   jsonName: string;
   schemaName: string;
@@ -252,11 +252,8 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
       const eventResponse = await client.getEvent(subscription.requestId);
       fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
-      delete error.status;
-      delete error.response;
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for GET event '${subscription.name}' > '${subscription.requestId}'`,
         validator: commonError403Validator,
         schemaName,
@@ -264,34 +261,23 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     }
 
     try {
-      const eventResponse = await updateEventRequest({
-        requestId: subscription.requestId,
-        subscription: { ...subscription, serverApiKey: 'Wrong Server API Key' },
-        payload: { linkedId: 'OpenAPI spec test' },
-      });
-      if (eventResponse.status !== 403) {
-        fail(`❌ Updating event with wrong API key was expected to fail with status 403`);
-      } else {
-        validateJson({
-          json: await eventResponse.json(),
-          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
-          validator: commonError403Validator,
-          schemaName,
-        });
-      }
+      await client.updateEvent({ linkedId: 'OpenAPI spec test' }, subscription.requestId);
+      fail(`❌ Updating event ${subscription.requestId} with wrong API key was expected to fail with status 403`);
     } catch (error) {
-      fail(`❌ Unexpected error when updating event ${error}`);
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
+        validator: commonError403Validator,
+        schemaName,
+      });
     }
 
     try {
       const eventResponse = await client.deleteVisitorData(subscription.visitorId);
       fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
-      delete error.status;
-      delete error.response;
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: commonError403Validator,
         schemaName,
@@ -343,11 +329,8 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
       const eventResponse = await client.getEvent(nonExistentRequestId);
       fail(`❌ Request for event ${eventResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
-      delete error.status;
-      delete error.response;
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for GET event '${subscription.name}' > '${nonExistentRequestId}'`,
         validator: eventError404Validator,
         schemaName: 'ErrorResponse',
@@ -402,16 +385,11 @@ async function validateGetVisitsError400Schema(testSubscriptions: TestSubscripti
     });
 
     try {
-      const visitsResponse = await client.getVisitorHistory(subscription.visitorId, { request_id: 'Wrong Request ID' });
+      const visitsResponse = await client.getVisits(subscription.visitorId, { request_id: 'Wrong Request ID' });
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
-    } catch (unknownError) {
-      // TODO: Support 400 error by Node SDK.
-      const error = unknownError.error;
-      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
-      delete error.status;
-      delete error.response;
+    } catch (error) {
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError400Validator,
         schemaName: 'ErrorPlainResponse',
@@ -446,14 +424,11 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
     });
 
     try {
-      const visitsResponse = await client.getVisitorHistory(subscription.visitorId);
+      const visitsResponse = await client.getVisits(subscription.visitorId);
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
     } catch (error) {
-      // Node SDK adds "status" and "response" to the error response, just get rid of it and validate the rest
-      delete error.status;
-      delete error.response;
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError403Validator,
         schemaName: 'ErrorPlainResponse',
@@ -532,11 +507,9 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
     try {
       const visitsResponse = await client.deleteVisitorData('malformed visitor id');
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
-    } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { response, status, ...error } = e;
+    } catch (error) {
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitorError400Validator,
         schemaName: 'DeleteVisitsError400',
@@ -588,11 +561,9 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
     try {
       const visitsResponse = await client.deleteVisitorData(nonExistentVisitorId);
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
-    } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { response, status, ...error } = e;
+    } catch (error) {
       validateJson({
-        json: error,
+        json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${nonExistentVisitorId}'`,
         validator: visitorError404Validator,
         schemaName,
