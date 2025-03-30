@@ -28,19 +28,6 @@ ajv.addFormat('date-time', {
   validate: (data) => typeof data === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,3})?Z/.test(data),
 });
 
-// Get related visitors is not yet supported in the Node SDK
-type GetRelatedVisitorsArgs = {
-  visitorId: string;
-  subscription: TestSubscription;
-};
-
-function getRelatedVisitors({ visitorId, subscription }: GetRelatedVisitorsArgs) {
-  const regionPrefix = subscription.region === 'us' ? '' : `${subscription.region}.`;
-  return fetch(`https://${regionPrefix}api.fpjs.io/related-visitors?visitor_id=${visitorId}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'Auth-API-Key': subscription.serverApiKey },
-  });
-}
 
 // Load API definition
 const OPEN_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
@@ -285,16 +272,17 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     }
 
     // Validate against Related visitors API response
-    const relatedVisitorsResponse = await getRelatedVisitors({
-      visitorId: subscription.visitorId,
-      subscription: { ...subscription, serverApiKey: 'wrong server APi key' },
-    });
-    validateJson({
-      json: await relatedVisitorsResponse.json(),
-      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
-      validator: commonError403Validator,
-      schemaName,
-    });
+    try {
+      const relatedVisitorsResponse = await client.getRelatedVisitors({ visitor_id: subscription.visitorId });
+      fail(`❌ Request for related-visitors ${relatedVisitorsResponse} in ${subscription.name} should have failed`);
+    } catch (error) {
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: commonError403Validator,
+        schemaName,
+      });
+    }
   }
 }
 
@@ -504,6 +492,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
       region: REGION_MAP[subscription.region || 'us'],
     });
 
+    // Validate against DELETE visitor API response
     try {
       const visitsResponse = await client.deleteVisitorData('malformed visitor id');
       fail(`❌ Request for visits ${visitsResponse} in ${subscription.name} should have failed`);
@@ -515,17 +504,19 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
         schemaName: 'DeleteVisitsError400',
       });
     }
-  }
 
-  // Validate against Related visitors API response
-  for (const subscription of testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled)) {
-    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: 'badVisitorId', subscription });
-    validateJson({
-      json: await relatedVisitorsResponse.json(),
-      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > 'badVisitorId'`,
-      validator: visitorError400Validator,
-      schemaName,
-    });
+    // Validate against GET related-visitors API response
+    try {
+      const relatedVisitorsResponse = await client.getRelatedVisitors({ visitor_id: 'badVisitorId' });
+      fail(`❌ Request for related-visitors ${relatedVisitorsResponse} in ${subscription.name} should have failed`);
+    } catch (error) {
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > 'badVisitorId'`,
+        validator: visitorError400Validator,
+        schemaName,
+      });
+    }
   }
 }
 
@@ -570,13 +561,17 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
       });
     }
 
-    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: nonExistentVisitor, subscription });
-    validateJson({
-      json: await relatedVisitorsResponse.json(),
-      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${nonExistentVisitor}'`,
-      validator: visitorError404Validator,
-      schemaName,
-    });
+    try {
+      const relatedVisitorsResponse = await client.getRelatedVisitors({ visitor_id: nonExistentVisitor });
+      fail(`❌ Request for related-visitors ${relatedVisitorsResponse} in ${subscription.name} should have failed`);
+    } catch (error) {
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${nonExistentVisitor}'`,
+        validator: visitorError404Validator,
+        schemaName,
+      });
+    }
   }
 }
 
@@ -601,9 +596,14 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const relatedVisitorsResponse = await getRelatedVisitors({ visitorId: subscription.visitorId, subscription });
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    const relatedVisitorsResponse = await client.getRelatedVisitors({ visitor_id: subscription.visitorId });
     validateJson({
-      json: await relatedVisitorsResponse.json(),
+      json: relatedVisitorsResponse,
       jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
       validator: relatedVisitorsResponseValidator,
       schemaName,
