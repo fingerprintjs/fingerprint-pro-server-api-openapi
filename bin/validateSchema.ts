@@ -28,7 +28,6 @@ ajv.addFormat('date-time', {
   validate: (data) => typeof data === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d{1,3})?Z/.test(data),
 });
 
-
 // Load API definition
 const OPEN_API_SCHEMA = yaml.load(fs.readFileSync('./dist/schemas/fingerprint-server-api.yaml'));
 // Global exit code variable and helper
@@ -78,22 +77,6 @@ const REGION_MAP = {
   eu: Region.EU,
   ap: Region.AP,
 } as const;
-
-// Update event request is not yet supported in the Node SDK
-type UpdateEventArgs = {
-  requestId: string;
-  subscription: TestSubscription;
-  payload: any;
-};
-
-function updateEventRequest({ requestId, subscription, payload }: UpdateEventArgs) {
-  const regionPrefix = subscription.region === 'us' ? '' : `${subscription.region}.`;
-  return fetch(`https://${regionPrefix}api.fpjs.io/events/${requestId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'Auth-API-Key': subscription.serverApiKey },
-    body: JSON.stringify(payload),
-  });
-}
 
 /**
  * Validate EventResponse schema
@@ -326,23 +309,15 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
     }
 
     try {
-      const eventResponse = await updateEventRequest({
-        requestId: nonExistentRequestId,
-        subscription,
-        payload: { linkedId: 'OpenAPI spec test' },
-      });
-      if (eventResponse.status !== 404) {
-        fail(`❌ Updating non-existed was expected to fail with status 404`);
-      } else {
-        validateJson({
-          json: await eventResponse.json(),
-          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${nonExistentRequestId}'`,
-          validator: eventError404Validator,
-          schemaName: 'ErrorResponse',
-        });
-      }
+      const eventResponse = await client.updateEvent({ linkedId: 'OpenAPI spec test' }, nonExistentRequestId);
+      fail(`❌ Updating non-existent requestId was expected to fail with status 404, not with ${eventResponse}`);
     } catch (error) {
-      fail(`❌ Unexpected error when updating event ${error}`);
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${nonExistentRequestId}'`,
+        validator: eventError404Validator,
+        schemaName: 'ErrorResponse',
+      });
     }
   }
 }
@@ -632,25 +607,24 @@ async function validateUpdateEventError400Schema(testSubscriptions: TestSubscrip
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    try {
-      const updateEventResponse = await updateEventRequest({
-        subscription,
-        requestId: subscription.requestId,
-        payload: { invalid: 'payload' },
-      });
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
 
-      if (updateEventResponse.status !== 400) {
-        fail(`❌ Updating event ${subscription.requestId} in ${subscription.name} should have failed`);
-      } else {
-        validateJson({
-          json: await updateEventResponse.json(),
-          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
-          validator: updateEvent400ErrorValidator,
-          schemaName,
-        });
-      }
-    } catch (e) {
-      fail(`❌ Unexpected error while updating an event ${e}`);
+    try {
+      // @ts-expect-error
+      const updateEventResponse = await client.updateEvent({ invalid: 'payload' }, subscription.requestId);
+      fail(
+        `❌ Updating event ${subscription.requestId} in ${subscription.name} should have failed, not succeed with ${updateEventResponse}`
+      );
+    } catch (error) {
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
+        validator: updateEvent400ErrorValidator,
+        schemaName,
+      });
     }
   }
 }
@@ -685,26 +659,23 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
       subscription.name
     );
 
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
     try {
-      const updateEventResponse = await updateEventRequest({
-        subscription,
-        requestId,
-        payload: { linkedId: '409test' },
+      const updateEventResponse = await client.updateEvent({ linkedId: '409test' }, requestId);
+      fail(
+        `❌ Updating event ${subscription.requestId} in ${subscription.name} was expected to fail with status 409, not succeed with ${updateEventResponse}`
+      );
+    } catch (error) {
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${requestId}'`,
+        validator: updateEvent409ErrorValidator,
+        schemaName,
       });
-      if (updateEventResponse.status !== 409) {
-        fail(
-          `❌ Updating event ${subscription.requestId} in ${subscription.name} was expected to fail with status 409`
-        );
-      } else {
-        validateJson({
-          json: await updateEventResponse.json(),
-          jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${requestId}'`,
-          validator: updateEvent409ErrorValidator,
-          schemaName,
-        });
-      }
-    } catch (e) {
-      fail(`❌ Unexpected error while updating an event ${e}`);
     }
   }
 }
