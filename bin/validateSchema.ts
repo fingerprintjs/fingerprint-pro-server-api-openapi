@@ -4,7 +4,12 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import { convertOpenApiToJsonSchema } from '../utils/convertOpenApiToJsonSchema';
 import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent';
-import { FingerprintJsServerApiClient, Region, RequestError } from '@fingerprintjs/fingerprintjs-pro-server-api';
+import {
+  FingerprintJsServerApiClient,
+  Region,
+  RequestError,
+  SearchEventsFilter,
+} from '@fingerprintjs/fingerprintjs-pro-server-api';
 import { z } from 'zod';
 import { parseEnv } from 'znv';
 import 'dotenv/config';
@@ -680,6 +685,55 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
   }
 }
 
+async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscription[]) {
+  const schemaName = 'SearchEventsResponse';
+  console.log(`\nValidating ${schemaName} schema: \n`);
+  const searchEventsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
+  const searchEventsResponseValidator = ajv.compile(searchEventsResponseSchema);
+
+  // Validate against example file
+  ['./schemas/paths/examples/get_event_search_200.json'].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: searchEventsResponseValidator,
+      schemaName,
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    const filters = [
+      { limit: 10 },
+      { limit: 10, bot: 'bad' },
+      { limit: 10, ip_address: '127.0.0.1/32' },
+      { limit: 10, end: new Date().getTime() },
+      { limit: 10, start: new Date().getTime() },
+      { limit: 10, linked_id: '123' },
+
+      { limit: 10, visitor_id: subscription.visitorId },
+      { limit: 10, reverse: true },
+      { limit: 10, suspect: true },
+      { limit: 10, pagination_key: '123' },
+    ] satisfies SearchEventsFilter[];
+
+    for (const filter of filters) {
+      const searchEventsResponse = await client.searchEvents(filter);
+      validateJson({
+        json: searchEventsResponse,
+        jsonName: `🌐 Live Server API Response for GET search-events with filter '${JSON.stringify(filter)}'`,
+        validator: searchEventsResponseValidator,
+        schemaName,
+      });
+    }
+  }
+}
+
 /**
  * Main function
  */
@@ -700,6 +754,8 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
   await validateEventResponseSchema(testSubscriptions);
   await validateVisitsResponseSchema(testSubscriptions);
   await validateWebhookSchema();
+  await validateSearchEventsResponseSchema(testSubscriptions);
+  await validateRelatedVisitorsResponseSchema(testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled));
 
   await validateCommonError403Schema(testSubscriptions);
   await validateEventError404Schema(testSubscriptions);
@@ -711,7 +767,6 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
   await validateErrorVisitor404Response(
     testSubscriptions.filter((sub) => sub.deleteEnabled && sub.relatedVisitorsEnabled)
   );
-  await validateRelatedVisitorsResponseSchema(testSubscriptions.filter((sub) => sub.relatedVisitorsEnabled));
 
   await validateUpdateEventError400Schema(testSubscriptions);
   await validateUpdateEventError409Schema(testSubscriptions.slice(1, 2));
