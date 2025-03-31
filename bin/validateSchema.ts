@@ -83,12 +83,27 @@ const REGION_MAP = {
   ap: Region.AP,
 } as const;
 
+function getCurrentFunctionName() {
+  try {
+    throw new Error();
+  } catch (e) {
+    // Parse the stack trace to get the function name
+    const stackLines = e.stack.split('\n');
+    // The calling function is typically at index 2 (after Error and getCurrentFunctionName)
+    const callerLine = stackLines[2];
+    // Extract the function name using regex
+    const match = callerLine.match(/at\s+(.*)\s+\(/);
+    return match ? `${match[1]}()` : 'anonymous';
+  }
+}
+
 /**
  * Validate EventResponse schema
  */
 async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating EventResponse schema: \n');
-  const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/EventsGetResponse');
+  const schemaName = 'EventsGetResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const eventValidator = ajv.compile(eventResponseSchema);
 
   // Validate against example files
@@ -103,7 +118,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: eventValidator,
-      schemaName: 'EventsGetResponse',
+      schemaName,
     })
   );
 
@@ -120,7 +135,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
         json: eventResponse,
         jsonName: `🌐 Live Server API EventResponse for GET event '${subscription.name}' > '${subscription.requestId}'`,
         validator: eventValidator,
-        schemaName: 'EventsGetResponse',
+        schemaName,
       });
     } catch (error) {
       console.error(error);
@@ -133,8 +148,9 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
  * Validate Visits schema
  */
 export async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating Visits schema: \n');
-  const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/VisitorsGetResponse');
+  const schemaName = 'VisitorsGetResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}:Validating ${schemaName} schema: \n`);
+  const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const visitsResponseValidator = ajv.compile(visitsResponseSchema);
 
   // Validate against example files
@@ -146,7 +162,7 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitsResponseValidator,
-      schemaName: 'VisitorsGetResponse',
+      schemaName,
     })
   );
 
@@ -176,8 +192,9 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
  * Validates Webhook schema
  */
 async function validateWebhookSchema() {
-  console.log('\nValidating Webhook schema: \n');
-  const webhookSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/Webhook');
+  const schemaName = 'Webhook';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const webhookSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const webhookValidator = ajv.compile(webhookSchema);
 
   // Validate against example file
@@ -186,7 +203,7 @@ async function validateWebhookSchema() {
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: webhookValidator,
-      schemaName: 'Webhook',
+      schemaName,
     })
   );
 }
@@ -195,8 +212,8 @@ async function validateWebhookSchema() {
  * Validates ErrorCommon403Response schema
  */
 async function validateCommonError403Schema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating CommonError403 schema: \n');
   const schemaName = 'ErrorResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
   const commonError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const commonError403Validator = ajv.compile(commonError403Schema);
 
@@ -291,8 +308,9 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
  * Validate EventError404 schema
  */
 async function validateEventError404Schema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating EventError404 schema: \n');
-  const eventError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorResponse');
+  const schemaName = 'ErrorResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const eventError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const eventError404Validator = ajv.compile(eventError404Schema);
 
   // Validate against example file
@@ -301,7 +319,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: eventError404Validator,
-      schemaName: 'ErrorResponse',
+      schemaName,
     })
   );
 
@@ -344,8 +362,9 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
  * Validates VisitsError400 schema
  */
 async function validateGetVisitsError400Schema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating VisitsError400 schema: \n');
-  const visitsError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorPlainResponse');
+  const schemaName = 'ErrorPlainResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const visitsError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const visitsError400Validator = ajv.compile(visitsError400Schema);
 
   // Validate against example file
@@ -354,7 +373,7 @@ async function validateGetVisitsError400Schema(testSubscriptions: TestSubscripti
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitsError400Validator,
-      schemaName: 'ErrorPlainResponse',
+      schemaName,
     })
   );
 
@@ -373,7 +392,7 @@ async function validateGetVisitsError400Schema(testSubscriptions: TestSubscripti
         json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError400Validator,
-        schemaName: 'ErrorPlainResponse',
+        schemaName,
       });
     }
   }
@@ -383,8 +402,9 @@ async function validateGetVisitsError400Schema(testSubscriptions: TestSubscripti
  * Validates VisitsError403 schema
  */
 async function validateGetVisitsError403Schema(testSubscriptions: TestSubscription[]) {
-  console.log('\nValidating VisitsError403 schema: \n');
-  const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorPlainResponse');
+  const schemaName = 'ErrorPlainResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const visitsError403Validator = ajv.compile(visitsError403Schema);
 
   // Validate against example file
@@ -393,7 +413,7 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitsError403Validator,
-      schemaName: 'ErrorPlainResponse',
+      schemaName,
     })
   );
 
@@ -412,7 +432,7 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
         json: (error as RequestError).responseBody,
         jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError403Validator,
-        schemaName: 'ErrorPlainResponse',
+        schemaName,
       });
     }
   }
@@ -422,8 +442,9 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
  * Validates VisitsError429
  */
 async function validateGetVisitsError429Schema() {
-  console.log('\nValidating VisitsError429 schema: \n');
-  const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorPlainResponse');
+  const schemaName = 'ErrorPlainResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const visitsError429Validator = ajv.compile(visitsError429Schema);
 
   // Validate against example file
@@ -432,7 +453,7 @@ async function validateGetVisitsError429Schema() {
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitsError429Validator,
-      schemaName: 'ErrorPlainResponse',
+      schemaName,
     })
   );
 }
@@ -441,8 +462,9 @@ async function validateGetVisitsError429Schema() {
  * Validates ErrorCommon429Response
  */
 async function validateErrorCommon429Response() {
-  console.log('\nValidating ErrorCommon429Response schema: \n');
-  const errorCommon429ResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorResponse');
+  const schemaName = 'ErrorResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const errorCommon429ResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const errorCommon429ResponseValidator = ajv.compile(errorCommon429ResponseSchema);
 
   // Validate against example file
@@ -451,7 +473,7 @@ async function validateErrorCommon429Response() {
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: errorCommon429ResponseValidator,
-      schemaName: 'ErrorResponse',
+      schemaName,
     })
   );
 }
@@ -461,7 +483,7 @@ async function validateErrorCommon429Response() {
  */
 async function validateErrorVisitor400Response(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\nValidating ${schemaName} schema: \n`);
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
   const visitorError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const visitorError400Validator = ajv.compile(visitorError400Schema);
 
@@ -518,7 +540,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
  */
 async function validateErrorVisitor404Response(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\nValidating ${schemaName} schema: \n`);
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
   const visitorError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const visitorError404Validator = ajv.compile(visitorError404Schema);
 
@@ -570,7 +592,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
 
 async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'RelatedVisitorsResponse';
-  console.log(`\nValidating ${schemaName} schema: \n`);
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
   const relatedVisitorsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const relatedVisitorsResponseValidator = ajv.compile(relatedVisitorsResponseSchema);
 
@@ -609,7 +631,7 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
  */
 async function validateUpdateEventError400Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\nValidating ${schemaName} schema: \n`);
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
   const updateEvent400ErrorSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const updateEvent400ErrorValidator = ajv.compile(updateEvent400ErrorSchema);
 
@@ -652,8 +674,8 @@ async function validateUpdateEventError400Schema(testSubscriptions: TestSubscrip
  */
 async function validateUpdateEventError409Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\nValidating ${schemaName} schema: \n`);
-  const updateEvent409ErrorSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, '#/definitions/ErrorResponse');
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const updateEvent409ErrorSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const updateEvent409ErrorValidator = ajv.compile(updateEvent409ErrorSchema);
 
   // Validate against example file
@@ -700,7 +722,7 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
 
 async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'SearchEventsResponse';
-  console.log(`\nValidating ${schemaName} schema: \n`);
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
   const searchEventsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
   const searchEventsResponseValidator = ajv.compile(searchEventsResponseSchema);
 
