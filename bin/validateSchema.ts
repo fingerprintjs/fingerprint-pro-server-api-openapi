@@ -73,6 +73,7 @@ const testSubscriptionEnvVariableZod = z.object({
   // Coerce "true" into true
   deleteEnabled: z.coerce.boolean().optional(),
   relatedVisitorsEnabled: z.coerce.boolean().optional(),
+  botDetectionEnabled: z.coerce.boolean().optional(),
 });
 type TestSubscription = z.infer<typeof testSubscriptionEnvVariableZod> & { requestId: string; visitorId: string };
 
@@ -246,7 +247,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET event '${subscription.name}' > '${subscription.requestId}'`,
+        jsonName: `🌐 Response for GET event '${subscription.name}' > '${subscription.requestId}'`,
         validator: commonError403Validator,
         schemaName,
       });
@@ -258,7 +259,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
+        jsonName: `🌐 Response for PUT event '${subscription.name}' > '${subscription.requestId}'`,
         validator: commonError403Validator,
         schemaName,
       });
@@ -270,7 +271,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: commonError403Validator,
         schemaName,
       });
@@ -283,7 +284,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
         validator: commonError403Validator,
         schemaName,
       });
@@ -296,7 +297,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET search-events '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Response for GET search-events '${subscription.name}' > '${subscription.visitorId}'`,
         validator: commonError403Validator,
         schemaName,
       });
@@ -338,7 +339,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET event '${subscription.name}' > '${nonExistentRequestId}'`,
+        jsonName: `🌐 Response for GET event '${subscription.name}' > '${nonExistentRequestId}'`,
         validator: eventError404Validator,
         schemaName: 'ErrorResponse',
       });
@@ -350,7 +351,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for PUT event '${subscription.name}' > '${nonExistentRequestId}'`,
+        jsonName: `🌐 Response for PUT event '${subscription.name}' > '${nonExistentRequestId}'`,
         validator: eventError404Validator,
         schemaName: 'ErrorResponse',
       });
@@ -390,7 +391,7 @@ async function validateGetVisitsError400Schema(testSubscriptions: TestSubscripti
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError400Validator,
         schemaName,
       });
@@ -430,7 +431,7 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Response for GET visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitsError403Validator,
         schemaName,
       });
@@ -514,7 +515,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
+        jsonName: `🌐 Response for DELETE visitor '${subscription.name}' > '${subscription.visitorId}'`,
         validator: visitorError400Validator,
         schemaName: 'DeleteVisitsError400',
       });
@@ -527,7 +528,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > 'badVisitorId'`,
+        jsonName: `🌐 Response for GET related-visitors '${subscription.name}' > 'badVisitorId'`,
         validator: visitorError400Validator,
         schemaName,
       });
@@ -570,7 +571,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for DELETE visitor '${subscription.name}' > '${nonExistentVisitorId}'`,
+        jsonName: `🌐 Response for DELETE visitor '${subscription.name}' > '${nonExistentVisitorId}'`,
         validator: visitorError404Validator,
         schemaName,
       });
@@ -582,7 +583,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
     } catch (error) {
       validateJson({
         json: (error as RequestError).responseBody,
-        jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${nonExistentVisitor}'`,
+        jsonName: `🌐 Response for GET related-visitors '${subscription.name}' > '${nonExistentVisitor}'`,
         validator: visitorError404Validator,
         schemaName,
       });
@@ -619,7 +620,7 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
     const relatedVisitorsResponse = await client.getRelatedVisitors({ visitor_id: subscription.visitorId });
     validateJson({
       json: relatedVisitorsResponse,
-      jsonName: `🌐 Live Server API Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
+      jsonName: `🌐 Response for GET related-visitors '${subscription.name}' > '${subscription.visitorId}'`,
       validator: relatedVisitorsResponseValidator,
       schemaName,
     });
@@ -769,6 +770,71 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
   }
 }
 
+async function validateSearchEventsError400Schema(testSubscriptions: TestSubscription[]) {
+  const schemaName = 'ErrorResponse';
+  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
+  const searchEventsError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
+  const searchEventsError400Validator = ajv.compile(searchEventsError400Schema);
+
+  // Validate against example file
+  [
+    './schemas/paths/examples/errors/400_limit_invalid.json',
+    './schemas/paths/examples/errors/400_ip_address_invalid.json',
+    './schemas/paths/examples/errors/400_bot_type_invalid.json',
+    './schemas/paths/examples/errors/400_reverse_invalid.json',
+    './schemas/paths/examples/errors/400_start_time_invalid.json',
+    './schemas/paths/examples/errors/400_end_time_invalid.json',
+    './schemas/paths/examples/errors/400_visitor_id_invalid.json',
+    './schemas/paths/examples/errors/400_linked_id_invalid.json',
+    './schemas/paths/examples/errors/400_pagination_key_invalid.json',
+  ].forEach((examplePath) =>
+    validateJson({
+      json: JSON.parse(fs.readFileSync(examplePath).toString()),
+      jsonName: examplePath,
+      validator: searchEventsError400Validator,
+      schemaName,
+    })
+  );
+
+  // Validate against live Server API responses
+  for (const subscription of testSubscriptions) {
+    const client = new FingerprintJsServerApiClient({
+      apiKey: subscription.serverApiKey,
+      region: REGION_MAP[subscription.region || 'us'],
+    });
+
+    const filters = [
+      { limit: 'invalid limit' },
+      { limit: 1, ip_address: 'not an ip address' },
+      { limit: 1, end: 'not a timestamp' },
+      { limit: 1, start: 'not a timestamp' },
+      { limit: 1, linked_id: 'C'.repeat(257) },
+      { limit: 1, visitor_id: 'not a visitor id' },
+      { limit: 1, reverse: 'not a boolean' },
+      { limit: 1, suspect: 'not a boolean' },
+      { limit: 1, pagination_key: false },
+      subscription.botDetectionEnabled && { limit: 1, bot: 'invalid bot value' },
+    ];
+
+    for (const filter of filters.filter(Boolean)) {
+      try {
+        // @ts-expect-error
+        const searchEventsResponse = await client.searchEvents(filter);
+        fail(
+          `❌ Request for search-events with filter '${JSON.stringify(filter)}' should have failed, but returned ${JSON.stringify(searchEventsResponse, null, 2)} in ${subscription.name}`
+        );
+      } catch (error) {
+        validateJson({
+          json: (error as RequestError).responseBody,
+          jsonName: `🌐 Live Server API Response for GET search-events with filter '${JSON.stringify(filter)}' in ${subscription.name}`,
+          validator: searchEventsError400Validator,
+          schemaName,
+        });
+      }
+    }
+  }
+}
+
 /**
  * Main function
  */
@@ -805,6 +871,8 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
 
   await validateUpdateEventError400Schema(testSubscriptions);
   await validateUpdateEventError409Schema(testSubscriptions.slice(1, 2));
+
+  await validateSearchEventsError400Schema(testSubscriptions);
 
   if (exitCode === 0) {
     console.log('\n ✅✅✅ All schemas are valid');
