@@ -271,6 +271,19 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
         schemaName,
       });
     }
+
+    // Validate against SearchEvents API response
+    try {
+      const searchEventsResponse = await client.searchEvents({ limit: 10 });
+      fail(`❌ Request for search-events ${searchEventsResponse} in ${subscription.name} should have failed`);
+    } catch (error) {
+      validateJson({
+        json: (error as RequestError).responseBody,
+        jsonName: `🌐 Live Server API Response for GET search-events '${subscription.name}' > '${subscription.visitorId}'`,
+        validator: commonError403Validator,
+        schemaName,
+      });
+    }
   }
 }
 
