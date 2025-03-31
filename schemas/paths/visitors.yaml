@@ -17,7 +17,7 @@ get:
       required: true
       schema:
         type: string
-      description: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.\
+      description: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.
       # example: uYIm7Ksp5rf00SllPhFp
     - name: request_id
       in: query
