@@ -84,28 +84,19 @@ const REGION_MAP = {
   ap: Region.AP,
 } as const;
 
-function getCurrentFunctionName() {
-  try {
-    throw new Error();
-  } catch (e) {
-    // Parse the stack trace to get the function name
-    const stackLines = e.stack.split('\n');
-    // The calling function is typically at index 2 (after Error and getCurrentFunctionName)
-    const callerLine = stackLines[2];
-    // Extract the function name using regex
-    const match = callerLine.match(/at\s+(.*)\s+\(/);
-    return match ? `${match[1]}()` : 'anonymous';
-  }
-}
+const createValidator = (schemaName: string, functionName: string) => {
+  console.log(`\n⚡ ${functionName}() — validating ${schemaName} schema: \n`);
+  const jsonSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
+  const validator = ajv.compile(jsonSchema);
+  return validator;
+};
 
 /**
  * Validate EventResponse schema
  */
 async function validateEventResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'EventsGetResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const eventResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const eventValidator = ajv.compile(eventResponseSchema);
+  const eventValidator = createValidator(schemaName, 'validateEventResponseSchema');
 
   // Validate against example files
   [
@@ -150,9 +141,7 @@ async function validateEventResponseSchema(testSubscriptions: TestSubscription[]
  */
 export async function validateVisitsResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'VisitorsGetResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}:Validating ${schemaName} schema: \n`);
-  const visitsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const visitsResponseValidator = ajv.compile(visitsResponseSchema);
+  const visitsResponseValidator = createValidator(schemaName, 'validateVisitsResponseSchema');
 
   // Validate against example files
   [
@@ -194,9 +183,7 @@ export async function validateVisitsResponseSchema(testSubscriptions: TestSubscr
  */
 async function validateWebhookSchema() {
   const schemaName = 'Webhook';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const webhookSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const webhookValidator = ajv.compile(webhookSchema);
+  const webhookValidator = createValidator(schemaName, 'validateWebhookSchema');
 
   // Validate against example file
   ['./schemas/paths/examples/webhook.json'].forEach((examplePath) =>
@@ -214,9 +201,7 @@ async function validateWebhookSchema() {
  */
 async function validateCommonError403Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const commonError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const commonError403Validator = ajv.compile(commonError403Schema);
+  const commonError403Validator = createValidator(schemaName, 'validateCommonError403Schema');
 
   // Validate against example file
   [
@@ -310,9 +295,7 @@ async function validateCommonError403Schema(testSubscriptions: TestSubscription[
  */
 async function validateEventError404Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const eventError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const eventError404Validator = ajv.compile(eventError404Schema);
+  const eventError404Validator = createValidator(schemaName, 'validateEventError404Schema');
 
   // Validate against example file
   ['./schemas/paths/examples/errors/404_request_not_found.json'].forEach((examplePath) =>
@@ -364,9 +347,7 @@ async function validateEventError404Schema(testSubscriptions: TestSubscription[]
  */
 async function validateGetVisitsError400Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorPlainResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const visitsError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const visitsError400Validator = ajv.compile(visitsError400Schema);
+  const visitsError400Validator = createValidator(schemaName, 'validateGetVisitsError400Schema');
 
   // Validate against example file
   ['./schemas/paths/examples/get_visitors_400_bad_request.json'].forEach((examplePath) =>
@@ -404,9 +385,7 @@ async function validateGetVisitsError400Schema(testSubscriptions: TestSubscripti
  */
 async function validateGetVisitsError403Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorPlainResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const visitsError403Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const visitsError403Validator = ajv.compile(visitsError403Schema);
+  const visitsError403Validator = createValidator(schemaName, 'validateGetVisitsError403Schema');
 
   // Validate against example file
   ['./schemas/paths/examples/get_visitors_403_forbidden.json'].forEach((examplePath) =>
@@ -444,9 +423,7 @@ async function validateGetVisitsError403Schema(testSubscriptions: TestSubscripti
  */
 async function validateGetVisitsError429Schema() {
   const schemaName = 'ErrorPlainResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const visitsError429Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const visitsError429Validator = ajv.compile(visitsError429Schema);
+  const visitsError429Validator = createValidator(schemaName, 'validateGetVisitsError429Schema');
 
   // Validate against example file
   ['./schemas/paths/examples/get_visitors_429_too_many_requests.json'].forEach((examplePath) =>
@@ -464,9 +441,7 @@ async function validateGetVisitsError429Schema() {
  */
 async function validateErrorCommon429Response() {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const errorCommon429ResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const errorCommon429ResponseValidator = ajv.compile(errorCommon429ResponseSchema);
+  const errorCommon429ResponseValidator = createValidator(schemaName, 'validateErrorCommon429Response');
 
   // Validate against example file
   ['./schemas/paths/examples/errors/429_too_many_requests.json'].forEach((examplePath) =>
@@ -484,9 +459,7 @@ async function validateErrorCommon429Response() {
  */
 async function validateErrorVisitor400Response(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const visitorError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const visitorError400Validator = ajv.compile(visitorError400Schema);
+  const visitorError400Validator = createValidator(schemaName, 'validateErrorVisitor400Response');
 
   // Validate against example file
   [
@@ -541,9 +514,7 @@ async function validateErrorVisitor400Response(testSubscriptions: TestSubscripti
  */
 async function validateErrorVisitor404Response(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const visitorError404Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const visitorError404Validator = ajv.compile(visitorError404Schema);
+  const visitorError404Validator = createValidator(schemaName, 'validateErrorVisitor404Response');
 
   // Validate against example file
   ['./schemas/paths/examples/errors/404_visitor_not_found.json'].forEach((examplePath) =>
@@ -593,9 +564,7 @@ async function validateErrorVisitor404Response(testSubscriptions: TestSubscripti
 
 async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'RelatedVisitorsResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const relatedVisitorsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const relatedVisitorsResponseValidator = ajv.compile(relatedVisitorsResponseSchema);
+  const relatedVisitorsResponseValidator = createValidator(schemaName, 'validateRelatedVisitorsResponseSchema');
 
   // Validate against example file
   [
@@ -632,9 +601,7 @@ async function validateRelatedVisitorsResponseSchema(testSubscriptions: TestSubs
  */
 async function validateUpdateEventError400Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const updateEvent400ErrorSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const updateEvent400ErrorValidator = ajv.compile(updateEvent400ErrorSchema);
+  const updateEvent400ErrorValidator = createValidator(schemaName, 'validateUpdateEventError400Schema');
 
   // Validate against example file
   ['./schemas/paths/examples/errors/400_request_body_invalid.json'].forEach((examplePath) =>
@@ -675,9 +642,7 @@ async function validateUpdateEventError400Schema(testSubscriptions: TestSubscrip
  */
 async function validateUpdateEventError409Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const updateEvent409ErrorSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const updateEvent409ErrorValidator = ajv.compile(updateEvent409ErrorSchema);
+  const updateEvent409ErrorValidator = createValidator(schemaName, 'validateUpdateEventError409Schema');
 
   // Validate against example file
   ['./schemas/paths/examples/errors/409_state_not_ready.json'].forEach((examplePath) =>
@@ -723,9 +688,7 @@ async function validateUpdateEventError409Schema(testSubscriptions: TestSubscrip
 
 async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'SearchEventsResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const searchEventsResponseSchema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const searchEventsResponseValidator = ajv.compile(searchEventsResponseSchema);
+  const searchEventsResponseValidator = createValidator(schemaName, 'validateSearchEventsResponseSchema');
 
   // Validate against example file
   ['./schemas/paths/examples/get_event_search_200.json'].forEach((examplePath) =>
@@ -772,9 +735,7 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
 
 async function validateSearchEventsError400Schema(testSubscriptions: TestSubscription[]) {
   const schemaName = 'ErrorResponse';
-  console.log(`\n⚡ ${getCurrentFunctionName()}: Validating ${schemaName} schema: \n`);
-  const searchEventsError400Schema = convertOpenApiToJsonSchema(OPEN_API_SCHEMA, `#/definitions/${schemaName}`);
-  const searchEventsError400Validator = ajv.compile(searchEventsError400Schema);
+  const searchEventsError400Validator = createValidator(schemaName, 'validateSearchEventsError400Schema');
 
   // Validate against example file
   [
