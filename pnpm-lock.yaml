@@ -28,8 +28,8 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(@types/eslint@8.56.10)(prettier@3.2.5)(typescript@5.5.3)
       '@fingerprintjs/fingerprintjs-pro-server-api':
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^6.3.0
+        version: 6.3.0
       '@fingerprintjs/prettier-config-dx-team':
         specifier: ^0.1.0
         version: 0.1.0
@@ -543,8 +543,8 @@ packages:
     peerDependencies:
       prettier: '>=3'
 
-  '@fingerprintjs/fingerprintjs-pro-server-api@4.1.2':
-    resolution: {integrity: sha512-rKdVmYo/z6Fqkt5DHp9r6NYVtm/HuriCzja7lFOffBW7sNEVJ5iFXwlFnZ92Hp5n2k2fqcNaAM5cw5I7dZ5mnw==}
+  '@fingerprintjs/fingerprintjs-pro-server-api@6.3.0':
+    resolution: {integrity: sha512-Kig3A+sEBoTvOXqgj+MvND2prF6WId/bO/vCz4ZMUhW8s4FRRv5SUohcH+k5npdwTJy3t6qSZP7DUPYNM/PEsg==}
     engines: {node: '>=18.17.0'}
 
   '@fingerprintjs/prettier-config-dx-team@0.1.0':
@@ -4529,7 +4529,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@fingerprintjs/fingerprintjs-pro-server-api@4.1.2': {}
+  '@fingerprintjs/fingerprintjs-pro-server-api@6.3.0': {}
 
   '@fingerprintjs/prettier-config-dx-team@0.1.0':
     dependencies:
