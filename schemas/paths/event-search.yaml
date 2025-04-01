@@ -94,107 +94,107 @@ get:
         type: boolean
       description: |
         Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). 
-        > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
+        > Note: When using this parameter, only events with the `products.suspectScore.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.suspectScore` are left out of the response.
     - name: vpn
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by VPN detection.  
-        > Note: When using this parameter, only events with the `vpn` property explicitly set to `true` or `false` are returned. Events with undefined `vpn` property are left out of the response.
+        Filter events by VPN detection result.  
+        > Note: When using this parameter, only events with the `products.vpn.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.vpn` are left out of the response.
     - name: virtual_machine
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by virtual machine detection.  
-        > Note: When using this parameter, only events with the `virtual_machine` property explicitly set to `true` or `false` are returned. Events with undefined `virtual_machine` property are left out of the response.
+        Filter events by virtual machine detection result.  
+        > Note: When using this parameter, only events with the `products.virtualMachine.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.virtualMachine` are left out of the response.
     - name: tampering
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by tampering detection.  
-        > Note: When using this parameter, only events with the `tampering` property explicitly set to `true` or `false` are returned. Events with undefined `tampering` property are left out of the response.
+        Filter events by tampering detection result.  
+        > Note: When using this parameter, only events with the `products.tampering.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.tampering` are left out of the response.
     - name: anti_detect_browser
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by anti-detect browser usage.  
-        > Note: When using this parameter, only events with the `anti_detect_browser` property explicitly set to `true` or `false` are returned. Events with undefined `anti_detect_browser` property are left out of the response.
+        Filter events by anti-detect browser usage result.  
+        > Note: When using this parameter, only events with the `products.tampering.data.antiDetectBrowser` property explicitly set to `true` or `false` are returned. Events with undefined `products.tampering` are left out of the response.
     - name: incognito
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by incognito mode detection.  
-        > Note: When using this parameter, only events with the `incognito` property explicitly set to `true` or `false` are returned. Events with undefined `incognito` property are left out of the response.
+        Filter events by incognito mode detection result.  
+        > Note: When using this parameter, only events with the `products.incognito.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.incognito` are left out of the response.
     - name: privacy_settings
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by privacy settings detection.  
-        > Note: When using this parameter, only events with the `privacy_settings` property explicitly set to `true` or `false` are returned. Events with undefined `privacy_settings` property are left out of the response.
+        Filter events by privacy settings detection result.  
+        > Note: When using this parameter, only events with the `products.privacySettings.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.privacySettings` are left out of the response.
     - name: jailbroken
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by jailbroken device detection.  
-        > Note: When using this parameter, only events with the `jailbroken` property explicitly set to `true` or `false` are returned. Events with undefined `jailbroken` property are left out of the response.
+        Filter events by jailbroken device detection result.  
+        > Note: When using this parameter, only events with the `products.jailbroken.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.jailbroken` are left out of the response.
     - name: frida
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by Frida instrumentation detection.  
-        > Note: When using this parameter, only events with the `frida` property explicitly set to `true` or `false` are returned. Events with undefined `frida` property are left out of the response.
+        Filter events by Frida instrumentation detection result.  
+        > Note: When using this parameter, only events with the `products.frida.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.frida` are left out of the response.
     - name: factory_reset
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by factory reset detection.  
-        > Note: When using this parameter, only events with the `factory_reset` property explicitly set to `true` or `false` are returned. Events with undefined `factory_reset` property are left out of the response.
+        Filter events by factory reset detection result.  
+        > Note: When using this parameter, only events with the `products.factoryReset.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.factoryReset` are left out of the response.
     - name: cloned_app
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by cloned app detection.  
-        > Note: When using this parameter, only events with the `cloned_app` property explicitly set to `true` or `false` are returned. Events with undefined `cloned_app` property are left out of the response.
+        Filter events by cloned app detection result.  
+        > Note: When using this parameter, only events with the `products.clonedApp.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.clonedApp` are left out of the response.
     - name: emulator
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by emulator usage.  
-        > Note: When using this parameter, only events with the `emulator` property explicitly set to `true` or `false` are returned. Events with undefined `emulator` property are left out of the response.
+        Filter events by emulator usage result.  
+        > Note: When using this parameter, only events with the `products.emulator.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.emulator` are left out of the response.
     - name: root_apps
       in: query
       schema:
         type: boolean
       description: |
-        Filter events by root apps detection.  
-        > Note: When using this parameter, only events with the `root_apps` property explicitly set to `true` or `false` are returned. Events with undefined `root_apps` property are left out of the response.
+        Filter events by root apps detection result.  
+        > Note: When using this parameter, only events with the `products.rootApps.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.rootApps` are left out of the response.
     - name: vpn_confidence
       in: query
       schema:
         type: string
         enum: [HIGH, MEDIUM, LOW]
       description: |
-        Filter events by VPN confidence level.  
-        > Note: When using this parameter, only events with the `vpn_confidence` property explicitly set to a valid value are returned. Events with undefined `vpn_confidence` property are left out of the response.
+        Filter events by VPN confidence level result.  
+        > Note: When using this parameter, only events with the `products.vpn.data.result.confidence` property explicitly set to a valid value are returned. Events with undefined `products.vpn` are left out of the response.
     - name: min_suspect_score
       in: query
       schema:
         type: number
         format: float
       description: |
-        Minimum suspect score threshold for filtering events.  
-        > Note: When using this parameter, only events with the `min_suspect_score` property explicitly set to a valid value are returned. Events with undefined `min_suspect_score` property are left out of the response.
+        Filter events by suspect score result using a minimum threshold.  
+        > Note: When using this parameter, only events where the `products.suspectScore.data.result` property is explicitly set to a valid threshold and exceeds it are returned. Events with undefined `products.suspectScore` are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).
