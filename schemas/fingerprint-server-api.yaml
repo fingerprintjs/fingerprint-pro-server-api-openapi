@@ -3925,7 +3925,7 @@ paths:
         - Upon request to delete, this data is deleted asynchronously (typically
         within a few minutes) and it will no longer be used to identify this
         browser (or device) for your [Fingerprint
-        Application](https://dev.fingerprint.com/docs/glossary#fingerprint-application).
+        Workspace](https://dev.fingerprint.com/docs/glossary#fingerprint-workspace).
 
 
         #### Identification requests made from this browser (or device)
