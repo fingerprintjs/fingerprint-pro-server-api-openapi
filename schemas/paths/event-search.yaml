@@ -52,6 +52,7 @@ get:
           `good` - events where a good bot was detected.
           `bad` - events where a bad bot was detected.
           `none` - events where no bot was detected.
+        > Note: When using this parameter, only events with the `products.botd.data.bot.result` property set to a valid value are returned. Events without a `products.botd` Smart signal result are left out of the response.
     - name: ip_address
       in: query
       schema:
@@ -94,99 +95,105 @@ get:
         type: boolean
       description: |
         Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). 
-        > Note: When using this parameter, only events with the `products.suspectScore.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.suspectScore` are left out of the response.
+        > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` are left out of the response.
     - name: vpn
       in: query
       schema:
         type: boolean
       description: |
         Filter events by VPN detection result.  
-        > Note: When using this parameter, only events with the `products.vpn.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.vpn` are left out of the response.
+        > Note: When using this parameter, only events with the `products.vpn.data.result` property set to `true` or `false` are returned. Events without a `products.vpn` Smart signal result are left out of the response.
     - name: virtual_machine
       in: query
       schema:
         type: boolean
       description: |
         Filter events by virtual machine detection result.  
-        > Note: When using this parameter, only events with the `products.virtualMachine.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.virtualMachine` are left out of the response.
+        > Note: When using this parameter, only events with the `products.virtualMachine.data.result` property set to `true` or `false` are returned. Events without a `products.virtualMachine` Smart signal result are left out of the response.
     - name: tampering
       in: query
       schema:
         type: boolean
       description: |
         Filter events by tampering detection result.  
-        > Note: When using this parameter, only events with the `products.tampering.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.tampering` are left out of the response.
+        > Note: When using this parameter, only events with the `products.tampering.data.result` property set to `true` or `false` are returned. Events without a `products.tampering` Smart signal result are left out of the response.
     - name: anti_detect_browser
       in: query
       schema:
         type: boolean
       description: |
         Filter events by anti-detect browser usage result.  
-        > Note: When using this parameter, only events with the `products.tampering.data.antiDetectBrowser` property explicitly set to `true` or `false` are returned. Events with undefined `products.tampering` are left out of the response.
+        > Note: When using this parameter, only events with the `products.tampering.data.antiDetectBrowser` property set to `true` or `false` are returned. Events without a `products.tampering` Smart signal result are left out of the response.
     - name: incognito
       in: query
       schema:
         type: boolean
       description: |
         Filter events by incognito mode detection result.  
-        > Note: When using this parameter, only events with the `products.incognito.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.incognito` are left out of the response.
+        > Note: When using this parameter, only events with the `products.incognito.data.result` property set to `true` or `false` are returned. Events without a `products.incognito` Smart signal result are left out of the response.
     - name: privacy_settings
       in: query
       schema:
         type: boolean
       description: |
         Filter events by privacy settings detection result.  
-        > Note: When using this parameter, only events with the `products.privacySettings.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.privacySettings` are left out of the response.
+        > Note: When using this parameter, only events with the `products.privacySettings.data.result` property set to `true` or `false` are returned. Events without a `products.privacySettings` Smart signal result are left out of the response.
     - name: jailbroken
       in: query
       schema:
         type: boolean
       description: |
         Filter events by jailbroken device detection result.  
-        > Note: When using this parameter, only events with the `products.jailbroken.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.jailbroken` are left out of the response.
+        > Note: When using this parameter, only events with the `products.jailbroken.data.result` property set to `true` or `false` are returned. Events without a `products.jailbroken` Smart signal result are left out of the response.
     - name: frida
       in: query
       schema:
         type: boolean
       description: |
         Filter events by Frida instrumentation detection result.  
-        > Note: When using this parameter, only events with the `products.frida.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.frida` are left out of the response.
+        > Note: When using this parameter, only events with the `products.frida.data.result` property set to `true` or `false` are returned. Events without a `products.frida` Smart signal result are left out of the response.
     - name: factory_reset
       in: query
       schema:
         type: boolean
       description: |
         Filter events by factory reset detection result.  
-        > Note: When using this parameter, only events with the `products.factoryReset.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.factoryReset` are left out of the response.
+        > Note: When using this parameter, only events with the `products.factoryReset.data.result` property set to `true` or `false` are returned. Events without a `products.factoryReset` Smart signal result are left out of the response.
     - name: cloned_app
       in: query
       schema:
         type: boolean
       description: |
         Filter events by cloned app detection result.  
-        > Note: When using this parameter, only events with the `products.clonedApp.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.clonedApp` are left out of the response.
+        > Note: When using this parameter, only events with the `products.clonedApp.data.result` property set to `true` or `false` are returned. Events without a `products.clonedApp` Smart signal result are left out of the response.
     - name: emulator
       in: query
       schema:
         type: boolean
       description: |
         Filter events by emulator usage result.  
-        > Note: When using this parameter, only events with the `products.emulator.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.emulator` are left out of the response.
+        > Note: When using this parameter, only events with the `products.emulator.data.result` property set to `true` or `false` are returned. Events without a `products.emulator` Smart signal result are left out of the response.
     - name: root_apps
       in: query
       schema:
         type: boolean
       description: |
         Filter events by root apps detection result.  
-        > Note: When using this parameter, only events with the `products.rootApps.data.result` property explicitly set to `true` or `false` are returned. Events with undefined `products.rootApps` are left out of the response.
+        > Note: When using this parameter, only events with the `products.rootApps.data.result` property set to `true` or `false` are returned. Events without a `products.rootApps` Smart signal result are left out of the response.
     - name: vpn_confidence
       in: query
       schema:
         type: string
-        enum: [HIGH, MEDIUM, LOW]
+        enum:
+          - high,
+          - medium
+          - low
       description: |
         Filter events by VPN confidence level result.  
-        > Note: When using this parameter, only events with the `products.vpn.data.result.confidence` property explicitly set to a valid value are returned. Events with undefined `products.vpn` are left out of the response.
+        `high` - events where high vpn confidence was detected.
+        `medium` -  events where medium vpn confidence was detected.
+        `low` - events where low vpn confidence was detected.
+        > Note: When using this parameter, only events with the `products.vpn.data.confidence` property set to a valid value are returned. Events without a `products.vpn` Smart signal result are left out of the response.
     - name: min_suspect_score
       in: query
       schema:
@@ -194,7 +201,7 @@ get:
         format: float
       description: |
         Filter events by suspect score result using a minimum threshold.  
-        > Note: When using this parameter, only events where the `products.suspectScore.data.result` property is explicitly set to a valid threshold and exceeds it are returned. Events with undefined `products.suspectScore` are left out of the response.
+        > Note: When using this parameter, only events where the `products.suspectScore.data.result` property set to a value exceeding your threshold are returned. Events without a `products.suspectScore` Smart signal result are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).
