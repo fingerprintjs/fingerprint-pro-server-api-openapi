@@ -2,4 +2,4 @@
 "fingerprint-pro-server-api-openapi": patch
 ---
 
-Add `environmentId` property to webhook
+**webhook**: Add `environmentId` property
