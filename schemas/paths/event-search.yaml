@@ -47,11 +47,12 @@ get:
           - bad
           - none
       description: |
-        Filter events by the bot detection result, specifically: 
+        Filter events by the Bot Detection result, specifically: 
           `all` - events where any kind of bot was detected.
           `good` - events where a good bot was detected.
           `bad` - events where a bad bot was detected.
           `none` - events where no bot was detected.
+        > Note: When using this parameter, only events with the `products.botd.data.bot.result` property set to a valid value are returned. Events without a `products.botd` Smart Signal result are left out of the response.
     - name: ip_address
       in: query
       schema:
@@ -95,6 +96,112 @@ get:
       description: |
         Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). 
         > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
+    - name: vpn
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by VPN Detection result.  
+        > Note: When using this parameter, only events with the `products.vpn.data.result` property set to `true` or `false` are returned. Events without a `products.vpn` Smart Signal result are left out of the response.
+    - name: virtual_machine
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Virtual Machine Detection result.  
+        > Note: When using this parameter, only events with the `products.virtualMachine.data.result` property set to `true` or `false` are returned. Events without a `products.virtualMachine` Smart Signal result are left out of the response.
+    - name: tampering
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Browser Tampering Detection result.  
+        > Note: When using this parameter, only events with the `products.tampering.data.result` property set to `true` or `false` are returned. Events without a `products.tampering` Smart Signal result are left out of the response.
+    - name: anti_detect_browser
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Anti-detect Browser Detection result.  
+        > Note: When using this parameter, only events with the `products.tampering.data.antiDetectBrowser` property set to `true` or `false` are returned. Events without a `products.tampering` Smart Signal result are left out of the response.
+    - name: incognito
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Browser Incognito Detection result.  
+        > Note: When using this parameter, only events with the `products.incognito.data.result` property set to `true` or `false` are returned. Events without a `products.incognito` Smart Signal result are left out of the response.
+    - name: privacy_settings
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Privacy Settings Detection result.  
+        > Note: When using this parameter, only events with the `products.privacySettings.data.result` property set to `true` or `false` are returned. Events without a `products.privacySettings` Smart Signal result are left out of the response.
+    - name: jailbroken
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Jailbroken Device Detection result.  
+        > Note: When using this parameter, only events with the `products.jailbroken.data.result` property set to `true` or `false` are returned. Events without a `products.jailbroken` Smart Signal result are left out of the response.
+    - name: frida
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Frida Detection result.  
+        > Note: When using this parameter, only events with the `products.frida.data.result` property set to `true` or `false` are returned. Events without a `products.frida` Smart Signal result are left out of the response.
+    - name: factory_reset
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Factory Reset Detection result.  
+        > Note: When using this parameter, only events with the `products.factoryReset.data.result` property set to `true` or `false` are returned. Events without a `products.factoryReset` Smart Signal result are left out of the response.
+    - name: cloned_app
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Cloned App Detection result.  
+        > Note: When using this parameter, only events with the `products.clonedApp.data.result` property set to `true` or `false` are returned. Events without a `products.clonedApp` Smart Signal result are left out of the response.
+    - name: emulator
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Android Emulator Detection result.  
+        > Note: When using this parameter, only events with the `products.emulator.data.result` property set to `true` or `false` are returned. Events without a `products.emulator` Smart Signal result are left out of the response.
+    - name: root_apps
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Rooted Device Detection result.  
+        > Note: When using this parameter, only events with the `products.rootApps.data.result` property set to `true` or `false` are returned. Events without a `products.rootApps` Smart Signal result are left out of the response.
+    - name: vpn_confidence
+      in: query
+      schema:
+        type: string
+        enum:
+          - high,
+          - medium
+          - low
+      description: |
+        Filter events by VPN Detection result confidence level.  
+        `high` - events with high VPN Detection confidence.
+        `medium` - events with medium VPN Detection confidence.
+        `low` - events with low VPN Detection confidence.
+        > Note: When using this parameter, only events with the `products.vpn.data.confidence` property set to a valid value are returned. Events without a `products.vpn` Smart Signal result are left out of the response.
+    - name: min_suspect_score
+      in: query
+      schema:
+        type: number
+        format: float
+      description: |
+        Filter events with Suspect Score result above a provided minimum threshold.
+        > Note: When using this parameter, only events where the `products.suspectScore.data.result` property set to a value exceeding your threshold are returned. Events without a `products.suspectScore` Smart Signal result are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).
