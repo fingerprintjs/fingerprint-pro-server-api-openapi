@@ -719,6 +719,34 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
       { limit: 10, reverse: true },
       { limit: 10, suspect: true },
       { limit: 10, pagination_key: '123' },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, vpn: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, virtual_machine: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, tampering: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, anti_detect_browser: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, incognito: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, privacy_settings: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, jailbroken: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, frida: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, factory_reset: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, cloned_app: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, emulator: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, root_apps: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, vpn_confidence: 'high' },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, min_suspect_score: 0.5 },
     ] satisfies SearchEventsFilter[];
 
     for (const filter of filters) {
@@ -729,6 +757,8 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
         validator: searchEventsResponseValidator,
         schemaName,
       });
+      // Wait for 100ms to avoid rate limiting
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
   }
 }
@@ -774,6 +804,21 @@ async function validateSearchEventsError400Schema(testSubscriptions: TestSubscri
       { limit: 1, reverse: 'not a boolean' },
       { limit: 1, suspect: 'not a boolean' },
       { limit: 1, pagination_key: false },
+      { limit: 10, vpn: 'not a boolean' },
+      { limit: 10, virtual_machine: 'not a boolean' },
+      { limit: 10, tampering: 'not a boolean' },
+      { limit: 10, anti_detect_browser: 'not a boolean' },
+      { limit: 10, incognito: 'not a boolean' },
+      { limit: 10, privacy_settings: 'not a boolean' },
+      { limit: 10, jailbroken: 'not a boolean' },
+      { limit: 10, frida: 'not a boolean' },
+      { limit: 10, factory_reset: 'not a boolean' },
+      { limit: 10, cloned_app: 'not a boolean' },
+      { limit: 10, emulator: 'not a boolean' },
+      { limit: 10, root_apps: 'not a boolean' },
+      { limit: 10, vpn_confidence: 'not a confidence value' },
+      { limit: 10, min_suspect_score: 'not a number' },
+      // Temporary small bug, remove condition when fixed
       subscription.botDetectionEnabled && { limit: 1, bot: 'invalid bot value' },
     ];
 

@@ -47,7 +47,7 @@ get:
           - bad
           - none
       description: |
-        Filter events by the bot detection result, specifically: 
+        Filter events by the Bot Detection result, specifically: 
           `all` - events where any kind of bot was detected.
           `good` - events where a good bot was detected.
           `bad` - events where a bad bot was detected.
