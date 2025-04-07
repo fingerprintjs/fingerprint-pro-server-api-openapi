@@ -2715,6 +2715,9 @@ components:
         ip:
           type: string
           description: IP address of the requesting browser or bot.
+        environmentId:
+          type: string
+          description: Environment ID of the event.
         tag:
           $ref: '#/components/schemas/Tag'
         time:
