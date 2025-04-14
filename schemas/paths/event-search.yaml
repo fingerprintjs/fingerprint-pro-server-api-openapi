@@ -115,7 +115,7 @@ get:
       schema:
         type: boolean
       description: |
-        Filter events by Browser Tampering Detection result.  
+        Filter events by Tampering Detection result.  
         > Note: When using this parameter, only events with the `products.tampering.data.result` property set to `true` or `false` are returned. Events without a `products.tampering` Smart Signal result are left out of the response.
     - name: anti_detect_browser
       in: query
