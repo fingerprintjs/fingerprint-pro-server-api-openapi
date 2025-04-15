@@ -747,6 +747,10 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
       { limit: 10, vpn_confidence: 'high' },
       // @ts-ignore not supported in Node SDK types yet
       { limit: 10, min_suspect_score: 0.5 },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, ip_blocklist: true },
+      // @ts-ignore not supported in Node SDK types yet
+      { limit: 10, datacenter: true },
     ] satisfies SearchEventsFilter[];
 
     for (const filter of filters) {
@@ -818,6 +822,8 @@ async function validateSearchEventsError400Schema(testSubscriptions: TestSubscri
       { limit: 10, root_apps: 'not a boolean' },
       { limit: 10, vpn_confidence: 'not a confidence value' },
       { limit: 10, min_suspect_score: 'not a number' },
+      { limit: 10, ip_blocklist: 'not a boolean' },
+      { limit: 10, datacenter: 'not a boolean' },
       // Temporary small bug, remove condition when fixed
       subscription.botDetectionEnabled && { limit: 1, bot: 'invalid bot value' },
     ];
