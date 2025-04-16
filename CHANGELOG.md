@@ -1,5 +1,16 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.5.0
+
+### Minor Changes
+
+- **events-search**: Event search now supports a new set of filter parameters: `vpn`, `virtual_machine`, `tampering`, `anti_detect_browser`, `incognito`, `privacy_settings`, `jailbroken`, `frida`, `factory_reset`, `cloned_app`, `emulator`, `root_apps`, `vpn_confidence`, `min_suspect_score`. ([1fbba3a](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/1fbba3a8a148addc3435dcd3994aae0466fb105c))
+
+### Patch Changes
+
+- **events**: Update Tampering descriptions to reflect Android support. ([52d19e7](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/52d19e77c5f42d72299103093a115d263153e9c0))
+- **webhook**: Add `environmentId` property ([20c49ca](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/20c49ca0201bff3dbccd2585c828514109d14645))
+
 ## 2.4.1
 
 ### Patch Changes
