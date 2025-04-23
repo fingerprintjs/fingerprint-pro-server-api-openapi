@@ -185,7 +185,7 @@ get:
       schema:
         type: string
         enum:
-          - high,
+          - high
           - medium
           - low
       description: |
