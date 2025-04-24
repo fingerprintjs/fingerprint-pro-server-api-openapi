@@ -1,5 +1,15 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.6.0
+
+### Minor Changes
+
+- **events-search**: Event search now supports two new filter parameters: `ip_blocklist`, `datacenter` ([2817b47](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/2817b47508226b1a8e65e86ffd2024e64763f6ca))
+
+### Patch Changes
+
+- **events-search**: Fixed `vpn_confidence` query parameter enum value formatting (`high,` -> `high`) ([c789996](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/c7899960ac5620bfe76903ce828ae77d8c649b6a))
+
 ## 2.5.0
 
 ### Minor Changes
