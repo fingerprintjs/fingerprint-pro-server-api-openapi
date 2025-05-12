@@ -15,7 +15,7 @@
 
 # Fingerprint Pro Server API OpenAPI Schema
 
-[Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy. Fingerprint [Server API](https://dev.fingerprint.com/reference/pro-server-api) allows you to retrieve visitor history or individual identification events in a server environment.
+[Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy. Fingerprint [Server API](https://dev.fingerprint.com/reference/pro-server-api) allows you to search, update, and delete identification events in a server environment.
 
 This repository contains the [OpenAPI](https://swagger.io/docs/specification/about/) schema of the Fingerprint Server API. You can use it as a reference, to try the API or to generate types for your code. It's the basis for all available [Fingerprint Server SDKs](https://dev.fingerprint.com/docs/backend-libraries).
 
