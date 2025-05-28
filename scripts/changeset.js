@@ -50,10 +50,16 @@ const data = await prompt([
     type: 'select',
     name: 'scope',
     message: 'Select scope of the changes',
-    choices: scopes.map((s) => ({
-      value: s,
-      title: s,
-    })),
+    choices: [
+      {
+        value: null,
+        title: '[no scope] - change has no scope or affects multiple scopes',
+      },
+      ...scopes.map((s) => ({
+        value: s,
+        title: s,
+      })),
+    ],
   },
 ]);
 
