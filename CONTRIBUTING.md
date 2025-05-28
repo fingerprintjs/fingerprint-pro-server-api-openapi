@@ -1,6 +1,6 @@
-# Contributing to Fingerprint Pro Server API OpenAPI
+# Contributing to Fingerprint Server API OpenAPI
 
-The repository contains OpenAPI definition files for various [Fingerprint Pro Server-side APIs](https://dev.fingerprint.com/reference).
+The repository contains OpenAPI definition files for various [Fingerprint Server-side APIs](https://dev.fingerprint.com/reference).
 
 ## Schemas
 
