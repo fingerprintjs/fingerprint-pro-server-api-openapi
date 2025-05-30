@@ -225,6 +225,7 @@ paths:
                       proxy:
                         data:
                           result: false
+                          confidence: high
                       incognito:
                         data:
                           result: false
@@ -1313,6 +1314,7 @@ paths:
                           proxy:
                             data:
                               result: false
+                              confidence: high
                           incognito:
                             data:
                               result: false
@@ -5291,17 +5293,30 @@ components:
           $ref: '#/components/schemas/VPN'
         error:
           $ref: '#/components/schemas/Error'
+    ProxyConfidence:
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+      description: |
+        Confidence level of the proxy detection.
+        If a proxy is not detected, confidence is "high".
+        If it's detected, can be "low", "medium", or "high".
     Proxy:
       type: object
       additionalProperties: false
       required:
         - result
+        - confidence
       properties:
         result:
           type: boolean
           description: >
-            `true` if the request IP address is used by a public proxy provider,
-            `false` otherwise.
+            IP address was used by a public proxy provider or belonged to a
+            known recent residential proxy
+        confidence:
+          $ref: '#/components/schemas/ProxyConfidence'
     ProductProxy:
       type: object
       additionalProperties: false
