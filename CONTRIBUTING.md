@@ -67,6 +67,15 @@ Example changeset looks like this:
 
 ### Publishing changes
 
-- On merge into `main`, if there are relevant changes, the [Release](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/release.yml) workflow can be triggered, which will consume created changeset files and create PR with bumped version and updated changelog.
-- When a PR is merged into `main`, the latest schema is automatically published to the [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
-- The changes are currently NOT automatically published to the [Documentation API Reference](https://dev.fingerprint.com/reference) repository. You need to publish them manually using Readme CLI or Readme dashboard. The DX team is happy to assist.
+On every push into `main` (merged PR):  
+- The built schema is published to [Readme API Reference](https://dev.fingerprint.com/reference).
+- The built schema is published to [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
+- The built schema is published as a [raw yaml file](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
+
+See the [publish.yml](.github/workflows/publish.yml) workflow for more details.
+
+### GitHub releases
+
+GitHub releases are used to generate Server SDKs based on a specific version of the OpenAPI schema.
+
+After merging to `main`, if there are relevant changes, you can manually trigger the [Release](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/release.yml) workflow, which will consume created changeset files and create PR with bumped version and updated changelog.
