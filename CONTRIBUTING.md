@@ -44,26 +44,29 @@ To validate that schema matches the actual API implementation we use a [special 
 - If you are adding things to the schema, you can also try adding the appropriate validations for the changes to the `validateSchema.ts` script. If you run into problems, the repository maintainers will be happy to help or to add the validations themselves as part of the PR review.
 
 ### Describing changes
-[Releases](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/releases) from this repository are propagated to our server-side SDKs, that's why it's important to provide meaningful release notes if there are relevant changes.
-We use [changesets](https://github.com/changesets/changesets) for that. If you want to describe your changes, run:
+
+[Releases](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/releases) from this repository are propagated to our server-side SDKs, that's why it's important to provide meaningful release notes if there are relevant changes. We use [changesets](https://github.com/changesets/changesets) for that. If you want to describe your changes, run:
+
 ```sh
 pnpm run changeset
 ``` 
+
 and follow steps in the CLI. It will create a new markdown file in `.changeset` folder, don't forget to commit it with your changes.
 Example changeset looks like this:
+
 ```markdown
 ---
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**visitors**: Add the confidence field to the VPN Detection Smart Signal
+**visitors**: Add the confidence field to the VPN Detection Smart Signal.
 ```
 
 #### Legend
-- `visitors` - scope of the changes. Scopes are defined in the [config/scopes.yaml](config/scopes.yaml) file. Certain scopes are ignored in certain SDKs if they are not supported, meaning that they will be ignored for them. You will be prompted to select scope in the CLI.
+- `visitors` - scope of the changes. Scopes are defined in the [config/scopes.yaml](config/scopes.yaml) file. Certain scopes are ignored in certain SDKs if they are not supported, meaning that they will be ignored for them. You will be prompted to select scope in the CLI. If your change affects multiple scopes (for example, a change in a Smart Signal schema), select `[no scope]`.
 - `Add the confidence field to the VPN Detection Smart Signal` - meaningful description of the change.
 - `fingerprint-pro-server-api-openapi` - name of the package
-- `minor` - version of the change, can be: `patch`, `minor`, `major`
+- `minor` - version of the change, can be: `patch` (small fix), `minor` (new feature), `major` (breaking change).
 
 ### Publishing changes
 

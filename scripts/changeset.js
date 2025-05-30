@@ -19,15 +19,15 @@ const data = await prompt([
     choices: [
       {
         value: 'major',
-        title: 'major',
+        title: 'major (breaking change)',
       },
       {
         value: 'minor',
-        title: 'minor',
+        title: 'minor (new feature, non-breaking change)',
       },
       {
         value: 'patch',
-        title: 'patch',
+        title: 'patch (small fix, non-breaking change)',
       },
     ],
   },
