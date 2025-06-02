@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.7.0
+
+### Minor Changes
+
+- Add `confidence` property to the Proxy detection Smart Signal, which now supports both residential and public web proxies. ([2ae214c](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/2ae214ced7f9df59cb974e9f95c15099d7d128e7))
+
 ## 2.6.0
 
 ### Minor Changes
