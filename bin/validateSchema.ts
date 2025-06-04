@@ -719,37 +719,21 @@ async function validateSearchEventsResponseSchema(testSubscriptions: TestSubscri
       { limit: 10, reverse: true },
       { limit: 10, suspect: true },
       { limit: 10, pagination_key: '123' },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, vpn: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, virtual_machine: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, tampering: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, anti_detect_browser: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, incognito: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, privacy_settings: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, jailbroken: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, frida: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, factory_reset: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, cloned_app: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, emulator: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, root_apps: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, vpn_confidence: 'high' },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, min_suspect_score: 0.5 },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, ip_blocklist: true },
-      // @ts-ignore not supported in Node SDK types yet
       { limit: 10, datacenter: true },
     ] satisfies SearchEventsFilter[];
 
