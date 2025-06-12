@@ -16,7 +16,7 @@
               region: Region.Global, // Replace with your region
             })
 
-            // Get a specific fingerprinting event
+            // Get a specific identification event
             client.getEvent('REQUEST_ID').then((event) => {
               console.log(event)
             })
@@ -40,7 +40,7 @@
               $config
             );
 
-            // Get a specific fingerprinting event
+            // Get a specific identification event
             try {
               list($model, $response) = $client->getEvent("REQUEST_ID");
               echo "Status: " . $response_upd->getStatusCode();
@@ -61,7 +61,7 @@
             )
             api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
 
-            # Get a specific fingerprinting event
+            # Get a specific identification event
             try:
                 event = api_instance.get_event("REQUEST_ID")
                 print(event)
@@ -92,7 +92,7 @@
               )
               cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
 
-              // Get a specific fingerprinting event
+              // Get a specific identification event
               event, eventHttpRes, eventErr :=
                 client.FingerprintApi.GetEvent(auth, "REQUEST_ID")
               if eventErr != nil {
@@ -118,7 +118,7 @@
                 );
                 FingerprintApi api = new FingerprintApi(client);
 
-                // Get a specific fingerprinting event
+                // Get a specific identification event
                 try {
                   EventsGetResponse response = api.getEvent("REQUEST_ID");
                   System.out.println(response.getProducts().toString());
@@ -141,6 +141,227 @@
                 configuration
             );
 
-            // Get a specific fingerprinting event
+            // Get a specific identification event
             var events = api.GetEvent("REQUEST_ID");
             Console.WriteLine(events);
+  put:
+    x-readme:
+      code-samples:
+        - language: node
+          name: Node SDK
+          install: npm install @fingerprintjs/fingerprintjs-pro-server-api
+          code: |
+            import {
+              FingerprintJsServerApiClient,
+              RequestError,
+              Region,
+            } from '@fingerprintjs/fingerprintjs-pro-server-api'
+
+            const client = new FingerprintJsServerApiClient({
+              apiKey: 'SERVER_API_KEY', // Replace with your key
+              region: Region.Global, // Replace with your region
+            })
+
+            const requestId = 'REQUEST_ID' // Replace with your request ID
+
+            // Update an event
+            try {
+              await client.updateEvent(
+                {
+                  tag: {
+                    key: 'value',
+                  },
+                  linkedId: 'new_linked_id',
+                  suspect: false,
+                },
+                requestId
+              )
+
+              console.log('Event updated')
+            } catch (error) {
+              if (error instanceof RequestError) {
+                console.log(`error ${error.statusCode}: `, error.message)
+                console.log(error.response.statusText)
+              } else {
+                console.log('unknown error: ', error)
+              }
+            }
+        - language: php
+          name: PHP SDK
+          install: composer require fingerprint/fingerprint-pro-server-api-sdk
+          code: |
+            <?php
+            require_once(__DIR__ . '/vendor/autoload.php');
+            use Fingerprint\ServerAPI\Api\FingerprintApi;
+            use Fingerprint\ServerAPI\Configuration;
+            use Fingerprint\ServerAPI\Model\EventsUpdateRequest;
+            use GuzzleHttp\Client;
+
+            $config = Configuration::getDefaultConfiguration(
+              "SERVER_API_KEY", // Replace with your key
+              Configuration::REGION_GLOBAL // Replace with your region
+            );
+
+            $client = new FingerprintApi(
+              new Client(),
+              $config
+            );
+
+            // Update an event
+            try {
+              $body = new EventsUpdateRequest([
+                'linked_id' => 'new linked id',
+                'tag' => ['new_property' => 'new value'],
+                'suspect' => true,
+              ]);
+              list($model, $response) = $client->updateEvent($body, "REQUEST_ID");
+              echo "<pre>" . $response->getBody()->getContents() . "</pre>";
+            } catch (Exception $e) {
+              echo 'Exception when calling FingerprintApi->updateEvent: ', $e->getMessage(), PHP_EOL;
+            }
+        - language: python
+          name: Python SDK
+          install: pip install fingerprint_pro_server_api_sdk
+          code: |
+            import fingerprint_pro_server_api_sdk
+            from fingerprint_pro_server_api_sdk import EventsUpdateRequest
+            from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+
+            configuration = fingerprint_pro_server_api_sdk.Configuration(
+              api_key="SERVER_API_KEY", # Replace with your key
+              region="us" # Replace with your region
+            )
+            api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+
+            request_id = 'REQUEST_ID'  # Replace with your request ID
+            body = EventsUpdateRequest(
+              linked_id='new_linked_id',
+              tag={'new_property': 'new_value'},
+              suspect=True
+            )
+
+            # Update an event
+            try:
+              api_instance.update_event(body, request_id)
+              print("Event updated successfully")
+            except KnownApiException as e:
+              structured_error = e.structured_error
+              print("Error code: %s. Error message: %s\n" % (structured_error.error.code, structured_error.error.message))
+            except ApiException as e:
+              print("Exception when calling FingerprintApi->update_event: %s\n" % e)
+        - language: golang
+          name: Go SDK
+          install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7
+          code: |
+            package main
+
+            import (
+              "context"
+              "fmt"
+              "log"
+              "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7/sdk"
+            )
+
+            func main() {
+              cfg := sdk.NewConfiguration()
+              client := sdk.NewAPIClient(cfg)
+
+              // Configure region (Optional - defaults to sdk.RegionUS)
+              cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
+
+              // Configure authorization with API Key
+              auth := context.WithValue(context.Background(), sdk.ContextAPIKey, sdk.APIKey{
+                Key: "SERVER_API_KEY", // Replace with your key
+              })
+
+              requestId := "REQUEST_ID" // Replace with your request ID
+              tag := sdk.ModelMap{
+                "key": "value",
+              }
+              suspect := false
+              body := sdk.EventsUpdateRequest{
+                Suspect:  &suspect,
+                LinkedId: "new_linked_id",
+                Tag:      &tag,
+              }
+
+              // Update an event
+              httpRes, err := client.FingerprintApi.UpdateEvent(auth, body, requestId)
+
+              if err != nil {
+                log.Fatalf("Error: %s, %s", err.Code(), err.Error())
+              }
+
+              fmt.Printf("Event updated successfully: %+v\n", httpRes)
+            }
+        - language: java
+          name: Java SDK
+          code: |
+            import com.fingerprint.api.FingerprintApi;
+            import com.fingerprint.model.EventsUpdateRequest;
+            import com.fingerprint.sdk.ApiClient;
+            import com.fingerprint.sdk.ApiException;
+            import com.fingerprint.sdk.Configuration;
+            import com.fingerprint.sdk.Region;
+
+            public class FingerprintApiExample {
+              public static void main(String... args) {
+                ApiClient client = Configuration.getDefaultApiClient(
+                  "SERVER_API_KEY", // Replace with your key
+                  Region.GLOBAL // Replace with your region
+                );
+                FingerprintApi api = new FingerprintApi(client);
+
+                String requestId = "REQUEST_ID"; // Replace with your request ID
+
+                // Update an event
+                try {
+                  EventsUpdateRequest request = new EventsUpdateRequest();
+                  request.setLinkedId("new_linked_id");
+                  request.setSuspect(true);
+                  
+                  api.updateEvent(requestId, request);
+                  System.out.println("Event updated successfully");
+                } catch (ApiException e) {
+                  System.err.println("Exception when calling FingerprintApi.updateEvent:" + e.getMessage());
+                }
+              }
+            }
+        - language: csharp
+          name: C# SDK
+          install: dotnet add package FingerprintPro.ServerSdk
+          code: |
+            using FingerprintPro.ServerSdk.Api;
+            using FingerprintPro.ServerSdk.Client;
+            using FingerprintPro.ServerSdk.Model;
+
+            var configuration = new Configuration("SERVER_API_KEY"); // Replace with your key
+            configuration.Region = Region.Us; // Replace with your region
+
+            var api = new FingerprintApi(
+                configuration
+            );
+
+            string requestId = "REQUEST_ID"; // Replace with your request ID
+
+            // Update an event
+            var tag = new Tag
+            {
+                ["key"] = "value"
+            };
+            var body = new EventsUpdateRequest()
+            {
+                Suspect = false,
+                Tag = tag,
+                LinkedId = "new_linked_id"
+            };
+
+            try
+            {
+                api.UpdateEvent(body, requestId);
+                Console.WriteLine("Event updated successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error updating event: {e.Message}");
+            }
