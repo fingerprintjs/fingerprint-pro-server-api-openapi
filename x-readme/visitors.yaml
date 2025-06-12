@@ -147,3 +147,176 @@
             // Get visit history of a specific visitor
             var visits = api.GetVisits("VISITOR_ID");
             Console.WriteLine(visits);
+  delete:
+    x-readme:
+      code-samples:
+        - language: node
+          name: Node SDK
+          install: npm install @fingerprintjs/fingerprintjs-pro-server-api
+          code: |
+            import {
+              FingerprintJsServerApiClient,
+              Region,
+              RequestError,
+            } from '@fingerprintjs/fingerprintjs-pro-server-api'
+
+            const client = new FingerprintJsServerApiClient({
+              apiKey: 'SERVER_API_KEY', // Replace with your key
+              region: Region.Global, // Replace with your region
+            })
+
+            const visitorId = 'VISITOR_ID' // Replace with your visitor ID
+
+            // Delete visitor data
+            try {
+              await client.deleteVisitorData(visitorId)
+              console.log(`All data associated with visitor ${visitorId} is scheduled to be deleted.`)
+            } catch (error) {
+              if (error instanceof RequestError) {
+                console.log(error.statusCode, error.message)
+              } else {
+                console.error('unknown error: ', error)
+              }
+            }
+        - language: php
+          name: PHP SDK
+          install: composer require fingerprint/fingerprint-pro-server-api-sdk
+          code: |
+            <?php
+            require_once(__DIR__ . '/vendor/autoload.php');
+            use Fingerprint\ServerAPI\Api\FingerprintApi;
+            use Fingerprint\ServerAPI\Configuration;
+            use GuzzleHttp\Client;
+
+            $config = Configuration::getDefaultConfiguration(
+              "SERVER_API_KEY", // Replace with your key
+              Configuration::REGION_GLOBAL // Replace with your region
+            );
+
+            $client = new FingerprintApi(
+              new Client(),
+              $config
+            );
+
+            // Delete visitor data
+            try {
+              list($model, $response) = $client->deleteVisitorData("VISITOR_ID");
+              echo "Visitor data deletion scheduled successfully\n";
+              echo "<pre>" . $response->getBody()->getContents() . "</pre>";
+            } catch (Exception $e) {
+              echo 'Exception when calling FingerprintApi->deleteVisitorData: ', $e->getMessage(), PHP_EOL;
+            }
+        - language: python
+          name: Python SDK
+          install: pip install fingerprint_pro_server_api_sdk
+          code: |
+            import fingerprint_pro_server_api_sdk
+            from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+
+            configuration = fingerprint_pro_server_api_sdk.Configuration(
+              api_key="SERVER_API_KEY", # Replace with your key
+              region="us" # Replace with your region
+            )
+            api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+
+            visitor_id = 'VISITOR_ID'  # Replace with your visitor ID
+
+            # Delete visitor data
+            try:
+              api_instance.delete_visitor_data(visitor_id)
+              print("Visitor data deletion scheduled successfully")
+            except KnownApiException as e:
+              structured_error = e.structured_error
+              print("Error code: %s. Error message: %s\n" % (structured_error.error.code, structured_error.error.message))
+            except ApiException as e:
+              print("Exception when calling FingerprintApi->delete_visitor_data: %s\n" % e)
+        - language: golang
+          name: Go SDK
+          install: go get github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7
+          code: |
+            package main
+
+            import (
+              "context"
+              "fmt"
+              "log"
+              "github.com/fingerprintjs/fingerprint-pro-server-api-go-sdk/v7/sdk"
+            )
+
+            func main() {
+              cfg := sdk.NewConfiguration()
+              client := sdk.NewAPIClient(cfg)
+
+              // Configure region (Optional - defaults to sdk.RegionUS)
+              cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
+
+              // Configure authorization with API Key
+              auth := context.WithValue(context.Background(), sdk.ContextAPIKey, sdk.APIKey{
+                Key: "SERVER_API_KEY", // Replace with your key
+              })
+
+              visitorId := "VISITOR_ID" // Replace with your visitor ID
+
+              // Delete visitor data
+              httpRes, err := client.FingerprintApi.DeleteVisitorData(auth, visitorId)
+
+              if err != nil {
+                log.Fatalf("Error: %s, %s", err.Code(), err.Error())
+              }
+
+              fmt.Printf("Visitor data deletion scheduled successfully: %+v\n", httpRes)
+            }
+        - language: java
+          name: Java SDK
+          code: |
+            import com.fingerprint.api.FingerprintApi;
+            import com.fingerprint.sdk.ApiClient;
+            import com.fingerprint.sdk.ApiException;
+            import com.fingerprint.sdk.Configuration;
+            import com.fingerprint.sdk.Region;
+
+            public class FingerprintApiExample {
+              public static void main(String... args) {
+                ApiClient client = Configuration.getDefaultApiClient(
+                  "SERVER_API_KEY", // Replace with your key
+                  Region.GLOBAL // Replace with your region
+                );
+                FingerprintApi api = new FingerprintApi(client);
+
+                String visitorId = "VISITOR_ID"; // Replace with your visitor ID
+
+                // Delete visitor data
+                try {
+                  api.deleteVisitorData(visitorId);
+                  System.out.println("Visitor data deletion scheduled successfully");
+                } catch (ApiException e) {
+                  System.err.println("Exception when calling FingerprintApi.deleteVisitorData:" + e.getMessage());
+                }
+              }
+            }
+        - language: csharp
+          name: C# SDK
+          install: dotnet add package FingerprintPro.ServerSdk
+          code: |
+            using FingerprintPro.ServerSdk.Api;
+            using FingerprintPro.ServerSdk.Client;
+
+            var configuration = new Configuration("SERVER_API_KEY"); // Replace with your key
+            configuration.Region = Region.Us; // Replace with your region
+
+            var api = new FingerprintApi(
+                configuration
+            );
+
+            string visitorId = "VISITOR_ID"; // Replace with your visitor ID
+
+            // Delete visitor data
+            try
+            {
+                api.DeleteVisitorData(visitorId);
+                Console.WriteLine("Visitor data deletion scheduled successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error deleting visitor data: {e.Message}");
+            }
