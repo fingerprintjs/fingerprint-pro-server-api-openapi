@@ -16,7 +16,7 @@
               region: Region.Global, // Replace with your region
             })
 
-            // Get a specific fingerprinting event
+            // Get a specific identification event
             client.getEvent('REQUEST_ID').then((event) => {
               console.log(event)
             })
@@ -40,7 +40,7 @@
               $config
             );
 
-            // Get a specific fingerprinting event
+            // Get a specific identification event
             try {
               list($model, $response) = $client->getEvent("REQUEST_ID");
               echo "Status: " . $response_upd->getStatusCode();
@@ -61,7 +61,7 @@
             )
             api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
 
-            # Get a specific fingerprinting event
+            # Get a specific identification event
             try:
                 event = api_instance.get_event("REQUEST_ID")
                 print(event)
@@ -92,7 +92,7 @@
               )
               cfg.ChangeRegion(sdk.RegionUS) // Replace with your region
 
-              // Get a specific fingerprinting event
+              // Get a specific identification event
               event, eventHttpRes, eventErr :=
                 client.FingerprintApi.GetEvent(auth, "REQUEST_ID")
               if eventErr != nil {
@@ -118,7 +118,7 @@
                 );
                 FingerprintApi api = new FingerprintApi(client);
 
-                // Get a specific fingerprinting event
+                // Get a specific identification event
                 try {
                   EventsGetResponse response = api.getEvent("REQUEST_ID");
                   System.out.println(response.getProducts().toString());
@@ -141,6 +141,6 @@
                 configuration
             );
 
-            // Get a specific fingerprinting event
+            // Get a specific identification event
             var events = api.GetEvent("REQUEST_ID");
             Console.WriteLine(events);
