@@ -20,7 +20,7 @@ const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
 export const readmeApiExplorerTransformers = [
   ...commonTransformers,
   removeWebhookTransformer,
-  addXReadmeTransformer(['./x-readme/events.yaml', './x-readme/visitors.yaml']),
+  addXReadmeTransformer(['./x-readme/events.yaml', './x-readme/visitors.yaml', './x-readme/events-search.yaml']),
 ];
 
 export const relatedVisitorsApiTransformers = [...commonTransformers, appendExternalSchemaRefTransformer];
