@@ -129,6 +129,7 @@ paths:
                           lastSeenAt:
                             global: null
                             subscription: null
+                          replayed: false
                       botd:
                         data:
                           bot:
@@ -5461,6 +5462,7 @@ components:
         time:
           type: string
           format: date-time
+          x-ogen-time-format: 2006-01-02T15:04:05Z07:00
           description: >-
             Time expressed according to ISO 8601 in UTC format, when the request
             from the JS agent was made. We recommend to treat requests that are
@@ -5482,6 +5484,11 @@ components:
           $ref: '#/components/schemas/IdentificationSeenAt'
         components:
           $ref: '#/components/schemas/RawDeviceAttributes'
+        replayed:
+          type: boolean
+          description: >
+            `true` if we determined that this payload was replayed, `false`
+            otherwise.
     ErrorCode:
       type: string
       enum:
