@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.8.0
+
+### Minor Changes
+
+- add `replayed` field to `identification` in Events and Webhooks ([4dec006](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/4dec00661db9fe900a1eef862a57de69a44e104a))
+
 ## 2.7.0
 
 ### Minor Changes
