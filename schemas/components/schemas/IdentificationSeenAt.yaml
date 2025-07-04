@@ -8,7 +8,9 @@ properties:
     type: string
     nullable: true
     format: date-time
+    x-ogen-time-format: 2006-01-02T15:04:05.999Z07:00
   subscription:
     type: string
     nullable: true
     format: date-time
+    x-ogen-time-format: 2006-01-02T15:04:05.999Z07:00
