@@ -65,5 +65,3 @@ properties:
     $ref: RawDeviceAttributes.yaml
   replayed:
     type: boolean
-    description: >
-      `true` if we determined that this payload was replayed, `false` otherwise.
