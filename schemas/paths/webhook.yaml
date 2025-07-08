@@ -1,4 +1,5 @@
 trace:
+  summary: Dummy path to describe webhook format.
   tags:
     - Fingerprint
   description: Fake path to describe webhook format. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
@@ -15,14 +16,17 @@ trace:
     webhook:
       webhook:
         post:
+          summary: Webhook example
           description: You can use HTTP basic authentication and set up credentials in your [Fingerprint account](https://dashboard.fingerprint.com/login)
           requestBody:
             content:
               application/json:
                 schema:
                   $ref: '../components/schemas/Webhook.yaml'
-                example:
-                  externalValue: 'examples/webhook.json'
+                examples:
+                  webhook-example:
+                    summary: Webhook example
+                    externalValue: 'examples/webhook.json'
           responses:
             default:
               description: The server doesn't validate the answer.
