@@ -5375,10 +5375,12 @@ components:
           type: string
           nullable: true
           format: date-time
+          x-ogen-time-format: 2006-01-02T15:04:05.999Z07:00
         subscription:
           type: string
           nullable: true
           format: date-time
+          x-ogen-time-format: 2006-01-02T15:04:05.999Z07:00
     RawDeviceAttributeError:
       type: object
       additionalProperties: false
@@ -5592,6 +5594,7 @@ components:
         time:
           type: string
           format: date-time
+          x-ogen-time-format: 2006-01-02T15:04:05.999Z07:00
           description: >-
             Time in UTC when the request from the JS agent was made. We
             recommend to treat requests that are older than 2 minutes as
@@ -6519,6 +6522,7 @@ components:
         time:
           type: string
           format: date-time
+          x-ogen-time-format: 2006-01-02T15:04:05Z07:00
           description: >-
             Time expressed according to ISO 8601 in UTC format, when the request
             from the client agent was made. We recommend to treat requests that
