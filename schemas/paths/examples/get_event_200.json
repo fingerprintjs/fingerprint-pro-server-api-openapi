@@ -56,6 +56,10 @@
           "global": null,
           "subscription": null
         },
+        "sdk": {
+          "platform": "js",
+          "version": "3.11.10"
+        },
         "replayed": false
       }
     },
