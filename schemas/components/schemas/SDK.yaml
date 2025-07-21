@@ -1,0 +1,13 @@
+type: object
+description: Contains information about the SDK used to perform the request.
+additionalProperties: false
+required:
+  - platform
+  - version
+properties:
+  platform:
+    type: string
+    description: Platform of the SDK.
+  version:
+    type: string
+    description: SDK version string.

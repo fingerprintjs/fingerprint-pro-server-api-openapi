@@ -13,6 +13,7 @@ required:
   - visitorFound
   - firstSeenAt
   - lastSeenAt
+  - replayed
 properties:
   visitorId:
     type: string
@@ -67,3 +68,5 @@ properties:
     type: boolean
     description: >
       `true` if we determined that this payload was replayed, `false` otherwise.
+  sdk:
+    $ref: SDK.yaml

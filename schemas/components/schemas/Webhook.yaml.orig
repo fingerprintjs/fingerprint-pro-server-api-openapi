@@ -7,6 +7,8 @@ required:
   - timestamp
   - sdk
 properties:
+  triggeredBy:
+    $ref: WebhookRules.yaml
   requestId:
     type: string
     description: Unique identifier of the user's request.
