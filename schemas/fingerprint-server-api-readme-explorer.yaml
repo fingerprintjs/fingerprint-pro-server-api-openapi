@@ -129,6 +129,9 @@ paths:
                           lastSeenAt:
                             global: null
                             subscription: null
+                          sdk:
+                            platform: js
+                            version: 3.11.10
                           replayed: false
                       botd:
                         data:
@@ -5413,6 +5416,20 @@ components:
         the generic type provided here.
       additionalProperties:
         $ref: '#/components/schemas/RawDeviceAttribute'
+    SDK:
+      type: object
+      description: Contains information about the SDK used to perform the request.
+      additionalProperties: false
+      required:
+        - platform
+        - version
+      properties:
+        platform:
+          type: string
+          description: Platform of the SDK.
+        version:
+          type: string
+          description: SDK version string.
     Identification:
       type: object
       additionalProperties: false
@@ -5491,6 +5508,8 @@ components:
           description: >
             `true` if we determined that this payload was replayed, `false`
             otherwise.
+        sdk:
+          $ref: '#/components/schemas/SDK'
     ErrorCode:
       type: string
       enum:
