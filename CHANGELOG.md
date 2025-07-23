@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.9.0
+
+### Minor Changes
+
+- Add `sdk` field with platform metadata to `identification` ([8a6ab4d](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/8a6ab4d95ac520d2fafcf728eedb268807cd8715))
+
 ## 2.8.0
 
 ### Minor Changes
