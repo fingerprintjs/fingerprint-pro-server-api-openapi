@@ -1,4 +1,7 @@
 type: object
+deprecated: true
+description: >
+  This signal is deprecated.
 additionalProperties: false
 required:
   - result

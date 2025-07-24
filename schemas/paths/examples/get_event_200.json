@@ -282,11 +282,6 @@
         "result": false
       }
     },
-    "remoteControl": {
-      "data": {
-        "result": false
-      }
-    },
     "velocity": {
       "data": {
         "distinctIp": {
