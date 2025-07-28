@@ -281,9 +281,6 @@ paths:
                       locationSpoofing:
                         data:
                           result: false
-                      remoteControl:
-                        data:
-                          result: false
                       velocity:
                         data:
                           distinctIp:
@@ -417,10 +414,6 @@ paths:
                         error:
                           code: Failed
                           message: internal server error
-                      remoteControl:
-                        error:
-                          code: Failed
-                          message: internal server error
                       velocity:
                         error:
                           code: Failed
@@ -503,6 +496,7 @@ paths:
                           lastSeenAt:
                             global: '2022-03-16T11:28:34.023Z'
                             subscription: null
+                          replayed: false
                       botd:
                         error:
                           code: Failed
@@ -1053,6 +1047,7 @@ paths:
                               lastSeenAt:
                                 global: null
                                 subscription: null
+                              replayed: false
                           botd:
                             data:
                               bot:
@@ -1208,9 +1203,6 @@ paths:
                             data:
                               result: false
                           locationSpoofing:
-                            data:
-                              result: false
-                          remoteControl:
                             data:
                               result: false
                           velocity:
@@ -4611,8 +4603,6 @@ paths:
                             result: true
                           suspectScore:
                             result: 0
-                          remoteControl:
-                            result: false
                           velocity:
                             distinctIp:
                               intervals:
@@ -4889,6 +4879,7 @@ components:
         - visitorFound
         - firstSeenAt
         - lastSeenAt
+        - replayed
       properties:
         visitorId:
           type: string
@@ -5679,6 +5670,9 @@ components:
           $ref: '#/components/schemas/Error'
     RemoteControl:
       type: object
+      deprecated: true
+      description: |
+        This signal is deprecated.
       additionalProperties: false
       required:
         - result
@@ -5690,6 +5684,9 @@ components:
             (e.g. TeamViewer), `false` otherwise.
     ProductRemoteControl:
       type: object
+      deprecated: true
+      description: |
+        This product is deprecated.
       additionalProperties: false
       properties:
         data:
@@ -6314,6 +6311,9 @@ components:
             https://dev.fingerprint.com/docs/suspect-score
     WebhookRemoteControl:
       type: object
+      deprecated: true
+      description: |
+        This signal is deprecated.
       additionalProperties: false
       properties:
         result:

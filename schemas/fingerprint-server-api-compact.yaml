@@ -1088,6 +1088,7 @@ components:
         - visitorFound
         - firstSeenAt
         - lastSeenAt
+        - replayed
       properties:
         visitorId:
           type: string
@@ -1878,6 +1879,9 @@ components:
           $ref: '#/components/schemas/Error'
     RemoteControl:
       type: object
+      deprecated: true
+      description: |
+        This signal is deprecated.
       additionalProperties: false
       required:
         - result
@@ -1889,6 +1893,9 @@ components:
             (e.g. TeamViewer), `false` otherwise.
     ProductRemoteControl:
       type: object
+      deprecated: true
+      description: |
+        This product is deprecated.
       additionalProperties: false
       properties:
         data:
@@ -2513,6 +2520,9 @@ components:
             https://dev.fingerprint.com/docs/suspect-score
     WebhookRemoteControl:
       type: object
+      deprecated: true
+      description: |
+        This signal is deprecated.
       additionalProperties: false
       properties:
         result:
