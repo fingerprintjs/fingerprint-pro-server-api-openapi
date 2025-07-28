@@ -1,5 +1,16 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.9.0
+
+### Minor Changes
+
+- Mark `replayed` field required in the `identification` product schema. This field will always be present. ([e24f615](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/e24f615841948a72ef892823a2de99b1e8216dc2))
+- Add `sdk` field with platform metadata to `identification` ([8a6ab4d](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/8a6ab4d95ac520d2fafcf728eedb268807cd8715))
+
+### Patch Changes
+
+- Deprecate the Remote Control Detection Smart Signal. This signal is no longer available. ([dbffbaa](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/dbffbaad580828a2c7bf3d39b70f273fd5d7b00e))
+
 ## 2.8.0
 
 ### Minor Changes
