@@ -205,6 +205,9 @@ delete:
             403-feature-not-enabled:
               summary: Error response when this feature is not enabled for a subscription.
               externalValue: 'examples/errors/403_feature_not_enabled.json'
+            403-workspace-scoped-secret-key-required: 
+              summary: Error response when you use an environment-scoped secret key to delete visitors from the workspace.
+              externalValue: 'examples/errors/403_workspace_scoped_secret_key_required.json'
     '404':
       description: Not found. The visitor ID cannot be found in this application's data.
       content:
