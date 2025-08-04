@@ -1,0 +1,15 @@
+type: object
+additionalProperties: false
+properties:
+  visitorId:
+    type: string
+    description: String of 20 characters that uniquely identifies the visitor's browser.
+  visitorFound:
+    type: boolean
+    description: Attribute represents if a visitor had been identified before.
+  confidence:
+    $ref: IdentificationConfidence.yaml
+  firstSeenAt:
+    $ref: IdentificationSeenAt.yaml
+  lastSeenAt:
+    $ref: IdentificationSeenAt.yaml
