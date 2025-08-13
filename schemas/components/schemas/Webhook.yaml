@@ -39,7 +39,7 @@ properties:
     description: A customer-provided id that was sent with the request.
   visitorId:
     type: string
-    description: String of 20 characters that uniquely identifies the visitor's browser.
+    description: String of 20 characters that uniquely identifies the visitor's browser or mobile device.
   visitorFound:
     type: boolean
     description: Attribute represents if a visitor had been identified before.
@@ -114,3 +114,5 @@ properties:
       `true` if we determined that this payload was replayed, `false` otherwise.
   sdk:
     $ref: SDK.yaml
+  supplementaryIds:
+    $ref: WebhookSupplementaryIDs.yaml

@@ -17,7 +17,7 @@ required:
 properties:
   visitorId:
     type: string
-    description: String of 20 characters that uniquely identifies the visitor's browser.
+    description: String of 20 characters that uniquely identifies the visitor's browser or mobile device.
   requestId:
     type: string
     description: Unique identifier of the user's request.
