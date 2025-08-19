@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.10.0
+
+### Minor Changes
+
+- Add `details` object to the `proxy` signal. This field includes the `type` of the detected proxy (`residential` or `data_center`) and the `lastSeenAt` timestamp of when an IP was last observed to show proxy-like behavior. ([500dace](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/500dacee187a5d5e325eb3287f268d642723f55d))
+
 ## 2.9.0
 
 ### Minor Changes
