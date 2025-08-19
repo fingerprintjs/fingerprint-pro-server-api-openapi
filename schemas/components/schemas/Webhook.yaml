@@ -114,3 +114,5 @@ properties:
       `true` if we determined that this payload was replayed, `false` otherwise.
   sdk:
     $ref: SDK.yaml
+  supplementaryIds:
+    $ref: WebhookSupplementaryIDs.yaml
