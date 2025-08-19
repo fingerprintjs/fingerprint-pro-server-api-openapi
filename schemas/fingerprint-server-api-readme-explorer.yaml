@@ -228,8 +228,11 @@ paths:
                             relay: false
                       proxy:
                         data:
-                          result: false
+                          result: true
                           confidence: high
+                          details:
+                            proxyType: residential
+                            lastSeenAt: '2025-08-12T13:00:00Z'
                       incognito:
                         data:
                           result: false
@@ -1562,6 +1565,9 @@ paths:
                             data:
                               result: false
                               confidence: high
+                              details:
+                                proxyType: residential
+                                lastSeenAt: '2025-08-12T13:00:00Z'
                           incognito:
                             data:
                               result: false
@@ -5930,6 +5936,31 @@ components:
         Confidence level of the proxy detection.
         If a proxy is not detected, confidence is "high".
         If it's detected, can be "low", "medium", or "high".
+    ProxyDetails:
+      type: object
+      nullable: true
+      additionalProperties: false
+      description: Proxy detection details (present if proxy is detected)
+      required:
+        - proxyType
+      properties:
+        proxyType:
+          type: string
+          enum:
+            - residential
+            - data_center
+          description: >
+            Residential proxies use real user IP addresses to appear as
+            legitimate traffic, 
+
+            while data center proxies are public proxies hosted in data centers
+        lastSeenAt:
+          type: string
+          format: date-time
+          x-ogen-time-format: 2006-01-02T15:00:00.000Z
+          description: |
+            ISO 8601 formatted timestamp in UTC with hourly resolution
+            of when this IP was last seen as a proxy when available.
     Proxy:
       type: object
       additionalProperties: false
@@ -5944,6 +5975,8 @@ components:
             known recent residential proxy
         confidence:
           $ref: '#/components/schemas/ProxyConfidence'
+        details:
+          $ref: '#/components/schemas/ProxyDetails'
     ProductProxy:
       type: object
       additionalProperties: false
