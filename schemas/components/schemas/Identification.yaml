@@ -17,7 +17,7 @@ required:
 properties:
   visitorId:
     type: string
-    description: String of 20 characters that uniquely identifies the visitor's browser.
+    description: String of 20 characters that uniquely identifies the visitor's browser or mobile device.
   requestId:
     type: string
     description: Unique identifier of the user's request.
@@ -70,3 +70,6 @@ properties:
       `true` if we determined that this payload was replayed, `false` otherwise.
   sdk:
     $ref: SDK.yaml
+  environmentId:
+    type: string
+    description: Environment ID associated with the event
