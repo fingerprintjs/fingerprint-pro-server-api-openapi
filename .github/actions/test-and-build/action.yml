@@ -20,10 +20,10 @@ runs:
       uses: pnpm/action-setup@0eb0e970826653e8af98de91bec007fbd58a23e0
       with:
         version: 9
-    - name: Set Node.js 20.x
+    - name: Set Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: 20.x
+        node-version: 22.x
         cache: pnpm
     - name: Install Node packages
       shell: bash
