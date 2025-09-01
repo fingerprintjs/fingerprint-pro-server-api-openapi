@@ -99,8 +99,8 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4(webpack@5.101.3)
       swagger-ui:
-        specifier: ^5.27.1
-        version: 5.27.1
+        specifier: ^5.28.0
+        version: 5.28.0
       ts-loader:
         specifier: ^9.5.1
         version: 9.5.1(typescript@5.9.2)(webpack@5.101.3)
@@ -3744,8 +3744,8 @@ packages:
   swagger-client@3.35.6:
     resolution: {integrity: sha512-OgwNneIdC45KXwOfwrlkwgWPeAKiV4K75mOnZioTddo1mpp9dTboCDVJas7185Ww1ziBwzShBqXpNGmyha9ZQg==}
 
-  swagger-ui@5.27.1:
-    resolution: {integrity: sha512-cGQyafnHLmVFiBeFrbUzUtMn+R0/XI7r69T/cxp5bkusTdLu1Ul8A+8j9hgThYLEH33LukOzldtiuu4gr8XE6g==}
+  swagger-ui@5.28.0:
+    resolution: {integrity: sha512-JT3xJsQmnmBNXoklfsiTUZ4pGRUDGKtyhfSjBJQswfX1drAnZVmW3cb7DfLLTJ4l6zWAIeKwMF42513zvS48iA==}
 
   synckit@0.8.8:
     resolution: {integrity: sha512-HwOKAP7Wc5aRGYdKH+dw0PRRpbO841v2DENBtjnR5HFWoiNByAl7vrx3p0G/rCyYXQsrxqtX48TImFtPcIHSpQ==}
@@ -5803,7 +5803,7 @@ snapshots:
 
   autolinker@3.16.2:
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -8525,7 +8525,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  swagger-ui@5.27.1:
+  swagger-ui@5.28.0:
     dependencies:
       '@babel/runtime-corejs3': 7.28.3
       '@scarf/scarf': 1.4.0
