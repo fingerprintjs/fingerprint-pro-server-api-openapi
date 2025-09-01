@@ -70,3 +70,6 @@ properties:
       `true` if we determined that this payload was replayed, `false` otherwise.
   sdk:
     $ref: SDK.yaml
+  environmentId:
+    type: string
+    description: Environment ID associated with the event
