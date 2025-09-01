@@ -1,5 +1,13 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.11.0
+
+### Minor Changes
+
+- **events-search**: Event search now supports a new set of filter parameters: `developer_tools`, `location_spoofing`, `mitm_attack`, `proxy`, `sdk_version`, `sdk_platform`, `environment` ([f9b09b0](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/f9b09b0f53338f2f96efd25f99e7cfee550e276e))
+- **webhook**: Add `supplementaryIds` property to the Webhooks schema. ([ebbc4fb](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ebbc4fb6e876770fd2e0e267cf17646981f883f0))
+- Add `environmentId` property to `identification` ([f9b09b0](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/f9b09b0f53338f2f96efd25f99e7cfee550e276e))
+
 ## 2.10.0
 
 ### Minor Changes
