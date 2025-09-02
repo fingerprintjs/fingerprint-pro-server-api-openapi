@@ -116,3 +116,5 @@ properties:
     $ref: SDK.yaml
   supplementaryIds:
     $ref: WebhookSupplementaryIDs.yaml
+  proximity:
+    $ref: WebhookProximity.yaml
