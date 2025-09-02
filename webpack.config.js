@@ -25,6 +25,7 @@ export default {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: { buffer: false },
   },
   module: {
     rules: [
