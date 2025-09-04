@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.1
 info:
   title: Fingerprint Server API
   description: |
@@ -43,8 +43,20 @@ paths:
     $ref: 'paths/visitors.yaml'
   /related-visitors:
     $ref: './paths/related-visitors.yaml'
-  /webhook:
-    $ref: 'paths/webhook.yaml'
+webhooks:
+  event:
+    post:
+      operationId: postWebhookEvent
+      summary: If configured, a webhook event will be posted to the provided endpoint. More information about webhooks can be found in the [documentation](https://dev.fingerprint.com/docs/webhooks)
+      requestBody:
+        description: Identification details and smart signals of the event.
+        content:
+          application/json:
+            schema:
+              $ref: 'components/schemas/Webhook.yaml'
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
 components:
   securitySchemes:
     ApiKeyHeader:
