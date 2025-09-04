@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 2.12.0
+
+### Minor Changes
+
+- Add `proximity` signal that represents a fixed geographical zone in a discrete global grid within which the device is observed. ([e11457f](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/e11457f3a77f9c7f30ac007f83b138a708e3c08a))
+
 ## 2.11.0
 
 ### Minor Changes
