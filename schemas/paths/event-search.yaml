@@ -274,6 +274,31 @@ get:
           type: string
       style: form
       explode: true
+    - name: proximity_id
+      in: query
+      schema:
+        type: string
+      description: |
+        Filter events by the most precise Proximity ID provided by default.
+        > Note: When using this parameter, only events with the `products.proximity.id` property matching the provided ID are returned. Events without a `products.proximity` result are left out of the response.
+    - name: proximity_precision_radius
+      in: query
+      schema:
+        type: integer
+        format: int32
+        enum:
+          - 10
+          - 25
+          - 65
+          - 175
+          - 450
+          - 1200
+          - 3300
+          - 8500
+          - 22500
+      description: |
+        Filter events by Proximity Radius.
+        > Note: When using this parameter, only events with the `products.proximity.precisionRadius` property set to a valid value are returned. Events without a `products.proximity` result are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).

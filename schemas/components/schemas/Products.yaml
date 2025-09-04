@@ -53,3 +53,5 @@ properties:
     $ref: ProductDeveloperTools.yaml
   mitmAttack:
     $ref: ProductMitMAttack.yaml
+  proximity:
+    $ref: ProductProximity.yaml
