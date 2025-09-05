@@ -6,9 +6,9 @@ get:
   description: |
     Get a history of visits (identification events) for a specific `visitorId`. Use the `visitorId` as a URL path parameter.
     Only information from the _Identification_ product is returned.
-    
+
     #### Headers
-    
+
     * `Retry-After` — Present in case of `429 Too many requests`. Indicates how long you should wait before making a follow-up request. The value is non-negative decimal integer indicating the seconds to delay after the response is received.
   x-flatten-optional-params: true
   parameters:
@@ -17,15 +17,15 @@ get:
       required: true
       schema:
         type: string
-      description: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.
+      description: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals.
       # example: uYIm7Ksp5rf00SllPhFp
     - name: request_id
       in: query
       schema:
         type: string
       description: |
-        Filter visits by `requestId`. 
-        
+        Filter visits by `requestId`.
+
         Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/reference/get-function#requestid). When you filter visits by `requestId`, only one visit will be returned.
       x-go-skip-pointer: true
       # example: 1654815516083.OX6kx8
@@ -34,8 +34,8 @@ get:
       schema:
         type: string
       description: |
-        Filter visits by your custom identifier. 
-        
+        Filter visits by your custom identifier.
+
         You can use [`linkedId`](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example: session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
       x-go-skip-pointer: true
       # example: some_id
@@ -48,8 +48,8 @@ get:
         # default: 0
         # example: 10
       description: |
-        Limit scanned results. 
-        
+        Limit scanned results.
+
         For performance reasons, the API first scans some number of events before filtering them. Use `limit` to specify how many events are scanned before they are filtered by `requestId` or `linkedId`. Results are always returned sorted by the timestamp (most recent first).
         By default, the most recent 100 visits are scanned, the maximum is 500.
       x-go-skip-pointer: true
@@ -58,13 +58,13 @@ get:
       schema:
         type: string
       description: |
-        Use `paginationKey` to get the next page of results. 
-        
+        Use `paginationKey` to get the next page of results.
+
         When more results are available (e.g., you requested 200 results using `limit` parameter, but a total of 600 results are available), the `paginationKey` top-level attribute is added to the response. The key corresponds to the `requestId` of the last returned event. In the following request, use that value in the `paginationKey` parameter to get the next page of results:
-        
+
         1. First request, returning most recent 200 events: `GET api-base-url/visitors/:visitorId?limit=200`
         2. Use `response.paginationKey` to get the next page of results: `GET api-base-url/visitors/:visitorId?limit=200&paginationKey=1683900801733.Ogvu1j`
-        
+
         Pagination happens during scanning and before filtering, so you can get less visits than the `limit` you specified with more available on the next page. When there are no more results available for scanning, the `paginationKey` attribute is not returned.
       x-go-skip-pointer: true
       # example: 1683900801733.Ogvu1j

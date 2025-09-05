@@ -3,8 +3,8 @@ description: >
   It includes 35+ raw browser identification attributes to provide Fingerprint
   users with even more information than our standard visitor ID provides. This
   enables Fingerprint users to not have to run our open-source product in
-  conjunction with Fingerprint Pro Plus and Enterprise to get those additional
-  attributes.
+  conjunction with Fingerprint Identification and active Smart Signals to
+  get those additional attributes.
 
   Warning: The raw signals data can change at any moment as we improve the
   product. We cannot guarantee the internal shape of raw device attributes to be
