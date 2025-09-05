@@ -3,6 +3,7 @@ additionalProperties: false
 required:
   - emailSpam
   - attackSource
+  - replayedSource
 properties:
   emailSpam:
     type: boolean
