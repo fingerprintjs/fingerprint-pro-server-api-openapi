@@ -1,6 +1,4 @@
 type: object
-# can be nullable when proxy is not detected
-nullable: true
 additionalProperties: false
 description: Proxy detection details (present if proxy is detected)
 required:
