@@ -4,6 +4,10 @@ get:
   operationId: 'getEvent'
   summary: Get event by request ID
   description: |
+    > 🚧 Deprecation Notice
+    >
+    > This version of Server API is marked as deprecated starting on **Oct 31st 2025** and will be fully removed on **Oct 31st 2026** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4#migrating-get-events) to migrate from this deprecated version to the new one.
+
     Get a detailed analysis of an individual identification event, including Smart Signals. 
     Please note that the response includes mobile signals (e.g. `rootApps`) even if the request originated from a non-mobile platform.
     It is highly recommended that you **ignore** the mobile signals for such requests. 
@@ -71,6 +75,10 @@ put:
   operationId: 'updateEvent'
   summary: Update an event with a given request ID
   description: |
+    > 🚧 Deprecation Notice
+    >
+    > This version of Server API is marked as deprecated starting on **Oct 31st 2025** and will be fully removed on **Oct 31st 2026** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4#migrating-update-events) to migrate from this deprecated version to the new one.
+
     Change information in existing events specified by `requestId` or *flag suspicious events*.
     
     When an event is created, it is assigned `linkedId` and `tag` submitted through the JS agent parameters. This information might not be available on the client so the Server API allows for updating the attributes after the fact.

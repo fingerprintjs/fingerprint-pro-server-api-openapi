@@ -3,7 +3,11 @@ get:
     - Related Visitors
   operationId: 'getRelatedVisitors'
   summary: Get Related Visitors
-  description: | 
+  description: |
+    > 🚧 Deprecation Notice
+    >
+    > This version of Server API is marked as deprecated starting on **Oct 31st 2025** and will be fully removed on **Oct 31st 2026** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy).
+
     Related visitors API lets you link web visits and in-app browser visits that originated from the same mobile device.
     It searches the past 6 months of identification events to find the visitor IDs that belong to the same mobile device as the given visitor ID.
 
