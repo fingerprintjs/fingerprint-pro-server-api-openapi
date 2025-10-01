@@ -11,3 +11,7 @@ properties:
   version:
     type: string
     description: SDK version string.
+  integrations:
+    type: array
+    items:
+      $ref: Integration.yaml
