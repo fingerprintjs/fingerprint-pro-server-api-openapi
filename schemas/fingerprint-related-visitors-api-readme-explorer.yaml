@@ -1,7 +1,20 @@
 openapi: 3.0.3
 info:
-  title: Related Visitors API
+  title: Related Visitors API v3 (deprecated)
   description: >
+    > 🚧 Deprecation Notice
+
+    >
+
+    > This version of Server API is marked as deprecated starting on **Oct 31st
+    2025** and will be fully defunct on **Oct 31st 2026** according to our [API
+    Deprecation
+    Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If
+    you still use this version, please follow our [migration
+    guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4)
+    to migrate from this deprecated version to the new one.
+
+
     Use this API to unify and personalize the experience for your anonymous
     users who visit your website from regular and in-app browsers.
   version: '1.0'
@@ -31,6 +44,16 @@ paths:
       operationId: getRelatedVisitors
       summary: Get Related Visitors
       description: >
+        > 🚧 Deprecation Notice
+
+        >
+
+        > This version of Server API is marked as deprecated starting on **Oct
+        31st 2025** and will be fully removed on **Oct 31st 2026** according to
+        our [API Deprecation
+        Policy](https://dev.fingerprint.com/reference/api-deprecation-policy).
+
+
         Related visitors API lets you link web visits and in-app browser visits
         that originated from the same mobile device.
 
