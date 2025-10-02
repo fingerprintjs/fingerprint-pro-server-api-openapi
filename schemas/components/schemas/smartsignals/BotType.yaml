@@ -1,0 +1,3 @@
+type: string
+description: >
+  Additional classification of the bot type if detected.

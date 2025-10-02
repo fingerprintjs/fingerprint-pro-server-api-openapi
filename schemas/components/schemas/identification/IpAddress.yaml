@@ -1,0 +1,2 @@
+type: string
+description: IP address of the requesting browser or bot.

@@ -1,0 +1,20 @@
+type: object
+additionalProperties: false
+description: Proxy detection details (present if `proxy` is `true`)
+required:
+  - proxy_type
+properties:
+  proxy_type:
+    type: string
+    enum:
+      - residential
+      - data_center
+    description: |
+      Residential proxies use real user IP addresses to appear as legitimate traffic, 
+      while data center proxies are public proxies hosted in data centers
+  last_seen_at:
+    type: integer
+    format: int64
+    description: |
+      Unix millisecond timestamp with hourly resolution of when this IP was last seen as a proxy
+    

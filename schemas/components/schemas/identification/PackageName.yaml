@@ -1,0 +1,4 @@
+type: string
+description: >
+  Package name of the Android application integrated with the Fingerprint SDK for the event.
+  For example: `com.foo.app`

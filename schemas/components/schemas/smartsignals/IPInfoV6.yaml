@@ -1,0 +1,20 @@
+type: object
+additionalProperties: false
+required:
+  - address
+properties:
+  address:
+    type: string
+    format: ipv6
+  geolocation:
+    $ref: Geolocation.yaml
+  asn:
+    type: string
+  asn_name:
+    type: string
+  asn_network:
+    type: string
+  datacenter_result:
+    type: boolean
+  datacenter_name:
+    type: string

@@ -1,0 +1,59 @@
+openapi: 3.1.1
+info:
+  title: Server API
+  description: >
+    # Overview
+    Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
+
+    Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+
+  version: '4'
+  contact:
+    name: Fingerprint Support
+    email: support@fingerprint.com
+  license:
+    name: MIT
+    url: https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/blob/main/LICENSE
+tags:
+  - name: Event
+    description: |
+      Get, update, or search for information about events.
+servers:
+  - url: https://api.fpjs.io/v4
+    description: Global
+  - url: https://eu.api.fpjs.io/v4
+    description: EU
+  - url: https://ap.api.fpjs.io/v4
+    description: Asia (Mumbai)
+security:
+  - bearerAuth: []
+paths:
+  /events/{event_id}:
+    $ref: "paths/event.yaml"
+  /events:
+    $ref: 'paths/events.yaml'
+  /visitors/{visitor_id}:
+    $ref: 'paths/visitors.yaml'
+webhooks:
+  event:
+    post:
+      operationId: postEventWebhook
+      summary: Webhook
+      requestBody:
+        description: |
+          If configured, a Webhook event will be posted to the provided endpoint. The webhook has the same data as our `/v4/events` endpoint.
+        content:
+          application/json:
+            schema:
+              $ref: 'components/schemas/Event.yaml'
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: string
+      description: 'Add your Secret API Key to the Authorization header using the standard Bearer format: `Authorization: Bearer <secret_api_key>`'

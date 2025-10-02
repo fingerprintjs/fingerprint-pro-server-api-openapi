@@ -1,0 +1,21 @@
+type: object
+description: >-
+  Contains a list of all identification events matching the specified search criteria.
+additionalProperties: false
+required:
+  - events
+properties:
+  events:
+    type: array
+    items:
+      $ref: Event.yaml
+  pagination_key:
+    type: string
+    description: >-
+      Use this value in the `pagination_key` parameter to request the next page of search results.
+  total_hits:
+    type: integer
+    format: int64
+    description: >-
+      This value represents the total number of events matching the search query, up to the limit provided in the `total_hits` query parameter. Only present if the `total_hits` query parameter was provided.
+

@@ -1,0 +1,3 @@
+description: Timestamp of the event with millisecond precision in Unix time.
+type: integer
+format: int64
