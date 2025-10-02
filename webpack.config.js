@@ -60,6 +60,16 @@ export default {
     new CopyWebpackPlugin({
       patterns: [
         {
+          from: 'schemas/fingerprint-server-api-v4.yaml',
+          to: 'schemas/fingerprint-server-api-v4.yaml',
+          transform: (content) => transformSchema(content),
+        },
+        {
+          from: 'schemas/fingerprint-server-api-v4.yaml',
+          to: 'schemas/fingerprint-server-api-v4-schema-for-sdks.yaml',
+          transform: (content) => transformSchema(content, schemaForSdksTransformers),
+        },
+        {
           from: 'schemas/fingerprint-server-api-for-sdks.yaml',
           to: 'schemas/fingerprint-server-api.yaml',
           transform: (content) => transformSchema(content),

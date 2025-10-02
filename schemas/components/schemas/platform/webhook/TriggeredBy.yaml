@@ -1,0 +1,16 @@
+type: array
+description: The rule(s) associated with triggering the webhook via rule engine.
+items:
+  type: object
+  additionalProperties: false
+  required:
+    - id
+    - name
+    - description
+  properties:
+    id:
+      type: string
+    name:
+      type: string
+    description:
+      type: string

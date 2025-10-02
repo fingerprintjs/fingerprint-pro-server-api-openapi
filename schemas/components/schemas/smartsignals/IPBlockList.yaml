@@ -1,0 +1,12 @@
+type: object
+additionalProperties: false
+properties:
+  email_spam:
+    type: boolean
+    description: IP address was part of a known email spam attack (SMTP).
+  attack_source:
+    type: boolean
+    description: IP address was part of a known network attack (SSH/HTTPS).
+  tor_node:
+    type: boolean
+    description: IP address was part of known TOR network activity.

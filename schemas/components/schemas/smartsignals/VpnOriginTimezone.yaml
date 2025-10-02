@@ -1,0 +1,3 @@
+type: string
+description: >
+  Local timezone which is used in timezone_mismatch method.

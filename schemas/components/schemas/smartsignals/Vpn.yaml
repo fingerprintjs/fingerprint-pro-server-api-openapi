@@ -1,0 +1,3 @@
+type: boolean
+description: >
+  VPN or other anonymizing service has been used when sending the request.
