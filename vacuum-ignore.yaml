@@ -1,0 +1,4 @@
+operation-operationId:
+  - $.paths['/webhook'].trace
+no-ambiguous-paths:
+  - $.paths['/events/search']
