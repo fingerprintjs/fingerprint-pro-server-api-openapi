@@ -1,7 +1,0 @@
-type: object
-additionalProperties: false
-properties:
-  data:
-    $ref: Proximity.yaml
-  error:
-    $ref: Error.yaml

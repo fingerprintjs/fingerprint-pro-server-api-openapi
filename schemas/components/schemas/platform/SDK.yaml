@@ -1,0 +1,23 @@
+type: object
+description: Contains information about the SDK used to perform the request.
+additionalProperties: false
+required:
+  - platform
+  - version
+properties:
+  platform:
+    type: string
+    enum:
+      - js
+      - android
+      - ios
+      - unknown
+    description: Platform of the SDK used for the identification request.
+  version:
+    type: string
+    description: >
+      Version string of the SDK used for the identification request. For example: `"3.12.1"`
+  integrations:
+    type: array
+    items:
+      $ref: Integration.yaml

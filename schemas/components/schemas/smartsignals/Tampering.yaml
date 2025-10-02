@@ -1,0 +1,5 @@
+type: boolean
+description: >
+  Flag indicating browser tampering was detected. This happens when either:
+    * There are inconsistencies in the browser configuration that cross internal tampering thresholds (see `tampering_details.anomaly_score`).
+    * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`).

@@ -1,0 +1,4 @@
+type: string
+description: >
+  Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp
+  For example: `1758130560902.8tRtrH`

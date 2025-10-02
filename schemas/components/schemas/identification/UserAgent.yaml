@@ -1,0 +1,3 @@
+type: string
+description: >
+  User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....`
