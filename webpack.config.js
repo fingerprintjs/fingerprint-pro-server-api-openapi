@@ -61,12 +61,14 @@ export default {
       patterns: [
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
-          to: 'schemas/fingerprint-server-api-v4.yaml',
+          // schema for using in dev.fingerprint.com, and other cases where examples are useful
+          to: 'schemas/fingerprint-server-api-v4-with-examples.yaml',
           transform: (content) => transformSchema(content),
         },
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
-          to: 'schemas/fingerprint-server-api-v4-schema-for-sdks.yaml',
+          // just schema — used by SDKs
+          to: 'schemas/fingerprint-server-api-v4.yaml',
           transform: (content) => transformSchema(content, schemaForSdksTransformers),
         },
         {
