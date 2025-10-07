@@ -30,14 +30,17 @@ importers:
         specifier: ^0.0.2
         version: 0.0.2
       '@quobix/vacuum':
-        specifier: ^0.9.16
-        version: 0.9.16
+        specifier: ^0.18.5
+        version: 0.18.5
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
       '@types/node':
         specifier: ^20.14.9
         version: 20.14.9
@@ -762,8 +765,8 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@quobix/vacuum@0.9.16':
-    resolution: {integrity: sha512-7ALulzNtkwfBTAqSJRIpAJUi4Qs/Y0VYZdrSIF821M+Xsb/MdB9JXWb11Tcwylx2fFd9sHsM2pUGf4XBNiGZsA==}
+  '@quobix/vacuum@0.18.5':
+    resolution: {integrity: sha512-neM5ugCpDNXxw20qz0WseE5pJWLLi6N1Rml+8MV3bON4X2ODYyt3symXKQMoT5tKTPiINY2l0zG6K1vHpfzHkw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -778,6 +781,13 @@ packages:
 
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
+
+  '@sourcemeta/jsonschema@11.8.3':
+    resolution: {integrity: sha512-IQ/Oerrif2lq6Z2VH78XOtL+JRJHBYsfx098EXNgWTfLxlD9zWusT9RlvOj0St5ZOP2zA/roLs1Qib3sO7QevQ==}
+    engines: {node: '>=16'}
+    cpu: [x64, arm64]
+    os: [darwin, linux, win32]
+    hasBin: true
 
   '@swagger-api/apidom-ast@1.0.0-beta.46':
     resolution: {integrity: sha512-H2UwsvwpYgVSqa9fGFeen16LWQwxUMS3txRqvdZYDDr638grh0B6UO6bs65frlQbcFWYuW5XlHnbNBLgLIIKpA==}
@@ -959,6 +969,9 @@ packages:
 
   '@types/jest@29.5.12':
     resolution: {integrity: sha512-eDC8bTvT/QhYdxJAulQikueigY5AsdBRH2yDKW3yveW7svY3+DzN84/2NUgkw10RTiJbWqZrTtoGVdYlvFJdLw==}
+
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -4959,8 +4972,9 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@quobix/vacuum@0.9.16':
+  '@quobix/vacuum@0.18.5':
     dependencies:
+      '@sourcemeta/jsonschema': 11.8.3
       node-fetch: 3.3.2
       tar: 6.2.1
 
@@ -4975,6 +4989,8 @@ snapshots:
   '@sinonjs/fake-timers@10.3.0':
     dependencies:
       '@sinonjs/commons': 3.0.1
+
+  '@sourcemeta/jsonschema@11.8.3': {}
 
   '@swagger-api/apidom-ast@1.0.0-beta.46':
     dependencies:
@@ -5456,6 +5472,8 @@ snapshots:
     dependencies:
       expect: 29.7.0
       pretty-format: 29.7.0
+
+  '@types/js-yaml@4.0.9': {}
 
   '@types/json-schema@7.0.15': {}
 

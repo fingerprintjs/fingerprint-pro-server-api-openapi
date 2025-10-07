@@ -1,0 +1,22 @@
+type: object
+additionalProperties: false
+required:
+  - browser_name
+  - browser_full_version
+  - browser_major_version
+  - os
+  - os_version
+  - device
+properties:
+  browser_name:
+    type: string
+  browser_major_version:
+    type: string
+  browser_full_version:
+    type: string
+  os:
+    type: string
+  os_version:
+    type: string
+  device:
+    type: string

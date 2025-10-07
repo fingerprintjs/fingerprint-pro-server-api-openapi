@@ -4,7 +4,7 @@ import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
 import { removeWebhookTransformer } from './removeWebhookTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
-import { removeXReadmeTransformer } from './removeXReadmeTransformer.js';
+import { removeFieldTransformer } from './removeFieldTransformer.js';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
@@ -12,6 +12,7 @@ import { addXReadmeTransformer } from './addXReadmeTransformer.js';
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
   resolveExternalValueTransformer({ examplesPath: './schemas/paths/' }),
+  removeFieldTransformer('triggered_by'),
   resolveAllOfTransformer,
 ];
 
@@ -28,12 +29,12 @@ export const relatedVisitorsApiTransformers = [...commonTransformers, appendExte
 export const removeExtraDocumentationTransformers = [
   ...defaultTransformers,
   removeBigExamplesTransformer,
-  removeXReadmeTransformer,
+  removeFieldTransformer('x-readme'),
 ];
 
 export const schemaForSdksTransformers = [
   ...defaultTransformers,
-  removeXReadmeTransformer,
+  removeFieldTransformer('x-readme'),
   removeBigExamplesTransformer,
 ];
 

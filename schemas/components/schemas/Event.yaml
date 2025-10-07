@@ -1,0 +1,148 @@
+type: object
+description: >-
+  Contains results from Fingerprint Identification and all active Smart Signals.
+additionalProperties: false
+properties:
+  # All top-level fields should have their own file definition, even if simple. This provides clear ownership definition
+  # and keeps the Event definition clearer to read and parse.
+  # -- Details of the event response that are largely owned by the Platform and JS agent teams.
+  event_id:
+    $ref: platform/EventId.yaml
+    x-platforms: ["android", "ios", "browser"]
+  timestamp:
+    $ref: platform/Timestamp.yaml
+    x-platforms: ["android", "ios", "browser"]
+  linked_id:
+    $ref: platform/LinkedId.yaml
+    x-platforms: ["android", "ios", "browser"]
+  environment_id:
+    $ref: platform/EnvironmentId.yaml
+    x-platforms: ["android", "ios", "browser"]
+  suspect:
+    $ref: platform/Suspect.yaml
+    x-platforms: ["android", "ios", "browser"]
+  sdk:
+    $ref: platform/SDK.yaml
+    x-platforms: ["android", "ios", "browser"]
+  replayed:
+    $ref: platform/Replayed.yaml
+    x-platforms: ["android", "ios", "browser"]
+  triggered_by:
+    $ref: platform/webhook/TriggeredBy.yaml
+  # -- Details of the event response that are owned by the Identification team and/or the
+  # -- JS agent (as a supplier of a field, eg: tags)
+  identification:
+    $ref: identification/Identification.yaml
+    x-platforms: ["android", "ios", "browser"]
+  supplementary_id_high_recall:
+    $ref: identification/SupplementaryIDHighRecall.yaml
+    x-platforms: ["android", "ios", "browser"]
+  tags:
+    $ref: identification/Tags.yaml
+    x-platforms: ["android", "ios", "browser"]
+  url:
+    $ref: identification/Url.yaml
+    x-platforms: ["browser"]
+  bundle_id:
+    $ref: identification/BundleId.yaml
+    x-platforms: ["ios"]
+  package_name:
+    $ref: identification/PackageName.yaml
+    x-platforms: ["android"]
+  ip_address:
+    $ref: identification/IpAddress.yaml
+    x-platforms: ["android", "ios", "browser"]
+  user_agent:
+    $ref: identification/UserAgent.yaml
+    x-platforms: ["android", "ios", "browser"]
+  browser_details:
+    $ref: identification/BrowserDetails.yaml
+    x-platforms: ["browser"]
+  proximity:
+    $ref: identification/Proximity.yaml
+    x-platforms: ["android", "ios", "browser"]
+  # -- Details of the event response that are owned by the Smart Signals team.
+  bot:
+    $ref: smartsignals/BotResult.yaml
+    x-platforms: ["browser"]
+  bot_type:
+    $ref: smartsignals/BotType.yaml
+    x-platforms: ["browser"]
+  cloned_app:
+    $ref: smartsignals/ClonedApp.yaml
+    x-platforms: ["android"]
+  developer_tools:
+    $ref: smartsignals/DeveloperTools.yaml
+    x-platforms: ["browser"]
+  emulator:
+    $ref: smartsignals/Emulator.yaml
+    x-platforms: ["android"]
+  factory_reset_timestamp:
+    $ref: smartsignals/FactoryReset.yaml
+    x-platforms: ["android", "ios"]
+  frida:
+    $ref: smartsignals/Frida.yaml
+    x-platforms: ["android", "ios"]
+  ip_blocklist:
+    $ref: smartsignals/IPBlockList.yaml
+    x-platforms: ["android", "ios", "browser"]
+  ip_info:
+    $ref: smartsignals/IPInfo.yaml
+    x-platforms: ["android", "ios", "browser"]
+  proxy:
+    $ref: smartsignals/Proxy.yaml
+    x-platforms: ["android", "ios", "browser"]
+  proxy_confidence:
+    $ref: smartsignals/ProxyConfidence.yaml
+    x-platforms: ["android", "ios", "browser"]
+  proxy_details:
+    $ref: smartsignals/ProxyDetails.yaml
+    x-platforms: ["android", "ios", "browser"]
+  incognito:
+    $ref: smartsignals/Incognito.yaml
+    x-platforms: ["browser"]
+  jailbroken:
+    $ref: smartsignals/Jailbroken.yaml
+    x-platforms: ["ios"]
+  location_spoofing:
+    $ref: smartsignals/LocationSpoofing.yaml
+    x-platforms: ["android", "ios"]
+  mitm_attack:
+    $ref: smartsignals/MitMAttack.yaml
+    x-platforms: ["android", "ios"]
+  privacy_settings:
+    $ref: smartsignals/PrivacySettings.yaml
+    x-platforms: ["browser"]
+  root_apps:
+    $ref: smartsignals/RootApps.yaml
+    x-platforms: ["android"]
+  suspect_score:
+    $ref: smartsignals/SuspectScore.yaml
+    x-platforms: ["android", "ios", "browser"]
+  tampering:
+    $ref: smartsignals/Tampering.yaml
+    x-platforms: ["android", "ios", "browser"]
+  tampering_details:
+    $ref: smartsignals/TamperingDetails.yaml
+    x-platforms: ["android", "ios", "browser"]
+  velocity:
+    $ref: smartsignals/Velocity.yaml
+    x-platforms: ["android", "ios", "browser"]
+  virtual_machine:
+    $ref: smartsignals/VirtualMachine.yaml
+    x-platforms: ["browser"]
+  vpn:
+    $ref: smartsignals/Vpn.yaml
+    x-platforms: ["android", "ios", "browser"]
+  vpn_confidence:
+    $ref: smartsignals/VpnConfidence.yaml
+    x-platforms: ["android", "ios", "browser"]
+  vpn_origin_timezone:
+    $ref: smartsignals/VpnOriginTimezone.yaml
+    x-platforms: ["android", "ios", "browser"]
+  vpn_origin_country:
+    $ref: smartsignals/VpnOriginCountry.yaml
+    x-platforms: ["android", "ios"]
+  vpn_methods:
+    $ref: smartsignals/VpnMethods.yaml
+    x-platforms: ["android", "ios", "browser"]

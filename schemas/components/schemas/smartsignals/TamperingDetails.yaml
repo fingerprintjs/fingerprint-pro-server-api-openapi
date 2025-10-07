@@ -1,0 +1,19 @@
+type: object
+additionalProperties: false
+properties:
+  anomaly_score:
+    type: number
+    format: double
+    minimum: 0
+    maximum: 1
+    x-platforms: ["android", "ios", "browser"]
+    description: |
+      Confidence score (`0.0 - 1.0`) for tampering detection:
+        * Values above `0.5` indicate tampering.
+        * Values below `0.5` indicate genuine browsers.
+  anti_detect_browser:
+    type: boolean
+    x-platforms: ["browser"]
+    description: >
+      True if the identified browser resembles an "anti-detect" browser, such as Incognition,
+      which attempts to evade identification by manipulating its fingerprint. 
