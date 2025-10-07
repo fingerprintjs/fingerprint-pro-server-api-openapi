@@ -5823,7 +5823,7 @@ components:
             field.
 
             The time of the most recent factory reset that happened on the
-            **mobile device** is expressed as Unix epoch time.       
+            **mobile device** is expressed as Unix epoch time.
     ProductFactoryReset:
       type: object
       additionalProperties: false
@@ -6584,7 +6584,7 @@ components:
             field.
 
             The time of the most recent factory reset that happened on the
-            **mobile device** is expressed as Unix epoch time.       
+            **mobile device** is expressed as Unix epoch time.
     WebhookJailbroken:
       type: object
       additionalProperties: false

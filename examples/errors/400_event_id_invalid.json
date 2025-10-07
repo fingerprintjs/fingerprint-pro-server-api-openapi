@@ -1,6 +1,6 @@
 {
   "error": {
     "code": "request_cannot_be_parsed",
-    "message": "invalid end time"
+    "message": "invalid event_id"
   }
 }
