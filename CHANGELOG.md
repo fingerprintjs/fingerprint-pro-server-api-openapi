@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.0.1
+
+### Patch Changes
+
+- **events-search**: Fix `searchEvents` method description ([8221c0b](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/8221c0b26d0a8bfb411dda959736aae99332abbd))
+
 ## 3.0.0
 
 ### Major Changes
