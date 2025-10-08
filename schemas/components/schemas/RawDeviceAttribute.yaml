@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+properties:
+  value:
+    title: value
+  error:
+    $ref: RawDeviceAttributeError.yaml
