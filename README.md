@@ -22,7 +22,7 @@ This repository contains the [OpenAPI](https://swagger.io/docs/specification/abo
 ## Getting started
 
 - The OpenAPI schema is published to the [Fingerprint API reference](https://dev.fingerprint.com/reference/pro-server-api) and also as a [Swagger UI app on GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
-- You can also [download the latest schema file here](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
+- You can also [download the latest schema file here](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api-v4-with-examples.yaml).
 
 > [!NOTE]  
 > Please note that some signals and attributes present in the schema are only available to Enterprise or Pro Plus customers on request, as indicated in the signal description.
