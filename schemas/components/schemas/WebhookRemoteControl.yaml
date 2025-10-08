@@ -1,0 +1,10 @@
+type: object
+deprecated: true
+description: >
+  This signal is deprecated.
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: >
+      `true` if the request came from a machine being remotely controlled (e.g. TeamViewer), `false` otherwise.
