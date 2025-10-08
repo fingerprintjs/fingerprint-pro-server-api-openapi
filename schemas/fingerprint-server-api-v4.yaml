@@ -172,8 +172,8 @@ paths:
         include:
 
 
-        - Searching for events associated with a single `event_id` within a time
-        range to get historical behavior of a visitor.
+        - Searching for events associated with a single `visitor_id` within a
+        time range to get historical behavior of a visitor.
 
         - Searching for events associated with a single `linked_id` within a
         time range to get all events associated with your internal account
