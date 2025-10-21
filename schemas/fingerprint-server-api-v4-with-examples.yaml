@@ -1268,6 +1268,7 @@ webhooks:
       operationId: postEventWebhook
       summary: Webhook
       requestBody:
+        required: true
         description: >
           If configured, a Webhook event will be posted to the provided
           endpoint. The webhook has the same data as our `/v4/events` endpoint.
