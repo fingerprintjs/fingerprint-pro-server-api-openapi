@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required:
+  - asn
+  - name
+  - network
+properties:
+  asn:
+    type: string
+  name:
+    type: string
+  network:
+    type: string

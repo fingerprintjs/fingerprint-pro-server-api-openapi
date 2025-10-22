@@ -1,0 +1,20 @@
+type: object
+description: >-
+  Contains a list of all identification events matching the specified search criteria.
+additionalProperties: false
+properties:
+  events:
+    type: array
+    items:
+      type: object
+      description: >-
+        Device intelligence results for the identification event.
+      required:
+        - products
+      properties:
+        products:
+          $ref: Products.yaml
+  paginationKey:
+    type: string
+    description: >-
+      Use this value in the `pagination_key` parameter to request the next page of search results.
