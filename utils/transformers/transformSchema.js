@@ -16,7 +16,7 @@ export const commonTransformers = [
   resolveAllOfTransformer,
 ];
 
-const defaultTransformers = [...commonTransformers, replaceTagsTransformer];
+const defaultTransformers = [...commonTransformers];
 
 export const readmeApiExplorerTransformers = [
   ...commonTransformers,
@@ -34,6 +34,7 @@ export const removeExtraDocumentationTransformers = [
 
 export const schemaForSdksTransformers = [
   ...defaultTransformers,
+  replaceTagsTransformer,
   removeFieldTransformer('x-readme'),
   removeBigExamplesTransformer,
 ];
