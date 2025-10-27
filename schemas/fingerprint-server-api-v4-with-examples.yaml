@@ -17,13 +17,9 @@ info:
     url: >-
       https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/blob/main/LICENSE
 tags:
-  - name: Fingerprint
-    description: >-
-      Using the Server API you can retrieve information about individual
-      analysis events or event history of individual visitors.
-    externalDocs:
-      description: API documentation
-      url: https://dev.fingerprint.com/reference/pro-server-api
+  - name: Event
+    description: |
+      Get, update, or search for information about events.
 servers:
   - url: https://api.fpjs.io/v4
     description: Global
@@ -37,7 +33,7 @@ paths:
   /events/{event_id}:
     get:
       tags:
-        - Fingerprint
+        - Events
       operationId: getEvent
       summary: Get an event by event ID
       description: >
@@ -70,8 +66,7 @@ paths:
                   summary: Example response
                   value:
                     linked_id: somelinkedId
-                    tags:
-                      - Fingerprint
+                    tags: {}
                     timestamp: 1708102555327
                     event_id: 1708102555327.NLOjmg
                     url: https://www.example.com/login?hope{this{works[!
@@ -284,7 +279,7 @@ paths:
                       message: internal server error
     patch:
       tags:
-        - Fingerprint
+        - Event
       operationId: updateEvent
       summary: Update an event
       description: >
@@ -401,7 +396,7 @@ paths:
   /events:
     get:
       tags:
-        - Fingerprint
+        - Events
       operationId: searchEvents
       summary: Search events
       description: >
@@ -833,8 +828,7 @@ paths:
                   value:
                     events:
                       - linked_id: somelinkedId
-                        tags:
-                          - Fingerprint
+                        tags: {}
                         timestamp: 1708102555327
                         event_id: 1708102555327.NLOjmg
                         url: https://www.example.com/login?hope{this{works[!
@@ -1094,7 +1088,7 @@ paths:
   /visitors/{visitor_id}:
     delete:
       tags:
-        - Fingerprint
+        - Visitors
       operationId: deleteVisitorData
       summary: Delete data by visitor ID
       description: >
