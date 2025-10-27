@@ -435,6 +435,14 @@ paths:
         This helps identify patterns of fraudulent behavior.
 
 
+        ### Environment scoping
+
+
+        If you use a secret key that is scoped to an environment, you will only
+        get events associated with the same environment. With a workspace-scoped
+        environment, you will get events from all environments.
+
+
         Smart Signals not activated for your workspace or are not included in
         the response.
       parameters:
