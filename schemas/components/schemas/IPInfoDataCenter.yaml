@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required:
+  - result
+  - name
+properties:
+  result:
+    type: boolean
+  name:
+    type: string
