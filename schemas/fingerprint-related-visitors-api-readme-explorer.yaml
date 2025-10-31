@@ -6,8 +6,8 @@ info:
 
     >
 
-    > This version of Server API is marked as deprecated starting on **Oct 31st
-    2025** and will be fully defunct on **Oct 31st 2026** according to our [API
+    > This version of Server API is marked as deprecated starting on **Jan 7th
+    2026** and will be fully defunct on **Jan 7th 2027** according to our [API
     Deprecation
     Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If
     you still use this version, please follow our [migration
@@ -48,8 +48,8 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Oct
-        31st 2025** and will be fully removed on **Oct 31st 2026** according to
+        > This version of Server API is marked as deprecated starting on **Jan
+        7th 2026** and will be fully removed on **Jan 7th 2027** according to
         our [API Deprecation
         Policy](https://dev.fingerprint.com/reference/api-deprecation-policy).
 
