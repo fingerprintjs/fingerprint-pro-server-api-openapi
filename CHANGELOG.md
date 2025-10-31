@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.1.0
+
+### Minor Changes
+
+- **webhook**: require event payload ([5adbb2b](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/5adbb2b0fe903bfe6db69a58414ba5b8523483a2))
+
 ## 3.0.1
 
 ### Patch Changes
