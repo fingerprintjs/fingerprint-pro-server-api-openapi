@@ -2,6 +2,9 @@ type: object
 description: >-
   Contains results from Fingerprint Identification and all active Smart Signals.
 additionalProperties: false
+required:
+  - event_id
+  - timestamp
 properties:
   # All top-level fields should have their own file definition, even if simple. This provides clear ownership definition
   # and keeps the Event definition clearer to read and parse.
