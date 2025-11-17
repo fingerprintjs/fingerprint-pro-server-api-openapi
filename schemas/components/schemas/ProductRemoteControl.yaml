@@ -1,0 +1,10 @@
+type: object
+deprecated: true
+description: >
+  This product is deprecated.
+additionalProperties: false
+properties:
+  data:
+    $ref: RemoteControl.yaml
+  error:
+    $ref: Error.yaml

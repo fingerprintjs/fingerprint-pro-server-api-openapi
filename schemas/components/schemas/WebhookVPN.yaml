@@ -1,0 +1,16 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: VPN or other anonymizing service has been used when sending the request.
+  confidence:
+    $ref: VPNConfidence.yaml
+  originTimezone:
+    type: string
+    description: Local timezone which is used in timezoneMismatch method.
+  originCountry:
+    type: string
+    description: Country of the request (only for Android SDK version >= 2.4.0, ISO 3166 format or unknown).
+  methods:
+    $ref: VPNMethods.yaml
