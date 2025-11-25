@@ -1,0 +1,19 @@
+type: object
+additionalProperties: false
+required:
+  - score
+properties:
+  score:
+    type: number
+    format: double
+    minimum: 0
+    maximum: 1
+    description: >-
+      The confidence score is a floating-point number between 0 and 1 that represents the probability of accurate identification.
+  revision:
+    type: string
+    description: >-
+      The revision name of the method used to calculate the Confidence score.
+      This field is only present for customers who opted in to an alternative calculation method.
+  comment:
+    type: string

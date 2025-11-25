@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+required:
+  - result
+properties:
+  result:
+    type: boolean
+    description: >-
+      Flag indicating whether the request came from a mobile device with location spoofing enabled.
