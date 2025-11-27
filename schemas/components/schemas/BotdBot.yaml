@@ -1,0 +1,10 @@
+type: object
+description: Stores bot detection result
+additionalProperties: false
+required:
+  - result
+properties:
+  result:
+    $ref: BotdBotResult.yaml
+  type:
+    type: string
