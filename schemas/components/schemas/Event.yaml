@@ -2,6 +2,9 @@ type: object
 description: >-
   Contains results from Fingerprint Identification and all active Smart Signals.
 additionalProperties: false
+required:
+  - event_id
+  - timestamp
 properties:
   # All top-level fields should have their own file definition, even if simple. This provides clear ownership definition
   # and keeps the Event definition clearer to read and parse.
@@ -55,12 +58,15 @@ properties:
   user_agent:
     $ref: identification/UserAgent.yaml
     x-platforms: ["android", "ios", "browser"]
+  client_referrer:
+    $ref: "identification/ClientReferrer.yaml"
+    x-platforms: [ "browser" ]
   browser_details:
     $ref: identification/BrowserDetails.yaml
     x-platforms: ["browser"]
   proximity:
     $ref: identification/Proximity.yaml
-    x-platforms: ["android", "ios", "browser"]
+    x-platforms: ["android", "ios"]
   # -- Details of the event response that are owned by the Smart Signals team.
   bot:
     $ref: smartsignals/BotResult.yaml
@@ -145,4 +151,7 @@ properties:
     x-platforms: ["android", "ios"]
   vpn_methods:
     $ref: smartsignals/VpnMethods.yaml
+    x-platforms: ["android", "ios", "browser"]
+  high_activity_device:
+    $ref: smartsignals/HighActivity.yaml
     x-platforms: ["android", "ios", "browser"]

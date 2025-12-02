@@ -6,6 +6,7 @@
   "url": "https://www.example.com/login?hope{this{works[!",
   "ip_address": "61.127.217.15",
   "user_agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....",
+  "client_referrer": "https://example.com/blog/my-article",
   "browser_details": {
     "browser_name": "Chrome",
     "browser_major_version": "74",
@@ -33,6 +34,11 @@
     },
     "first_seen_at": 1708102555327,
     "last_seen_at": 1708102555327
+  },
+  "proximity": {
+    "id": "w1aTfd4MCvl",
+    "precision_radius": 10,
+    "confidence": 0.95
   },
   "bot": "not_detected",
   "root_apps": false,
@@ -174,5 +180,6 @@
       }
     ]
   },
-  "replayed": false
+  "replayed": false,
+  "high_activity_device": false
 }
