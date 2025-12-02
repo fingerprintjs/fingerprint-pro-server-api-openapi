@@ -35,6 +35,7 @@ export const removeExtraDocumentationTransformers = [
 export const schemaForSdksTransformers = [
   ...defaultTransformers,
   replaceTagsTransformer,
+  removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
   removeBigExamplesTransformer,
 ];
