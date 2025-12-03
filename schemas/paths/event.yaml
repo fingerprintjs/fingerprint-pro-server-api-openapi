@@ -52,7 +52,7 @@ get:
               summary: Too many requests error
               externalValue: 'examples/errors/429_too_many_requests.json'
     '404':
-      description: "Not found. The event Id cannot be found in this application's data."
+      description: "Not found. The event Id cannot be found in this workspace's data."
       content:
         application/json:
           schema:
@@ -62,7 +62,7 @@ get:
               summary: Error response when the provided event Id does not exist.
               externalValue: 'examples/errors/404_event_not_found.json'
     '500':
-      description: Application error.
+      description: Workspace error.
       content:
         application/json:
           schema:
@@ -126,10 +126,10 @@ patch:
               summary: Error response when the provided secret API key does not exist.
               externalValue: 'examples/errors/403_secret_api_key_not_found.json'
             403-wrong-region:
-              summary: Error response when the API region is different from the region, the calling application is configured with.
+              summary: Error response when the API region is different from the region, the calling workspace is configured with.
               externalValue: 'examples/errors/403_wrong_region.json'
     '404':
-      description: "Not found. The event Id cannot be found in this application's data."
+      description: "Not found. The event Id cannot be found in this workspace's data."
       content:
         application/json:
           schema:
