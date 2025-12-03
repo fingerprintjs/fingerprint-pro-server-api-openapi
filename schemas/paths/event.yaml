@@ -73,7 +73,7 @@ get:
               externalValue: 'examples/errors/500_internal_server_error.json'
 patch:
   tags:
-    - Event
+    - Events
   operationId: 'updateEvent'
   summary: Update an event
   description: |
