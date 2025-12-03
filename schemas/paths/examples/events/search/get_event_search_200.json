@@ -69,6 +69,7 @@
           "asn": "7922",
           "asn_name": "COMCAST-7922",
           "asn_network": "73.136.0.0/13",
+          "asn_type": "isp",
           "datacenter_result": true,
           "datacenter_name": "DediPath"
         },
@@ -95,6 +96,7 @@
           "asn": "6805",
           "asn_name": "Telefonica Germany",
           "asn_network": "2a02:3100::/24",
+          "asn_type": "isp",
           "datacenter_result": false,
           "datacenter_name": ""
         }

@@ -208,6 +208,7 @@ paths:
                               asn: '7922'
                               name: COMCAST-7922
                               network: 73.136.0.0/13
+                              type: 'isp'
                             datacenter:
                               result: true
                               name: DediPath
@@ -234,6 +235,7 @@ paths:
                               asn: '6805'
                               name: Telefonica Germany
                               network: 2a02:3100::/24
+                              type: 'isp'
                             datacenter:
                               result: false
                               name: ''
@@ -1690,6 +1692,7 @@ paths:
                                   asn: '7922'
                                   name: COMCAST-7922
                                   network: 73.136.0.0/13
+                                  type: 'isp'
                                 datacenter:
                                   result: true
                                   name: DediPath
@@ -1716,6 +1719,7 @@ paths:
                                   asn: '6805'
                                   name: Telefonica Germany
                                   network: 2a02:3100::/24
+                                  type: 'isp'
                                 datacenter:
                                   result: false
                                   name: ''
@@ -5954,6 +5958,8 @@ components:
         name:
           type: string
         network:
+          type: string
+        type:
           type: string
     IPInfoDataCenter:
       type: object
