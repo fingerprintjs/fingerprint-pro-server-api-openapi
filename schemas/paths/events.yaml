@@ -76,6 +76,13 @@ get:
       description: |
         Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed.
         Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
+    - name: asn
+      in: query
+      schema:
+        type: string
+        description: |
+          Filter events by the ASN associated with the event's IP address.
+          This corresponds to the `ip_info.(v4|v6).asn` property in the response.
     - name: linked_id
       in: query
       schema:
@@ -289,6 +296,13 @@ get:
       # style defines how multiple values are delimited. See https://swagger.io/docs/specification/v3_0/serialization/ for info on `style` and `explode`
       # explode (is true by default, with style: form) specifies whether arrays and objects should generate separate parameters for each array item or object property.
       style: form
+    - name: proximity_id
+      in: query
+      schema:
+        type: string
+      description: |
+        Filter events by the most precise Proximity ID provided by default.
+        > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
     - name: total_hits
       in: query
       schema:
@@ -360,7 +374,7 @@ get:
               summary: Error response when an invalid pagination key is supplied.
               externalValue: 'examples/errors/400_pagination_key_invalid.json'
     '500':
-      description: Application error.
+      description: Workspace error.
       content:
         application/json:
           schema:
