@@ -72,6 +72,7 @@ paths:
                     url: https://www.example.com/login?hope{this{works[!
                     ip_address: 61.127.217.15
                     user_agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....
+                    client_referrer: https://example.com/blog/my-article
                     browser_details:
                       browser_name: Chrome
                       browser_major_version: '74'
@@ -95,6 +96,10 @@ paths:
                         version: '1.1'
                       first_seen_at: 1708102555327
                       last_seen_at: 1708102555327
+                    proximity:
+                      id: w1aTfd4MCvl
+                      precision_radius: 10
+                      confidence: 0.95
                     bot: not_detected
                     root_apps: false
                     emulator: false
@@ -118,6 +123,7 @@ paths:
                         asn: '7922'
                         asn_name: COMCAST-7922
                         asn_network: 73.136.0.0/13
+                        asn_type: isp
                         datacenter_result: true
                         datacenter_name: DediPath
                       v6:
@@ -139,6 +145,7 @@ paths:
                         asn: '6805'
                         asn_name: Telefonica Germany
                         asn_network: 2a02:3100::/24
+                        asn_type: isp
                         datacenter_result: false
                         datacenter_name: ''
                     ip_blocklist:
@@ -209,6 +216,7 @@ paths:
                             name: preact
                             version: 10.21.0
                     replayed: false
+                    high_activity_device: false
         '400':
           description: Bad request. The event Id provided is not valid.
           content:
@@ -243,8 +251,8 @@ paths:
                     error:
                       code: secret_api_key_not_found
                       message: >-
-                        no fingerprint application found for specified secret
-                        API key
+                        no fingerprint workspace found for specified secret API
+                        key
                 429-too-many-requests-error:
                   summary: Too many requests error
                   value:
@@ -252,7 +260,7 @@ paths:
                       code: too_many_requests
                       message: too many requests
         '404':
-          description: Not found. The event Id cannot be found in this application's data.
+          description: Not found. The event Id cannot be found in this workspace's data.
           content:
             application/json:
               schema:
@@ -265,7 +273,7 @@ paths:
                       code: event_not_found
                       message: event id not found
         '500':
-          description: Application error.
+          description: Workspace error.
           content:
             application/json:
               schema:
@@ -279,7 +287,7 @@ paths:
                       message: internal server error
     patch:
       tags:
-        - Event
+        - Events
       operationId: updateEvent
       summary: Update an event
       description: >
@@ -357,18 +365,18 @@ paths:
                     error:
                       code: secret_api_key_not_found
                       message: >-
-                        no fingerprint application found for specified secret
-                        API key
+                        no fingerprint workspace found for specified secret API
+                        key
                 403-wrong-region:
                   summary: >-
                     Error response when the API region is different from the
-                    region, the calling application is configured with.
+                    region, the calling workspace is configured with.
                   value:
                     error:
                       code: wrong_region
                       message: wrong region
         '404':
-          description: Not found. The event Id cannot be found in this application's data.
+          description: Not found. The event Id cannot be found in this workspace's data.
           content:
             application/json:
               schema:
@@ -422,7 +430,7 @@ paths:
         range is the **last 7 days**.
 
 
-        ### Filtering events with the`suspect` flag
+        ### Filtering events with the `suspect` flag
 
 
         The `/v4/events` endpoint unlocks a powerful method for fraud protection
@@ -517,6 +525,15 @@ paths:
             assumed.
 
             Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
+        - name: asn
+          in: query
+          schema:
+            type: string
+            description: >
+              Filter events by the ASN associated with the event's IP address.
+
+              This corresponds to the `ip_info.(v4|v6).asn` property in the
+              response.
         - name: linked_id
           in: query
           schema:
@@ -812,6 +829,16 @@ paths:
             items:
               type: string
           style: form
+        - name: proximity_id
+          in: query
+          schema:
+            type: string
+          description: >
+            Filter events by the most precise Proximity ID provided by default.
+
+            > Note: When using this parameter, only events with the
+            `proximity.id` property matching the provided ID are returned.
+            Events without a `proximity` result are left out of the response.
         - name: total_hits
           in: query
           schema:
@@ -842,6 +869,7 @@ paths:
                         url: https://www.example.com/login?hope{this{works[!
                         ip_address: 61.127.217.15
                         user_agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....
+                        client_referrer: https://example.com/blog/my-article
                         browser_details:
                           browser_name: Chrome
                           browser_major_version: '74'
@@ -865,6 +893,10 @@ paths:
                             version: '1.1'
                           first_seen_at: 1708102555327
                           last_seen_at: 1708102555327
+                        proximity:
+                          id: w1aTfd4MCvl
+                          precision_radius: 10
+                          confidence: 0.95
                         bot: not_detected
                         root_apps: false
                         emulator: false
@@ -888,6 +920,7 @@ paths:
                             asn: '7922'
                             asn_name: COMCAST-7922
                             asn_network: 73.136.0.0/13
+                            asn_type: isp
                             datacenter_result: true
                             datacenter_name: DediPath
                           v6:
@@ -909,6 +942,7 @@ paths:
                             asn: '6805'
                             asn_name: Telefonica Germany
                             asn_network: 2a02:3100::/24
+                            asn_type: isp
                             datacenter_result: false
                             datacenter_name: ''
                         ip_blocklist:
@@ -979,6 +1013,7 @@ paths:
                                 name: preact
                                 version: 10.21.0
                         replayed: false
+                        high_activity_device: false
                     pagination_key: '1708102555327'
         '400':
           description: >-
@@ -1070,8 +1105,8 @@ paths:
                     error:
                       code: secret_api_key_not_found
                       message: >-
-                        no fingerprint application found for specified secret
-                        API key
+                        no fingerprint workspace found for specified secret API
+                        key
                 403-wrong-region:
                   summary: >-
                     Error response when the API region does not match the region
@@ -1081,7 +1116,7 @@ paths:
                       code: wrong_region
                       message: wrong region
         '500':
-          description: Application error.
+          description: Workspace error.
           content:
             application/json:
               schema:
@@ -1208,8 +1243,8 @@ paths:
                     error:
                       code: secret_api_key_not_found
                       message: >-
-                        no fingerprint application found for specified secret
-                        API key
+                        no fingerprint workspace found for specified secret API
+                        key
                 403-wrong-region:
                   summary: >-
                     Error response when the API region is different from the
@@ -1503,6 +1538,14 @@ components:
       description: >
         User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1;
         Win64; x64) ....`
+    ClientReferrer:
+      type: string
+      description: >
+        Client Referrer field corresponds to the `document.referrer` field
+        gathered during an identification request. The value is an empty string
+        if the user navigated to the page directly (not through a link, but, for
+        example, by using a bookmark) For example:
+        `https://example.com/blog/my-article`
     BrowserDetails:
       type: object
       additionalProperties: false
@@ -1705,6 +1748,8 @@ components:
           type: string
         asn_network:
           type: string
+        asn_type:
+          type: string
         datacenter_result:
           type: boolean
         datacenter_name:
@@ -1725,6 +1770,8 @@ components:
         asn_name:
           type: string
         asn_network:
+          type: string
+        asn_type:
           type: string
         datacenter_result:
           type: boolean
@@ -2032,12 +2079,18 @@ components:
 
             This field allows you to differentiate VPN users and relay service
             users in your fraud prevention logic.
+    HighActivity:
+      type: boolean
+      description: Flag indicating if the request came from a high-activity visitor.
     Event:
       type: object
       description: >-
         Contains results from Fingerprint Identification and all active Smart
         Signals.
       additionalProperties: false
+      required:
+        - event_id
+        - timestamp
       properties:
         event_id:
           $ref: '#/components/schemas/EventId'
@@ -2123,6 +2176,10 @@ components:
             - android
             - ios
             - browser
+        client_referrer:
+          $ref: '#/components/schemas/ClientReferrer'
+          x-platforms:
+            - browser
         browser_details:
           $ref: '#/components/schemas/BrowserDetails'
           x-platforms:
@@ -2132,7 +2189,6 @@ components:
           x-platforms:
             - android
             - ios
-            - browser
         bot:
           $ref: '#/components/schemas/BotResult'
           x-platforms:
@@ -2276,6 +2332,12 @@ components:
             - android
             - ios
             - browser
+        high_activity_device:
+          $ref: '#/components/schemas/HighActivity'
+          x-platforms:
+            - android
+            - ios
+            - browser
     ErrorCode:
       type: string
       enum:
@@ -2295,6 +2357,7 @@ components:
         - event_not_found
         - missing_module
         - payload_too_large
+        - service_unavailable
       description: >
         Error code:
 
@@ -2304,21 +2367,21 @@ components:
         * `secret_api_key_required` - secret API key in header is missing or
         empty.
 
-        * `secret_api_key_not_found` - No Fingerprint application found for
+        * `secret_api_key_not_found` - No Fingerprint workspace found for
         specified secret API key.
 
         * `public_api_key_required` - public API key in header is missing or
         empty.
 
-        * `public_api_key_not_found` - No Fingerprint application found for
+        * `public_api_key_not_found` - No Fingerprint workspace found for
         specified public API key.
 
-        * `subscription_not_active` - Fingerprint application is not active.
+        * `subscription_not_active` - Fingerprint workspace is not active.
 
-        * `wrong_region` - Server and application region differ.
+        * `wrong_region` - Server and workspace region differ.
 
         * `feature_not_enabled` - This feature (for example, Delete API) is not
-        enabled for your application.
+        enabled for your workspace.
 
         * `request_not_found` - The specified event ID was not found. It never
         existed, expired, or it has been deleted.
@@ -2344,6 +2407,8 @@ components:
 
         * `payload_too_large` - The request payload is too large and cannot be
         processed.
+
+        * `service_unavailable` - The service was unable to process the request.
     Error:
       type: object
       additionalProperties: false

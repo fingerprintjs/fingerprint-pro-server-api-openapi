@@ -5442,6 +5442,8 @@ components:
           type: string
         network:
           type: string
+        type:
+          type: string
     IPInfoDataCenter:
       type: object
       additionalProperties: false
