@@ -1,0 +1,9 @@
+type: object
+description: >-
+  Contains results from Fingerprint Identification and all active Smart Signals.
+additionalProperties: false
+required:
+  - products
+properties:
+  products:
+    $ref: Products.yaml
