@@ -14,6 +14,8 @@ properties:
     type: string
   asn_network:
     type: string
+  asn_type:
+    type: string
   datacenter_result:
     type: boolean
   datacenter_name:

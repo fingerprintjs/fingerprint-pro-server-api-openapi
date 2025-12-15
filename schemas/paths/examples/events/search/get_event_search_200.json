@@ -8,6 +8,7 @@
       "url": "https://www.example.com/login?hope{this{works[!",
       "ip_address": "61.127.217.15",
       "user_agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....",
+      "client_referrer": "https://example.com/blog/my-article",
       "browser_details": {
         "browser_name": "Chrome",
         "browser_major_version": "74",
@@ -36,6 +37,11 @@
         "first_seen_at": 1708102555327,
         "last_seen_at": 1708102555327
       },
+      "proximity": {
+        "id": "w1aTfd4MCvl",
+        "precision_radius": 10,
+        "confidence": 0.95
+      },
       "bot": "not_detected",
       "root_apps": false,
       "emulator": false,
@@ -63,6 +69,7 @@
           "asn": "7922",
           "asn_name": "COMCAST-7922",
           "asn_network": "73.136.0.0/13",
+          "asn_type": "isp",
           "datacenter_result": true,
           "datacenter_name": "DediPath"
         },
@@ -89,6 +96,7 @@
           "asn": "6805",
           "asn_name": "Telefonica Germany",
           "asn_network": "2a02:3100::/24",
+          "asn_type": "isp",
           "datacenter_result": false,
           "datacenter_name": ""
         }
@@ -176,7 +184,8 @@
           }
         ]
       },
-      "replayed": false
+      "replayed": false,
+      "high_activity_device": false
     }
   ],
   "pagination_key": "1708102555327"
