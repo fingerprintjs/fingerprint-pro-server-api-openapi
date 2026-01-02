@@ -1,0 +1,11 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: >
+      `true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise.
+  mlScore:
+    type: number
+    description: >
+      Optional field present to reflect the ml score of the virtual machine result    

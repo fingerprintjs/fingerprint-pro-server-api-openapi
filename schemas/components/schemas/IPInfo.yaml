@@ -1,0 +1,9 @@
+type: object
+description: >-
+  Details about the request IP address. Has separate fields for v4 and v6 IP address versions.
+additionalProperties: false
+properties:
+  v4:
+    $ref: IPInfoV4.yaml
+  v6:
+    $ref: IPInfoV6.yaml

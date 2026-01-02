@@ -1,0 +1,10 @@
+type: object
+additionalProperties: false
+required:
+  - code
+  - message
+properties:
+  code:
+    $ref: ErrorCode.yaml
+  message:
+    type: string
