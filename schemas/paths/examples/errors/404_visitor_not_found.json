@@ -1,6 +1,6 @@
 {
   "error": {
-    "code": "visitor_not_found",
+    "code": "VisitorNotFound",
     "message": "visitor not found"
   }
 }
