@@ -33,6 +33,9 @@ get:
             200-ok:
               summary: Example response
               externalValue: 'examples/events/get_event_200.json'
+            200-ok-with-ruleset:
+              summary: Example response with rule_action (when ruleset_id is provided)
+              externalValue: 'examples/events/get_event_ruleset_200.json'
     '400':
       description: "Bad request. The event Id provided is not valid."
       content:
