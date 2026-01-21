@@ -5,6 +5,7 @@ import { removeWebhookTransformer } from './removeWebhookTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
 import { removeFieldTransformer } from './removeFieldTransformer.js';
+import { removeFieldsByPrefixTransformer } from './removeFieldsByPrefixTransformer.js';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
@@ -17,6 +18,16 @@ export const commonTransformers = [
 ];
 
 const defaultTransformers = [...commonTransformers];
+
+export const v4Transformers = [...commonTransformers, removeFieldsByPrefixTransformer('x-ruleset-')];
+
+export const v4SchemaForSdksTransformers = [
+  ...v4Transformers,
+  replaceTagsTransformer,
+  removeFieldTransformer('webhooks'),
+  removeFieldTransformer('x-readme'),
+  removeBigExamplesTransformer,
+];
 
 export const readmeApiExplorerTransformers = [
   ...commonTransformers,
