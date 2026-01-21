@@ -5,20 +5,32 @@ properties:
     type: boolean
     x-platforms: ["android", "ios", "browser"]
     description: "The browser timezone doesn't match the timezone inferred from the request IP address."
+    x-ruleset-metadata:
+      label: VPN method - timezone mismatch
+      category: ip_address
   public_vpn:
     type: boolean
     x-platforms: ["android", "ios", "browser"]
     description: Request IP address is owned and used by a public VPN service provider.
+    x-ruleset-metadata:
+      label: VPN method - public VPN
+      category: ip_address
   auxiliary_mobile:
     type: boolean
     x-platforms: ["android", "ios", "browser"]
     description: >-
       This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.
+    x-ruleset-metadata:
+      label: VPN method - auxiliary mobile
+      category: ip_address
   os_mismatch:
     type: boolean
     x-platforms: ["browser"]
     description: >-
       The browser runs on a different operating system than the operating system inferred from the request network signature.
+    x-ruleset-metadata:
+      label: VPN method - OS mismatch
+      category: ip_address
   relay:
     type: boolean
     x-platforms: ["android", "ios", "browser"]
@@ -29,3 +41,6 @@ properties:
       * Unlike traditional VPNs, relay services don't let visitors spoof their location by choosing an exit node in a different country.
 
       This field allows you to differentiate VPN users and relay service users in your fraud prevention logic.
+    x-ruleset-metadata:
+      label: VPN method - relay
+      category: ip_address

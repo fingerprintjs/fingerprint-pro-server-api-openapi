@@ -1,3 +1,6 @@
 type: boolean
 description: >
   IP address was used by a public proxy provider or belonged to a known recent residential proxy
+x-ruleset-metadata:
+  label: Proxy
+  category: ip_address

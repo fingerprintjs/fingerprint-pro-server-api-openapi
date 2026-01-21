@@ -4,9 +4,18 @@ properties:
   email_spam:
     type: boolean
     description: IP address was part of a known email spam attack (SMTP).
+    x-ruleset-metadata:
+      label: Known email spam attack IP
+      category: ip_address
   attack_source:
     type: boolean
     description: IP address was part of a known network attack (SSH/HTTPS).
+    x-ruleset-metadata:
+      label: Known network attack IP
+      category: ip_address
   tor_node:
     type: boolean
     description: IP address was part of known TOR network activity.
+    x-ruleset-metadata:
+      label: Known TOR network activity IP
+      category: ip_address

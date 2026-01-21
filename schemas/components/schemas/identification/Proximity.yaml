@@ -11,6 +11,9 @@ properties:
     type: string
     description: |
       A stable privacy-preserving identifier for a given proximity zone.
+    x-ruleset-metadata:
+      label: Proximity zone ID
+      category: mobile
   precision_radius:
     type: integer
     format: int32

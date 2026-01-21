@@ -1,2 +1,5 @@
 type: boolean
 description: Flag indicating if the request came from a high-activity visitor.
+x-ruleset-metadata:
+  label: High activity
+  category: identity

@@ -1,0 +1,16 @@
+type: object
+description: Render and vendor strings reported by the WebGL context.
+additionalProperties: false
+properties:
+  version:
+    type: string
+  vendor:
+    type: string
+  vendor_unmasked:
+    type: string
+  renderer:
+    type: string
+  renderer_unmasked:
+    type: string
+  shading_language_version:
+    type: string

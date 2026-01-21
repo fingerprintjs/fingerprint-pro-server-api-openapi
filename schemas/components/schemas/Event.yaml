@@ -122,6 +122,8 @@ properties:
   root_apps:
     $ref: smartsignals/RootApps.yaml
     x-platforms: ["android"]
+  rule_action:
+    $ref: platform/EventRuleAction.yaml
   suspect_score:
     $ref: smartsignals/SuspectScore.yaml
     x-platforms: ["android", "ios", "browser"]
@@ -155,3 +157,6 @@ properties:
   high_activity_device:
     $ref: smartsignals/HighActivity.yaml
     x-platforms: ["android", "ios", "browser"]
+  raw_device_attributes:
+    $ref: smartsignals/RawDeviceAttributes.yaml
+    x-platforms: ["browser"]

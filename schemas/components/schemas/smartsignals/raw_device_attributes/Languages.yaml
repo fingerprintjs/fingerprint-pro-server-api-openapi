@@ -1,0 +1,8 @@
+type: array
+description: >
+  Navigator languages reported by the agent including fallbacks.
+  Each inner array represents ordered language preferences reported by different APIs.
+items:
+  type: array
+  items:
+    type: string

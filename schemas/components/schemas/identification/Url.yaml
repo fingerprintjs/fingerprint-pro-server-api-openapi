@@ -1,3 +1,6 @@
 type: string
 description: >
   Page URL from which the request was sent. For example `https://example.com/`
+x-ruleset-metadata:
+  label: URL
+  category: browser

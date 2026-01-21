@@ -1,3 +1,6 @@
 type: boolean
 description: >
   `true` if we detected incognito mode used in the browser, `false` otherwise.
+x-ruleset-metadata:
+  label: Incognito
+  category: browser

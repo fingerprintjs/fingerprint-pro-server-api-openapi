@@ -1,10 +1,18 @@
 type: string
 enum:
-  - not_detected
-  - good
   - bad
+  - good
+  - not_detected
 description: |
   Bot detection result:
-   * `not_detected` - the visitor is not a bot
-   * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on
    * `bad` - bad bot detected, such as Selenium, Puppeteer, Playwright, headless browsers, and so on
+   * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on
+   * `not_detected` - the visitor is not a bot
+x-ruleset-metadata:
+  label: Browser Bot
+  category: bots
+  string-set: true
+  enum-labels:
+    not_detected: Not detected
+    good: Good
+    bad: Bad

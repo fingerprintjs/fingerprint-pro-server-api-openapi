@@ -1,2 +1,5 @@
 type: string
 description: IP address of the requesting browser or bot.
+x-ruleset-metadata:
+  label: IP address
+  category: ip_address

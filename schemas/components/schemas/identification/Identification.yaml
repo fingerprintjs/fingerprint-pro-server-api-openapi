@@ -7,11 +7,18 @@ properties:
   visitor_id:
     type: string
     description: String of 20 characters that uniquely identifies the visitor's browser or mobile device.
+    x-ruleset-metadata:
+      label: Visitor ID
+      category: identity
   confidence:
     $ref: IdentificationConfidence.yaml
+    x-ruleset-label-prefix: 'Identification '
   visitor_found:
     type: boolean
     description: Attribute represents if a visitor had been identified before.
+    x-ruleset-metadata:
+      label: Returning visitor
+      category: identity
   first_seen_at:
     type: integer
     format: int64

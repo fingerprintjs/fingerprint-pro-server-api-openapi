@@ -1,0 +1,5 @@
+type: integer
+format: int32
+minimum: 0
+example: 8
+description: Rounded amount of RAM (in gigabytes) reported by the browser.

@@ -1,2 +1,5 @@
 type: string
 description: A customer-provided id that was sent with the request.
+x-ruleset-metadata:
+  label: Linked ID
+  category: platform

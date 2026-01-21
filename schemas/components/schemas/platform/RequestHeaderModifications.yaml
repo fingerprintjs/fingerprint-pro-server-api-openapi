@@ -1,0 +1,19 @@
+type: object
+description: >-
+  The set of header modifications to apply, in the following order: remove, set, append.
+properties:
+  remove:
+    type: array
+    description: The list of headers to remove.
+    items:
+      type: string
+  set:
+    type: array
+    description: The list of headers to set, overwriting any existing headers with the same name.
+    items:
+      $ref: RuleActionHeaderField.yaml
+  append:
+    type: array
+    description: The list of headers to append.
+    items:
+      $ref: RuleActionHeaderField.yaml

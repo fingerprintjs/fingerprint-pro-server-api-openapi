@@ -1,3 +1,6 @@
 type: boolean
 description: >
   `true` if we determined that this payload was replayed, `false` otherwise.
+x-ruleset-metadata:
+  label: Replayed
+  category: platform

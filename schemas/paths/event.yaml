@@ -14,6 +14,14 @@ get:
       schema:
         type: string
       description: The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place).
+    - name: ruleset_id
+      in: query
+      required: false
+      schema:
+        type: string
+      description: |
+        The ID of the ruleset to evaluate against the event, producing the action to take for this event.
+        The resulting action is returned in the `rule_action` attribute of the response.
   responses:
     '200':
       description: OK.
@@ -35,6 +43,9 @@ get:
             400-bad-request:
               summary: Error response when the provided event Id is invalid.
               externalValue: 'examples/errors/400_event_id_invalid.json'
+            400-ruleset-not-found:
+              summary: Error response when the ruleset with the provided ID is not found.
+              externalValue: 'examples/errors/400_ruleset_not_found.json'
     '403':
       description: Forbidden. Access to this API is denied.
       content:
@@ -48,9 +59,6 @@ get:
             403-secret-api-key-not-found:
               summary: Error response when the provided secret API key does not exist.
               externalValue: 'examples/errors/403_secret_api_key_not_found.json'
-            429-too-many-requests-error:
-              summary: Too many requests error
-              externalValue: 'examples/errors/429_too_many_requests.json'
     '404':
       description: "Not found. The event Id cannot be found in this workspace's data."
       content:
@@ -61,6 +69,16 @@ get:
             404-request-not-found:
               summary: Error response when the provided event Id does not exist.
               externalValue: 'examples/errors/404_event_not_found.json'
+    '429':
+      description: "Too Many Requests. The request is throttled."
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/error/ErrorResponse.yaml'
+          examples:
+            429-too-many-requests-error:
+              summary: Too many requests error
+              externalValue: 'examples/errors/429_too_many_requests.json'
     '500':
       description: Workspace error.
       content:

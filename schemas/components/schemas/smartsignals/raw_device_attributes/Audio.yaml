@@ -1,0 +1,7 @@
+type: number
+format: double
+description: >
+  AudioContext fingerprint or negative status when unavailable. The negative statuses can be:
+  - -1: A permanent status for those browsers which are known to always suspend audio context
+  - -2: A permanent status for browsers that don't support the signal
+  - -3: A temporary status that means that an unexpected timeout has happened

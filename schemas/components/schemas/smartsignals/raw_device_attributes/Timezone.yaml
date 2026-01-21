@@ -1,0 +1,2 @@
+type: string
+description: Timezone identifier detected on the client.

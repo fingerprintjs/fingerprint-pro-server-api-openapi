@@ -3,3 +3,6 @@ description: >
   Client Referrer field corresponds to the `document.referrer` field gathered during an identification request.
   The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark)
   For example: `https://example.com/blog/my-article`
+x-ruleset-metadata:
+  label: Client referrer
+  category: browser

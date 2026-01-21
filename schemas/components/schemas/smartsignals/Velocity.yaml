@@ -15,22 +15,29 @@ description: |
   `distinct_ip_by_linked_id` and `distinct_visitor_id_by_linked_id` will be omitted 
   if the number of `events` for the visitor Id in the last 24
   hours (`events.['24h']`) is higher than 20.000.
-  
+
   All will not necessarily be returned in a response, some may be omitted if the 
   associated event does not have the required data, such as a linked_id.
 additionalProperties: false
 properties:
   distinct_ip:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'IP addresses linked to the visitor ID - '
   distinct_linked_id:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'Linked IDs linked with the visitor ID - '
   distinct_country:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'Countries linked with the visitor ID - '
   events:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'Events linked to the visitor ID - '
   ip_events:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'Events linked to the IP address - '
   distinct_ip_by_linked_id:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'IP addresses linked to the linked ID - '
   distinct_visitor_id_by_linked_id:
     $ref: VelocityData.yaml
+    x-ruleset-label-prefix: 'Visitor IDs linked to the linked ID - '

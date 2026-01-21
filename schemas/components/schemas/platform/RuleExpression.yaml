@@ -1,0 +1,2 @@
+type: string
+description: The expression of the rule that matched the identification event.

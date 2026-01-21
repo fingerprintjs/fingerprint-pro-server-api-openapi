@@ -1,0 +1,12 @@
+type: object
+description: Canvas fingerprint containing winding flag plus geometry/text hashes.
+additionalProperties: false
+properties:
+  winding:
+    type: boolean
+  geometry:
+    type: string
+    description: Hash of geometry rendering output or `unsupported` markers.
+  text:
+    type: string
+    description: Hash of text rendering output or `unsupported` markers.
