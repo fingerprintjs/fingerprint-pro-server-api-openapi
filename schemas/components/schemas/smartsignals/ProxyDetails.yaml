@@ -12,6 +12,12 @@ properties:
     description: |
       Residential proxies use real user IP addresses to appear as legitimate traffic, 
       while data center proxies are public proxies hosted in data centers
+    x-ruleset-metadata:
+      label: Proxy type
+      category: ip_address
+      enum-labels:
+        residential: Residential
+        data_center: Data center
   last_seen_at:
     type: integer
     format: int64

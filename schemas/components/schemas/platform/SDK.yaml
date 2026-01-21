@@ -13,10 +13,21 @@ properties:
       - ios
       - unknown
     description: Platform of the SDK used for the identification request.
+    x-ruleset-metadata:
+      label: SDK platform
+      category: platform
+      enum-labels:
+        js: JS
+        android: Android
+        ios: iOS
+        unknown: Unknown
   version:
     type: string
     description: >
       Version string of the SDK used for the identification request. For example: `"3.12.1"`
+    x-ruleset-metadata:
+      label: SDK version
+      category: platform
   integrations:
     type: array
     items:

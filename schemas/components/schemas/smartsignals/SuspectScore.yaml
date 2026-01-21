@@ -5,3 +5,6 @@ description: >
       Signals present in the payload that helps identify suspicious activity.
       The value range is [0; S] where S is sum of all Smart Signals weights. 
       See more details here: https://dev.fingerprint.com/docs/suspect-score
+x-ruleset-metadata:
+      label: Suspect Score
+      category: risk

@@ -1,0 +1,24 @@
+type: array
+description: Browser plugins reported by `navigator.plugins`.
+items:
+  type: object
+  additionalProperties: false
+  properties:
+    name:
+      type: string
+    description:
+      type: string
+    mimeTypes:
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            type: string
+          suffixes:
+            type: string
+          description:
+            type: string
+  required:
+    - name

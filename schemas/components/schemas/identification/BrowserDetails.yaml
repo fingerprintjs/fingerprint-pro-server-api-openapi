@@ -10,13 +10,31 @@ required:
 properties:
   browser_name:
     type: string
+    x-ruleset-metadata:
+      label: Browser name
+      category: browser
   browser_major_version:
     type: string
+    x-ruleset-metadata:
+      label: Browser major version
+      category: browser
   browser_full_version:
     type: string
+    x-ruleset-metadata:
+      label: Browser version
+      category: browser
   os:
     type: string
+    x-ruleset-metadata:
+      label: Browser OS
+      category: browser
   os_version:
     type: string
+    x-ruleset-metadata:
+      label: Browser OS version
+      category: browser
   device:
     type: string
+    x-ruleset-metadata:
+      label: Browser device type
+      category: browser

@@ -316,6 +316,13 @@ get:
         maximum: 1000
       description: |
         When set, the response will include a `total_hits` property with a count of total query matches across all pages, up to the specified limit.
+    - name: tor_node
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Tor Node detection result.
+        > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).

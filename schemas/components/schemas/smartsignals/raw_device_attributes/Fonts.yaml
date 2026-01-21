@@ -1,0 +1,9 @@
+type: array
+description: List of fonts detected on the device.
+items:
+  type: string
+example:
+  - Arial Unicode MS
+  - Gill Sans
+  - Helvetica Neue
+  - Menlo

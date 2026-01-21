@@ -14,6 +14,7 @@ properties:
     description: Attribute represents if a visitor had been identified before.
   confidence:
     $ref: IdentificationConfidence.yaml
+    x-ruleset-ignore-ref: true
   first_seen_at:
     type: integer
     format: int64

@@ -1,3 +1,6 @@
 type: boolean
 description: >
   VPN or other anonymizing service has been used when sending the request.
+x-ruleset-metadata:
+  label: VPN
+  category: ip_address

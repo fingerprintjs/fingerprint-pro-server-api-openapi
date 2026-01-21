@@ -6,17 +6,39 @@ properties:
   address:
     type: string
     format: ipv6
+    x-ruleset-metadata:
+      label: IPv6 address
+      category: ip_address
   geolocation:
     $ref: Geolocation.yaml
+    x-ruleset-label-prefix: 'IPv6 '
   asn:
     type: string
+    x-ruleset-metadata:
+      label: IPv6 ASN
+      category: ip_address
   asn_name:
     type: string
+    x-ruleset-metadata:
+      label: IPv6 ASN name
+      category: ip_address
   asn_network:
     type: string
+    x-ruleset-metadata:
+      label: IPv6 ASN network
+      category: ip_address
   asn_type:
     type: string
+    x-ruleset-metadata:
+      label: IPv6 ASN type
+      category: ip_address
   datacenter_result:
     type: boolean
+    x-ruleset-metadata:
+      label: IPv6 data center IP
+      category: ip_address
   datacenter_name:
     type: string
+    x-ruleset-metadata:
+      label: IPv6 data center name
+      category: ip_address

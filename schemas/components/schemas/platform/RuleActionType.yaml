@@ -1,0 +1,5 @@
+type: string
+description: Describes the action to take with the request.
+enum:
+  - allow
+  - block

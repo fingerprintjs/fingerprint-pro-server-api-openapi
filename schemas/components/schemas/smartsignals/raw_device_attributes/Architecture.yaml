@@ -1,0 +1,3 @@
+type: integer
+format: int32
+description: Integer representing the CPU architecture exposed by the browser.

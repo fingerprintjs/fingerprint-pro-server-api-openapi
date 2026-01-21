@@ -1,0 +1,18 @@
+type: object
+description: Hashes of WebGL context attributes and extension support.
+additionalProperties: false
+properties:
+  context_attributes:
+    type: string
+  parameters:
+    type: string
+  shader_precisions:
+    type: string
+  extensions:
+    type: string
+  extension_parameters:
+    type: string
+  unsupported_extensions:
+    type: array
+    items:
+      type: string

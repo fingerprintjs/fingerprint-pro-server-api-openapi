@@ -1,3 +1,6 @@
 type: string
 description: >
   Country of the request (only for Android SDK version >= 2.4.0, ISO 3166 format or unknown).
+x-ruleset-metadata:
+  label: VPN origin country
+  category: ip_address

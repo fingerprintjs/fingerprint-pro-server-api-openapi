@@ -6,17 +6,38 @@ properties:
   address:
     type: string
     format: ipv4
+    x-ruleset-metadata:
+      label: IPv4 address
+      category: ip_address
   geolocation:
     $ref: Geolocation.yaml
+    x-ruleset-label-prefix: 'IPv4 '
   asn:
     type: string
+    x-ruleset-metadata:
+      label: IPv4 ASN
+      category: ip_address
   asn_name:
     type: string
+    x-ruleset-metadata:
+      label: IPv4 ASN name
+      category: ip_address
   asn_network:
     type: string
+    x-ruleset-metadata:
+      label: IPv4 ASN network
+      category: ip_address
   asn_type:
     type: string
+    x-ruleset-metadata:
+      label: IPv4 ASN type
+      category: ip_address
   datacenter_result:
     type: boolean
+    x-ruleset-metadata:
+      label: IPv4 data center IP
   datacenter_name:
     type: string
+    x-ruleset-metadata:
+      label: IPv4 data center name
+      category: ip_address

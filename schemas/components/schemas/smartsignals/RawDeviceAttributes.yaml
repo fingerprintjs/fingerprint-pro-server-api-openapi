@@ -1,0 +1,56 @@
+type: object
+description: >
+  A curated subset of raw browser/device attributes that the API surface
+  exposes. Each property contains a value or object with the data for the collected signal.
+additionalProperties: false
+properties:
+  font_preferences:
+    $ref: raw_device_attributes/FontPreferences.yaml
+  emoji:
+    $ref: raw_device_attributes/Emoji.yaml
+  fonts:
+    $ref: raw_device_attributes/Fonts.yaml
+  device_memory:
+    $ref: raw_device_attributes/DeviceMemory.yaml
+  timezone:
+    $ref: raw_device_attributes/Timezone.yaml
+  canvas:
+    $ref: raw_device_attributes/Canvas.yaml
+  languages:
+    $ref: raw_device_attributes/Languages.yaml
+  webgl_extensions:
+    $ref: raw_device_attributes/WebGlExtensions.yaml
+  webgl_basics:
+    $ref: raw_device_attributes/WebGlBasics.yaml
+  screen_resolution:
+    $ref: raw_device_attributes/ScreenResolution.yaml
+  touch_support:
+    $ref: raw_device_attributes/TouchSupport.yaml
+  oscpu:
+    $ref: raw_device_attributes/Oscpu.yaml
+  architecture:
+    $ref: raw_device_attributes/Architecture.yaml
+  cookies_enabled:
+    $ref: raw_device_attributes/CookiesEnabled.yaml
+  hardware_concurrency:
+    $ref: raw_device_attributes/HardwareConcurrency.yaml
+  date_time_locale:
+    $ref: raw_device_attributes/DateTimeLocale.yaml
+  vendor:
+    $ref: raw_device_attributes/Vendor.yaml
+  color_depth:
+    $ref: raw_device_attributes/ColorDepth.yaml
+  platform:
+    $ref: raw_device_attributes/Platform.yaml
+  session_storage:
+    $ref: raw_device_attributes/SessionStorage.yaml
+  local_storage:
+    $ref: raw_device_attributes/LocalStorage.yaml
+  audio:
+    $ref: raw_device_attributes/Audio.yaml
+  plugins:
+    $ref: raw_device_attributes/Plugins.yaml
+  indexed_db:
+    $ref: raw_device_attributes/IndexedDb.yaml
+  math:
+    $ref: raw_device_attributes/Math.yaml

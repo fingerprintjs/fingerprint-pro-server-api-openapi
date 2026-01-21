@@ -1,0 +1,7 @@
+type: array
+description: Current screen resolution.
+minItems: 2
+maxItems: 2
+items:
+  type: integer
+  format: int32

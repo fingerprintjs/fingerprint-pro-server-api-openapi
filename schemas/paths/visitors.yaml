@@ -64,7 +64,7 @@ delete:
               summary: Error response when the provided secret API key does not exist.
               externalValue: 'examples/errors/403_secret_api_key_not_found.json'
             403-wrong-region:
-              summary: Error response when the API region is different from the region, the calling application is configured with.
+              summary: Error response when the API region is different from the region, the calling workspace is configured with.
               externalValue: 'examples/errors/403_wrong_region.json'
             403-subscription-not-active:
               summary: Error response when the subscription is not active.
@@ -73,14 +73,14 @@ delete:
               summary: Error response when this feature is not enabled for a subscription.
               externalValue: 'examples/errors/403_feature_not_enabled.json'
     '404':
-      description: Not found. The visitor ID cannot be found in this application's data.
+      description: Not found. The visitor ID cannot be found in this workspace's data.
       content:
         application/json:
           schema:
             $ref: '../components/schemas/error/ErrorResponse.yaml'
           examples:
             404-visitor-not-found:
-              summary: Error response when the visitor ID cannot be found in this application's data.
+              summary: Error response when the visitor ID cannot be found in this workspace's data.
               externalValue: 'examples/errors/404_visitor_not_found.json'
     '429':
       description: Too Many Requests. The request is throttled.

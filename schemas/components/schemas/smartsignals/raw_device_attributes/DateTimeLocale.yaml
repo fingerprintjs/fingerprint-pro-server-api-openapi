@@ -1,0 +1,6 @@
+type: string
+description: >
+  Locale derived from the Intl.DateTimeFormat API. Negative values indicate known error states. The negative statuses can be:
+  - "-1": A permanent status for browsers that don't support Intl API.
+  - "-2": A permanent status for browsers that don't supportDateTimeFormat constructor.
+  - "-3": A permanent status for browsers in which DateTimeFormat locale is undefined or null.

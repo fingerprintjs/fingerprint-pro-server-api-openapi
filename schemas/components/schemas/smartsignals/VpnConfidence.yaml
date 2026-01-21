@@ -5,3 +5,10 @@ enum:
   - high
 description: >-
   A confidence rating for the VPN detection result — "low", "medium", or "high". Depends on the combination of results returned from all VPN detection methods.
+x-ruleset-metadata:
+  label: VPN confidence
+  category: ip_address
+  enum-labels:
+    low: Low
+    medium: Medium
+    high: High

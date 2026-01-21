@@ -6,35 +6,62 @@ properties:
     minimum: 0
     description: >-
       The IP address is likely to be within this radius (in km) of the specified location.
+    x-ruleset-metadata:
+      label: accuracy radius
+      category: ip_address
   latitude:
     type: number
     format: double
     minimum: -90
     maximum: 90
+    x-ruleset-metadata:
+      label: latitude
+      category: location
   longitude:
     type: number
     format: double
     minimum: -180
     maximum: 180
+    x-ruleset-metadata:
+      label: longitude
+      category: location
   postal_code:
     type: string
   timezone:
     type: string
     format: timezone
+    x-ruleset-metadata:
+      label: time zone
+      category: location
   city_name:
     type: string
+    x-ruleset-metadata:
+      label: city name
+      category: ip_address
   country_code:
     type: string
     minLength: 2
     maxLength: 2
+    x-ruleset-metadata:
+      label: country code
+      category: location
   country_name:
     type: string
+    x-ruleset-metadata:
+      label: country name
+      category: ip_address
   continent_code:
     type: string
     minLength: 2
     maxLength: 2
+    x-ruleset-metadata:
+      label: continent code
+      category: ip_address
   continent_name:
     type: string
+    x-ruleset-metadata:
+      label: continent name
+      category: ip_address
   subdivisions:
     type: array
     items:

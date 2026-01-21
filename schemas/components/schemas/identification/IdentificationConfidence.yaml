@@ -10,6 +10,9 @@ properties:
     maximum: 1
     description: >-
       The confidence score is a floating-point number between 0 and 1 that represents the probability of accurate identification.
+    x-ruleset-metadata:
+      label: confidence score
+      category: identity
   version:
     type: string
     description: >-

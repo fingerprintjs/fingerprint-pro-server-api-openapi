@@ -1,3 +1,6 @@
 type: boolean
 description: >-
   Flag indicating whether the request came from a mobile device with location spoofing enabled.
+x-ruleset-metadata:
+  label: Location spoofing
+  category: mobile

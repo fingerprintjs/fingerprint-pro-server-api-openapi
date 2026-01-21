@@ -1,0 +1,11 @@
+type: object
+description: Browser-reported touch capabilities.
+additionalProperties: false
+properties:
+  touch_event:
+    type: boolean
+  touch_start:
+    type: boolean
+  max_touch_points:
+    type: integer
+    format: int64

@@ -11,9 +11,15 @@ properties:
       Confidence score (`0.0 - 1.0`) for tampering detection:
         * Values above `0.5` indicate tampering.
         * Values below `0.5` indicate genuine browsers.
+    x-ruleset-metadata:
+      label: Tampering anomaly score
+      category: browser
   anti_detect_browser:
     type: boolean
     x-platforms: ["browser"]
     description: >
       True if the identified browser resembles an "anti-detect" browser, such as Incognition,
-      which attempts to evade identification by manipulating its fingerprint. 
+      which attempts to evade identification by manipulating its fingerprint.
+    x-ruleset-metadata:
+      label: Anti-detect browser
+      category: browser 
