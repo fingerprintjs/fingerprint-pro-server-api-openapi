@@ -1,5 +1,0 @@
-type: string
-nullable: true
-description: >
-  The encrypted and then base64 encoded result details. Only present if an Encryption key is defined in the Dashboard.
-  See more details here: https://dev.fingerprint.com/docs/sealed-client-results

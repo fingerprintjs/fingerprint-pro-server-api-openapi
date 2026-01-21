@@ -1,4 +1,0 @@
-type: string
-description: >
-  String of 20 characters that uniquely identifies the visitor's browser or mobile device.
-  Not present if Zero Trust or Sealed Results are in use.
