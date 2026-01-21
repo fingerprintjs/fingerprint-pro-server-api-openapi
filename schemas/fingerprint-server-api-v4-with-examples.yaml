@@ -54,6 +54,17 @@ paths:
             [identifier](https://dev.fingerprint.com/reference/get-function#requestid)
             of each identification request (`requestId` can be used in its
             place).
+        - name: ruleset_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: >
+            The ID of the ruleset to evaluate against the event, producing the
+            action to take for this event.
+
+            The resulting action is returned in the `rule_action` attribute of
+            the response.
       responses:
         '200':
           description: OK.
@@ -217,6 +228,325 @@ paths:
                             version: 10.21.0
                     replayed: false
                     high_activity_device: false
+                    raw_device_attributes:
+                      math: 5f030fa7d2e5f9f757bfaf81642eb1a6
+                      vendor: Google Inc.
+                      plugins:
+                        - description: Portable Document Format
+                          mimeTypes:
+                            - suffixes: pdf
+                              type: application/pdf
+                            - suffixes: pdf
+                              type: text/pdf
+                          name: PDF Viewer
+                      webgl_extensions:
+                        context_attributes: 6b1ed336830d2bc96442a9d76373252a
+                        extension_parameters: 86a8abb36f0cb30b5946dec0c761d042
+                        extensions: 57233d7b10f89fcd1ff95e3837ccd72d
+                        parameters: ea118c48e308bc4b0677118bbb3019ec
+                        shader_precisions: f223dfbcd580cf142da156d93790eb83
+                        unsupported_extensions: []
+                      cookies_enabled: true
+                      webgl_basics:
+                        renderer: WebKit WebGL
+                        renderer_unmasked: >-
+                          ANGLE (Apple, ANGLE Metal Renderer: Apple M4,
+                          Unspecified Version)
+                        shading_language_version: WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
+                        vendor: WebKit
+                        vendor_unmasked: Google Inc. (Apple)
+                        version: WebGL 1.0 (OpenGL ES 2.0 Chromium)
+                      canvas:
+                        geometry: db3c1462576a399a03ae93d0ab9eb5c4
+                        text: 70c3d3f7eb4408dc37a6bf8af1c51029
+                        winding: true
+                      hardware_concurrency: 10
+                      languages:
+                        - - en-US
+                      color_depth: 24
+                      fonts:
+                        - Arial Unicode MS
+                        - Gill Sans
+                        - Helvetica Neue
+                        - Menlo
+                      indexed_db: true
+                      touch_support:
+                        max_touch_points: 0
+                        touch_event: false
+                        touch_start: false
+                      device_memory: 8
+                      oscpu: Windows NT 6.1; Win64; x64
+                      architecture: 127
+                      screen_resolution:
+                        - 1920
+                        - 1080
+                      timezone: America/Sao_Paulo
+                      emoji:
+                        bottom: 32
+                        font: Times
+                        height: 18
+                        left: 8
+                        right: 1608
+                        top: 14
+                        width: 1600
+                        x: 8
+                        'y': 14
+                      font_preferences:
+                        apple: 147.5625
+                        default: 147.5625
+                        min: 9.234375
+                        mono: 133.0625
+                        sans: 144.015625
+                        serif: 147.5625
+                        system: 146.09375
+                      platform: MacIntel
+                      local_storage: true
+                      session_storage: true
+                      date_time_locale: en-US
+                      audio: 124.04347745512496
+                200-ok-with-ruleset:
+                  summary: >-
+                    Example response with rule_action (when ruleset_id is
+                    provided)
+                  value:
+                    linked_id: somelinkedId
+                    tags: {}
+                    timestamp: 1708102555327
+                    event_id: 1708102555327.NLOjmg
+                    url: https://www.example.com/login?hope{this{works[!
+                    ip_address: 61.127.217.15
+                    user_agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....
+                    client_referrer: https://example.com/blog/my-article
+                    browser_details:
+                      browser_name: Chrome
+                      browser_major_version: '74'
+                      browser_full_version: 74.0.3729
+                      os: Windows
+                      os_version: '7'
+                      device: Other
+                    identification:
+                      visitor_id: Ibk1527CUFmcnjLwIs4A9
+                      confidence:
+                        score: 0.97
+                        version: '1.1'
+                      visitor_found: false
+                      first_seen_at: 1708102555327
+                      last_seen_at: 1708102555327
+                    supplementary_id_high_recall:
+                      visitor_id: 3HNey93AkBW6CRbxV6xP
+                      visitor_found: true
+                      confidence:
+                        score: 0.97
+                        version: '1.1'
+                      first_seen_at: 1708102555327
+                      last_seen_at: 1708102555327
+                    proximity:
+                      id: w1aTfd4MCvl
+                      precision_radius: 10
+                      confidence: 0.95
+                    bot: not_detected
+                    root_apps: false
+                    emulator: false
+                    ip_info:
+                      v4:
+                        address: 94.142.239.124
+                        geolocation:
+                          accuracy_radius: 20
+                          latitude: 50.05
+                          longitude: 14.4
+                          postal_code: 150 00
+                          timezone: Europe/Prague
+                          city_name: Prague
+                          country_code: CZ
+                          country_name: Czechia
+                          continent_code: EU
+                          continent_name: Europe
+                          subdivisions:
+                            - iso_code: '10'
+                              name: Hlavni mesto Praha
+                        asn: '7922'
+                        asn_name: COMCAST-7922
+                        asn_network: 73.136.0.0/13
+                        asn_type: isp
+                        datacenter_result: true
+                        datacenter_name: DediPath
+                      v6:
+                        address: 2001:db8:3333:4444:5555:6666:7777:8888
+                        geolocation:
+                          accuracy_radius: 5
+                          latitude: 49.982
+                          longitude: 36.2566
+                          postal_code: '10112'
+                          timezone: Europe/Berlin
+                          city_name: Berlin
+                          country_code: DE
+                          country_name: Germany
+                          continent_code: EU
+                          continent_name: Europe
+                          subdivisions:
+                            - iso_code: BE
+                              name: Land Berlin
+                        asn: '6805'
+                        asn_name: Telefonica Germany
+                        asn_network: 2a02:3100::/24
+                        asn_type: isp
+                        datacenter_result: false
+                        datacenter_name: ''
+                    ip_blocklist:
+                      email_spam: false
+                      attack_source: false
+                      tor_node: false
+                    proxy: true
+                    proxy_confidence: low
+                    proxy_details:
+                      proxy_type: residential
+                      last_seen_at: 1708102555327
+                    vpn: false
+                    vpn_confidence: high
+                    vpn_origin_timezone: Europe/Berlin
+                    vpn_origin_country: unknown
+                    vpn_methods:
+                      timezone_mismatch: false
+                      public_vpn: false
+                      auxiliary_mobile: false
+                      os_mismatch: false
+                      relay: false
+                    incognito: false
+                    tampering: false
+                    tampering_details:
+                      anomaly_score: 0.1955
+                      anti_detect_browser: false
+                    cloned_app: false
+                    factory_reset_timestamp: 0
+                    jailbroken: false
+                    frida: false
+                    privacy_settings: false
+                    virtual_machine: false
+                    location_spoofing: false
+                    velocity:
+                      distinct_ip:
+                        5_minutes: 1
+                        1_hour: 1
+                        24_hours: 1
+                      distinct_country:
+                        5_minutes: 1
+                        1_hour: 2
+                        24_hours: 2
+                      events:
+                        5_minutes: 1
+                        1_hour: 5
+                        24_hours: 5
+                      ip_events:
+                        5_minutes: 1
+                        1_hour: 5
+                        24_hours: 5
+                      distinct_ip_by_linked_id:
+                        5_minutes: 1
+                        1_hour: 5
+                        24_hours: 5
+                      distinct_visitor_id_by_linked_id:
+                        5_minutes: 1
+                        1_hour: 5
+                        24_hours: 5
+                    developer_tools: false
+                    mitm_attack: false
+                    sdk:
+                      platform: js
+                      version: 3.11.10
+                      integrations:
+                        - name: fingerprint-pro-react
+                          version: 3.11.10
+                          subintegration:
+                            name: preact
+                            version: 10.21.0
+                    replayed: false
+                    high_activity_device: false
+                    raw_device_attributes:
+                      math: 5f030fa7d2e5f9f757bfaf81642eb1a6
+                      vendor: Google Inc.
+                      plugins:
+                        - description: Portable Document Format
+                          mimeTypes:
+                            - suffixes: pdf
+                              type: application/pdf
+                            - suffixes: pdf
+                              type: text/pdf
+                          name: PDF Viewer
+                      webgl_extensions:
+                        context_attributes: 6b1ed336830d2bc96442a9d76373252a
+                        extension_parameters: 86a8abb36f0cb30b5946dec0c761d042
+                        extensions: 57233d7b10f89fcd1ff95e3837ccd72d
+                        parameters: ea118c48e308bc4b0677118bbb3019ec
+                        shader_precisions: f223dfbcd580cf142da156d93790eb83
+                        unsupported_extensions: []
+                      cookies_enabled: true
+                      webgl_basics:
+                        renderer: WebKit WebGL
+                        renderer_unmasked: >-
+                          ANGLE (Apple, ANGLE Metal Renderer: Apple M4,
+                          Unspecified Version)
+                        shading_language_version: WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
+                        vendor: WebKit
+                        vendor_unmasked: Google Inc. (Apple)
+                        version: WebGL 1.0 (OpenGL ES 2.0 Chromium)
+                      canvas:
+                        geometry: db3c1462576a399a03ae93d0ab9eb5c4
+                        text: 70c3d3f7eb4408dc37a6bf8af1c51029
+                        winding: true
+                      hardware_concurrency: 10
+                      languages:
+                        - - en-US
+                      color_depth: 24
+                      fonts:
+                        - Arial Unicode MS
+                        - Gill Sans
+                        - Helvetica Neue
+                        - Menlo
+                      indexed_db: true
+                      touch_support:
+                        max_touch_points: 0
+                        touch_event: false
+                        touch_start: false
+                      device_memory: 8
+                      oscpu: Windows NT 6.1; Win64; x64
+                      architecture: 127
+                      screen_resolution:
+                        - 1920
+                        - 1080
+                      timezone: America/Sao_Paulo
+                      emoji:
+                        bottom: 32
+                        font: Times
+                        height: 18
+                        left: 8
+                        right: 1608
+                        top: 14
+                        width: 1600
+                        x: 8
+                        'y': 14
+                      font_preferences:
+                        apple: 147.5625
+                        default: 147.5625
+                        min: 9.234375
+                        mono: 133.0625
+                        sans: 144.015625
+                        serif: 147.5625
+                        system: 146.09375
+                      platform: MacIntel
+                      local_storage: true
+                      session_storage: true
+                      date_time_locale: en-US
+                      audio: 124.04347745512496
+                    rule_action:
+                      type: block
+                      status_code: 403
+                      headers:
+                        - name: Content-Type
+                          value: application/json
+                      body: '{"title":"Forbidden"}'
+                      ruleset_id: rs_b1k1blhqpOX3kU
+                      rule_id: r_uE0af8497PFAOD
+                      rule_expression: bot in ["bad"] || incognito
         '400':
           description: Bad request. The event Id provided is not valid.
           content:
@@ -230,6 +560,14 @@ paths:
                     error:
                       code: request_cannot_be_parsed
                       message: invalid event_id
+                400-ruleset-not-found:
+                  summary: >-
+                    Error response when the ruleset with the provided ID is not
+                    found.
+                  value:
+                    error:
+                      code: ruleset_not_found
+                      message: ruleset not found
         '403':
           description: Forbidden. Access to this API is denied.
           content:
@@ -253,12 +591,6 @@ paths:
                       message: >-
                         no fingerprint workspace found for specified secret API
                         key
-                429-too-many-requests-error:
-                  summary: Too many requests error
-                  value:
-                    error:
-                      code: too_many_requests
-                      message: too many requests
         '404':
           description: Not found. The event Id cannot be found in this workspace's data.
           content:
@@ -272,6 +604,19 @@ paths:
                     error:
                       code: event_not_found
                       message: event id not found
+        '429':
+          description: Too Many Requests. The request is throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                429-too-many-requests-error:
+                  summary: Too many requests error
+                  value:
+                    error:
+                      code: too_many_requests
+                      message: too many requests
         '500':
           description: Workspace error.
           content:
@@ -850,6 +1195,16 @@ paths:
             When set, the response will include a `total_hits` property with a
             count of total query matches across all pages, up to the specified
             limit.
+        - name: tor_node
+          in: query
+          schema:
+            type: boolean
+          description: >
+            Filter events by Tor Node detection result.
+
+            > Note: When using this parameter, only events with the `tor_node`
+            property set to `true` or `false` are returned. Events without a
+            `tor_node` detection result are left out of the response.
       responses:
         '200':
           description: Events matching the filter(s).
@@ -1014,6 +1369,82 @@ paths:
                                 version: 10.21.0
                         replayed: false
                         high_activity_device: false
+                        raw_device_attributes:
+                          math: 5f030fa7d2e5f9f757bfaf81642eb1a6
+                          vendor: Google Inc.
+                          plugins:
+                            - description: Portable Document Format
+                              mimeTypes:
+                                - suffixes: pdf
+                                  type: application/pdf
+                                - suffixes: pdf
+                                  type: text/pdf
+                              name: PDF Viewer
+                          webgl_extensions:
+                            context_attributes: 6b1ed336830d2bc96442a9d76373252a
+                            extension_parameters: 86a8abb36f0cb30b5946dec0c761d042
+                            extensions: 57233d7b10f89fcd1ff95e3837ccd72d
+                            parameters: ea118c48e308bc4b0677118bbb3019ec
+                            shader_precisions: f223dfbcd580cf142da156d93790eb83
+                            unsupported_extensions: []
+                          cookies_enabled: true
+                          webgl_basics:
+                            renderer: WebKit WebGL
+                            renderer_unmasked: >-
+                              ANGLE (Apple, ANGLE Metal Renderer: Apple M4,
+                              Unspecified Version)
+                            shading_language_version: WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
+                            vendor: WebKit
+                            vendor_unmasked: Google Inc. (Apple)
+                            version: WebGL 1.0 (OpenGL ES 2.0 Chromium)
+                          canvas:
+                            geometry: db3c1462576a399a03ae93d0ab9eb5c4
+                            text: 70c3d3f7eb4408dc37a6bf8af1c51029
+                            winding: true
+                          hardware_concurrency: 10
+                          languages:
+                            - - en-US
+                          color_depth: 24
+                          fonts:
+                            - Arial Unicode MS
+                            - Gill Sans
+                            - Helvetica Neue
+                            - Menlo
+                          indexed_db: true
+                          touch_support:
+                            max_touch_points: 0
+                            touch_event: false
+                            touch_start: false
+                          device_memory: 8
+                          oscpu: Windows NT 6.1; Win64; x64
+                          architecture: 127
+                          screen_resolution:
+                            - 1920
+                            - 1080
+                          timezone: America/Sao_Paulo
+                          emoji:
+                            bottom: 32
+                            font: Times
+                            height: 18
+                            left: 8
+                            right: 1608
+                            top: 14
+                            width: 1600
+                            x: 8
+                            'y': 14
+                          font_preferences:
+                            apple: 147.5625
+                            default: 147.5625
+                            min: 9.234375
+                            mono: 133.0625
+                            sans: 144.015625
+                            serif: 147.5625
+                            system: 146.09375
+                          platform: MacIntel
+                          local_storage: true
+                          session_storage: true
+                          date_time_locale: en-US
+                          audio: 124.04347745512496
                     pagination_key: '1708102555327'
         '400':
           description: >-
@@ -1248,7 +1679,7 @@ paths:
                 403-wrong-region:
                   summary: >-
                     Error response when the API region is different from the
-                    region, the calling application is configured with.
+                    region, the calling workspace is configured with.
                   value:
                     error:
                       code: wrong_region
@@ -1268,9 +1699,7 @@ paths:
                       code: feature_not_enabled
                       message: feature not enabled
         '404':
-          description: >-
-            Not found. The visitor ID cannot be found in this application's
-            data.
+          description: Not found. The visitor ID cannot be found in this workspace's data.
           content:
             application/json:
               schema:
@@ -1279,7 +1708,7 @@ paths:
                 404-visitor-not-found:
                   summary: >-
                     Error response when the visitor ID cannot be found in this
-                    application's data.
+                    workspace's data.
                   value:
                     error:
                       code: visitor_not_found
@@ -1612,14 +2041,14 @@ components:
     BotResult:
       type: string
       enum:
-        - not_detected
-        - good
         - bad
+        - good
+        - not_detected
       description: |
         Bot detection result:
-         * `not_detected` - the visitor is not a bot
-         * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on
          * `bad` - bad bot detected, such as Selenium, Puppeteer, Playwright, headless browsers, and so on
+         * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on
+         * `not_detected` - the visitor is not a bot
     BotType:
       type: string
       description: |
@@ -1867,6 +2296,119 @@ components:
 
         * `false` - No Root Management Apps detected or the client isn't
         Android.
+    RulesetId:
+      type: string
+      description: The ID of the evaluated ruleset.
+    RuleId:
+      type: string
+      description: The ID of the rule that matched the identification event.
+    RuleExpression:
+      type: string
+      description: The expression of the rule that matched the identification event.
+    RuleActionType:
+      type: string
+      description: Describes the action to take with the request.
+      enum:
+        - allow
+        - block
+    RuleActionHeaderField:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          description: The header field name.
+        value:
+          type: string
+          description: The value of the header field.
+    RequestHeaderModifications:
+      type: object
+      description: >-
+        The set of header modifications to apply, in the following order:
+        remove, set, append.
+      properties:
+        remove:
+          type: array
+          description: The list of headers to remove.
+          items:
+            type: string
+        set:
+          type: array
+          description: >-
+            The list of headers to set, overwriting any existing headers with
+            the same name.
+          items:
+            $ref: '#/components/schemas/RuleActionHeaderField'
+        append:
+          type: array
+          description: The list of headers to append.
+          items:
+            $ref: '#/components/schemas/RuleActionHeaderField'
+    EventRuleActionAllow:
+      type: object
+      description: >-
+        Informs the client that the request should be forwarded to the origin
+        with optional request header modifications.
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/RuleActionType'
+          const: allow
+        request_header_modifications:
+          $ref: '#/components/schemas/RequestHeaderModifications'
+    StatusCode:
+      type: integer
+      description: A valid HTTP status code.
+    RuleActionBody:
+      type: string
+      description: The response body to send to the client.
+    EventRuleActionBlock:
+      type: object
+      description: >-
+        Informs the client the request should be blocked using the response
+        described by this rule action.
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/RuleActionType'
+          const: block
+        status_code:
+          $ref: '#/components/schemas/StatusCode'
+        headers:
+          type: array
+          description: A list of headers to send.
+          items:
+            $ref: '#/components/schemas/RuleActionHeaderField'
+        body:
+          $ref: '#/components/schemas/RuleActionBody'
+    EventRuleAction:
+      type: object
+      description: >-
+        Describes the action the client should take, according to the rule in
+        the ruleset that matched the event. When getting an event by event ID,
+        the rule_action will only be included when the ruleset_id query
+        parameter is specified.
+      required:
+        - ruleset_id
+      properties:
+        ruleset_id:
+          $ref: '#/components/schemas/RulesetId'
+        rule_id:
+          $ref: '#/components/schemas/RuleId'
+        rule_expression:
+          $ref: '#/components/schemas/RuleExpression'
+      oneOf:
+        - $ref: '#/components/schemas/EventRuleActionAllow'
+        - $ref: '#/components/schemas/EventRuleActionBlock'
+      discriminator:
+        propertyName: type
+        mapping:
+          allow: EventRuleActionAllow.yaml
+          block: EventRuleActionBlock.yaml
     SuspectScore:
       type: integer
       description: >
@@ -1906,7 +2448,7 @@ components:
           description: >
             True if the identified browser resembles an "anti-detect" browser,
             such as Incognition, which attempts to evade identification by
-            manipulating its fingerprint. 
+            manipulating its fingerprint.
     VelocityData:
       type: object
       description: >
@@ -2082,6 +2624,303 @@ components:
     HighActivity:
       type: boolean
       description: Flag indicating if the request came from a high-activity visitor.
+    FontPreferences:
+      type: object
+      description: >
+        Baseline measurement of canonical fonts rendered on the device. Numeric
+        width metrics, in CSS pixels, for the canonical fonts collected by the
+        agent.
+      additionalProperties: false
+      properties:
+        default:
+          type: number
+          format: double
+        serif:
+          type: number
+          format: double
+        sans:
+          type: number
+          format: double
+        mono:
+          type: number
+          format: double
+        apple:
+          type: number
+          format: double
+        min:
+          type: number
+          format: double
+        system:
+          type: number
+          format: double
+    Emoji:
+      type: object
+      description: Bounding box metrics describing how the emoji glyph renders.
+      additionalProperties: false
+      properties:
+        font:
+          type: string
+          description: Font family reported by the browser when drawing the emoji.
+        width:
+          type: number
+          format: double
+        height:
+          type: number
+          format: double
+        top:
+          type: number
+          format: double
+        bottom:
+          type: number
+          format: double
+        left:
+          type: number
+          format: double
+        right:
+          type: number
+          format: double
+        x:
+          type: number
+          format: double
+        'y':
+          type: number
+          format: double
+    Fonts:
+      type: array
+      description: List of fonts detected on the device.
+      items:
+        type: string
+      example:
+        - Arial Unicode MS
+        - Gill Sans
+        - Helvetica Neue
+        - Menlo
+    DeviceMemory:
+      type: integer
+      format: int32
+      minimum: 0
+      example: 8
+      description: Rounded amount of RAM (in gigabytes) reported by the browser.
+    Timezone:
+      type: string
+      description: Timezone identifier detected on the client.
+    Canvas:
+      type: object
+      description: Canvas fingerprint containing winding flag plus geometry/text hashes.
+      additionalProperties: false
+      properties:
+        winding:
+          type: boolean
+        geometry:
+          type: string
+          description: Hash of geometry rendering output or `unsupported` markers.
+        text:
+          type: string
+          description: Hash of text rendering output or `unsupported` markers.
+    Languages:
+      type: array
+      description: >
+        Navigator languages reported by the agent including fallbacks. Each
+        inner array represents ordered language preferences reported by
+        different APIs.
+      items:
+        type: array
+        items:
+          type: string
+    WebGlExtensions:
+      type: object
+      description: Hashes of WebGL context attributes and extension support.
+      additionalProperties: false
+      properties:
+        context_attributes:
+          type: string
+        parameters:
+          type: string
+        shader_precisions:
+          type: string
+        extensions:
+          type: string
+        extension_parameters:
+          type: string
+        unsupported_extensions:
+          type: array
+          items:
+            type: string
+    WebGlBasics:
+      type: object
+      description: Render and vendor strings reported by the WebGL context.
+      additionalProperties: false
+      properties:
+        version:
+          type: string
+        vendor:
+          type: string
+        vendor_unmasked:
+          type: string
+        renderer:
+          type: string
+        renderer_unmasked:
+          type: string
+        shading_language_version:
+          type: string
+    ScreenResolution:
+      type: array
+      description: Current screen resolution.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: integer
+        format: int32
+    TouchSupport:
+      type: object
+      description: Browser-reported touch capabilities.
+      additionalProperties: false
+      properties:
+        touch_event:
+          type: boolean
+        touch_start:
+          type: boolean
+        max_touch_points:
+          type: integer
+          format: int64
+    Oscpu:
+      type: string
+      description: Navigator `oscpu` string.
+    Architecture:
+      type: integer
+      format: int32
+      description: Integer representing the CPU architecture exposed by the browser.
+    CookiesEnabled:
+      type: boolean
+      description: Whether the cookies are enabled in the browser.
+    HardwareConcurrency:
+      type: integer
+      format: int32
+      minimum: 1
+      description: Number of logical CPU cores reported by the browser.
+    DateTimeLocale:
+      type: string
+      description: >
+        Locale derived from the Intl.DateTimeFormat API. Negative values
+        indicate known error states. The negative statuses can be: - "-1": A
+        permanent status for browsers that don't support Intl API. - "-2": A
+        permanent status for browsers that don't supportDateTimeFormat
+        constructor. - "-3": A permanent status for browsers in which
+        DateTimeFormat locale is undefined or null.
+    Vendor:
+      type: string
+      description: Navigator vendor string.
+    ColorDepth:
+      type: integer
+      format: int32
+      description: Screen color depth in bits.
+    Platform:
+      type: string
+      description: Navigator platform string.
+    SessionStorage:
+      type: boolean
+      description: Whether sessionStorage is available.
+    LocalStorage:
+      type: boolean
+      description: Whether localStorage is available.
+    Audio:
+      type: number
+      format: double
+      description: >
+        AudioContext fingerprint or negative status when unavailable. The
+        negative statuses can be: - -1: A permanent status for those browsers
+        which are known to always suspend audio context - -2: A permanent status
+        for browsers that don't support the signal - -3: A temporary status that
+        means that an unexpected timeout has happened
+    Plugins:
+      type: array
+      description: Browser plugins reported by `navigator.plugins`.
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          mimeTypes:
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                type:
+                  type: string
+                suffixes:
+                  type: string
+                description:
+                  type: string
+        required:
+          - name
+    IndexedDb:
+      type: boolean
+      description: Whether IndexedDB is available.
+    Math:
+      type: string
+      description: Hash of Math APIs used for entropy collection.
+    RawDeviceAttributes:
+      type: object
+      description: >
+        A curated subset of raw browser/device attributes that the API surface
+        exposes. Each property contains a value or object with the data for the
+        collected signal.
+      additionalProperties: false
+      properties:
+        font_preferences:
+          $ref: '#/components/schemas/FontPreferences'
+        emoji:
+          $ref: '#/components/schemas/Emoji'
+        fonts:
+          $ref: '#/components/schemas/Fonts'
+        device_memory:
+          $ref: '#/components/schemas/DeviceMemory'
+        timezone:
+          $ref: '#/components/schemas/Timezone'
+        canvas:
+          $ref: '#/components/schemas/Canvas'
+        languages:
+          $ref: '#/components/schemas/Languages'
+        webgl_extensions:
+          $ref: '#/components/schemas/WebGlExtensions'
+        webgl_basics:
+          $ref: '#/components/schemas/WebGlBasics'
+        screen_resolution:
+          $ref: '#/components/schemas/ScreenResolution'
+        touch_support:
+          $ref: '#/components/schemas/TouchSupport'
+        oscpu:
+          $ref: '#/components/schemas/Oscpu'
+        architecture:
+          $ref: '#/components/schemas/Architecture'
+        cookies_enabled:
+          $ref: '#/components/schemas/CookiesEnabled'
+        hardware_concurrency:
+          $ref: '#/components/schemas/HardwareConcurrency'
+        date_time_locale:
+          $ref: '#/components/schemas/DateTimeLocale'
+        vendor:
+          $ref: '#/components/schemas/Vendor'
+        color_depth:
+          $ref: '#/components/schemas/ColorDepth'
+        platform:
+          $ref: '#/components/schemas/Platform'
+        session_storage:
+          $ref: '#/components/schemas/SessionStorage'
+        local_storage:
+          $ref: '#/components/schemas/LocalStorage'
+        audio:
+          $ref: '#/components/schemas/Audio'
+        plugins:
+          $ref: '#/components/schemas/Plugins'
+        indexed_db:
+          $ref: '#/components/schemas/IndexedDb'
+        math:
+          $ref: '#/components/schemas/Math'
     Event:
       type: object
       description: >-
@@ -2275,6 +3114,8 @@ components:
           $ref: '#/components/schemas/RootApps'
           x-platforms:
             - android
+        rule_action:
+          $ref: '#/components/schemas/EventRuleAction'
         suspect_score:
           $ref: '#/components/schemas/SuspectScore'
           x-platforms:
@@ -2338,6 +3179,10 @@ components:
             - android
             - ios
             - browser
+        raw_device_attributes:
+          $ref: '#/components/schemas/RawDeviceAttributes'
+          x-platforms:
+            - browser
     ErrorCode:
       type: string
       enum:
@@ -2358,6 +3203,7 @@ components:
         - missing_module
         - payload_too_large
         - service_unavailable
+        - ruleset_not_found
       description: >
         Error code:
 
@@ -2409,6 +3255,9 @@ components:
         processed.
 
         * `service_unavailable` - The service was unable to process the request.
+
+        * `ruleset_not_found` - The specified ruleset was not found. It never
+        existed or it has been deleted.
     Error:
       type: object
       additionalProperties: false
