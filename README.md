@@ -31,12 +31,6 @@ This repository contains the [OpenAPI](https://swagger.io/docs/specification/abo
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
-## FAQ
-
-#### Why OpenAPI 3.0.3 version?
-
-It is the last version supported by `swagger-codegen`. See more information in the [related GitHub issue](https://github.com/swagger-api/swagger-codegen/issues/11627).
-
 ## Support and feedback
 
 To report problems, ask questions, or provide feedback, please use [Issues](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/issues). If you need private support, you can email us at [oss-support@fingerprint.com](mailto:oss-support@fingerprint.com).
