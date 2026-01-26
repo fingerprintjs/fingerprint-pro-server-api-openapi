@@ -2,9 +2,9 @@ openapi: 3.1.1
 info:
   title: Server API
   description: >
-    # Overview Fingerprint Server API allows you to get, search, and update
-    Events in a server environment. It can be used for data exports,
-    decision-making, and data analysis scenarios.
+    Fingerprint Server API allows you to get, search, and update Events in a
+    server environment. It can be used for data exports, decision-making, and
+    data analysis scenarios.
 
     Server API is intended for server-side usage, it's not intended to be used
     from the client side, whether it's a browser or a mobile device.
