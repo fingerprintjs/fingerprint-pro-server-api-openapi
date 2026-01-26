@@ -74,6 +74,9 @@ properties:
   bot_type:
     $ref: smartsignals/BotType.yaml
     x-platforms: ["browser"]
+  bot_info:
+    $ref: smartsignals/BotInfo.yaml
+    x-platforms: ["browser"]
   cloned_app:
     $ref: smartsignals/ClonedApp.yaml
     x-platforms: ["android"]
