@@ -23,4 +23,11 @@ properties:
     format: int64
     description: |
       Unix millisecond timestamp with hourly resolution of when this IP was last seen as a proxy
-    
+  provider:
+    type: string
+    description: |
+      String representing the last proxy service provider detected when this
+      IP was synced. An IP can be shared by multiple service providers.
+    x-ruleset-metadata:
+      label: Proxy service provider
+      category: ip_address

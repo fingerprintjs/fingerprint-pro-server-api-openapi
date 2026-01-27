@@ -1,0 +1,43 @@
+type: object
+description: >-
+  Extended bot information.
+additionalProperties: false
+required:
+  - category
+  - provider
+  - name
+  - identity
+  - confidence
+properties:
+  category:
+    type: string
+    description: The type and purpose of the bot. 
+  provider:
+    type: string
+    description: The organization or company operating the bot.
+  provider_url:
+    type: string
+    description: The URL of the bot provider's website.
+  name:
+    type: string
+    description: The specific name or identifier of the bot.
+  identity:
+    type: string
+    enum:
+      - verified
+      - signed
+      - spoofed
+      - unknown
+    description: |
+      The verification status of the bot's identity:
+       * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
+       * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider’s customers.
+       * `spoofed` - bot that claims a public identity but fails verification.
+       * `unknown` - bot that does not publish a verifiable identity.
+  confidence:
+    type: string
+    enum:
+      - low
+      - medium
+      - high
+    description: Confidence level of the bot identification.
