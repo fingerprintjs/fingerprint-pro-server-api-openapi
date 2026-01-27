@@ -168,6 +168,7 @@ paths:
                     proxy_details:
                       proxy_type: residential
                       last_seen_at: 1708102555327
+                      provider: Massive
                     vpn: false
                     vpn_confidence: high
                     vpn_origin_timezone: Europe/Berlin
@@ -401,6 +402,7 @@ paths:
                     proxy_details:
                       proxy_type: residential
                       last_seen_at: 1708102555327
+                      provider: Massive
                     vpn: false
                     vpn_confidence: high
                     vpn_origin_timezone: Europe/Berlin
@@ -899,13 +901,26 @@ paths:
             type: string
           description: |
             Filter events by the URL (`url` property) associated with the event.
+        - name: bundle_id
+          in: query
+          schema:
+            type: string
+          description: |
+            Filter events by the Bundle ID (iOS) associated with the event.
+        - name: package_name
+          in: query
+          schema:
+            type: string
+          description: >
+            Filter events by the Package Name (Android) associated with the
+            event.
         - name: origin
           in: query
           schema:
             type: string
           description: >
-            Filter events by the origin field of the event. Origin could be the
-            website domain or mobile app bundle ID (eg: com.foo.bar)
+            Filter events by the origin field of the event. This is applicable
+            to web events only (e.g., https://example.com)
         - name: start
           in: query
           schema:
@@ -1309,6 +1324,7 @@ paths:
                         proxy_details:
                           proxy_type: residential
                           last_seen_at: 1708102555327
+                          provider: Massive
                         vpn: false
                         vpn_confidence: high
                         vpn_origin_timezone: Europe/Berlin
@@ -2053,6 +2069,49 @@ components:
       type: string
       description: |
         Additional classification of the bot type if detected.
+    BotInfo:
+      type: object
+      description: Extended bot information.
+      additionalProperties: false
+      required:
+        - category
+        - provider
+        - name
+        - identity
+        - confidence
+      properties:
+        category:
+          type: string
+          description: The type and purpose of the bot.
+        provider:
+          type: string
+          description: The organization or company operating the bot.
+        provider_url:
+          type: string
+          description: The URL of the bot provider's website.
+        name:
+          type: string
+          description: The specific name or identifier of the bot.
+        identity:
+          type: string
+          enum:
+            - verified
+            - signed
+            - spoofed
+            - unknown
+          description: |
+            The verification status of the bot's identity:
+             * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
+             * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider’s customers.
+             * `spoofed` - bot that claims a public identity but fails verification.
+             * `unknown` - bot that does not publish a verifiable identity.
+        confidence:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+          description: Confidence level of the bot identification.
     ClonedApp:
       type: boolean
       description: >
@@ -2255,6 +2314,13 @@ components:
           description: >
             Unix millisecond timestamp with hourly resolution of when this IP
             was last seen as a proxy
+        provider:
+          type: string
+          description: >
+            String representing the last proxy service provider detected when
+            this
+
+            IP was synced. An IP can be shared by multiple service providers.
     Incognito:
       type: boolean
       description: >
@@ -3034,6 +3100,10 @@ components:
             - browser
         bot_type:
           $ref: '#/components/schemas/BotType'
+          x-platforms:
+            - browser
+        bot_info:
+          $ref: '#/components/schemas/BotInfo'
           x-platforms:
             - browser
         cloned_app:
