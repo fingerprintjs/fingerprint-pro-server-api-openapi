@@ -5200,6 +5200,14 @@ paths:
                     error:
                       code: FeatureNotEnabled
                       message: feature not enabled
+                403-workspace-scoped-secret-key-required:
+                  summary: >-
+                    Error response when you use an environment-scoped secret key
+                    to delete visitors from the workspace.
+                  value:
+                    error:
+                      code: WorkspaceScopedSecretKeyRequired
+                      message: workspace-scoped secret key is required
         '404':
           description: >-
             Not found. The visitor ID cannot be found in this application's
@@ -5759,6 +5767,7 @@ components:
         - SubscriptionNotActive
         - WrongRegion
         - FeatureNotEnabled
+        - WorkspaceScopedSecretKeyRequired
         - RequestNotFound
         - VisitorNotFound
         - TooManyRequests
@@ -5774,6 +5783,7 @@ components:
          * `SubscriptionNotActive` - Fingerprint application is not active.
          * `WrongRegion` - server and application region differ.
          * `FeatureNotEnabled` - this feature (for example, Delete API) is not enabled for your application.
+         * `WorkspaceScopedSecretKeyRequired` - The provided secret API key is scoped to an environment, but this operation requires a workspace-scoped secret API key.
          * `RequestNotFound` - the specified request ID was not found. It never existed, expired, or it has been deleted.
          * `VisitorNotFound` - The specified visitor ID was not found. It never existed or it may have already been deleted.
          * `TooManyRequests` - the limit on secret API key requests per second has been exceeded.

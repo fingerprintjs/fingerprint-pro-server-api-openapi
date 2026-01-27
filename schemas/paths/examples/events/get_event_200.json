@@ -108,7 +108,8 @@
   "proxy_confidence": "low",
   "proxy_details": {
     "proxy_type": "residential",
-    "last_seen_at": 1708102555327
+    "last_seen_at": 1708102555327,
+    "provider": "Massive"
   },
   "vpn": false,
   "vpn_confidence": "high",

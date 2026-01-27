@@ -102,12 +102,24 @@ get:
         type: string
       description: |
         Filter events by the URL (`url` property) associated with the event.
+    - name: bundle_id
+      in: query
+      schema:
+        type: string
+      description: |
+        Filter events by the Bundle ID (iOS) associated with the event.
+    - name: package_name
+      in: query
+      schema:
+        type: string
+      description: |
+        Filter events by the Package Name (Android) associated with the event.
     - name: origin
       in: query
       schema:
         type: string
       description: |
-        Filter events by the origin field of the event. Origin could be the website domain or mobile app bundle ID (eg: com.foo.bar)
+        Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
     - name: start
       in: query
       schema:
