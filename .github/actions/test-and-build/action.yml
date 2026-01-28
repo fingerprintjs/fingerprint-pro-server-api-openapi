@@ -45,25 +45,24 @@ runs:
     - name: Lint built schemas in `dist`
       shell: bash
       run: pnpm lintSchemaDist
-    #  We will enable this again after fixing the discrepancy causing these tests to fail.
-    # - name: Get installed Playwright version (used in cache key)
-    #   shell: bash
-    #   id: playwright-version
-    #   run: echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('playwright/package.json').version)")" >> $GITHUB_ENV
+    - name: Get installed Playwright version (used in cache key)
+      shell: bash
+      id: playwright-version
+      run: echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('playwright/package.json').version)")" >> $GITHUB_ENV
 
-    # - name: Cache Playwright browser binaries
-    #   uses: actions/cache@v4
-    #   id: playwright-cache
-    #   with:
-    #     path: |
-    #       ~/.cache/ms-playwright
-    #     key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-    # - name: Install Playwright dependencies if necessary
-    #   shell: bash
-    #   run: pnpm playwright install --with-deps chromium
-    #   if: steps.playwright-cache.outputs.cache-hit != 'true'
-    # - name: Validate schema against live API responses
-    #   shell: bash
-    #   env:
-    #     TEST_SUBSCRIPTIONS: '${{ inputs.testSubscriptions }}'
-    #   run: pnpm validateSchema
+    - name: Cache Playwright browser binaries
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: |
+          ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+    - name: Install Playwright dependencies if necessary
+      shell: bash
+      run: pnpm playwright install --with-deps chromium
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+    - name: Validate schema against live API responses
+      shell: bash
+      env:
+        TEST_SUBSCRIPTIONS: '${{ inputs.testSubscriptions }}'
+      run: pnpm validateSchema
