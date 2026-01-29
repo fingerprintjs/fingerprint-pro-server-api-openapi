@@ -204,7 +204,7 @@ describe('Test replaceOneOf', () => {
     expect(schema.oneOf).toBeUndefined();
   });
 
-  it('converts const properties to enum when multiple schemas have const values', () => {
+  it('converts const properties to deduplicated enum when all schemas have const values', () => {
     const schema = {
       oneOf: [
         {
@@ -213,6 +213,15 @@ describe('Test replaceOneOf', () => {
             action: {
               type: 'string',
               const: 'allow',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'allow', // duplicate value
             },
           },
         },
@@ -225,15 +234,6 @@ describe('Test replaceOneOf', () => {
             },
           },
         },
-        {
-          type: 'object',
-          properties: {
-            action: {
-              type: 'string',
-              const: 'redirect',
-            },
-          },
-        },
       ],
     };
 
@@ -241,109 +241,52 @@ describe('Test replaceOneOf', () => {
 
     expect(schema.properties.action).toEqual({
       type: 'string',
-      enum: ['allow', 'block', 'redirect'],
+      enum: ['allow', 'block'],
     });
   });
 
-  it('does not convert to enum if not all schemas have const values', () => {
-    const schema = {
+  it('does not convert to enum and removes const when only some schemas have const values', () => {
+    // Test with const first, then without
+    const schema1 = {
       oneOf: [
         {
           type: 'object',
           properties: {
-            action: {
-              type: 'string',
-              const: 'allow',
-            },
+            action: { type: 'string', const: 'allow' },
           },
         },
         {
           type: 'object',
           properties: {
-            action: {
-              type: 'string',
-            },
+            action: { type: 'string' },
           },
         },
       ],
     };
 
-    replaceOneOf(schema, {}, 'oneOf');
-
-    expect(schema.properties.action).toEqual({
-      type: 'string',
-    });
-  });
-
-  it('removes const when only some schemas define it', () => {
-    const schema = {
+    // Test with non-const first, then const (order shouldn't matter)
+    const schema2 = {
       oneOf: [
         {
           type: 'object',
           properties: {
-            action: {
-              type: 'string',
-            },
+            action: { type: 'string' },
           },
         },
         {
           type: 'object',
           properties: {
-            action: {
-              type: 'string',
-              const: 'allow',
-            },
+            action: { type: 'string', const: 'allow' },
           },
         },
       ],
     };
 
-    replaceOneOf(schema, {}, 'oneOf');
+    replaceOneOf(schema1, {}, 'oneOf');
+    replaceOneOf(schema2, {}, 'oneOf');
 
-    expect(schema.properties.action).toEqual({
-      type: 'string',
-    });
-  });
-
-  it('deduplicates const values when converting to enum', () => {
-    const schema = {
-      oneOf: [
-        {
-          type: 'object',
-          properties: {
-            status: {
-              type: 'string',
-              const: 'active',
-            },
-          },
-        },
-        {
-          type: 'object',
-          properties: {
-            status: {
-              type: 'string',
-              const: 'active',
-            },
-          },
-        },
-        {
-          type: 'object',
-          properties: {
-            status: {
-              type: 'string',
-              const: 'inactive',
-            },
-          },
-        },
-      ],
-    };
-
-    replaceOneOf(schema, {}, 'oneOf');
-
-    expect(schema.properties.status).toEqual({
-      type: 'string',
-      enum: ['active', 'inactive'],
-    });
+    expect(schema1.properties.action).toEqual({ type: 'string' });
+    expect(schema2.properties.action).toEqual({ type: 'string' });
   });
 
   it('does not mutate original referenced schemas when using $ref', () => {
