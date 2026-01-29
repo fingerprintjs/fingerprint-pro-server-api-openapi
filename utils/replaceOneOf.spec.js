@@ -1,11 +1,23 @@
 import { replaceOneOf } from './replaceOneOf.js';
 
 describe('Test replaceOneOf', () => {
-  it('merges oneOf schemas and makes unique properties optional', () => {
+  it('merges oneOf schemas and makes unique properties optional (EventRuleAction schema)', () => {
+    // This test uses the exact structure from EventRuleAction.yaml
     const schema = {
+      type: 'object',
+      description:
+        'Describes the action the client should take, according to the rule in the ruleset that matched the event.',
+      required: ['ruleset_id'],
+      properties: {
+        ruleset_id: { type: 'string' },
+        rule_id: { type: 'string' },
+        rule_expression: { type: 'string' },
+      },
       oneOf: [
+        // EventRuleActionAllow.yaml
         {
           type: 'object',
+          required: ['type'],
           properties: {
             type: {
               type: 'string',
@@ -15,10 +27,11 @@ describe('Test replaceOneOf', () => {
               type: 'object',
             },
           },
-          required: ['type'],
         },
+        // EventRuleActionBlock.yaml
         {
           type: 'object',
+          required: ['type'],
           properties: {
             type: {
               type: 'string',
@@ -30,17 +43,32 @@ describe('Test replaceOneOf', () => {
             headers: {
               type: 'array',
             },
+            body: {
+              type: 'string',
+            },
           },
-          required: ['type'],
         },
       ],
+      discriminator: {
+        propertyName: 'type',
+        mapping: {
+          allow: 'EventRuleActionAllow.yaml',
+          block: 'EventRuleActionBlock.yaml',
+        },
+      },
     };
 
     replaceOneOf(schema, {}, 'oneOf');
 
     expect(schema).toEqual({
       type: 'object',
+      description:
+        'Describes the action the client should take, according to the rule in the ruleset that matched the event.',
+      required: ['ruleset_id', 'type'],
       properties: {
+        ruleset_id: { type: 'string' },
+        rule_id: { type: 'string' },
+        rule_expression: { type: 'string' },
         type: {
           type: 'string',
           enum: ['allow', 'block'],
@@ -54,8 +82,10 @@ describe('Test replaceOneOf', () => {
         headers: {
           type: 'array',
         },
+        body: {
+          type: 'string',
+        },
       },
-      required: ['type'],
       additionalProperties: false,
     });
   });

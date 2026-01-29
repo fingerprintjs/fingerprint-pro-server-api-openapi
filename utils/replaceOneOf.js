@@ -90,17 +90,23 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   // Merge other common properties (type, description, etc.) from the first schema
   const firstSchema = schemas[0]?.$ref ? resolveComponent(schemas[0].$ref, components) : schemas[0];
 
-  currentComponent.type = firstSchema.type || 'object';
-  currentComponent.properties = properties;
+  currentComponent.type = currentComponent.type || firstSchema.type || 'object';
+  // Merge parent properties with oneOf properties (oneOf properties take precedence)
+  currentComponent.properties = { ...currentComponent.properties, ...properties };
   currentComponent.additionalProperties = firstSchema.additionalProperties ?? false;
 
-  if (required.length > 0) {
-    currentComponent.required = [...new Set(required)];
+  // Merge parent required with oneOf required
+  const parentRequired = Array.isArray(currentComponent.required) ? currentComponent.required : [];
+  const mergedRequired = [...new Set([...parentRequired, ...required])];
+
+  if (mergedRequired.length > 0) {
+    currentComponent.required = mergedRequired;
   } else {
     // Remove required if empty
     delete currentComponent.required;
   }
 
-  // Remove the oneOf/anyOf operator
+  // Remove the oneOf/anyOf operator and discriminator
   delete currentComponent[operator];
+  delete currentComponent.discriminator;
 }
