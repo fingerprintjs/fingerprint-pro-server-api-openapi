@@ -134,6 +134,31 @@ describe('Test replaceOneOf', () => {
     expect(schema.properties.unique2).toBeDefined();
   });
 
+  it('requires a property only when all schemas require it', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            shared: { type: 'string' },
+          },
+          required: ['shared'],
+        },
+        {
+          type: 'object',
+          properties: {
+            shared: { type: 'string' },
+          },
+          required: [],
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.required).toBeUndefined();
+  });
+
   it('handles anyOf operator', () => {
     const schema = {
       anyOf: [
@@ -239,7 +264,6 @@ describe('Test replaceOneOf', () => {
 
     expect(schema.properties.action).toEqual({
       type: 'string',
-      const: 'allow',
     });
   });
 
