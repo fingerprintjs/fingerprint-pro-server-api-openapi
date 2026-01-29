@@ -1,3 +1,4 @@
+// @ts-check
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import webpack from 'webpack';
@@ -13,6 +14,7 @@ import {
   v4Transformers,
   v4SchemaForSdksTransformers,
   transformSchema,
+  v4SchemaForSdksNormalizedTransformers,
 } from './utils/transformers/transformSchema.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -63,7 +65,7 @@ export default {
       patterns: [
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
-          // schema for using in dev.fingerprint.com, and other cases where examples are useful
+          // schema for using in docs.fingerprint.com, and other cases where examples are useful
           to: 'schemas/fingerprint-server-api-v4-with-examples.yaml',
           transform: (content) => transformSchema(content, v4Transformers),
         },
@@ -72,6 +74,13 @@ export default {
           // just schema — used by SDKs
           to: 'schemas/fingerprint-server-api-v4.yaml',
           transform: (content) => transformSchema(content, v4SchemaForSdksTransformers),
+        },
+        {
+          from: 'schemas/fingerprint-server-api-v4.yaml',
+          // just schema — used by SDKs, `oneOf` operators and similar are resolved
+          // used by SDKs that cannot handle `oneOf` operators usefully
+          to: 'schemas/fingerprint-server-api-v4-normalized.yaml',
+          transform: (content) => transformSchema(content, v4SchemaForSdksNormalizedTransformers),
         },
         {
           from: 'schemas/fingerprint-server-api-for-sdks.yaml',
