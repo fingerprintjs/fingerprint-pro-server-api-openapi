@@ -22,6 +22,7 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   const properties = {};
   const propertyCounts = {};
   const allRequired = [];
+  const constValues = {}; // Track const values for each property
 
   // First pass: collect all properties and track which schemas they appear in
   // Keep the first occurrence of each property
@@ -38,9 +39,29 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
           propertyCounts[propName] = 0;
           // Keep the first occurrence of the property
           properties[propName] = currentItem.properties[propName];
+          constValues[propName] = [];
         }
         propertyCounts[propName]++;
+
+        // Collect const values if present
+        const prop = currentItem.properties[propName];
+        if (prop && 'const' in prop) {
+          constValues[propName].push(prop.const);
+        }
       });
+    }
+  });
+
+  // Convert properties with multiple const values to enum
+  // Only convert if the property appears in multiple schemas AND all have const values
+  Object.keys(properties).forEach((propName) => {
+    const constVals = constValues[propName];
+    const count = propertyCounts[propName];
+    if (constVals && constVals.length > 1 && count > 1 && constVals.length === count) {
+      // All schemas have this property with const values, convert to enum
+      const prop = properties[propName];
+      delete prop.const;
+      prop.enum = [...new Set(constVals)]; // Remove duplicates
     }
   });
 

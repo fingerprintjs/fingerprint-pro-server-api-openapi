@@ -43,7 +43,7 @@ describe('Test replaceOneOf', () => {
       properties: {
         type: {
           type: 'string',
-          const: 'allow',
+          enum: ['allow', 'block'],
         },
         request_header_modifications: {
           type: 'object',
@@ -169,5 +169,118 @@ describe('Test replaceOneOf', () => {
     replaceOneOf(schema, {}, 'oneOf');
 
     expect(schema.oneOf).toBeUndefined();
+  });
+
+  it('converts const properties to enum when multiple schemas have const values', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'allow',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'block',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'redirect',
+            },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.action).toEqual({
+      type: 'string',
+      enum: ['allow', 'block', 'redirect'],
+    });
+  });
+
+  it('does not convert to enum if not all schemas have const values', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'allow',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+            },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.action).toEqual({
+      type: 'string',
+      const: 'allow',
+    });
+  });
+
+  it('deduplicates const values when converting to enum', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            status: {
+              type: 'string',
+              const: 'active',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            status: {
+              type: 'string',
+              const: 'active',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            status: {
+              type: 'string',
+              const: 'inactive',
+            },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.status).toEqual({
+      type: 'string',
+      enum: ['active', 'inactive'],
+    });
   });
 });
