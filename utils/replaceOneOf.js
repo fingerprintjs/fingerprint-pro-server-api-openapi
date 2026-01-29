@@ -25,7 +25,7 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   const constValues = {}; // Track const values for each property
 
   // First pass: collect all properties and track which schemas they appear in
-  // Keep the first occurrence of each property
+  // Keep the last occurrence of each property
   schemas.forEach((item) => {
     const currentItem = item.$ref ? resolveComponent(item.$ref, components) : item;
     const requiredSet = new Set(Array.isArray(currentItem.required) ? currentItem.required : []);

@@ -21,6 +21,10 @@ export function replaceAllOf(currentComponent, components) {
   currentComponent.type = 'object';
   currentComponent.properties = properties;
   currentComponent.additionalProperties = false;
-  currentComponent.required = required;
+  if (required.length > 0) {
+    currentComponent.required = required;
+  } else {
+    delete currentComponent.required;
+  }
   delete currentComponent.allOf;
 }
