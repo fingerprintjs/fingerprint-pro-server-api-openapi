@@ -26,6 +26,7 @@ export const v4SchemaForSdksTransformers = [
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
+  removeFieldTransformer('additionalProperties'),
   removeBigExamplesTransformer,
 ];
 
@@ -48,6 +49,7 @@ export const schemaForSdksTransformers = [
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
+  removeFieldTransformer('additionalProperties'),
   removeBigExamplesTransformer,
 ];
 
