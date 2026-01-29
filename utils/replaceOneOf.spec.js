@@ -135,58 +135,36 @@ describe('Test replaceOneOf', () => {
     });
   });
 
-  it('makes properties optional if they only appear in one schema', () => {
+  it('only requires properties that are required in all schemas', () => {
     const schema = {
       oneOf: [
         {
           type: 'object',
           properties: {
-            common: { type: 'string' },
+            alwaysRequired: { type: 'string' },
+            sometimesRequired: { type: 'string' },
             unique1: { type: 'string' },
           },
-          required: ['common', 'unique1'],
+          required: ['alwaysRequired', 'sometimesRequired', 'unique1'],
         },
         {
           type: 'object',
           properties: {
-            common: { type: 'string' },
+            alwaysRequired: { type: 'string' },
+            sometimesRequired: { type: 'string' },
             unique2: { type: 'string' },
           },
-          required: ['common', 'unique2'],
+          required: ['alwaysRequired', 'unique2'],
         },
       ],
     };
 
     replaceOneOf(schema, {}, 'oneOf');
 
-    expect(schema.required).toEqual(['common']);
+    expect(schema.required).toEqual(['alwaysRequired']);
+    expect(schema.properties.sometimesRequired).toBeDefined();
     expect(schema.properties.unique1).toBeDefined();
     expect(schema.properties.unique2).toBeDefined();
-  });
-
-  it('requires a property only when all schemas require it', () => {
-    const schema = {
-      oneOf: [
-        {
-          type: 'object',
-          properties: {
-            shared: { type: 'string' },
-          },
-          required: ['shared'],
-        },
-        {
-          type: 'object',
-          properties: {
-            shared: { type: 'string' },
-          },
-          required: [],
-        },
-      ],
-    };
-
-    replaceOneOf(schema, {}, 'oneOf');
-
-    expect(schema.required).toBeUndefined();
   });
 
   it('handles anyOf operator', () => {
