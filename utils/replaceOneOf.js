@@ -30,9 +30,6 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   // Keep the last occurrence of each property
   for (const item of schemas) {
     const currentItem = item.$ref ? resolveComponent(item.$ref, components) : item;
-    if (!currentItem) {
-      continue;
-    }
 
     const requiredSet = new Set(Array.isArray(currentItem.required) ? currentItem.required : []);
 
@@ -60,7 +57,7 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   }
 
   // Convert properties with multiple const values to enum
-  // Only convert if the property appears in multiple schemas AND all have const values
+  // Only convert if the property appears as const in ALL schemas
   for (const propName of Object.keys(properties)) {
     const constVals = constValues[propName];
     const count = propertyCounts[propName];
@@ -82,7 +79,7 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   }
 
   // Second pass: determine required fields
-  // A property is required only if it appears in ALL schemas and is required in ALL schemas
+  // A property is required only if it is REQUIRED in ALL schemas
   const required = [];
   const totalSchemas = schemas.length;
 
@@ -92,13 +89,15 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
     }
   }
 
-  // Merge other common properties (type, description, etc.) from the first schema
+  // Merge other common properties from the first schema
   const firstSchema = schemas[0]?.$ref ? resolveComponent(schemas[0].$ref, components) : schemas[0];
 
   currentComponent.type = currentComponent.type || firstSchema.type || 'object';
   // Merge parent properties with oneOf properties (oneOf properties take precedence)
   currentComponent.properties = { ...currentComponent.properties, ...properties };
-  currentComponent.additionalProperties = firstSchema.additionalProperties ?? false;
+  if (currentComponent.additionalProperties === undefined) {
+    currentComponent.additionalProperties = firstSchema.additionalProperties ?? false;
+  }
 
   // Merge parent required with oneOf required
   const parentRequired = Array.isArray(currentComponent.required) ? currentComponent.required : [];

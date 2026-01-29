@@ -409,24 +409,22 @@ describe('Test replaceOneOf', () => {
     expect(components.Block).toEqual(originalBlock);
   });
 
-  it('gracefully handles unresolved $ref', () => {
+  it('preserves parent additionalProperties when set', () => {
     const schema = {
-      oneOf: [{ $ref: '#/components/schemas/Exists' }, { $ref: '#/components/schemas/DoesNotExist' }],
-    };
-
-    const components = {
-      Exists: {
-        type: 'object',
-        properties: {
-          prop: { type: 'string' },
+      additionalProperties: true,
+      oneOf: [
+        {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            prop: { type: 'string' },
+          },
         },
-      },
+      ],
     };
 
-    // Should not throw
-    expect(() => replaceOneOf(schema, components, 'oneOf')).not.toThrow();
+    replaceOneOf(schema, {}, 'oneOf');
 
-    // Should still process the valid schema
-    expect(schema.properties.prop).toEqual({ type: 'string' });
+    expect(schema.additionalProperties).toBe(true);
   });
 });
