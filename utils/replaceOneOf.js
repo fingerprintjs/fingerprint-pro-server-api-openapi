@@ -4,6 +4,7 @@ import { resolveComponent } from './resolveComponent.js';
 /**
  * Merges multiple schemas from oneOf/anyOf into a single schema.
  * Properties that are only present in one schema are made optional.
+ * Assumes oneOf/anyOf items describe object schemas.
  * @param {object} currentComponent - The component containing oneOf/anyOf
  * @param {object} components - The components object for resolving $ref
  * @param {string} operator - 'oneOf' or 'anyOf'
@@ -63,6 +64,15 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
       const prop = properties[propName];
       delete prop.const;
       prop.enum = [...new Set(constVals)]; // Remove duplicates
+      return;
+    }
+
+    // Remove const if it's not present in all schemas
+    if (constVals && constVals.length !== count) {
+      const prop = properties[propName];
+      if (prop && 'const' in prop) {
+        delete prop.const;
+      }
     }
   });
 

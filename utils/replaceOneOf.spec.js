@@ -267,6 +267,36 @@ describe('Test replaceOneOf', () => {
     });
   });
 
+  it('removes const when only some schemas define it', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'allow',
+            },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.action).toEqual({
+      type: 'string',
+    });
+  });
+
   it('deduplicates const values when converting to enum', () => {
     const schema = {
       oneOf: [
