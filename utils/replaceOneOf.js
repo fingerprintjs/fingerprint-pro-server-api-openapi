@@ -5,6 +5,7 @@ import { resolveComponent } from './resolveComponent.js';
  * Merges multiple schemas from oneOf/anyOf into a single schema.
  * Properties that are only present in one schema are made optional.
  * Assumes oneOf/anyOf items describe object schemas.
+ * Assumes all $ref entries resolve successfully.
  * @param {object} currentComponent - The component containing oneOf/anyOf
  * @param {object} components - The components object for resolving $ref
  * @param {string} operator - 'oneOf' or 'anyOf'
@@ -27,19 +28,23 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
 
   // First pass: collect all properties and track which schemas they appear in
   // Keep the last occurrence of each property
-  schemas.forEach((item) => {
+  for (const item of schemas) {
     const currentItem = item.$ref ? resolveComponent(item.$ref, components) : item;
+    if (!currentItem) {
+      continue;
+    }
+
     const requiredSet = new Set(Array.isArray(currentItem.required) ? currentItem.required : []);
 
     if (currentItem.properties) {
-      Object.keys(currentItem.properties).forEach((propName) => {
+      for (const propName of Object.keys(currentItem.properties)) {
         propertyCounts[propName] = (propertyCounts[propName] || 0) + 1;
         if (requiredSet.has(propName)) {
           requiredCounts[propName] = (requiredCounts[propName] || 0) + 1;
         }
 
-        // Keep the last occurrence of the property
-        properties[propName] = currentItem.properties[propName];
+        // Clone the property to avoid mutating the original schema
+        properties[propName] = structuredClone(currentItem.properties[propName]);
 
         if (!constValues[propName]) {
           constValues[propName] = [];
@@ -50,13 +55,13 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
         if (prop && 'const' in prop) {
           constValues[propName].push(prop.const);
         }
-      });
+      }
     }
-  });
+  }
 
   // Convert properties with multiple const values to enum
   // Only convert if the property appears in multiple schemas AND all have const values
-  Object.keys(properties).forEach((propName) => {
+  for (const propName of Object.keys(properties)) {
     const constVals = constValues[propName];
     const count = propertyCounts[propName];
     if (constVals && constVals.length > 1 && count > 1 && constVals.length === count) {
@@ -64,7 +69,7 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
       const prop = properties[propName];
       delete prop.const;
       prop.enum = [...new Set(constVals)]; // Remove duplicates
-      return;
+      continue;
     }
 
     // Remove const if it's not present in all schemas
@@ -74,18 +79,18 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
         delete prop.const;
       }
     }
-  });
+  }
 
   // Second pass: determine required fields
   // A property is required only if it appears in ALL schemas and is required in ALL schemas
   const required = [];
   const totalSchemas = schemas.length;
 
-  Object.keys(propertyCounts).forEach((propName) => {
+  for (const propName of Object.keys(propertyCounts)) {
     if (propertyCounts[propName] === totalSchemas && requiredCounts[propName] === totalSchemas) {
       required.push(propName);
     }
-  });
+  }
 
   // Merge other common properties (type, description, etc.) from the first schema
   const firstSchema = schemas[0]?.$ref ? resolveComponent(schemas[0].$ref, components) : schemas[0];

@@ -367,4 +367,66 @@ describe('Test replaceOneOf', () => {
       enum: ['active', 'inactive'],
     });
   });
+
+  it('does not mutate original referenced schemas when using $ref', () => {
+    const schema = {
+      oneOf: [{ $ref: '#/components/schemas/Allow' }, { $ref: '#/components/schemas/Block' }],
+    };
+
+    const components = {
+      Allow: {
+        type: 'object',
+        properties: {
+          type: { type: 'string', const: 'allow' },
+          allowProp: { type: 'string' },
+        },
+        required: ['type'],
+      },
+      Block: {
+        type: 'object',
+        properties: {
+          type: { type: 'string', const: 'block' },
+          blockProp: { type: 'string' },
+        },
+        required: ['type'],
+      },
+    };
+
+    // Deep clone to compare after mutation
+    const originalAllow = structuredClone(components.Allow);
+    const originalBlock = structuredClone(components.Block);
+
+    replaceOneOf(schema, components, 'oneOf');
+
+    // Verify the merged schema has expected result
+    expect(schema.properties.type).toEqual({
+      type: 'string',
+      enum: ['allow', 'block'],
+    });
+
+    // Verify original schemas were NOT mutated
+    expect(components.Allow).toEqual(originalAllow);
+    expect(components.Block).toEqual(originalBlock);
+  });
+
+  it('gracefully handles unresolved $ref', () => {
+    const schema = {
+      oneOf: [{ $ref: '#/components/schemas/Exists' }, { $ref: '#/components/schemas/DoesNotExist' }],
+    };
+
+    const components = {
+      Exists: {
+        type: 'object',
+        properties: {
+          prop: { type: 'string' },
+        },
+      },
+    };
+
+    // Should not throw
+    expect(() => replaceOneOf(schema, components, 'oneOf')).not.toThrow();
+
+    // Should still process the valid schema
+    expect(schema.properties.prop).toEqual({ type: 'string' });
+  });
 });
