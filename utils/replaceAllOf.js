@@ -1,16 +1,4 @@
-function resolveComponent(path, components) {
-  const pathsToReplace = ['#/definitions/', '#/components/schemas/'];
-
-  for (const pathToReplace of pathsToReplace) {
-    const actualPath = path.replace(pathToReplace, '');
-
-    if (components[actualPath]) {
-      return components[actualPath];
-    }
-  }
-
-  return undefined;
-}
+import { resolveComponent } from './resolveComponent.js';
 
 /**
  * Combines multiple objects/schemas together

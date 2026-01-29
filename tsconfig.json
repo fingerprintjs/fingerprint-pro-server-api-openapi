@@ -4,7 +4,8 @@
     "outDir": "dist",
     "module": "es6",
     "moduleResolution": "node",
-    "target": "es2020"
+    "target": "es2020",
+    "checkJs": true
   },
   "files": ["src/index.ts"],
   "exclude": ["dist", "node_modules", "**/*.test.ts"]
