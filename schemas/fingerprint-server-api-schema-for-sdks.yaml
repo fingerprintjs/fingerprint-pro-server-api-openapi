@@ -1068,7 +1068,6 @@ components:
   schemas:
     BrowserDetails:
       type: object
-      additionalProperties: false
       required:
         - browserName
         - browserFullVersion
@@ -1094,7 +1093,6 @@ components:
           type: string
     GeolocationCity:
       type: object
-      additionalProperties: false
       required:
         - name
       properties:
@@ -1102,7 +1100,6 @@ components:
           type: string
     GeolocationCountry:
       type: object
-      additionalProperties: false
       required:
         - code
         - name
@@ -1115,7 +1112,6 @@ components:
           type: string
     GeolocationContinent:
       type: object
-      additionalProperties: false
       required:
         - code
         - name
@@ -1128,7 +1124,6 @@ components:
           type: string
     GeolocationSubdivision:
       type: object
-      additionalProperties: false
       required:
         - isoCode
         - name
@@ -1150,7 +1145,6 @@ components:
         Geolocation Smart
         signal](https://dev.fingerprint.com/docs/smart-signals-overview#ip-geolocation)
         for geolocation information.
-      additionalProperties: false
       properties:
         accuracyRadius:
           type: integer
@@ -1186,10 +1180,8 @@ components:
       description: >-
         A customer-provided value or an object that was sent with identification
         request.
-      additionalProperties: true
     IdentificationConfidence:
       type: object
-      additionalProperties: false
       required:
         - score
       properties:
@@ -1211,7 +1203,6 @@ components:
           type: string
     IdentificationSeenAt:
       type: object
-      additionalProperties: false
       required:
         - global
         - subscription
@@ -1228,7 +1219,6 @@ components:
           x-ogen-time-format: 2006-01-02T15:04:05.999Z07:00
     RawDeviceAttributeError:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -1236,7 +1226,6 @@ components:
           type: string
     RawDeviceAttribute:
       type: object
-      additionalProperties: false
       properties:
         value:
           title: value
@@ -1256,11 +1245,8 @@ components:
         to be stable, so typical semantic versioning rules do not apply here.
         Use this data with caution without assuming a specific structure beyond
         the generic type provided here.
-      additionalProperties:
-        $ref: '#/components/schemas/RawDeviceAttribute'
     Integration:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -1270,7 +1256,6 @@ components:
           description: The version of the specific integration, e.g. "3.11.10".
         subintegration:
           type: object
-          additionalProperties: false
           properties:
             name:
               type: string
@@ -1281,7 +1266,6 @@ components:
     SDK:
       type: object
       description: Contains information about the SDK used to perform the request.
-      additionalProperties: false
       required:
         - platform
         - version
@@ -1298,7 +1282,6 @@ components:
             $ref: '#/components/schemas/Integration'
     Identification:
       type: object
-      additionalProperties: false
       required:
         - visitorId
         - requestId
@@ -1418,7 +1401,6 @@ components:
          * `Failed` - internal server error.
     Error:
       type: object
-      additionalProperties: false
       required:
         - code
         - message
@@ -1429,7 +1411,6 @@ components:
           type: string
     ProductIdentification:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Identification'
@@ -1449,7 +1430,6 @@ components:
     BotdBot:
       type: object
       description: Stores bot detection result
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1460,7 +1440,6 @@ components:
     Botd:
       type: object
       description: Contains all the information from Bot Detection product
-      additionalProperties: false
       required:
         - bot
         - url
@@ -1497,7 +1476,6 @@ components:
           description: Unique identifier of the user's request.
     ProductBotd:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Botd'
@@ -1505,7 +1483,6 @@ components:
           $ref: '#/components/schemas/Error'
     RootApps:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1518,7 +1495,6 @@ components:
               * `false` - No Root Management Apps detected or the client isn't Android.
     ProductRootApps:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/RootApps'
@@ -1526,7 +1502,6 @@ components:
           $ref: '#/components/schemas/Error'
     Emulator:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1538,7 +1513,6 @@ components:
               * `false` - No signs of emulated environment detected or the client is not Android.
     ProductEmulator:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Emulator'
@@ -1546,7 +1520,6 @@ components:
           $ref: '#/components/schemas/Error'
     Geolocation:
       type: object
-      additionalProperties: false
       properties:
         accuracyRadius:
           type: integer
@@ -1579,7 +1552,6 @@ components:
           $ref: '#/components/schemas/GeolocationSubdivisions'
     IPInfoASN:
       type: object
-      additionalProperties: false
       required:
         - asn
         - name
@@ -1595,7 +1567,6 @@ components:
           type: string
     IPInfoDataCenter:
       type: object
-      additionalProperties: false
       required:
         - result
         - name
@@ -1606,7 +1577,6 @@ components:
           type: string
     IPInfoV4:
       type: object
-      additionalProperties: false
       required:
         - address
         - geolocation
@@ -1622,7 +1592,6 @@ components:
           $ref: '#/components/schemas/IPInfoDataCenter'
     IPInfoV6:
       type: object
-      additionalProperties: false
       required:
         - address
         - geolocation
@@ -1641,7 +1610,6 @@ components:
       description: >-
         Details about the request IP address. Has separate fields for v4 and v6
         IP address versions.
-      additionalProperties: false
       properties:
         v4:
           $ref: '#/components/schemas/IPInfoV4'
@@ -1649,7 +1617,6 @@ components:
           $ref: '#/components/schemas/IPInfoV6'
     ProductIPInfo:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/IPInfo'
@@ -1657,7 +1624,6 @@ components:
           $ref: '#/components/schemas/Error'
     IPBlocklistDetails:
       type: object
-      additionalProperties: false
       required:
         - emailSpam
         - attackSource
@@ -1670,7 +1636,6 @@ components:
           description: IP address was part of a known network attack (SSH/HTTPS).
     IPBlocklist:
       type: object
-      additionalProperties: false
       required:
         - result
         - details
@@ -1684,7 +1649,6 @@ components:
           $ref: '#/components/schemas/IPBlocklistDetails'
     ProductIPBlocklist:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/IPBlocklist'
@@ -1692,7 +1656,6 @@ components:
           $ref: '#/components/schemas/Error'
     Tor:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1703,7 +1666,6 @@ components:
             otherwise.
     ProductTor:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Tor'
@@ -1721,7 +1683,6 @@ components:
         detection methods.
     VPNMethods:
       type: object
-      additionalProperties: false
       required:
         - timezoneMismatch
         - publicVPN
@@ -1768,7 +1729,6 @@ components:
             users in your fraud prevention logic.
     VPN:
       type: object
-      additionalProperties: false
       required:
         - result
         - confidence
@@ -1795,7 +1755,6 @@ components:
           $ref: '#/components/schemas/VPNMethods'
     ProductVPN:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/VPN'
@@ -1814,7 +1773,6 @@ components:
     ProxyDetails:
       type: object
       nullable: true
-      additionalProperties: false
       description: Proxy detection details (present if proxy is detected)
       required:
         - proxyType
@@ -1838,7 +1796,6 @@ components:
             of when this IP was last seen as a proxy when available.
     Proxy:
       type: object
-      additionalProperties: false
       required:
         - result
         - confidence
@@ -1854,7 +1811,6 @@ components:
           $ref: '#/components/schemas/ProxyDetails'
     ProductProxy:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Proxy'
@@ -1862,7 +1818,6 @@ components:
           $ref: '#/components/schemas/Error'
     Incognito:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1873,7 +1828,6 @@ components:
             otherwise.
     ProductIncognito:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Incognito'
@@ -1881,7 +1835,6 @@ components:
           $ref: '#/components/schemas/Error'
     Tampering:
       type: object
-      additionalProperties: false
       required:
         - result
         - anomalyScore
@@ -1919,7 +1872,6 @@ components:
               * `false` - The browser does not resemble an anti-detect browser or the request originates from a mobile SDK.
     ProductTampering:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Tampering'
@@ -1927,7 +1879,6 @@ components:
           $ref: '#/components/schemas/Error'
     ClonedApp:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1939,7 +1890,6 @@ components:
               * `false` - No signs of cloned application detected or the client is not Android.
     ProductClonedApp:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/ClonedApp'
@@ -1947,7 +1897,6 @@ components:
           $ref: '#/components/schemas/Error'
     FactoryReset:
       type: object
-      additionalProperties: false
       required:
         - time
         - timestamp
@@ -1977,7 +1926,6 @@ components:
             **mobile device** is expressed as Unix epoch time.
     ProductFactoryReset:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/FactoryReset'
@@ -1985,7 +1933,6 @@ components:
           $ref: '#/components/schemas/Error'
     Jailbroken:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -1997,7 +1944,6 @@ components:
               * `false` - No signs of jailbreak or the client is not iOS.
     ProductJailbroken:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Jailbroken'
@@ -2005,7 +1951,6 @@ components:
           $ref: '#/components/schemas/Error'
     Frida:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2018,7 +1963,6 @@ components:
               * `false` - No signs of Frida or the client is not a mobile device.
     ProductFrida:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Frida'
@@ -2026,7 +1970,6 @@ components:
           $ref: '#/components/schemas/Error'
     PrivacySettings:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2038,7 +1981,6 @@ components:
             `false`.
     ProductPrivacySettings:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/PrivacySettings'
@@ -2046,7 +1988,6 @@ components:
           $ref: '#/components/schemas/Error'
     VirtualMachine:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2057,7 +1998,6 @@ components:
             machine (e.g. VMWare), `false` otherwise.
     ProductVirtualMachine:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/VirtualMachine'
@@ -2065,7 +2005,6 @@ components:
           $ref: '#/components/schemas/Error'
     ProductRawDeviceAttributes:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/RawDeviceAttributes'
@@ -2073,7 +2012,6 @@ components:
           $ref: '#/components/schemas/Error'
     HighActivity:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2087,7 +2025,6 @@ components:
           description: Number of requests from the same visitor in the previous day.
     ProductHighActivity:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/HighActivity'
@@ -2095,7 +2032,6 @@ components:
           $ref: '#/components/schemas/Error'
     LocationSpoofing:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2106,7 +2042,6 @@ components:
             location spoofing enabled.
     ProductLocationSpoofing:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/LocationSpoofing'
@@ -2114,7 +2049,6 @@ components:
           $ref: '#/components/schemas/Error'
     SuspectScore:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2129,7 +2063,6 @@ components:
             https://dev.fingerprint.com/docs/suspect-score
     ProductSuspectScore:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/SuspectScore'
@@ -2140,7 +2073,6 @@ components:
       deprecated: true
       description: |
         This signal is deprecated.
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2154,7 +2086,6 @@ components:
       deprecated: true
       description: |
         This product is deprecated.
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/RemoteControl'
@@ -2165,7 +2096,6 @@ components:
       description: >
         Is absent if the velocity data could not be generated for the visitor
         ID.
-      additionalProperties: false
       required:
         - 5m
         - 1h
@@ -2184,7 +2114,6 @@ components:
             (`events.intervals.['24h']`) is higher than 20.000.
     VelocityData:
       type: object
-      additionalProperties: false
       properties:
         intervals:
           $ref: '#/components/schemas/VelocityIntervals'
@@ -2223,7 +2152,6 @@ components:
         if the number of `events` for the visitor ID in the last 24
 
         hours (`events.intervals.['24h']`) is higher than 20.000.
-      additionalProperties: false
       required:
         - distinctIp
         - distinctLinkedId
@@ -2249,7 +2177,6 @@ components:
           $ref: '#/components/schemas/VelocityData'
     ProductVelocity:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Velocity'
@@ -2257,7 +2184,6 @@ components:
           $ref: '#/components/schemas/Error'
     DeveloperTools:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2268,7 +2194,6 @@ components:
             Developer Tools open, `false` otherwise.
     ProductDeveloperTools:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/DeveloperTools'
@@ -2276,7 +2201,6 @@ components:
           $ref: '#/components/schemas/Error'
     MitMAttack:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2293,7 +2217,6 @@ components:
             to learn more about this Smart Signal.
     ProductMitMAttack:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/MitMAttack'
@@ -2304,7 +2227,6 @@ components:
       description: >
         Proximity ID represents a fixed geographical zone in a discrete global
         grid within which the device is observed.
-      additionalProperties: false
       required:
         - id
         - precisionRadius
@@ -2341,7 +2263,6 @@ components:
               * Scores closer to `0` indicate lower confidence, suggesting the true location may fall in an adjacent zone.
     ProductProximity:
       type: object
-      additionalProperties: false
       properties:
         data:
           $ref: '#/components/schemas/Proximity'
@@ -2352,7 +2273,6 @@ components:
       description: >-
         Contains all information about the request identified by `requestId`,
         depending on the pricing plan (Pro, Pro Plus, Enterprise)
-      additionalProperties: false
       properties:
         identification:
           $ref: '#/components/schemas/ProductIdentification'
@@ -2411,7 +2331,6 @@ components:
       description: >-
         Contains results from Fingerprint Identification and all active Smart
         Signals.
-      additionalProperties: false
       required:
         - products
       properties:
@@ -2419,7 +2338,6 @@ components:
           $ref: '#/components/schemas/Products'
     ErrorResponse:
       type: object
-      additionalProperties: false
       required:
         - error
       properties:
@@ -2442,7 +2360,6 @@ components:
       description: >-
         Contains a list of all identification events matching the specified
         search criteria.
-      additionalProperties: false
       properties:
         events:
           type: array
@@ -2461,7 +2378,6 @@ components:
             page of search results.
     Visit:
       type: object
-      additionalProperties: false
       required:
         - requestId
         - browserDetails
@@ -2526,7 +2442,6 @@ components:
         Pagination-related fields `lastTimestamp` and `paginationKey` are
         included if you use a pagination parameter like `limit` or `before` and
         there is more data available on the next page.
-      additionalProperties: false
       required:
         - visitorId
         - visits
@@ -2552,7 +2467,6 @@ components:
             to get the next page of results.
     ErrorPlainResponse:
       type: object
-      additionalProperties: false
       required:
         - error
       properties:
@@ -2560,7 +2474,6 @@ components:
           type: string
     RelatedVisitor:
       type: object
-      additionalProperties: false
       required:
         - visitorId
       properties:
@@ -2571,7 +2484,6 @@ components:
             as the input visitor ID.
     RelatedVisitorsResponse:
       type: object
-      additionalProperties: false
       required:
         - relatedVisitors
       properties:
@@ -2581,7 +2493,6 @@ components:
             $ref: '#/components/schemas/RelatedVisitor'
     WebhookRootApps:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2592,7 +2503,6 @@ components:
               * `false` - No Root Management Apps detected or the client isn't Android.
     WebhookEmulator:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2605,7 +2515,6 @@ components:
       description: >-
         Details about the request IP address. Has separate fields for v4 and v6
         IP address versions.
-      additionalProperties: false
       properties:
         v4:
           $ref: '#/components/schemas/IPInfoV4'
@@ -2613,7 +2522,6 @@ components:
           $ref: '#/components/schemas/IPInfoV6'
     WebhookIPBlocklist:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2624,7 +2532,6 @@ components:
           $ref: '#/components/schemas/IPBlocklistDetails'
     WebhookTor:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2633,7 +2540,6 @@ components:
             otherwise.
     WebhookVPN:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2654,7 +2560,6 @@ components:
           $ref: '#/components/schemas/VPNMethods'
     WebhookProxy:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2667,7 +2572,6 @@ components:
           $ref: '#/components/schemas/ProxyDetails'
     WebhookTampering:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2701,7 +2605,6 @@ components:
               * `false` - The browser does not resemble an anti-detect browser or the request originates from a mobile SDK.
     WebhookClonedApp:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2711,7 +2614,6 @@ components:
               * `false` - No signs of cloned application detected or the client is not Android.
     WebhookFactoryReset:
       type: object
-      additionalProperties: false
       properties:
         time:
           type: string
@@ -2738,7 +2640,6 @@ components:
             **mobile device** is expressed as Unix epoch time.
     WebhookJailbroken:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2748,7 +2649,6 @@ components:
               * `false` - No signs of jailbreak or the client is not iOS.
     WebhookFrida:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2759,7 +2659,6 @@ components:
               * `false` - No signs of Frida or the client is not a mobile device.
     WebhookPrivacySettings:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2769,7 +2668,6 @@ components:
             `false`.
     WebhookVirtualMachine:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2790,11 +2688,8 @@ components:
         to be stable, so typical semantic versioning rules do not apply here.
         Use this data with caution without assuming a specific structure beyond
         the generic type provided here.
-      additionalProperties:
-        $ref: '#/components/schemas/RawDeviceAttribute'
     WebhookHighActivity:
       type: object
-      additionalProperties: false
       required:
         - result
       properties:
@@ -2808,7 +2703,6 @@ components:
           description: Number of requests from the same visitor in the previous day.
     WebhookLocationSpoofing:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2817,7 +2711,6 @@ components:
             location spoofing enabled.
     WebhookSuspectScore:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: integer
@@ -2833,7 +2726,6 @@ components:
       deprecated: true
       description: |
         This signal is deprecated.
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2875,7 +2767,6 @@ components:
         if the number of `events` for the visitor ID in the last 24
 
         hours (`events.intervals.['24h']`) is higher than 20.000.
-      additionalProperties: false
       properties:
         distinctIp:
           $ref: '#/components/schemas/VelocityData'
@@ -2893,7 +2784,6 @@ components:
           $ref: '#/components/schemas/VelocityData'
     WebhookDeveloperTools:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2902,7 +2792,6 @@ components:
             Developer Tools open, `false` otherwise.
     WebhookMitMAttack:
       type: object
-      additionalProperties: false
       properties:
         result:
           type: boolean
@@ -2917,7 +2806,6 @@ components:
             to learn more about this Smart Signal.
     SupplementaryID:
       type: object
-      additionalProperties: false
       properties:
         visitorId:
           type: string
@@ -2949,7 +2837,6 @@ components:
       description: >
         Proximity ID represents a fixed geographical zone in a discrete global
         grid within which the device is observed.
-      additionalProperties: false
       required:
         - id
         - precisionRadius
