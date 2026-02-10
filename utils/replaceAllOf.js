@@ -1,16 +1,4 @@
-function resolveComponent(path, components) {
-  const pathsToReplace = ['#/definitions/', '#/components/schemas/'];
-
-  for (const pathToReplace of pathsToReplace) {
-    const actualPath = path.replace(pathToReplace, '');
-
-    if (components[actualPath]) {
-      return components[actualPath];
-    }
-  }
-
-  return undefined;
-}
+import { resolveComponent } from './resolveComponent.js';
 
 /**
  * Combines multiple objects/schemas together
@@ -33,6 +21,10 @@ export function replaceAllOf(currentComponent, components) {
   currentComponent.type = 'object';
   currentComponent.properties = properties;
   currentComponent.additionalProperties = false;
-  currentComponent.required = required;
+  if (required.length > 0) {
+    currentComponent.required = required;
+  } else {
+    delete currentComponent.required;
+  }
   delete currentComponent.allOf;
 }
