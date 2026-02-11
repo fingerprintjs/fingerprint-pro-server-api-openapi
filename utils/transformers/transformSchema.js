@@ -1,6 +1,7 @@
 import yaml from 'js-yaml';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
+import { resolveOneOfTransformer, resolveAnyOfTransformer } from './resolveOneOfTransformer.js';
 import { removeWebhookTransformer } from './removeWebhookTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
@@ -26,7 +27,14 @@ export const v4SchemaForSdksTransformers = [
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
+  removeFieldTransformer('additionalProperties'),
   removeBigExamplesTransformer,
+];
+
+export const v4SchemaForSdksNormalizedTransformers = [
+  ...v4SchemaForSdksTransformers,
+  resolveOneOfTransformer,
+  resolveAnyOfTransformer,
 ];
 
 export const readmeApiExplorerTransformers = [
@@ -48,6 +56,7 @@ export const schemaForSdksTransformers = [
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
+  removeFieldTransformer('additionalProperties'),
   removeBigExamplesTransformer,
 ];
 
