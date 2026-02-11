@@ -302,11 +302,11 @@ paths:
           in: query
           schema:
             type: string
-            description: >
-              Filter events by the ASN associated with the event's IP address.
+          description: >
+            Filter events by the ASN associated with the event's IP address.
 
-              This corresponds to the `ip_info.(v4|v6).asn` property in the
-              response.
+            This corresponds to the `ip_info.(v4|v6).asn` property in the
+            response.
         - name: linked_id
           in: query
           schema:
