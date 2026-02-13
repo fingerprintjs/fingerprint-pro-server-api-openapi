@@ -65,20 +65,28 @@ export default {
       patterns: [
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
-          // schema for using in docs.fingerprint.com, and other cases where examples are useful
+          // full schema used by docs.fingerprint.com, and other cases where examples are useful
+          // includes examples same as the source schema
+          // includes `oneOf` operators same as the source schema
+          // includes additionalProperties: false same as the source schema
           to: 'schemas/fingerprint-server-api-v4-with-examples.yaml',
           transform: (content) => transformSchema(content, v4Transformers),
         },
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
-          // just schema — used by SDKs
+          // just schema used by most SDKs
+          // examples are removed
+          // includes `oneOf` operators same as the source schema
+          // additionalProperties: false are removed for backward compatibility
           to: 'schemas/fingerprint-server-api-v4.yaml',
           transform: (content) => transformSchema(content, v4SchemaForSdksTransformers),
         },
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
-          // just schema — used by SDKs, `oneOf` operators and similar are resolved
-          // used by SDKs that cannot handle `oneOf` operators usefully
+          // normalized schema used by SDKs in weakly typed languages
+          // examples are removed
+          // `oneOf` operators and similar are resolved
+          // additionalProperties: false are removed for backward compatibility
           to: 'schemas/fingerprint-server-api-v4-normalized.yaml',
           transform: (content) => transformSchema(content, v4SchemaForSdksNormalizedTransformers),
         },
