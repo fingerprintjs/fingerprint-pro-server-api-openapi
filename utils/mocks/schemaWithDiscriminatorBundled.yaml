@@ -1,0 +1,47 @@
+openapi: 3.1.1
+info:
+  title: Fingerprint server API
+  version: '0.1'
+paths:
+  /elements/{element_id}:
+    get:
+      responses:
+        '200':
+          description: get endpoint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Union'
+components:
+  schemas:
+    UnionA:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          const: a
+        propA:
+          type: string
+    UnionB:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          const: b
+        propB:
+          type: string
+    Union:
+      type: object
+      properties:
+        name:
+          type: string
+        oneOf:
+          - $ref: '#/components/schemas/UnionA'
+          - $ref: '#/components/schemas/UnionB'
+        discriminator:
+          propertyName: type
+          mapping:
+            a: '#/components/schemas/UnionA'
+            b: '#/components/schemas/UnionB'

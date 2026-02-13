@@ -62,20 +62,33 @@ class ModelsCache {
  * @param {string} schemaPath
  */
 function findAndResolveRefs(apiDefinition, modelsCache, schemaPath) {
-  walkJson(apiDefinition, '$ref', (partWithKey) => {
+  const resolveRef = (parent, refProperty) => {
     // Find ref that use yaml file
-    if (/.*\.y(a)?ml.*/.test(partWithKey['$ref'])) {
-      const localRef = modelsCache.get(partWithKey['$ref'], schemaPath);
+    if (/.*\.y(a)?ml.*/.test(parent[refProperty])) {
+      const localRef = modelsCache.get(parent[refProperty], schemaPath);
       if (typeof localRef === 'string') {
         // Replace external ref to local ref
-        partWithKey['$ref'] = localRef;
+        parent[refProperty] = localRef;
       } else {
         // Inline schema
         for (const [key, value] of Object.entries(localRef)) {
-          partWithKey[key] = value;
+          parent[key] = value;
         }
-        delete partWithKey['$ref'];
+        delete parent[refProperty];
       }
+    }
+  };
+
+  walkJson(apiDefinition, '$ref', (partWithKey) => {
+    resolveRef(partWithKey, '$ref');
+  });
+
+  walkJson(apiDefinition, 'discriminator', (partWithKey) => {
+    const mapping = partWithKey['discriminator']?.['mapping'];
+    if (mapping) {
+      Object.keys(mapping).forEach((key) => {
+        resolveRef(mapping, key);
+      });
     }
   });
 }

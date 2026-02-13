@@ -1,0 +1,12 @@
+type: object
+properties:
+  name:
+    type: string
+  oneOf:
+    - $ref: UnionA.yaml
+    - $ref: UnionB.yaml
+  discriminator:
+    propertyName: type
+    mapping:
+      a: UnionA.yaml
+      b: UnionB.yaml
