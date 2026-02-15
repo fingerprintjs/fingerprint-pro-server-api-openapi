@@ -60,12 +60,7 @@ get:
     - name: bot
       in: query
       schema:
-        type: string
-        enum:
-          - all
-          - good
-          - bad
-          - none
+        $ref: '../components/schemas/filters/BotFilter.yaml'
       description: |
         Filter events by the Bot Detection result, specifically:
           `all` - events where any kind of bot was detected.
@@ -234,11 +229,7 @@ get:
     - name: vpn_confidence
       in: query
       schema:
-        type: string
-        enum:
-          - high,
-          - medium
-          - low
+        $ref: '../components/schemas/filters/VpnConfidenceFilter.yaml'
       description: |
         Filter events by VPN Detection result confidence level.
         `high` - events with high VPN Detection confidence.
@@ -290,11 +281,7 @@ get:
     - name: sdk_platform
       in: query
       schema:
-        type: string
-        enum:
-          - js
-          - android
-          - ios
+        $ref: '../components/schemas/filters/SdkPlatformFilter.yaml'
       description: |
         Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) .
         `js` - Javascript agent (Web).

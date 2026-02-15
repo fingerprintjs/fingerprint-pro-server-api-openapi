@@ -1,0 +1,12 @@
+type: string
+description: |
+  Filter events by the Bot Detection result:
+  * `all` - events where any kind of bot was detected.
+  * `good` - events where a good bot was detected.
+  * `bad` - events where a bad bot was detected.
+  * `none` - events where no bot was detected.
+enum:
+  - all
+  - good
+  - bad
+  - none
