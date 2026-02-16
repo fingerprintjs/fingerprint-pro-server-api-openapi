@@ -9,12 +9,12 @@ const schemaWithInlineEnumsExtracted = fs.readFileSync('./utils/mocks/schemaWith
 const extractInlineEnums = (yaml) => transformSchema(yaml, [extractInlineEnumsTransformer]);
 
 describe('Test extractInlineEnumsTransformer', () => {
-  it('don`t need to do anything', () => {
+  it('does not modify schema without inline enums', () => {
     const result = extractInlineEnums(simpleYaml);
     expect(result.toString()).toEqual(simpleYaml.toString());
   });
 
-  it('extracts inline enums into components', () => {
+  it('extracts inline enums and uses path context for collisions', () => {
     const result = extractInlineEnums(schemaWithInlineEnums);
     expect(result.toString()).toEqual(schemaWithInlineEnumsExtracted.toString());
   });

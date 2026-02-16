@@ -5,6 +5,7 @@ info:
 paths:
   /v4/events:
     get:
+      operationId: getEvents
       parameters:
         - name: bot
           in: query
@@ -15,6 +16,14 @@ paths:
           in: query
           schema:
             type: string
+  /v4/users:
+    get:
+      operationId: getUsers
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetUsersBotEnum'
 components:
   schemas:
     Device:
@@ -28,6 +37,11 @@ components:
         - all
         - good
       description: Bot filter description.
+    GetUsersBotEnum:
+      type: string
+      enum:
+        - detected
+        - not_detected
     PlatformEnum:
       type: string
       enum:

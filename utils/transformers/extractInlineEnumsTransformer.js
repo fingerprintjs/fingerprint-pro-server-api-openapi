@@ -1,3 +1,4 @@
+// @ts-check
 function toPascalCase(value) {
   return value
     .split(/[^a-zA-Z0-9]+/)
@@ -20,6 +21,32 @@ function getLastPathValue(path, key) {
   return typeof value === 'string' ? value : null;
 }
 
+/**
+ * Gets the path context for an enum (operationId or path segment) to disambiguate collisions.
+ * @param {object} apiDefinition
+ * @param {string[]} path
+ * @returns {string | null}
+ */
+function getPathContext(apiDefinition, path) {
+  // Check if this enum is under a path operation
+  if (path[0] !== 'paths' || path.length < 3) {
+    return null;
+  }
+
+  const pathKey = path[1]; // e.g., '/v4/events'
+  const method = path[2]; // e.g., 'get'
+  const operation = apiDefinition.paths?.[pathKey]?.[method];
+
+  // Prefer operationId if available
+  if (operation?.operationId) {
+    return toPascalCase(operation.operationId);
+  }
+
+  // Fall back to last path segment (e.g., '/v4/events' -> 'Events')
+  const lastSegment = pathKey.split('/').filter(Boolean).pop();
+  return lastSegment ? toPascalCase(lastSegment) : null;
+}
+
 function getComponentBaseName(target) {
   let valueName = null;
   if (target.key === 'schema' && target.parent?.name) {
@@ -32,25 +59,44 @@ function getComponentBaseName(target) {
     }
   }
 
-  // Limitation: this uses only the local field/parameter name, so unrelated enums may collide.
   return `${toPascalCase(valueName || 'Inline')}Enum`;
 }
 
-function getUniqueComponentName(baseName, usedNames) {
+/**
+ * Gets a unique component name, using path context to disambiguate before falling back to numeric suffix.
+ * @param {string} baseName
+ * @param {string | null} pathContext
+ * @param {Set<string>} usedNames
+ * @returns {string}
+ */
+function getUniqueComponentName(baseName, pathContext, usedNames) {
+  const name = baseName || 'InlineEnum';
+
+  // Try simple name first
+  if (!usedNames.has(name)) {
+    usedNames.add(name);
+    return name;
+  }
+
+  // Try path-prefixed name on collision (e.g., GetEventsStatusEnum)
+  if (pathContext) {
+    const pathPrefixedName = `${pathContext}${name}`;
+    if (!usedNames.has(pathPrefixedName)) {
+      usedNames.add(pathPrefixedName);
+      return pathPrefixedName;
+    }
+  }
+
+  // Fall back to numeric suffix as last resort
   let suffix = 2;
-  let name = baseName || 'InlineEnum';
-
-  if (!name) {
-    name = 'InlineEnum';
-  }
-
-  while (usedNames.has(name)) {
-    name = `${baseName}${suffix}`;
+  let suffixedName = `${name}${suffix}`;
+  while (usedNames.has(suffixedName)) {
     suffix += 1;
+    suffixedName = `${name}${suffix}`;
   }
 
-  usedNames.add(name);
-  return name;
+  usedNames.add(suffixedName);
+  return suffixedName;
 }
 
 function isTopLevelSchema(path) {
@@ -115,7 +161,8 @@ export function extractInlineEnumsTransformer(apiDefinition) {
     let componentName = bySchemaSignature.get(signature);
     if (!componentName) {
       const baseName = getComponentBaseName(target);
-      componentName = getUniqueComponentName(baseName, usedComponentNames);
+      const pathContext = getPathContext(apiDefinition, target.path);
+      componentName = getUniqueComponentName(baseName, pathContext, usedComponentNames);
       components[componentName] = schema;
       bySchemaSignature.set(signature, componentName);
     }
