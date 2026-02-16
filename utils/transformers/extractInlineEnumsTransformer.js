@@ -1,4 +1,14 @@
 // @ts-check
+
+/**
+ * Represents an inline enum found during schema traversal.
+ * @typedef {object} InlineEnum
+ * @property {Record<string, unknown>} node - The inline enum schema object
+ * @property {Record<string, unknown> | unknown[] | null} parent - Parent object or array containing the enum
+ * @property {string | number | null} key - Key under which the enum exists in parent
+ * @property {(string | number)[]} path - Path segments to reach this node from root
+ */
+
 function toPascalCase(value) {
   return value
     .split(/[^a-zA-Z0-9]+/)
@@ -11,6 +21,10 @@ function isInlineEnumSchema(schema) {
   return Boolean(schema && typeof schema === 'object' && !schema.$ref && Array.isArray(schema.enum));
 }
 
+/**
+ * Finds the last occurrence of a key in a path array and returns the value that follows it.
+ * getLastPathValue('schema', 'properties', 'status', 'properties'); // returns 'status'
+ */
 function getLastPathValue(path, key) {
   const keyIndex = path.lastIndexOf(key);
   if (keyIndex === -1 || keyIndex + 1 >= path.length) {
@@ -24,7 +38,7 @@ function getLastPathValue(path, key) {
 /**
  * Gets the path context for an enum (operationId or path segment) to disambiguate collisions.
  * @param {object} apiDefinition
- * @param {string[]} path
+ * @param {(string | number)[]} path
  * @returns {string | null}
  */
 function getPathContext(apiDefinition, path) {
@@ -33,8 +47,8 @@ function getPathContext(apiDefinition, path) {
     return null;
   }
 
-  const pathKey = path[1]; // e.g., '/v4/events'
-  const method = path[2]; // e.g., 'get'
+  const pathKey = String(path[1]); // e.g., '/v4/events'
+  const method = String(path[2]); // e.g., 'get'
   const operation = apiDefinition.paths?.[pathKey]?.[method];
 
   // Prefer operationId if available
@@ -47,10 +61,16 @@ function getPathContext(apiDefinition, path) {
   return lastSegment ? toPascalCase(lastSegment) : null;
 }
 
+/**
+ * Gets a base component name for an inline enum based on its location in the schema.
+ * @param {InlineEnum} target
+ * @returns {string}
+ */
 function getComponentBaseName(target) {
   let valueName = null;
-  if (target.key === 'schema' && target.parent?.name) {
-    valueName = target.parent.name;
+  const parent = target.parent && !Array.isArray(target.parent) ? target.parent : null;
+  if (target.key === 'schema' && parent?.name) {
+    valueName = parent.name;
   } else {
     valueName = getLastPathValue(target.path, 'properties');
 
@@ -99,30 +119,41 @@ function getUniqueComponentName(baseName, pathContext, usedNames) {
   return suffixedName;
 }
 
+/**
+ * @param {(string | number)[]} path
+ * @returns {boolean}
+ */
 function isTopLevelSchema(path) {
   return path.length === 3 && path[0] === 'components' && path[1] === 'schemas' && typeof path[2] === 'string';
 }
 
-function findInlineEnums(node, parent, key, path, targets) {
+/**
+ * Recursively finds all inline enum schemas in the API definition.
+ * @param {unknown} node - Current node being traversed
+ * @param {Record<string, unknown> | unknown[] | null} parent - Parent object or array
+ * @param {string | number | null} key - Key of node in parent
+ * @param {(string | number)[]} path - Path segments to current node
+ * @returns {InlineEnum[]}
+ */
+function findInlineEnums(node, parent, key, path) {
   if (!node || typeof node !== 'object') {
-    return;
+    return [];
   }
 
   if (Array.isArray(node)) {
-    node.forEach((item, index) => {
-      findInlineEnums(item, node, index, [...path, index], targets);
-    });
-    return;
+    return node.flatMap((item, index) => findInlineEnums(item, node, index, [...path, index]));
   }
 
-  if (isInlineEnumSchema(node) && !isTopLevelSchema(path)) {
-    targets.push({ node, parent, key, path });
-    return;
+  // At this point, node is a non-null, non-array object
+  const objectNode = /** @type {Record<string, unknown>} */ (node);
+
+  if (isInlineEnumSchema(objectNode) && !isTopLevelSchema(path)) {
+    return [{ node: objectNode, parent, key, path }];
   }
 
-  Object.keys(node).forEach((childKey) => {
-    findInlineEnums(node[childKey], node, childKey, [...path, childKey], targets);
-  });
+  return Object.keys(objectNode).flatMap((childKey) =>
+    findInlineEnums(objectNode[childKey], objectNode, childKey, [...path, childKey])
+  );
 }
 
 /**
@@ -130,10 +161,9 @@ function findInlineEnums(node, parent, key, path, targets) {
  * @param {object} apiDefinition
  */
 export function extractInlineEnumsTransformer(apiDefinition) {
-  const targets = [];
-  findInlineEnums(apiDefinition, null, null, [], targets);
+  const inlineEnums = findInlineEnums(apiDefinition, null, null, []);
 
-  if (targets.length === 0) {
+  if (inlineEnums.length === 0) {
     return;
   }
 
@@ -149,26 +179,30 @@ export function extractInlineEnumsTransformer(apiDefinition) {
   const usedComponentNames = new Set(Object.keys(components));
   const bySchemaSignature = new Map();
 
-  targets.forEach((target) => {
-    const schema = structuredClone(target.node);
+  for (const inlineEnum of inlineEnums) {
+    const schema = structuredClone(inlineEnum.node);
+    const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
 
-    if (target.parent?.description && !schema.description) {
-      schema.description = target.parent.description;
+    // Inherit description from parent if not already set
+    if (parent?.description && !schema.description) {
+      schema.description = parent.description;
     }
 
+    // Use stringify signature to deduplicate enums with the same structure
     const signature = JSON.stringify(schema);
 
     let componentName = bySchemaSignature.get(signature);
     if (!componentName) {
-      const baseName = getComponentBaseName(target);
-      const pathContext = getPathContext(apiDefinition, target.path);
+      const baseName = getComponentBaseName(inlineEnum);
+      const pathContext = getPathContext(apiDefinition, inlineEnum.path);
       componentName = getUniqueComponentName(baseName, pathContext, usedComponentNames);
       components[componentName] = schema;
       bySchemaSignature.set(signature, componentName);
     }
 
-    if (target.parent) {
-      target.parent[target.key] = { $ref: `#/components/schemas/${componentName}` };
+    // Replace inline enum with component reference
+    if (inlineEnum.parent && inlineEnum.key !== null) {
+      inlineEnum.parent[inlineEnum.key] = { $ref: `#/components/schemas/${componentName}` };
     }
-  });
+  }
 }
