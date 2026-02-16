@@ -37,11 +37,11 @@ components:
       properties:
         name:
           type: string
-        oneOf:
-          - $ref: '#/components/schemas/UnionA'
-          - $ref: '#/components/schemas/UnionB'
-        discriminator:
-          propertyName: type
-          mapping:
-            a: '#/components/schemas/UnionA'
-            b: '#/components/schemas/UnionB'
+      oneOf:
+        - $ref: '#/components/schemas/UnionA'
+        - $ref: '#/components/schemas/UnionB'
+      discriminator:
+        propertyName: type
+        mapping:
+          a: '#/components/schemas/UnionA'
+          b: '#/components/schemas/UnionB'
