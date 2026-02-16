@@ -1473,7 +1473,6 @@ components:
             $ref: '#/components/schemas/RuleActionHeaderField'
         body:
           $ref: '#/components/schemas/RuleActionBody'
-      additionalProperties: false
     SuspectScore:
       type: integer
       description: >
