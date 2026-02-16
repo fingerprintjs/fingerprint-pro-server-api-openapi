@@ -1,3 +1,4 @@
+// @ts-check
 import fs from 'fs';
 import yaml from 'js-yaml';
 import {
@@ -8,50 +9,70 @@ import {
 } from './transformSchema.js';
 
 const v4Schema = fs.readFileSync('./schemas/fingerprint-server-api-v4.yaml');
-const eventFilterComponentMap = {
-  bot: 'BotEnum',
-  vpn_confidence: 'VpnConfidenceEnum',
-  sdk_platform: 'SdkPlatformEnum',
-};
 
+/** @param {Buffer | string} content */
+function parseYaml(content) {
+  return /** @type {Record<string, any>} */ (yaml.load(content.toString()));
+}
+
+/** @param {Buffer | string} yamlContent */
+/** @param {string} key */
 function hasYamlKey(yamlContent, key) {
   const pattern = new RegExp(`^\\s*${key}\\s*:`, 'm');
   return pattern.test(yamlContent);
 }
 
+const extractedEnumComponentsToCheck = {
+  bot: 'BotEnum',
+  vpn_confidence: 'VpnConfidenceEnum',
+  sdk_platform: 'SdkPlatformEnum',
+};
+
+/**
+ * Asserts that inline enums have been extracted into component references
+ * @param {Array<{name: string, schema: unknown}>} parameters
+ * @param {Record<string, unknown>} schemas - parsed.components.schemas
+ */
+function expectInlineEnumsExtractedToComponents(parameters, schemas) {
+  for (const [parameterName, componentName] of Object.entries(extractedEnumComponentsToCheck)) {
+    const parameter = parameters.find((item) => item.name === parameterName);
+    expect(parameter).toBeDefined();
+    expect(parameter && parameter.schema).toEqual({ $ref: `#/components/schemas/${componentName}` });
+    expect(schemas[componentName]).toBeTruthy();
+  }
+}
+
 describe('Test transformSchema pipelines for v4', () => {
   it('base v4 schema keeps examples, oneOf, and additionalProperties', () => {
     const result = transformSchema(v4Schema, v4Transformers);
-    const parsed = yaml.load(result);
-    const parameters = parsed.paths['/events'].get.parameters;
-    const botParameter = parameters.find((item) => item.name === 'bot');
+    const parsed = parseYaml(result);
+    const getEventsParamenters = parsed.paths['/events'].get.parameters;
+    const botParameter = getEventsParamenters.find((item) => item.name === 'bot');
 
     expect(hasYamlKey(result, 'examples')).toBe(true);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
     expect(hasYamlKey(result, 'additionalProperties')).toBe(true);
+
+    // Inline enums are still inline
     expect(botParameter.schema.enum).toEqual(['all', 'good', 'bad', 'none']);
     expect(parsed.components.schemas.BotEnum).toBeUndefined();
   });
 
   it('v4 sdk schema removes examples and additionalProperties while keeping oneOf operators', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksTransformers);
-    const parsed = yaml.load(result);
-    const parameters = parsed.paths['/events'].get.parameters;
+    const parsed = parseYaml(result);
+    const getEventsParamenters = parsed.paths['/events'].get.parameters;
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
     expect(hasYamlKey(result, 'additionalProperties')).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
 
-    Object.entries(eventFilterComponentMap).forEach(([parameterName, componentName]) => {
-      const parameter = parameters.find((item) => item.name === parameterName);
-      expect(parameter.schema).toEqual({ $ref: `#/components/schemas/${componentName}` });
-      expect(parsed.components.schemas[componentName]).toBeTruthy();
-    });
+    expectInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
   });
 
-  it('v4 normalized sdk schema removes examples, additionalProperties and composition operators', () => {
+  it('v4 normalized sdk schema removes examples, additionalProperties, composition operators and inline enums', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
-    const parsed = yaml.load(result);
+    const parsed = parseYaml(result);
     const parameters = parsed.paths['/events'].get.parameters;
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
@@ -59,10 +80,6 @@ describe('Test transformSchema pipelines for v4', () => {
     expect(hasYamlKey(result, 'oneOf')).toBe(false);
     expect(hasYamlKey(result, 'anyOf')).toBe(false);
 
-    Object.entries(eventFilterComponentMap).forEach(([parameterName, componentName]) => {
-      const parameter = parameters.find((item) => item.name === parameterName);
-      expect(parameter.schema).toEqual({ $ref: `#/components/schemas/${componentName}` });
-      expect(parsed.components.schemas[componentName]).toBeTruthy();
-    });
+    expectInlineEnumsExtractedToComponents(parameters, parsed.components.schemas);
   });
 });
