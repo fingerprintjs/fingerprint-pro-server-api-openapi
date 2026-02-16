@@ -10,6 +10,7 @@ import { removeFieldsByPrefixTransformer } from './removeFieldsByPrefixTransform
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
+import { extractInlineEnumsTransformer } from './extractInlineEnumsTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -24,6 +25,7 @@ export const v4Transformers = [...commonTransformers, removeFieldsByPrefixTransf
 
 export const v4SchemaForSdksTransformers = [
   ...v4Transformers,
+  extractInlineEnumsTransformer,
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),

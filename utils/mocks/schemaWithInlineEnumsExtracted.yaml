@@ -1,0 +1,35 @@
+openapi: 3.1.1
+info:
+  title: test
+  version: '1.0'
+paths:
+  /v4/events:
+    get:
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            $ref: '#/components/schemas/BotEnum'
+          description: Bot filter description.
+        - name: visitor_id
+          in: query
+          schema:
+            type: string
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        platform:
+          $ref: '#/components/schemas/PlatformEnum'
+    BotEnum:
+      type: string
+      enum:
+        - all
+        - good
+      description: Bot filter description.
+    PlatformEnum:
+      type: string
+      enum:
+        - web
+        - mobile
