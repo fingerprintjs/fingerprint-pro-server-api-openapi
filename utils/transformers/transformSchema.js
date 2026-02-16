@@ -35,6 +35,8 @@ export const v4SchemaForSdksNormalizedTransformers = [
   ...v4SchemaForSdksTransformers,
   resolveOneOfTransformer,
   resolveAnyOfTransformer,
+  // do this at the end of the pipeline again to make sure previous transformers didn't introduce it again
+  removeFieldTransformer('additionalProperties'),
 ];
 
 export const readmeApiExplorerTransformers = [
