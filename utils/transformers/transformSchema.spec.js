@@ -45,13 +45,14 @@ function expectInlineEnumsExtractedToComponents(parameters, schemas) {
 describe('Test transformSchema pipelines for v4', () => {
   it('base v4 schema keeps examples, oneOf, and additionalProperties', () => {
     const result = transformSchema(v4Schema, v4Transformers);
-    const parsed = parseYaml(result);
-    const getEventsParamenters = parsed.paths['/events'].get.parameters;
-    const botParameter = getEventsParamenters.find((item) => item.name === 'bot');
 
     expect(hasYamlKey(result, 'examples')).toBe(true);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
     expect(hasYamlKey(result, 'additionalProperties')).toBe(true);
+
+    const parsed = parseYaml(result);
+    const getEventsParamenters = parsed.paths['/events'].get.parameters;
+    const botParameter = getEventsParamenters.find((item) => item.name === 'bot');
 
     // Inline enums are still inline
     expect(botParameter.schema.enum).toEqual(['all', 'good', 'bad', 'none']);
@@ -60,26 +61,26 @@ describe('Test transformSchema pipelines for v4', () => {
 
   it('v4 sdk schema removes examples and additionalProperties while keeping oneOf operators', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksTransformers);
-    const parsed = parseYaml(result);
-    const getEventsParamenters = parsed.paths['/events'].get.parameters;
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
     expect(hasYamlKey(result, 'additionalProperties')).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
 
+    const parsed = parseYaml(result);
+    const getEventsParamenters = parsed.paths['/events'].get.parameters;
     expectInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
   });
 
   it('v4 normalized sdk schema removes examples, additionalProperties, composition operators and inline enums', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
-    const parsed = parseYaml(result);
-    const parameters = parsed.paths['/events'].get.parameters;
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
     expect(hasYamlKey(result, 'additionalProperties')).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(false);
     expect(hasYamlKey(result, 'anyOf')).toBe(false);
 
+    const parsed = parseYaml(result);
+    const parameters = parsed.paths['/events'].get.parameters;
     expectInlineEnumsExtractedToComponents(parameters, parsed.components.schemas);
   });
 });
