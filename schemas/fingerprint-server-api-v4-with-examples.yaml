@@ -2473,8 +2473,8 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          allow: EventRuleActionAllow.yaml
-          block: EventRuleActionBlock.yaml
+          allow: '#/components/schemas/EventRuleActionAllow'
+          block: '#/components/schemas/EventRuleActionBlock'
     SuspectScore:
       type: integer
       description: >
