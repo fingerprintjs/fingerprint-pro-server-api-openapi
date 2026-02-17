@@ -753,6 +753,7 @@ paths:
       tags:
         - Events
       operationId: searchEvents
+      x-dotnet-use-request-object: true
       summary: Search events
       description: >
         ## Search
