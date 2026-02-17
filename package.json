@@ -10,6 +10,7 @@
     "build": "webpack",
     "lintSchema": "vacuum lint ./schemas/*.yaml -d --errors --base schemas --ignore-file vacuum-ignore.yaml",
     "lintSchemaDist": "vacuum lint ./dist/schemas/*.yaml -d --errors --base dist/schemas --ignore-file vacuum-ignore.yaml",
+    "schema:diff:published": "node ./scripts/schemaDiffPublished.js",
     "validateSchema": "tsx ./bin/validateSchema.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:dts": "echo 'No typescript tests' && exit 0",
