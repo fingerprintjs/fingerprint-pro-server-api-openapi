@@ -63,7 +63,7 @@ function getPathContext(apiDefinition, path) {
 
 /**
  * Gets a base component name for an inline enum based on its location in the schema.
- * Always returns a non-empty string ending with 'Enum' (e.g., 'StatusEnum', 'InlineEnum').
+ * Always returns a non-empty string (e.g., 'Status', 'Inline').
  * @param {InlineEnum} target
  * @returns {string} Non-empty component base name
  */
@@ -80,12 +80,12 @@ function getComponentBaseName(target) {
     }
   }
 
-  return `${toPascalCase(valueName || 'Inline')}Enum`;
+  return toPascalCase(valueName || 'Inline');
 }
 
 /**
  * Gets a unique component name, using path context to disambiguate before falling back to numeric suffix.
- * @param {string} baseName - Non-empty base name for the component (e.g., 'StatusEnum')
+ * @param {string} baseName - Non-empty base name for the component (e.g., 'Status')
  * @param {string | null} pathContext
  * @param {Set<string>} usedNames
  * @returns {string}
@@ -101,7 +101,7 @@ function getUniqueComponentName(baseName, pathContext, usedNames) {
     return baseName;
   }
 
-  // Try path-prefixed name on collision (e.g., GetEventsStatusEnum)
+  // Try path-prefixed name on collision (e.g., GetEventsStatus)
   if (pathContext) {
     const pathPrefixedName = `${pathContext}${baseName}`;
     if (!usedNames.has(pathPrefixedName)) {
