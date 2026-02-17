@@ -10,7 +10,8 @@ import { removeFieldsByPrefixTransformer } from './removeFieldsByPrefixTransform
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
-import { extractInlineEnumsTransformer } from './extractInlineEnumsTransformer.js';
+import { extractPathOperationInlineEnumsTransformer } from './extractPathOperationInlineEnumsTransformer.js';
+import { parseYaml } from './parseYaml.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -25,7 +26,7 @@ export const v4Transformers = [...commonTransformers, removeFieldsByPrefixTransf
 
 export const v4SchemaForSdksTransformers = [
   ...v4Transformers,
-  extractInlineEnumsTransformer,
+  extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
@@ -65,7 +66,7 @@ export const schemaForSdksTransformers = [
 ];
 
 export function transformSchema(content, transformers = defaultTransformers) {
-  const apiDefinition = yaml.load(content);
+  const apiDefinition = parseYaml(content);
 
   transformers.forEach((transformer) => {
     transformer(apiDefinition);
