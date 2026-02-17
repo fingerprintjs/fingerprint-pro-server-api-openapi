@@ -59,6 +59,10 @@ export function parseArgs(argv) {
     const arg = argv[index];
     const nextArg = argv[index + 1];
 
+    if (arg === '--') {
+      continue;
+    }
+
     if (arg === '--base-url') {
       if (!nextArg) {
         throw new Error('Missing value for --base-url');

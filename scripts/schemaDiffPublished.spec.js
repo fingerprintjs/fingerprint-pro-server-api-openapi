@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { runSchemaDiffPublished } from './schemaDiffPublished.js';
+import { parseArgs, runSchemaDiffPublished } from './schemaDiffPublished.js';
 
 function createTempDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'schema-diff-published-test-'));
@@ -11,6 +11,17 @@ function writeSchema(localDir, fileName, content) {
   fs.mkdirSync(localDir, { recursive: true });
   fs.writeFileSync(path.join(localDir, fileName), content, 'utf8');
 }
+
+describe('parseArgs', () => {
+  it('ignores argument separator passed by package managers', () => {
+    const options = parseArgs(['--', '--json-out', 'report.json', '--comment-out', 'comment.md']);
+
+    expect(options).toMatchObject({
+      jsonOut: 'report.json',
+      commentOut: 'comment.md',
+    });
+  });
+});
 
 describe('runSchemaDiffPublished', () => {
   it('writes report and no-change comment when schemas are identical', async () => {
