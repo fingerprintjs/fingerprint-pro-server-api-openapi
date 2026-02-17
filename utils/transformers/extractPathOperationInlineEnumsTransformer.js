@@ -109,7 +109,7 @@ function findInlineEnumsInOperation(node, parent, key, path) {
  * Extracts inline enums that appear inside path operations into reusable components.
  * @param {ApiDefinition} apiDefinition
  */
-export function extractInlineEnumsTransformer(apiDefinition) {
+export function extractPathOperationInlineEnumsTransformer(apiDefinition) {
   if (!apiDefinition.paths || typeof apiDefinition.paths !== 'object') {
     return;
   }
