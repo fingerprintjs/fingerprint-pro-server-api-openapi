@@ -1,19 +1,14 @@
 // @ts-check
 import fs from 'fs';
-import yaml from 'js-yaml';
 import {
   transformSchema,
   v4Transformers,
   v4SchemaForSdksTransformers,
   v4SchemaForSdksNormalizedTransformers,
 } from './transformSchema.js';
+import { parseYaml } from './parseYaml.js';
 
 const v4Schema = fs.readFileSync('./schemas/fingerprint-server-api-v4.yaml');
-
-/** @param {Buffer | string} content */
-function parseYaml(content) {
-  return /** @type {Record<string, any>} */ (yaml.load(content.toString()));
-}
 
 /** @param {Buffer | string} yamlContent */
 /** @param {string} key */
@@ -22,19 +17,19 @@ function hasYamlKey(yamlContent, key) {
   return pattern.test(yamlContent);
 }
 
-const extractedEnumComponentsToCheck = {
+const extractedPathOperationEnumComponentsToCheck = {
   bot: 'SearchEventsBot',
   vpn_confidence: 'SearchEventsVpnConfidence',
   sdk_platform: 'SearchEventsSdkPlatform',
 };
 
 /**
- * Asserts that inline enums have been extracted into component references
+ * Asserts that path-operation inline enums have been extracted into component references
  * @param {Array<{name: string, schema: unknown}>} parameters
  * @param {Record<string, unknown>} schemas - parsed.components.schemas
  */
-function expectInlineEnumsExtractedToComponents(parameters, schemas) {
-  for (const [parameterName, componentName] of Object.entries(extractedEnumComponentsToCheck)) {
+function expectPathOperationInlineEnumsExtractedToComponents(parameters, schemas) {
+  for (const [parameterName, componentName] of Object.entries(extractedPathOperationEnumComponentsToCheck)) {
     const parameter = parameters.find((item) => item.name === parameterName);
     expect(parameter).toBeDefined();
     expect(parameter && parameter.schema).toEqual({ $ref: `#/components/schemas/${componentName}` });
@@ -68,10 +63,10 @@ describe('Test transformSchema pipelines for v4', () => {
 
     const parsed = parseYaml(result);
     const getEventsParamenters = parsed.paths['/events'].get.parameters;
-    expectInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
+    expectPathOperationInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
   });
 
-  it('v4 normalized sdk schema removes examples, additionalProperties, composition operators and inline enums', () => {
+  it('v4 normalized sdk schema removes examples, additionalProperties, composition operators and path-operation inline enums', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
@@ -81,6 +76,6 @@ describe('Test transformSchema pipelines for v4', () => {
 
     const parsed = parseYaml(result);
     const parameters = parsed.paths['/events'].get.parameters;
-    expectInlineEnumsExtractedToComponents(parameters, parsed.components.schemas);
+    expectPathOperationInlineEnumsExtractedToComponents(parameters, parsed.components.schemas);
   });
 });

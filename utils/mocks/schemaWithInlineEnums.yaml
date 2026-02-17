@@ -4,6 +4,16 @@ info:
   version: '1.0'
 paths:
   /v4/events:
+    parameters:
+      # Path-level parameter (outside an operation) should remain inline
+      - name: x-region
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+            - us
+            - eu
     get:
       operationId: getEvents
       parameters:
@@ -61,6 +71,7 @@ components:
     Device:
       type: object
       properties:
+        # Component-level enum should remain inline      
         platform:
           type: string
           enum:

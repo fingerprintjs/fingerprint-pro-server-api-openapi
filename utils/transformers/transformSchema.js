@@ -11,6 +11,7 @@ import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTra
 import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
 import { extractInlineEnumsTransformer } from './extractInlineEnumsTransformer.js';
+import { parseYaml } from './parseYaml.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -65,7 +66,7 @@ export const schemaForSdksTransformers = [
 ];
 
 export function transformSchema(content, transformers = defaultTransformers) {
-  const apiDefinition = yaml.load(content);
+  const apiDefinition = parseYaml(content);
 
   transformers.forEach((transformer) => {
     transformer(apiDefinition);

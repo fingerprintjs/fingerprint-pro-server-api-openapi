@@ -1,12 +1,17 @@
 // @ts-check
 
 /**
+ * @typedef {{schemas?: Record<string, unknown>} & Record<string, unknown>} ApiComponents
+ * @typedef {{paths?: Record<string, unknown>, components?: ApiComponents} & Record<string, unknown>} ApiDefinition
+ */
+
+/**
  * Represents an inline enum found during schema traversal.
  * @typedef {object} InlineEnum
  * @property {Record<string, unknown>} node - The inline enum schema object
  * @property {Record<string, unknown> | unknown[] | null} parent - Parent object or array containing the enum
  * @property {string | number | null} key - Key under which the enum exists in parent
- * @property {(string | number)[]} path - Path segments to reach this node from root
+ * @property {(string | number)[]} path - Path segments to reach this node from the operation root
  */
 
 function toPascalCase(value) {
@@ -36,26 +41,18 @@ function getLastPathValue(path, key) {
 }
 
 /**
- * Returns operationId prefix when an enum is under a concrete path operation.
- * @param {object} apiDefinition
- * @param {(string | number)[]} path
- * @returns {string | null}
+ * Returns a stable component prefix for an operation.
+ * @param {Record<string, unknown>} operation
+ * @param {string} pathKey
+ * @param {string} method
+ * @returns {string}
  */
-function getOperationPrefix(apiDefinition, path) {
-  // Check if this enum is under a path operation
-  if (path[0] !== 'paths' || path.length < 3) {
-    return null;
+function getOperationPrefix(operation, pathKey, method) {
+  if (typeof operation.operationId === 'string' && operation.operationId.length > 0) {
+    return toPascalCase(operation.operationId);
   }
 
-  const pathKey = String(path[1]); // e.g., '/v4/events'
-  const method = String(path[2]).toLowerCase(); // e.g., 'get'
-
-  const operation = apiDefinition.paths?.[pathKey]?.[method];
-  if (!operation || typeof operation !== 'object') {
-    return null;
-  }
-
-  return toPascalCase(String(operation.operationId));
+  return `${toPascalCase(method)}${toPascalCase(pathKey) || 'Path'}`;
 }
 
 /**
@@ -81,80 +78,101 @@ function getComponentBaseName(target) {
 }
 
 /**
- * @param {(string | number)[]} path
- * @returns {boolean}
- */
-function isTopLevelSchema(path) {
-  return path.length === 3 && path[0] === 'components' && path[1] === 'schemas' && typeof path[2] === 'string';
-}
-
-/**
- * Recursively finds all inline enum schemas in the API definition.
+ * Recursively finds inline enum schemas in an operation node.
  * @param {unknown} node - Current node being traversed
  * @param {Record<string, unknown> | unknown[] | null} parent - Parent object or array
  * @param {string | number | null} key - Key of node in parent
  * @param {(string | number)[]} path - Path segments to current node
  * @returns {InlineEnum[]}
  */
-function findInlineEnums(node, parent, key, path) {
+function findInlineEnumsInOperation(node, parent, key, path) {
   if (!node || typeof node !== 'object') {
     return [];
   }
 
   if (Array.isArray(node)) {
-    return node.flatMap((item, index) => findInlineEnums(item, node, index, [...path, index]));
+    return node.flatMap((item, index) => findInlineEnumsInOperation(item, node, index, [...path, index]));
   }
 
-  // At this point, node is a non-null, non-array object
   const objectNode = /** @type {Record<string, unknown>} */ (node);
 
-  if (isInlineEnumSchema(objectNode) && !isTopLevelSchema(path)) {
+  if (isInlineEnumSchema(objectNode)) {
     return [{ node: objectNode, parent, key, path }];
   }
 
   return Object.keys(objectNode).flatMap((childKey) =>
-    findInlineEnums(objectNode[childKey], objectNode, childKey, [...path, childKey])
+    findInlineEnumsInOperation(objectNode[childKey], objectNode, childKey, [...path, childKey])
   );
 }
 
 /**
- * Extracts inline enum schemas into reusable components.
- * @param {object} apiDefinition
+ * Extracts inline enums that appear inside path operations into reusable components.
+ * @param {ApiDefinition} apiDefinition
  */
 export function extractInlineEnumsTransformer(apiDefinition) {
-  const inlineEnums = findInlineEnums(apiDefinition, null, null, []);
-
-  if (inlineEnums.length === 0) {
+  if (!apiDefinition.paths || typeof apiDefinition.paths !== 'object') {
     return;
   }
 
-  if (!apiDefinition.components) {
+  if (
+    !apiDefinition.components ||
+    typeof apiDefinition.components !== 'object' ||
+    Array.isArray(apiDefinition.components)
+  ) {
     apiDefinition.components = {};
   }
 
-  if (!apiDefinition.components.schemas) {
+  if (
+    !apiDefinition.components.schemas ||
+    typeof apiDefinition.components.schemas !== 'object' ||
+    Array.isArray(apiDefinition.components.schemas)
+  ) {
     apiDefinition.components.schemas = {};
   }
 
   const components = apiDefinition.components.schemas;
+  const paths = /** @type {Record<string, unknown>} */ (apiDefinition.paths);
 
-  for (const inlineEnum of inlineEnums) {
-    const schema = structuredClone(inlineEnum.node);
-    const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
-    const baseName = getComponentBaseName(inlineEnum);
-    const operationPrefix = getOperationPrefix(apiDefinition, inlineEnum.path);
-
-    // Inherit description from parent if not already set
-    if (parent?.description && !schema.description) {
-      schema.description = parent.description;
+  for (const [pathKey, pathItemValue] of Object.entries(paths)) {
+    if (!pathItemValue || typeof pathItemValue !== 'object' || Array.isArray(pathItemValue)) {
+      continue;
     }
 
-    const componentName = operationPrefix ? `${operationPrefix}${baseName}` : baseName;
-    components[componentName] = schema;
+    const pathItem = /** @type {Record<string, unknown>} */ (pathItemValue);
 
-    // Replace inline enum with component reference
-    if (inlineEnum.parent && inlineEnum.key !== null) {
-      inlineEnum.parent[inlineEnum.key] = { $ref: `#/components/schemas/${componentName}` };
+    for (const [method, operationValue] of Object.entries(pathItem)) {
+      if (!operationValue || typeof operationValue !== 'object' || Array.isArray(operationValue)) {
+        continue;
+      }
+
+      const operation = /** @type {Record<string, unknown>} */ (operationValue);
+      const operationPrefix = getOperationPrefix(operation, pathKey, method.toLowerCase());
+      const inlineEnums = findInlineEnumsInOperation(operation, null, null, []);
+
+      for (const inlineEnum of inlineEnums) {
+        const schema = structuredClone(inlineEnum.node);
+        const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
+        const baseName = getComponentBaseName(inlineEnum);
+        const componentName = `${operationPrefix}${baseName}`;
+
+        // Inherit description from parent if not already set
+        if (typeof parent?.description === 'string' && typeof schema.description !== 'string') {
+          schema.description = parent.description;
+        }
+
+        if (components[componentName]) {
+          throw new Error(
+            `Inline enum component collision for "${componentName}" (${method.toUpperCase()} ${pathKey}).`
+          );
+        }
+
+        components[componentName] = schema;
+
+        // Replace inline enum with component reference
+        if (inlineEnum.parent && inlineEnum.key !== null) {
+          inlineEnum.parent[inlineEnum.key] = { $ref: `#/components/schemas/${componentName}` };
+        }
+      }
     }
   }
 }

@@ -4,6 +4,15 @@ info:
   version: '1.0'
 paths:
   /v4/events:
+    parameters:
+      - name: x-region
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+            - us
+            - eu
     get:
       operationId: getEvents
       parameters:
@@ -44,7 +53,10 @@ components:
       type: object
       properties:
         platform:
-          $ref: '#/components/schemas/Platform'
+          type: string
+          enum:
+            - web
+            - mobile
     GetEventsBot:
       type: string
       enum:
@@ -68,8 +80,3 @@ components:
         - detected
         - not_detected
       description: Different description.
-    Platform:
-      type: string
-      enum:
-        - web
-        - mobile
