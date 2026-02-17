@@ -23,7 +23,17 @@ paths:
         - name: bot
           in: query
           schema:
-            $ref: '#/components/schemas/GetUsersBotEnum'
+            $ref: '#/components/schemas/BotEnum'
+          description: Bot filter description.
+  /v4/visits:
+    get:
+      operationId: getVisits
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetVisitsBotEnum'
+          description: Different description.
 components:
   schemas:
     Device:
@@ -37,11 +47,12 @@ components:
         - all
         - good
       description: Bot filter description.
-    GetUsersBotEnum:
+    GetVisitsBotEnum:
       type: string
       enum:
         - detected
         - not_detected
+      description: Different description.
     PlatformEnum:
       type: string
       enum:

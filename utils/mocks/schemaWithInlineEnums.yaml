@@ -23,6 +23,22 @@ paths:
     get:
       operationId: getUsers
       parameters:
+        # Structurally the same as the first enum, but in a different location
+        # Should result in a single extracted component
+        - name: bot
+          in: query
+          schema:
+            type: string
+            enum:
+              - all
+              - good
+          description: Bot filter description.
+  /v4/visits:
+    get:
+      operationId: getVisits
+      parameters:
+        # Same name but structurally different than the first enum
+        # Should result in a separate extracted component, avoiding name collisions
         - name: bot
           in: query
           schema:
@@ -30,6 +46,7 @@ paths:
             enum:
               - detected
               - not_detected
+          description: Different description.
 components:
   schemas:
     Device:
