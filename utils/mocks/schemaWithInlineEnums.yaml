@@ -19,6 +19,15 @@ paths:
           in: query
           schema:
             type: string
+        # This enum would normally be named DeviceEnum, but that name is already
+        # taken by an existing component, so it should use the path prefix
+        - name: device
+          in: query
+          schema:
+            type: string
+            enum:
+              - desktop
+              - mobile
   /v4/users:
     get:
       operationId: getUsers
@@ -49,7 +58,7 @@ paths:
           description: Different description.
 components:
   schemas:
-    Device:
+    DeviceEnum:
       type: object
       properties:
         platform:

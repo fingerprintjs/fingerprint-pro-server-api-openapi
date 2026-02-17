@@ -16,6 +16,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: device
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetEventsDeviceEnum'
   /v4/users:
     get:
       operationId: getUsers
@@ -36,7 +40,7 @@ paths:
           description: Different description.
 components:
   schemas:
-    Device:
+    DeviceEnum:
       type: object
       properties:
         platform:
@@ -47,6 +51,11 @@ components:
         - all
         - good
       description: Bot filter description.
+    GetEventsDeviceEnum:
+      type: string
+      enum:
+        - desktop
+        - mobile
     GetVisitsBotEnum:
       type: string
       enum:
