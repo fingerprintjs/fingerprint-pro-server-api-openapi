@@ -67,4 +67,74 @@ describe('renderSchemaDiffComment', () => {
     expect(output).toContain('```diff');
     expect(output).toContain('@@ -2 +2 @@');
   });
+
+  it('renders new schema with NEW label', () => {
+    const report = {
+      generatedAt: '2026-02-17T00:00:00.000Z',
+      baseUrl: 'https://example.com/schemas',
+      comparedCount: 1,
+      changedCount: 1,
+      newFiles: ['new.yaml'],
+      deletedFiles: [],
+      files: [
+        {
+          fileName: 'new.yaml',
+          remoteUrl: 'https://example.com/schemas/new.yaml',
+          changed: true,
+          isNew: true,
+          isDeleted: false,
+          summary: {
+            addedPaths: ['/info'],
+            removedPaths: [],
+            modifiedPaths: [],
+            addedCount: 1,
+            removedCount: 0,
+            modifiedCount: 0,
+          },
+          patch: '@@ +1 @@\n+openapi: 3.0.3',
+        },
+      ],
+    };
+
+    const output = renderSchemaDiffComment(report);
+
+    expect(output).toContain('### `new.yaml` 🆕 NEW');
+    expect(output).toContain('(1 new)');
+    expect(output).not.toContain('Published URL:');
+  });
+
+  it('renders deleted schema with DELETED label', () => {
+    const report = {
+      generatedAt: '2026-02-17T00:00:00.000Z',
+      baseUrl: 'https://example.com/schemas',
+      comparedCount: 1,
+      changedCount: 1,
+      newFiles: [],
+      deletedFiles: ['old.yaml'],
+      files: [
+        {
+          fileName: 'old.yaml',
+          remoteUrl: 'https://example.com/schemas/old.yaml',
+          changed: true,
+          isNew: false,
+          isDeleted: true,
+          summary: {
+            addedPaths: [],
+            removedPaths: ['/'],
+            modifiedPaths: [],
+            addedCount: 0,
+            removedCount: 1,
+            modifiedCount: 0,
+          },
+          patch: '',
+        },
+      ],
+    };
+
+    const output = renderSchemaDiffComment(report);
+
+    expect(output).toContain('### `old.yaml` 🗑️ DELETED');
+    expect(output).toContain('(1 deleted)');
+    expect(output).toContain('has been **deleted**');
+  });
 });

@@ -46,8 +46,9 @@ jobs:
           script: |
             const fs = require('node:fs');
 
-            const marker = '<!-- schema-diff-comment:v1 -->';
             const body = fs.readFileSync('schema-diff-comment.md', 'utf8');
+            // Marker is embedded as first line of generated comment (single source of truth in renderComment.js)
+            const marker = body.split('\n')[0];
             const issue_number = context.issue.number;
             const { owner, repo } = context.repo;
 

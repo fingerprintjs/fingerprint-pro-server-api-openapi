@@ -8,12 +8,18 @@ function appendPathDetails(lines, label, paths) {
   if (paths.length === 0) {
     lines.push('_None_');
   } else {
-    paths.forEach((path) => {
-      lines.push(`- \`${path}\``);
+    paths.forEach((p) => {
+      lines.push(`- \`${p}\``);
     });
   }
 
   lines.push('</details>');
+}
+
+function getFileStatusLabel(file) {
+  if (file.isNew) return ' 🆕 NEW';
+  if (file.isDeleted) return ' 🗑️ DELETED';
+  return '';
 }
 
 /**
@@ -22,10 +28,14 @@ function appendPathDetails(lines, label, paths) {
  *   baseUrl: string,
  *   comparedCount: number,
  *   changedCount: number,
+ *   newFiles?: string[],
+ *   deletedFiles?: string[],
  *   files: Array<{
  *     fileName: string,
  *     remoteUrl: string,
  *     changed: boolean,
+ *     isNew?: boolean,
+ *     isDeleted?: boolean,
  *     summary: {
  *       addedPaths: string[],
  *       removedPaths: string[],
@@ -40,13 +50,15 @@ function appendPathDetails(lines, label, paths) {
  */
 export function renderSchemaDiffComment(report) {
   const changedFiles = report.files.filter((file) => file.changed).sort((a, b) => a.fileName.localeCompare(b.fileName));
+  const newCount = report.newFiles?.length || 0;
+  const deletedCount = report.deletedFiles?.length || 0;
   const lines = [
     SCHEMA_DIFF_COMMENT_MARKER,
     '## Schema Diff vs Published Schemas',
     `- Generated at: \`${report.generatedAt}\``,
     `- Published source: \`${report.baseUrl}\``,
     `- Compared schemas: \`${report.comparedCount}\``,
-    `- Changed schemas: \`${report.changedCount}\``,
+    `- Changed schemas: \`${report.changedCount}\`${newCount > 0 ? ` (${newCount} new)` : ''}${deletedCount > 0 ? ` (${deletedCount} deleted)` : ''}`,
     '',
   ];
 
@@ -55,9 +67,21 @@ export function renderSchemaDiffComment(report) {
     return lines.join('\n').trim();
   }
 
-  changedFiles.forEach((file) => {
-    lines.push(`### \`${file.fileName}\``);
-    lines.push(`Published URL: ${file.remoteUrl}`);
+  for (const file of changedFiles) {
+    const statusLabel = getFileStatusLabel(file);
+    lines.push(`### \`${file.fileName}\`${statusLabel}`);
+
+    if (file.isDeleted) {
+      lines.push(`Published URL: ${file.remoteUrl}`);
+      lines.push('This schema file has been **deleted** from the local build.');
+      lines.push('');
+      continue;
+    }
+
+    if (!file.isNew) {
+      lines.push(`Published URL: ${file.remoteUrl}`);
+    }
+
     lines.push(
       `Summary: +${file.summary.addedCount} added, -${file.summary.removedCount} removed, ~${file.summary.modifiedCount} modified`
     );
@@ -72,7 +96,7 @@ export function renderSchemaDiffComment(report) {
     lines.push('```');
     lines.push('</details>');
     lines.push('');
-  });
+  }
 
   return lines.join('\n').trim();
 }

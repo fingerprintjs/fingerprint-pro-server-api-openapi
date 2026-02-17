@@ -21,6 +21,18 @@ describe('parseArgs', () => {
       commentOut: 'comment.md',
     });
   });
+
+  it('parses --known-remote-files as comma-separated list', () => {
+    const options = parseArgs(['--known-remote-files', 'a.yaml,b.yaml,c.yaml']);
+
+    expect(options.knownRemoteFiles).toEqual(['a.yaml', 'b.yaml', 'c.yaml']);
+  });
+
+  it('handles --known-remote-files with equals syntax', () => {
+    const options = parseArgs(['--known-remote-files=one.yaml, two.yaml']);
+
+    expect(options.knownRemoteFiles).toEqual(['one.yaml', 'two.yaml']);
+  });
 });
 
 describe('runSchemaDiffPublished', () => {
@@ -97,7 +109,42 @@ info:
     expect(report.files[0].summary.modifiedCount).toBeGreaterThan(0);
   });
 
-  it('fails when remote fetch is not successful', async () => {
+  it('treats 404 as new schema instead of failing', async () => {
+    const rootDir = createTempDir();
+    const localDir = path.join(rootDir, 'dist/schemas');
+    const commentOut = path.join(rootDir, 'comment.md');
+    const schemaLocal = `openapi: 3.0.3
+info:
+  title: New API
+  version: '1.0'
+`;
+    writeSchema(localDir, 'sample.yaml', schemaLocal);
+
+    const report = await runSchemaDiffPublished(
+      {
+        localDir,
+        baseUrl: 'https://schemas.example.test',
+        commentOut,
+      },
+      {
+        fetchImpl: async () => ({
+          ok: false,
+          status: 404,
+          text: async () => '',
+        }),
+        now: () => new Date('2026-02-17T12:00:00.000Z'),
+      }
+    );
+
+    expect(report.changedCount).toBe(1);
+    expect(report.newFiles).toEqual(['sample.yaml']);
+    expect(report.files[0].isNew).toBe(true);
+    expect(report.files[0].changed).toBe(true);
+    const comment = fs.readFileSync(commentOut, 'utf8');
+    expect(comment).toContain('NEW');
+  });
+
+  it('fails when remote fetch returns non-404 error', async () => {
     const rootDir = createTempDir();
     const localDir = path.join(rootDir, 'dist/schemas');
     writeSchema(localDir, 'sample.yaml', 'openapi: 3.0.3\n');
@@ -111,12 +158,49 @@ info:
         {
           fetchImpl: async () => ({
             ok: false,
-            status: 404,
+            status: 500,
             text: async () => '',
           }),
         }
       )
-    ).rejects.toThrow('HTTP 404');
+    ).rejects.toThrow('HTTP 500');
+  });
+
+  it('detects deleted schemas when knownRemoteFiles is provided', async () => {
+    const rootDir = createTempDir();
+    const localDir = path.join(rootDir, 'dist/schemas');
+    const commentOut = path.join(rootDir, 'comment.md');
+    const schema = `openapi: 3.0.3
+info:
+  title: API
+  version: '1.0'
+`;
+    writeSchema(localDir, 'existing.yaml', schema);
+
+    const report = await runSchemaDiffPublished(
+      {
+        localDir,
+        baseUrl: 'https://schemas.example.test',
+        knownRemoteFiles: ['existing.yaml', 'deleted.yaml'],
+        commentOut,
+      },
+      {
+        fetchImpl: async () => ({
+          ok: true,
+          status: 200,
+          text: async () => schema,
+        }),
+        now: () => new Date('2026-02-17T12:00:00.000Z'),
+      }
+    );
+
+    expect(report.changedCount).toBe(1);
+    expect(report.deletedFiles).toEqual(['deleted.yaml']);
+    const deletedFile = report.files.find((f) => f.fileName === 'deleted.yaml');
+    expect(deletedFile.isDeleted).toBe(true);
+    expect(deletedFile.changed).toBe(true);
+    const comment = fs.readFileSync(commentOut, 'utf8');
+    expect(comment).toContain('DELETED');
   });
 
   it('fails on invalid YAML content', async () => {

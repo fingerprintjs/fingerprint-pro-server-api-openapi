@@ -45,6 +45,20 @@ function listSchemaFiles(localDir) {
 }
 
 /**
+ * @param {string} arg
+ * @param {string} flag
+ */
+function parseFlag(arg, flag) {
+  if (arg === flag) {
+    return { match: true, needsNext: true };
+  }
+  if (arg.startsWith(`${flag}=`)) {
+    return { match: true, value: arg.slice(flag.length + 1) };
+  }
+  return { match: false };
+}
+
+/**
  * @param {string[]} argv
  */
 export function parseArgs(argv) {
@@ -53,6 +67,7 @@ export function parseArgs(argv) {
     localDir: DEFAULT_LOCAL_DIR,
     jsonOut: null,
     commentOut: null,
+    knownRemoteFiles: null,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -63,59 +78,63 @@ export function parseArgs(argv) {
       continue;
     }
 
-    if (arg === '--base-url') {
-      if (!nextArg) {
-        throw new Error('Missing value for --base-url');
+    const baseUrl = parseFlag(arg, '--base-url');
+    if (baseUrl.match) {
+      if (baseUrl.needsNext) {
+        if (!nextArg) throw new Error('Missing value for --base-url');
+        options.baseUrl = nextArg;
+        index += 1;
+      } else {
+        options.baseUrl = baseUrl.value;
       }
-      options.baseUrl = nextArg;
-      index += 1;
       continue;
     }
 
-    if (arg.startsWith('--base-url=')) {
-      options.baseUrl = arg.split('=').slice(1).join('=');
-      continue;
-    }
-
-    if (arg === '--local-dir') {
-      if (!nextArg) {
-        throw new Error('Missing value for --local-dir');
+    const localDir = parseFlag(arg, '--local-dir');
+    if (localDir.match) {
+      if (localDir.needsNext) {
+        if (!nextArg) throw new Error('Missing value for --local-dir');
+        options.localDir = nextArg;
+        index += 1;
+      } else {
+        options.localDir = localDir.value;
       }
-      options.localDir = nextArg;
-      index += 1;
       continue;
     }
 
-    if (arg.startsWith('--local-dir=')) {
-      options.localDir = arg.split('=').slice(1).join('=');
-      continue;
-    }
-
-    if (arg === '--json-out') {
-      if (!nextArg) {
-        throw new Error('Missing value for --json-out');
+    const jsonOut = parseFlag(arg, '--json-out');
+    if (jsonOut.match) {
+      if (jsonOut.needsNext) {
+        if (!nextArg) throw new Error('Missing value for --json-out');
+        options.jsonOut = nextArg;
+        index += 1;
+      } else {
+        options.jsonOut = jsonOut.value;
       }
-      options.jsonOut = nextArg;
-      index += 1;
       continue;
     }
 
-    if (arg.startsWith('--json-out=')) {
-      options.jsonOut = arg.split('=').slice(1).join('=');
-      continue;
-    }
-
-    if (arg === '--comment-out') {
-      if (!nextArg) {
-        throw new Error('Missing value for --comment-out');
+    const commentOut = parseFlag(arg, '--comment-out');
+    if (commentOut.match) {
+      if (commentOut.needsNext) {
+        if (!nextArg) throw new Error('Missing value for --comment-out');
+        options.commentOut = nextArg;
+        index += 1;
+      } else {
+        options.commentOut = commentOut.value;
       }
-      options.commentOut = nextArg;
-      index += 1;
       continue;
     }
 
-    if (arg.startsWith('--comment-out=')) {
-      options.commentOut = arg.split('=').slice(1).join('=');
+    const knownRemoteFiles = parseFlag(arg, '--known-remote-files');
+    if (knownRemoteFiles.match) {
+      if (knownRemoteFiles.needsNext) {
+        if (!nextArg) throw new Error('Missing value for --known-remote-files');
+        options.knownRemoteFiles = nextArg.split(',').map((f) => f.trim()).filter(Boolean);
+        index += 1;
+      } else {
+        options.knownRemoteFiles = knownRemoteFiles.value.split(',').map((f) => f.trim()).filter(Boolean);
+      }
       continue;
     }
 
@@ -130,7 +149,8 @@ export function parseArgs(argv) {
  *  baseUrl?: string,
  *  localDir?: string,
  *  jsonOut?: string | null,
- *  commentOut?: string | null
+ *  commentOut?: string | null,
+ *  knownRemoteFiles?: string[] | null
  * }} options
  * @param {{
  *  fetchImpl?: typeof fetch,
@@ -142,6 +162,7 @@ export async function runSchemaDiffPublished(options = {}, deps = {}) {
   const localDir = toAbsolutePath(options.localDir || DEFAULT_LOCAL_DIR);
   const jsonOut = options.jsonOut ? toAbsolutePath(options.jsonOut) : null;
   const commentOut = options.commentOut ? toAbsolutePath(options.commentOut) : null;
+  const knownRemoteFiles = options.knownRemoteFiles || null;
   const fetchImpl = deps.fetchImpl || globalThis.fetch;
   const now = deps.now || (() => new Date());
 
@@ -149,15 +170,37 @@ export async function runSchemaDiffPublished(options = {}, deps = {}) {
     throw new Error('Fetch implementation is not available in this environment.');
   }
 
-  const schemaFiles = listSchemaFiles(localDir);
+  const localFiles = listSchemaFiles(localDir);
+  const localFileSet = new Set(localFiles);
   const fileResults = [];
 
-  for (const fileName of schemaFiles) {
+  // Compare local files against remote
+  for (const fileName of localFiles) {
     const localPath = path.join(localDir, fileName);
     const remoteUrl = `${baseUrl}/${fileName}`;
     const localContent = fs.readFileSync(localPath, 'utf8');
 
     const response = await fetchImpl(remoteUrl);
+
+    // Handle new schemas (404 = schema doesn't exist on remote yet)
+    if (response.status === 404) {
+      const localParsed = parseYamlOrThrow(localContent, localPath);
+      const summary = compareYamlObjects({}, localParsed);
+      const patch = buildUnifiedPatch('', localContent, `schemas/${fileName}`);
+
+      fileResults.push({
+        fileName,
+        localPath,
+        remoteUrl,
+        changed: true,
+        isNew: true,
+        isDeleted: false,
+        summary,
+        patch,
+      });
+      continue;
+    }
+
     if (!response.ok) {
       throw new Error(`Failed to fetch published schema ${remoteUrl}: HTTP ${response.status}`);
     }
@@ -174,12 +217,43 @@ export async function runSchemaDiffPublished(options = {}, deps = {}) {
       localPath,
       remoteUrl,
       changed,
+      isNew: false,
+      isDeleted: false,
       summary,
       patch,
     });
   }
 
+  // Detect deleted schemas (exist on remote but not locally)
+  if (knownRemoteFiles) {
+    const deletedFiles = knownRemoteFiles.filter((fileName) => !localFileSet.has(fileName));
+
+    for (const fileName of deletedFiles) {
+      const remoteUrl = `${baseUrl}/${fileName}`;
+
+      fileResults.push({
+        fileName,
+        localPath: null,
+        remoteUrl,
+        changed: true,
+        isNew: false,
+        isDeleted: true,
+        summary: {
+          addedPaths: [],
+          removedPaths: ['/'],
+          modifiedPaths: [],
+          addedCount: 0,
+          removedCount: 1,
+          modifiedCount: 0,
+        },
+        patch: '',
+      });
+    }
+  }
+
   const changedFiles = fileResults.filter((file) => file.changed).map((file) => file.fileName);
+  const newFiles = fileResults.filter((file) => file.isNew).map((file) => file.fileName);
+  const deletedFiles = fileResults.filter((file) => file.isDeleted).map((file) => file.fileName);
   const report = {
     generatedAt: now().toISOString(),
     baseUrl,
@@ -187,6 +261,8 @@ export async function runSchemaDiffPublished(options = {}, deps = {}) {
     comparedCount: fileResults.length,
     changedCount: changedFiles.length,
     changedFiles,
+    newFiles,
+    deletedFiles,
     files: fileResults,
   };
   const comment = renderSchemaDiffComment(report);
