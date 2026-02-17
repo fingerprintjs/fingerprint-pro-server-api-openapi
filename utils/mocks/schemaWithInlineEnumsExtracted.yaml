@@ -10,7 +10,7 @@ paths:
         - name: bot
           in: query
           schema:
-            $ref: '#/components/schemas/BotEnum'
+            $ref: '#/components/schemas/GetEventsBot'
           description: Bot filter description.
         - name: visitor_id
           in: query
@@ -19,7 +19,7 @@ paths:
         - name: device
           in: query
           schema:
-            $ref: '#/components/schemas/GetEventsDeviceEnum'
+            $ref: '#/components/schemas/GetEventsDevice'
   /v4/users:
     get:
       operationId: getUsers
@@ -27,7 +27,7 @@ paths:
         - name: bot
           in: query
           schema:
-            $ref: '#/components/schemas/BotEnum'
+            $ref: '#/components/schemas/GetUsersBot'
           description: Bot filter description.
   /v4/visits:
     get:
@@ -36,33 +36,39 @@ paths:
         - name: bot
           in: query
           schema:
-            $ref: '#/components/schemas/GetVisitsBotEnum'
+            $ref: '#/components/schemas/GetVisitsBot'
           description: Different description.
 components:
   schemas:
-    DeviceEnum:
+    Device:
       type: object
       properties:
         platform:
-          $ref: '#/components/schemas/PlatformEnum'
-    BotEnum:
+          $ref: '#/components/schemas/Platform'
+    GetEventsBot:
       type: string
       enum:
         - all
         - good
       description: Bot filter description.
-    GetEventsDeviceEnum:
+    GetEventsDevice:
       type: string
       enum:
         - desktop
         - mobile
-    GetVisitsBotEnum:
+    GetUsersBot:
+      type: string
+      enum:
+        - all
+        - good
+      description: Bot filter description.
+    GetVisitsBot:
       type: string
       enum:
         - detected
         - not_detected
       description: Different description.
-    PlatformEnum:
+    Platform:
       type: string
       enum:
         - web
