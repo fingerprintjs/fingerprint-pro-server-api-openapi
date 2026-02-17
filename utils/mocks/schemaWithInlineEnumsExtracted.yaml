@@ -40,7 +40,7 @@ paths:
           description: Different description.
 components:
   schemas:
-    DeviceEnum:
+    Device:
       type: object
       properties:
         platform:
