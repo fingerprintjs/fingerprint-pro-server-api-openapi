@@ -23,9 +23,9 @@ function hasYamlKey(yamlContent, key) {
 }
 
 const extractedEnumComponentsToCheck = {
-  bot: 'Bot',
+  bot: 'SearchEventsBot',
   vpn_confidence: 'SearchEventsVpnConfidence',
-  sdk_platform: 'SdkPlatform',
+  sdk_platform: 'SearchEventsSdkPlatform',
 };
 
 /**

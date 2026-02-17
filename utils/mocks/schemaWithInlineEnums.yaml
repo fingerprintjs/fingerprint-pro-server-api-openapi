@@ -32,8 +32,8 @@ paths:
     get:
       operationId: getUsers
       parameters:
-        # Structurally the same as the first enum, but in a different location
-        # Should result in a single extracted component
+        # Structurally the same as the first enum, but in a different operation
+        # Should result in a separate extracted component
         - name: bot
           in: query
           schema:

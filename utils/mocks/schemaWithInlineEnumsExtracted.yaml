@@ -10,7 +10,7 @@ paths:
         - name: bot
           in: query
           schema:
-            $ref: '#/components/schemas/Bot'
+            $ref: '#/components/schemas/GetEventsBot'
           description: Bot filter description.
         - name: visitor_id
           in: query
@@ -19,7 +19,7 @@ paths:
         - name: device
           in: query
           schema:
-            $ref: '#/components/schemas/Device'
+            $ref: '#/components/schemas/GetEventsDevice'
   /v4/users:
     get:
       operationId: getUsers
@@ -27,7 +27,7 @@ paths:
         - name: bot
           in: query
           schema:
-            $ref: '#/components/schemas/Bot'
+            $ref: '#/components/schemas/GetUsersBot'
           description: Bot filter description.
   /v4/visits:
     get:
@@ -45,17 +45,23 @@ components:
       properties:
         platform:
           $ref: '#/components/schemas/Platform'
-    Bot:
+    GetEventsBot:
       type: string
       enum:
         - all
         - good
       description: Bot filter description.
-    Device:
+    GetEventsDevice:
       type: string
       enum:
         - desktop
         - mobile
+    GetUsersBot:
+      type: string
+      enum:
+        - all
+        - good
+      description: Bot filter description.
     GetVisitsBot:
       type: string
       enum:

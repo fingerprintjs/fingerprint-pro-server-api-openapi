@@ -14,7 +14,7 @@ describe('Test extractInlineEnumsTransformer', () => {
     expect(result.toString()).toEqual(simpleYaml.toString());
   });
 
-  it('extracts inline enums and uses path context for collisions', () => {
+  it('extracts inline enums and isolates equivalent enums per operation', () => {
     const result = extractInlineEnums(schemaWithInlineEnums);
     expect(result.toString()).toEqual(schemaWithInlineEnumsExtracted.toString());
   });

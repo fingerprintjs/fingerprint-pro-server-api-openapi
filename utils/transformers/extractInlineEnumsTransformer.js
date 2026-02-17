@@ -36,29 +36,26 @@ function getLastPathValue(path, key) {
 }
 
 /**
- * Gets the path context for an enum (operationId or path segment) to disambiguate collisions.
+ * Returns operationId prefix when an enum is under a concrete path operation.
  * @param {object} apiDefinition
  * @param {(string | number)[]} path
  * @returns {string | null}
  */
-function getPathContext(apiDefinition, path) {
+function getOperationPrefix(apiDefinition, path) {
   // Check if this enum is under a path operation
   if (path[0] !== 'paths' || path.length < 3) {
     return null;
   }
 
   const pathKey = String(path[1]); // e.g., '/v4/events'
-  const method = String(path[2]); // e.g., 'get'
-  const operation = apiDefinition.paths?.[pathKey]?.[method];
+  const method = String(path[2]).toLowerCase(); // e.g., 'get'
 
-  // Prefer operationId if available
-  if (operation?.operationId) {
-    return toPascalCase(operation.operationId);
+  const operation = apiDefinition.paths?.[pathKey]?.[method];
+  if (!operation || typeof operation !== 'object') {
+    return null;
   }
 
-  // Fall back to last path segment (e.g., '/v4/events' -> 'Events')
-  const lastSegment = pathKey.split('/').filter(Boolean).pop();
-  return lastSegment ? toPascalCase(lastSegment) : null;
+  return toPascalCase(String(operation.operationId));
 }
 
 /**
@@ -81,45 +78,6 @@ function getComponentBaseName(target) {
   }
 
   return toPascalCase(valueName || 'Inline');
-}
-
-/**
- * Gets a unique component name, using path context to disambiguate before falling back to numeric suffix.
- * @param {string} baseName - Non-empty base name for the component (e.g., 'Status')
- * @param {string | null} pathContext
- * @param {Set<string>} usedNames
- * @returns {string}
- */
-function getUniqueComponentName(baseName, pathContext, usedNames) {
-  if (!baseName) {
-    throw new Error('baseName is required - this indicates a malformed schema or bug in name derivation');
-  }
-
-  // Try simple name first
-  if (!usedNames.has(baseName)) {
-    usedNames.add(baseName);
-    return baseName;
-  }
-
-  // Try path-prefixed name on collision (e.g., GetEventsStatus)
-  if (pathContext) {
-    const pathPrefixedName = `${pathContext}${baseName}`;
-    if (!usedNames.has(pathPrefixedName)) {
-      usedNames.add(pathPrefixedName);
-      return pathPrefixedName;
-    }
-  }
-
-  // Fall back to numeric suffix as last resort
-  let suffix = 2;
-  let suffixedName = `${baseName}${suffix}`;
-  while (usedNames.has(suffixedName)) {
-    suffix += 1;
-    suffixedName = `${baseName}${suffix}`;
-  }
-
-  usedNames.add(suffixedName);
-  return suffixedName;
 }
 
 /**
@@ -179,29 +137,20 @@ export function extractInlineEnumsTransformer(apiDefinition) {
   }
 
   const components = apiDefinition.components.schemas;
-  const usedComponentNames = new Set(Object.keys(components));
-  const bySchemaSignature = new Map();
 
   for (const inlineEnum of inlineEnums) {
     const schema = structuredClone(inlineEnum.node);
     const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
+    const baseName = getComponentBaseName(inlineEnum);
+    const operationPrefix = getOperationPrefix(apiDefinition, inlineEnum.path);
 
     // Inherit description from parent if not already set
     if (parent?.description && !schema.description) {
       schema.description = parent.description;
     }
 
-    // Use stringify signature to deduplicate enums with the same structure
-    const signature = JSON.stringify(schema);
-
-    let componentName = bySchemaSignature.get(signature);
-    if (!componentName) {
-      const baseName = getComponentBaseName(inlineEnum);
-      const pathContext = getPathContext(apiDefinition, inlineEnum.path);
-      componentName = getUniqueComponentName(baseName, pathContext, usedComponentNames);
-      components[componentName] = schema;
-      bySchemaSignature.set(signature, componentName);
-    }
+    const componentName = operationPrefix ? `${operationPrefix}${baseName}` : baseName;
+    components[componentName] = schema;
 
     // Replace inline enum with component reference
     if (inlineEnum.parent && inlineEnum.key !== null) {
