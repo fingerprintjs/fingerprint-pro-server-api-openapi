@@ -30,6 +30,23 @@ Code of demo application is in [src](src) folder.
 - You can also run `pnpm run lintSchema` to run your schema through a linter.
 - This check also runs in the CI pipeline for your PR.
 
+### Comparing local schemas with published schemas
+
+This repository includes a schema diff script used by CI to post a sticky PR comment with schema changes vs currently published GitHub Pages schemas.
+
+Run it locally:
+
+1. Install dependencies: `pnpm install`
+2. Build local schemas: `pnpm build`
+3. Compare local build output (`dist/schemas`) with published schemas: `pnpm schema:diff:published`
+
+Optional:
+
+- Save a JSON report: `pnpm schema:diff:published -- --json-out ./tmp/schema-diff-report.json`
+- Save the rendered PR comment body: `pnpm schema:diff:published -- --comment-out ./tmp/schema-diff-comment.md`
+- Compare against a custom published base URL:
+  `pnpm schema:diff:published -- --base-url https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas`
+
 ### Schema Validation
 
 The schema is currently created separately from the API code. This is a bad practice, but we will fix it in future API versions.

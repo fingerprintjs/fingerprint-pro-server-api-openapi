@@ -1,0 +1,97 @@
+name: Schema diff PR comment
+
+on:
+  pull_request:
+    types:
+      - assigned
+      - unassigned
+      - labeled
+      - unlabeled
+      - opened
+      - edited
+      - closed
+      - reopened
+      - synchronize
+      - converted_to_draft
+      - ready_for_review
+      - locked
+      - unlocked
+      - review_requested
+      - review_request_removed
+      - auto_merge_enabled
+      - auto_merge_disabled
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  schema-diff-comment:
+    name: Compare schemas and update PR comment
+    if: ${{ github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0eb0e970826653e8af98de91bec007fbd58a23e0
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Build schemas
+        run: pnpm build
+
+      - name: Generate schema diff report
+        run: pnpm schema:diff:published -- --json-out schema-diff-report.json --comment-out schema-diff-comment.md
+
+      - name: Upsert PR comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('node:fs');
+
+            const marker = '<!-- schema-diff-comment:v1 -->';
+            const body = fs.readFileSync('schema-diff-comment.md', 'utf8');
+            const issue_number = context.issue.number;
+            const { owner, repo } = context.repo;
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+
+            const existingComment = comments.find((comment) => comment.body && comment.body.includes(marker));
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existingComment.id,
+                body,
+              });
+              core.info(`Updated schema diff comment: ${existingComment.id}`);
+            } else {
+              const created = await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+              core.info(`Created schema diff comment: ${created.data.id}`);
+            }
