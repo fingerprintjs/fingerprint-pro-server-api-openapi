@@ -63,8 +63,9 @@ function getPathContext(apiDefinition, path) {
 
 /**
  * Gets a base component name for an inline enum based on its location in the schema.
+ * Always returns a non-empty string ending with 'Enum' (e.g., 'StatusEnum', 'InlineEnum').
  * @param {InlineEnum} target
- * @returns {string}
+ * @returns {string} Non-empty component base name
  */
 function getComponentBaseName(target) {
   let valueName = null;
@@ -84,23 +85,25 @@ function getComponentBaseName(target) {
 
 /**
  * Gets a unique component name, using path context to disambiguate before falling back to numeric suffix.
- * @param {string} baseName
+ * @param {string} baseName - Non-empty base name for the component (e.g., 'StatusEnum')
  * @param {string | null} pathContext
  * @param {Set<string>} usedNames
  * @returns {string}
  */
 function getUniqueComponentName(baseName, pathContext, usedNames) {
-  const name = baseName || 'InlineEnum';
+  if (!baseName) {
+    throw new Error('baseName is required - this indicates a malformed schema or bug in name derivation');
+  }
 
   // Try simple name first
-  if (!usedNames.has(name)) {
-    usedNames.add(name);
-    return name;
+  if (!usedNames.has(baseName)) {
+    usedNames.add(baseName);
+    return baseName;
   }
 
   // Try path-prefixed name on collision (e.g., GetEventsStatusEnum)
   if (pathContext) {
-    const pathPrefixedName = `${pathContext}${name}`;
+    const pathPrefixedName = `${pathContext}${baseName}`;
     if (!usedNames.has(pathPrefixedName)) {
       usedNames.add(pathPrefixedName);
       return pathPrefixedName;
@@ -109,10 +112,10 @@ function getUniqueComponentName(baseName, pathContext, usedNames) {
 
   // Fall back to numeric suffix as last resort
   let suffix = 2;
-  let suffixedName = `${name}${suffix}`;
+  let suffixedName = `${baseName}${suffix}`;
   while (usedNames.has(suffixedName)) {
     suffix += 1;
-    suffixedName = `${name}${suffix}`;
+    suffixedName = `${baseName}${suffix}`;
   }
 
   usedNames.add(suffixedName);
