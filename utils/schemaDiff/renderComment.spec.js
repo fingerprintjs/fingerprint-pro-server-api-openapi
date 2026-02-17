@@ -29,9 +29,9 @@ describe('renderSchemaDiffComment', () => {
           remoteUrl: 'https://example.com/schemas/z.yaml',
           changed: true,
           summary: {
-            addedPaths: ['/z/new-a', '/z/new-b'],
-            removedPaths: [],
-            modifiedPaths: ['/z/old'],
+            addedElements: ['/z/new-a', '/z/new-b'],
+            removedElements: [],
+            modifiedElements: ['/z/old'],
             addedCount: 2,
             removedCount: 0,
             modifiedCount: 1,
@@ -43,9 +43,9 @@ describe('renderSchemaDiffComment', () => {
           remoteUrl: 'https://example.com/schemas/a.yaml',
           changed: true,
           summary: {
-            addedPaths: [],
-            removedPaths: ['/a/remove'],
-            modifiedPaths: ['/a/update'],
+            addedElements: [],
+            removedElements: ['/a/remove'],
+            modifiedElements: ['/a/update'],
             addedCount: 0,
             removedCount: 1,
             modifiedCount: 1,
@@ -61,7 +61,7 @@ describe('renderSchemaDiffComment', () => {
     expect(output).toContain('### `z.yaml`');
     expect(output.indexOf('### `a.yaml`')).toBeLessThan(output.indexOf('### `z.yaml`'));
     expect(output).toContain('<details>');
-    expect(output).toContain('<summary>Added paths (2)</summary>');
+    expect(output).toContain('<summary>Added elements (2)</summary>');
     expect(output).toContain('`/z/new-a`');
     expect(output).toContain('`/z/new-b`');
     expect(output).toContain('```diff');
@@ -84,9 +84,9 @@ describe('renderSchemaDiffComment', () => {
           isNew: true,
           isDeleted: false,
           summary: {
-            addedPaths: ['/info'],
-            removedPaths: [],
-            modifiedPaths: [],
+            addedElements: ['/info'],
+            removedElements: [],
+            modifiedElements: [],
             addedCount: 1,
             removedCount: 0,
             modifiedCount: 0,
@@ -119,9 +119,9 @@ describe('renderSchemaDiffComment', () => {
           isNew: false,
           isDeleted: true,
           summary: {
-            addedPaths: [],
-            removedPaths: ['/'],
-            modifiedPaths: [],
+            addedElements: [],
+            removedElements: ['/'],
+            modifiedElements: [],
             addedCount: 0,
             removedCount: 1,
             modifiedCount: 0,

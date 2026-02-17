@@ -130,10 +130,16 @@ export function parseArgs(argv) {
     if (knownRemoteFiles.match) {
       if (knownRemoteFiles.needsNext) {
         if (!nextArg) throw new Error('Missing value for --known-remote-files');
-        options.knownRemoteFiles = nextArg.split(',').map((f) => f.trim()).filter(Boolean);
+        options.knownRemoteFiles = nextArg
+          .split(',')
+          .map((f) => f.trim())
+          .filter(Boolean);
         index += 1;
       } else {
-        options.knownRemoteFiles = knownRemoteFiles.value.split(',').map((f) => f.trim()).filter(Boolean);
+        options.knownRemoteFiles = knownRemoteFiles.value
+          .split(',')
+          .map((f) => f.trim())
+          .filter(Boolean);
       }
       continue;
     }
@@ -239,9 +245,9 @@ export async function runSchemaDiffPublished(options = {}, deps = {}) {
         isNew: false,
         isDeleted: true,
         summary: {
-          addedPaths: [],
-          removedPaths: ['/'],
-          modifiedPaths: [],
+          addedElements: [],
+          removedElements: ['/'],
+          modifiedElements: [],
           addedCount: 0,
           removedCount: 1,
           modifiedCount: 0,

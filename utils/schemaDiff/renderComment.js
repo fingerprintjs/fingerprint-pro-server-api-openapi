@@ -1,15 +1,15 @@
 export const SCHEMA_DIFF_COMMENT_MARKER = '<!-- schema-diff-comment:v1 -->';
 
-function appendPathDetails(lines, label, paths) {
+function appendElementDetails(lines, label, elements) {
   lines.push('<details>');
-  lines.push(`<summary>${label} (${paths.length})</summary>`);
+  lines.push(`<summary>${label} (${elements.length})</summary>`);
   lines.push('');
 
-  if (paths.length === 0) {
+  if (elements.length === 0) {
     lines.push('_None_');
   } else {
-    paths.forEach((p) => {
-      lines.push(`- \`${p}\``);
+    elements.forEach((element) => {
+      lines.push(`- \`${element}\``);
     });
   }
 
@@ -37,9 +37,9 @@ function getFileStatusLabel(file) {
  *     isNew?: boolean,
  *     isDeleted?: boolean,
  *     summary: {
- *       addedPaths: string[],
- *       removedPaths: string[],
- *       modifiedPaths: string[],
+ *       addedElements: string[],
+ *       removedElements: string[],
+ *       modifiedElements: string[],
  *       addedCount: number,
  *       removedCount: number,
  *       modifiedCount: number
@@ -85,9 +85,9 @@ export function renderSchemaDiffComment(report) {
     lines.push(
       `Summary: +${file.summary.addedCount} added, -${file.summary.removedCount} removed, ~${file.summary.modifiedCount} modified`
     );
-    appendPathDetails(lines, 'Added paths', file.summary.addedPaths);
-    appendPathDetails(lines, 'Removed paths', file.summary.removedPaths);
-    appendPathDetails(lines, 'Modified paths', file.summary.modifiedPaths);
+    appendElementDetails(lines, 'Added elements', file.summary.addedElements);
+    appendElementDetails(lines, 'Removed elements', file.summary.removedElements);
+    appendElementDetails(lines, 'Modified elements', file.summary.modifiedElements);
     lines.push('<details>');
     lines.push('<summary>Changed lines patch</summary>');
     lines.push('');

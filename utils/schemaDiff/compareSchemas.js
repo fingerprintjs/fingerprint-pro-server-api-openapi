@@ -23,12 +23,12 @@ function compareValues(remoteValue, localValue, pathSegments, summary) {
       const hasLocal = index < localValue.length;
 
       if (!hasRemote && hasLocal) {
-        summary.addedPaths.push(toJsonPointer(nextPath));
+        summary.addedElements.push(toJsonPointer(nextPath));
         continue;
       }
 
       if (hasRemote && !hasLocal) {
-        summary.removedPaths.push(toJsonPointer(nextPath));
+        summary.removedElements.push(toJsonPointer(nextPath));
         continue;
       }
 
@@ -49,12 +49,12 @@ function compareValues(remoteValue, localValue, pathSegments, summary) {
       const hasLocal = Object.hasOwn(localValue, key);
 
       if (!hasRemote && hasLocal) {
-        summary.addedPaths.push(toJsonPointer(nextPath));
+        summary.addedElements.push(toJsonPointer(nextPath));
         return;
       }
 
       if (hasRemote && !hasLocal) {
-        summary.removedPaths.push(toJsonPointer(nextPath));
+        summary.removedElements.push(toJsonPointer(nextPath));
         return;
       }
 
@@ -65,7 +65,7 @@ function compareValues(remoteValue, localValue, pathSegments, summary) {
   }
 
   if (!Object.is(remoteValue, localValue)) {
-    summary.modifiedPaths.push(toJsonPointer(pathSegments));
+    summary.modifiedElements.push(toJsonPointer(pathSegments));
   }
 }
 
@@ -76,21 +76,21 @@ function compareValues(remoteValue, localValue, pathSegments, summary) {
  */
 export function compareYamlObjects(remoteSchema, localSchema) {
   const summary = {
-    addedPaths: [],
-    removedPaths: [],
-    modifiedPaths: [],
+    addedElements: [],
+    removedElements: [],
+    modifiedElements: [],
   };
 
   compareValues(remoteSchema, localSchema, [], summary);
 
-  summary.addedPaths.sort();
-  summary.removedPaths.sort();
-  summary.modifiedPaths.sort();
+  summary.addedElements.sort();
+  summary.removedElements.sort();
+  summary.modifiedElements.sort();
 
   return {
     ...summary,
-    addedCount: summary.addedPaths.length,
-    removedCount: summary.removedPaths.length,
-    modifiedCount: summary.modifiedPaths.length,
+    addedCount: summary.addedElements.length,
+    removedCount: summary.removedElements.length,
+    modifiedCount: summary.modifiedElements.length,
   };
 }

@@ -26,9 +26,9 @@ describe('compareYamlObjects', () => {
     const result = compareYamlObjects(remoteSchema, localSchema);
 
     expect(result).toEqual({
-      addedPaths: ['/array/2', '/nested/added', '/newKey'],
-      removedPaths: ['/removedKey'],
-      modifiedPaths: ['/array/1', '/nested/changed'],
+      addedElements: ['/array/2', '/nested/added', '/newKey'],
+      removedElements: ['/removedKey'],
+      modifiedElements: ['/array/1', '/nested/changed'],
       addedCount: 3,
       removedCount: 1,
       modifiedCount: 2,
@@ -47,7 +47,7 @@ describe('compareYamlObjects', () => {
     };
 
     const result = compareYamlObjects(remoteSchema, localSchema);
-    expect(result.modifiedPaths).toEqual(['/payload']);
+    expect(result.modifiedElements).toEqual(['/payload']);
     expect(result.modifiedCount).toBe(1);
     expect(result.addedCount).toBe(0);
     expect(result.removedCount).toBe(0);
