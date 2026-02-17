@@ -1,0 +1,82 @@
+openapi: 3.1.1
+info:
+  title: test
+  version: '1.0'
+paths:
+  /v4/events:
+    parameters:
+      - name: x-region
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+            - us
+            - eu
+    get:
+      operationId: getEvents
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetEventsBot'
+          description: Bot filter description.
+        - name: visitor_id
+          in: query
+          schema:
+            type: string
+        - name: device
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetEventsDevice'
+  /v4/users:
+    get:
+      operationId: getUsers
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetUsersBot'
+          description: Bot filter description.
+  /v4/visits:
+    get:
+      operationId: getVisits
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            $ref: '#/components/schemas/GetVisitsBot'
+          description: Different description.
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+            - web
+            - mobile
+    GetEventsBot:
+      type: string
+      enum:
+        - all
+        - good
+      description: Bot filter description.
+    GetEventsDevice:
+      type: string
+      enum:
+        - desktop
+        - mobile
+    GetUsersBot:
+      type: string
+      enum:
+        - all
+        - good
+      description: Bot filter description.
+    GetVisitsBot:
+      type: string
+      enum:
+        - detected
+        - not_detected
+      description: Different description.

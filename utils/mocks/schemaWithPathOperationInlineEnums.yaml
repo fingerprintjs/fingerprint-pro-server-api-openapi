@@ -1,0 +1,79 @@
+openapi: 3.1.1
+info:
+  title: test
+  version: '1.0'
+paths:
+  /v4/events:
+    parameters:
+      # Path-level parameter (outside an operation) should remain inline
+      - name: x-region
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+            - us
+            - eu
+    get:
+      operationId: getEvents
+      parameters:
+        - name: bot
+          in: query
+          schema:
+            type: string
+            enum:
+              - all
+              - good
+          description: Bot filter description.
+        - name: visitor_id
+          in: query
+          schema:
+            type: string
+        # This enum would normally be named Device, but that name is already
+        # taken by an existing component, so it should use the operation prefix
+        - name: device
+          in: query
+          schema:
+            type: string
+            enum:
+              - desktop
+              - mobile
+  /v4/users:
+    get:
+      operationId: getUsers
+      parameters:
+        # Structurally the same as the first enum, but in a different operation
+        # Should result in a separate extracted component
+        - name: bot
+          in: query
+          schema:
+            type: string
+            enum:
+              - all
+              - good
+          description: Bot filter description.
+  /v4/visits:
+    get:
+      operationId: getVisits
+      parameters:
+        # Same name but structurally different than the first enum
+        # Should result in a separate extracted component, avoiding name collisions
+        - name: bot
+          in: query
+          schema:
+            type: string
+            enum:
+              - detected
+              - not_detected
+          description: Different description.
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        # Component-level enum should remain inline      
+        platform:
+          type: string
+          enum:
+            - web
+            - mobile
