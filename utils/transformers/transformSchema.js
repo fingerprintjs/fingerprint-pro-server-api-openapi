@@ -12,6 +12,7 @@ import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
 import { extractPathOperationInlineEnumsTransformer } from './extractPathOperationInlineEnumsTransformer.js';
 import { parseYaml } from './parseYaml.js';
+import { removeUnusedSchemasTransformer } from './removeUnusedSchemasTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -22,9 +23,15 @@ export const commonTransformers = [
 
 const defaultTransformers = [...commonTransformers];
 
-export const v4Transformers = [...commonTransformers, removeFieldsByPrefixTransformer('x-ruleset-')];
+export const v4CommonTransformers = [...commonTransformers, removeFieldsByPrefixTransformer('x-ruleset-')];
 
-export const v4SchemaForSdksTransformers = [
+export const v4Transformers = [
+  ...v4CommonTransformers,
+  // This transformer should run last to ensure all unused schemas are found
+  removeUnusedSchemasTransformer,
+];
+
+export const v4SchemaForSdksCommonTransformers = [
   ...v4Transformers,
   extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
@@ -34,12 +41,20 @@ export const v4SchemaForSdksTransformers = [
   removeBigExamplesTransformer,
 ];
 
+export const v4SchemaForSdksTransformers = [
+  ...v4SchemaForSdksCommonTransformers,
+  // This transformer should run last to ensure all unused schemas are found
+  removeUnusedSchemasTransformer,
+];
+
 export const v4SchemaForSdksNormalizedTransformers = [
-  ...v4SchemaForSdksTransformers,
+  ...v4SchemaForSdksCommonTransformers,
   resolveOneOfTransformer,
   resolveAnyOfTransformer,
   // do this at the end of the pipeline again to make sure previous transformers didn't introduce it again
   removeFieldTransformer('additionalProperties'),
+  // This transformer should run last to ensure all unused schemas are found
+  removeUnusedSchemasTransformer,
 ];
 
 export const readmeApiExplorerTransformers = [
