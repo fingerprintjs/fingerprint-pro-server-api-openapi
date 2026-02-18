@@ -1,0 +1,11 @@
+type: object
+description: Common fields for all event rule actions.
+required:
+  - ruleset_id
+properties:
+  ruleset_id:
+    $ref: RulesetId.yaml
+  rule_id:
+    $ref: RuleId.yaml
+  rule_expression:
+    $ref: RuleExpression.yaml
