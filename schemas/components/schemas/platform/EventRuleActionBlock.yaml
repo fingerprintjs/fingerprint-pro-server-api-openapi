@@ -7,8 +7,10 @@ allOf:
       - type
     properties:
       type:
-        $ref: RuleActionType.yaml
-        const: block
+        type: string
+        description: Describes the action to take with the request.
+        enum:
+          - block
       status_code:
         $ref: StatusCode.yaml
       headers:

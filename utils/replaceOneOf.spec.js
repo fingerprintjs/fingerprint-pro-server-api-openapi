@@ -245,6 +245,70 @@ describe('Test replaceOneOf', () => {
     });
   });
 
+  it('converts enum properties to deduplicated enum when all schemas have enum values', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              enum: ['allow'],
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              enum: ['block'],
+            },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.action).toEqual({
+      type: 'string',
+      enum: ['allow', 'block'],
+    });
+  });
+
+  it('converts mixed const/enum properties to deduplicated enum when all schemas are constrained', () => {
+    const schema = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              const: 'allow',
+            },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: {
+              type: 'string',
+              enum: ['block'],
+            },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.action).toEqual({
+      type: 'string',
+      enum: ['allow', 'block'],
+    });
+  });
+
   it('does not convert to enum and removes const when only some schemas have const values', () => {
     // Test with const first, then without
     const schema1 = {
@@ -277,6 +341,48 @@ describe('Test replaceOneOf', () => {
           type: 'object',
           properties: {
             action: { type: 'string', const: 'allow' },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema1, {}, 'oneOf');
+    replaceOneOf(schema2, {}, 'oneOf');
+
+    expect(schema1.properties.action).toEqual({ type: 'string' });
+    expect(schema2.properties.action).toEqual({ type: 'string' });
+  });
+
+  it('removes enum when only some schemas have enum values', () => {
+    const schema1 = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: { type: 'string', enum: ['allow'] },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: { type: 'string' },
+          },
+        },
+      ],
+    };
+
+    const schema2 = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            action: { type: 'string' },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            action: { type: 'string', enum: ['allow'] },
           },
         },
       ],
