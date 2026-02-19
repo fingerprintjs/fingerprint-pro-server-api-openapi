@@ -1,9 +1,11 @@
 import { walkJson } from '../walkJson.js';
 
-export function removeFieldTransformer(fieldName) {
+export function removeFieldTransformer(fieldName, expectedValue) {
   return function (apiDefinition) {
     walkJson(apiDefinition, fieldName, (partWithKey) => {
-      delete partWithKey[fieldName];
+      if (expectedValue === undefined || partWithKey[fieldName] === expectedValue) {
+        delete partWithKey[fieldName];
+      }
     });
   };
 }
