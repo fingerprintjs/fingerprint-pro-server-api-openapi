@@ -30,7 +30,7 @@ export const v4SchemaForSdksTransformers = [
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
-  removeFieldTransformer('additionalProperties'),
+  removeFieldTransformer('additionalProperties', false),
   removeBigExamplesTransformer,
 ];
 
@@ -39,7 +39,7 @@ export const v4SchemaForSdksNormalizedTransformers = [
   resolveOneOfTransformer,
   resolveAnyOfTransformer,
   // do this at the end of the pipeline again to make sure previous transformers didn't introduce it again
-  removeFieldTransformer('additionalProperties'),
+  removeFieldTransformer('additionalProperties', false),
 ];
 
 export const readmeApiExplorerTransformers = [
