@@ -7,9 +7,8 @@ allOf:
       - type
     properties:
       type:
-        type: string
-        description: Describes the action to take with the request.
-        enum:
-          - allow
+        allOf:
+          - $ref: RuleActionType.yaml
+          - const: allow
       request_header_modifications:
         $ref: RequestHeaderModifications.yaml

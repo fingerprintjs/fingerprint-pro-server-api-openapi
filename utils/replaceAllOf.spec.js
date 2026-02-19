@@ -78,4 +78,31 @@ describe('Test replaceAllOf', () => {
       required: ['visitorId', 'browserDetails', 'ip', 'ipLocation'],
     });
   });
+
+  it('resolves non-object allOf with referenced enum and const', () => {
+    const schema = {
+      allOf: [
+        {
+          $ref: '#/components/schemas/RuleActionType',
+        },
+        {
+          const: 'allow',
+        },
+      ],
+    };
+
+    replaceAllOf(schema, {
+      RuleActionType: {
+        type: 'string',
+        description: 'Describes the action to take with the request.',
+        enum: ['allow', 'block'],
+      },
+    });
+
+    expect(schema).toEqual({
+      type: 'string',
+      description: 'Describes the action to take with the request.',
+      const: 'allow',
+    });
+  });
 });
