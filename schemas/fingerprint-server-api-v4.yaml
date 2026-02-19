@@ -948,6 +948,7 @@ components:
       description: >-
         A customer-provided value or an object that was sent with the
         identification request or updated later.
+      additionalProperties: true
     Url:
       type: string
       description: >
@@ -2320,6 +2321,7 @@ components:
           description: >-
             A customer-provided value or an object that was sent with the
             identification request or updated later.
+          additionalProperties: true
         suspect:
           type: boolean
           description: Suspect flag indicating observed suspicious or fraudulent event
