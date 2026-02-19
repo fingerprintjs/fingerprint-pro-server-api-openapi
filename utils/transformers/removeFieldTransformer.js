@@ -1,9 +1,9 @@
 import { walkJson } from '../walkJson.js';
 
-export function removeFieldTransformer(fieldName, expectedValue) {
+export function removeFieldTransformer(fieldName, withValue) {
   return function (apiDefinition) {
     walkJson(apiDefinition, fieldName, (partWithKey) => {
-      if (expectedValue === undefined || partWithKey[fieldName] === expectedValue) {
+      if (withValue === undefined || partWithKey[fieldName] === withValue) {
         delete partWithKey[fieldName];
       }
     });
