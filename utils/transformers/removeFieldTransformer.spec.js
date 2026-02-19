@@ -24,7 +24,7 @@ describe('Test removeFieldTransformer', () => {
     expect(result.toString()).toEqual(schemaWithXReadmeCleaned.toString());
   });
 
-  it('removes field only when value matches expectedValue', () => {
+  it('removes field only when value matches', () => {
     const result = removeAdditionalPropertiesFalseFromSchema(simpleWithAdditionalProperties);
     expect(result.toString()).toEqual(simpleWithAdditionalPropertiesCleaned.toString());
   });
