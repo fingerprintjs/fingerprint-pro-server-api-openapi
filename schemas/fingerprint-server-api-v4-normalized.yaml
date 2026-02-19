@@ -839,22 +839,6 @@ components:
       description: >
         `true` if we determined that this payload was replayed, `false`
         otherwise.
-    TriggeredBy:
-      type: array
-      description: The rule(s) associated with triggering the webhook via rule engine.
-      items:
-        type: object
-        required:
-          - id
-          - name
-          - description
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          description:
-            type: string
     IdentificationConfidence:
       type: object
       required:
@@ -1350,12 +1334,6 @@ components:
     RuleExpression:
       type: string
       description: The expression of the rule that matched the identification event.
-    RuleActionType:
-      type: string
-      description: Describes the action to take with the request.
-      enum:
-        - allow
-        - block
     RuleActionHeaderField:
       type: object
       required:
@@ -1391,45 +1369,12 @@ components:
           description: The list of headers to append.
           items:
             $ref: '#/components/schemas/RuleActionHeaderField'
-    EventRuleActionAllow:
-      type: object
-      description: >-
-        Informs the client that the request should be forwarded to the origin
-        with optional request header modifications.
-      required:
-        - type
-      properties:
-        type:
-          $ref: '#/components/schemas/RuleActionType'
-          const: allow
-        request_header_modifications:
-          $ref: '#/components/schemas/RequestHeaderModifications'
     StatusCode:
       type: integer
       description: A valid HTTP status code.
     RuleActionBody:
       type: string
       description: The response body to send to the client.
-    EventRuleActionBlock:
-      type: object
-      description: >-
-        Informs the client the request should be blocked using the response
-        described by this rule action.
-      required:
-        - type
-      properties:
-        type:
-          $ref: '#/components/schemas/RuleActionType'
-          const: block
-        status_code:
-          $ref: '#/components/schemas/StatusCode'
-        headers:
-          type: array
-          description: A list of headers to send.
-          items:
-            $ref: '#/components/schemas/RuleActionHeaderField'
-        body:
-          $ref: '#/components/schemas/RuleActionBody'
     EventRuleAction:
       type: object
       description: >-
@@ -1437,9 +1382,6 @@ components:
         the ruleset that matched the event. When getting an event by event ID,
         the rule_action will only be included when the ruleset_id query
         parameter is specified.
-      required:
-        - ruleset_id
-        - type
       properties:
         ruleset_id:
           $ref: '#/components/schemas/RulesetId'
@@ -1448,7 +1390,8 @@ components:
         rule_expression:
           $ref: '#/components/schemas/RuleExpression'
         type:
-          $ref: '#/components/schemas/RuleActionType'
+          type: string
+          description: Describes the action to take with the request.
           enum:
             - allow
             - block
@@ -1463,6 +1406,9 @@ components:
             $ref: '#/components/schemas/RuleActionHeaderField'
         body:
           $ref: '#/components/schemas/RuleActionBody'
+      required:
+        - ruleset_id
+        - type
     SuspectScore:
       type: integer
       description: >
