@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Fingerprint server API
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: https://api.fpjs.io
+    description: Global
+paths:
+  /visitors/{visitor_id}:
+    get:
+      parameters:
+        - name: visitor_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: mcEozNgqhKgmfXx7ZaMW
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        visitorId:
+          type: string
+          example: null
+      required:
+        - visitorId
+        - visits
+      title: Response
+    Request:
+      type: object
+      additionalProperties: true

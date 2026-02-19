@@ -12,8 +12,9 @@ const v4Schema = fs.readFileSync('./schemas/fingerprint-server-api-v4.yaml');
 
 /** @param {Buffer | string} yamlContent */
 /** @param {string} key */
-function hasYamlKey(yamlContent, key) {
-  const pattern = new RegExp(`^\\s*${key}\\s*:`, 'm');
+/** @param {unknown} value */
+function hasYamlKey(yamlContent, key, value) {
+  const pattern = new RegExp(value !== undefined ? `^\\s*${key}\\s*:\\s*${value}\\s*$` : `^\\s*${key}\\s*:`, 'm');
   return pattern.test(yamlContent);
 }
 
@@ -54,11 +55,11 @@ describe('Test transformSchema pipelines for v4', () => {
     expect(parsed.components.schemas.BotEnum).toBeUndefined();
   });
 
-  it('v4 sdk schema removes examples and additionalProperties while keeping oneOf operators', () => {
+  it('v4 sdk schema removes examples and additionalProperties: false while keeping oneOf operators', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksTransformers);
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
-    expect(hasYamlKey(result, 'additionalProperties')).toBe(false);
+    expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
 
     const parsed = parseYaml(result);
@@ -66,11 +67,11 @@ describe('Test transformSchema pipelines for v4', () => {
     expectPathOperationInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
   });
 
-  it('v4 normalized sdk schema removes examples, additionalProperties, composition operators and path-operation inline enums', () => {
+  it('v4 normalized sdk schema removes examples, additionalProperties: false, composition operators and path-operation inline enums', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
-    expect(hasYamlKey(result, 'additionalProperties')).toBe(false);
+    expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(false);
     expect(hasYamlKey(result, 'anyOf')).toBe(false);
 
