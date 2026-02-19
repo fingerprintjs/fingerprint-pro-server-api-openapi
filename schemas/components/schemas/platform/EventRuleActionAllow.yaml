@@ -1,10 +1,14 @@
-type: object
 description: Informs the client that the request should be forwarded to the origin with optional request header modifications.
-required:
-  - type
-properties:
-  type:
-    $ref: RuleActionType.yaml
-    const: allow
-  request_header_modifications:
-    $ref: RequestHeaderModifications.yaml
+type: object
+allOf:
+  - $ref: EventRuleActionBase.yaml
+  - type: object
+    required:
+      - type
+    properties:
+      type:
+        allOf:
+          - $ref: RuleActionType.yaml
+          - const: allow
+      request_header_modifications:
+        $ref: RequestHeaderModifications.yaml

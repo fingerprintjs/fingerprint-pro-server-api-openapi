@@ -24,7 +24,8 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
   const properties = {};
   const propertyCounts = {};
   const requiredCounts = {};
-  const constValues = {}; // Track const values for each property
+  const literalValues = {}; // Track const/enum values for each property
+  const constrainedCounts = {}; // Track how many schemas constrain each property with const/enum
 
   // First pass: collect all properties and track which schemas they appear in
   // Keep the last occurrence of each property
@@ -43,38 +44,42 @@ export function replaceOneOf(currentComponent, components, operator = 'oneOf') {
         // Clone the property to avoid mutating the original schema
         properties[propName] = structuredClone(currentItem.properties[propName]);
 
-        if (!constValues[propName]) {
-          constValues[propName] = [];
+        if (!literalValues[propName]) {
+          literalValues[propName] = [];
         }
 
-        // Collect const values if present
+        // Collect constrained values if present.
+        // This allows normalized schemas to merge discriminator values from either const or enum.
         const prop = currentItem.properties[propName];
         if (prop && 'const' in prop) {
-          constValues[propName].push(prop.const);
+          constrainedCounts[propName] = (constrainedCounts[propName] || 0) + 1;
+          literalValues[propName].push(prop.const);
+        } else if (prop && Array.isArray(prop.enum)) {
+          constrainedCounts[propName] = (constrainedCounts[propName] || 0) + 1;
+          literalValues[propName].push(...prop.enum);
         }
       }
     }
   }
 
-  // Convert properties with multiple const values to enum
-  // Only convert if the property appears as const in ALL schemas
+  // Convert constrained properties to enum when ALL schemas constrain the property.
+  // Remove partial constraints to avoid over-constraining merged oneOf/anyOf schemas.
   for (const propName of Object.keys(properties)) {
-    const constVals = constValues[propName];
+    const values = literalValues[propName];
     const count = propertyCounts[propName];
-    if (constVals && constVals.length > 1 && count > 1 && constVals.length === count) {
-      // All schemas have this property with const values, convert to enum
+    const constrainedCount = constrainedCounts[propName] || 0;
+
+    if (values && count > 1 && constrainedCount === count) {
       const prop = properties[propName];
       delete prop.const;
-      prop.enum = [...new Set(constVals)]; // Remove duplicates
+      prop.enum = [...new Set(values)]; // Remove duplicates
       continue;
     }
 
-    // Remove const if it's not present in all schemas
-    if (constVals && constVals.length !== count) {
+    if (count > 1 && constrainedCount !== count) {
       const prop = properties[propName];
-      if (prop && 'const' in prop) {
-        delete prop.const;
-      }
+      delete prop.const;
+      delete prop.enum;
     }
   }
 

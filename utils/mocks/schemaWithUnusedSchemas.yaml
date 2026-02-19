@@ -1,0 +1,71 @@
+openapi: 3.1.1
+info:
+  title: Test API
+  version: '1.0'
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Response:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            result:
+              oneOf:
+                - $ref: '#/components/schemas/OptionA'
+                - $ref: '#/components/schemas/OptionB'
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Item'
+    BaseResponse:
+      type: object
+      properties:
+        id:
+          type: string
+    OptionA:
+      type: object
+      properties:
+        typeA:
+          type: string
+    OptionB:
+      type: object
+      properties:
+        typeB:
+          type: string
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
+    # Circular references should not be removed
+    Node:
+      type: object
+      properties:
+        value:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+    # Unused schemas - should be removed
+    UnusedSchemaA:
+      type: object
+      properties:
+        unused:
+          type: string
+    UnusedSchemaB:
+      type: object
+      properties:
+        alsoUnused:
+          $ref: '#/components/schemas/UnusedSchemaC'
+    UnusedSchemaC:
+      type: string

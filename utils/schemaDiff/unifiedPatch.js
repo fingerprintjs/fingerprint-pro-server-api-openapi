@@ -4,12 +4,14 @@ import os from 'node:os';
 import path from 'node:path';
 
 /**
- * Builds a compact unified patch with no unchanged context lines.
+ * Builds a unified patch between remote and local content.
  * @param {string} remoteContent
  * @param {string} localContent
  * @param {string} fileLabel
+ * @param {{ contextLines?: number }} [options]
  */
-export function buildUnifiedPatch(remoteContent, localContent, fileLabel) {
+export function buildUnifiedPatch(remoteContent, localContent, fileLabel, options = {}) {
+  const { contextLines = 5 } = options;
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'schema-diff-'));
   const remotePath = path.join(tempDir, 'remote.yaml');
   const localPath = path.join(tempDir, 'local.yaml');
@@ -20,7 +22,7 @@ export function buildUnifiedPatch(remoteContent, localContent, fileLabel) {
 
     const result = spawnSync(
       'diff',
-      ['-U0', '--label', `a/${fileLabel}`, '--label', `b/${fileLabel}`, remotePath, localPath],
+      [`-U${contextLines}`, '--label', `a/${fileLabel}`, '--label', `b/${fileLabel}`, remotePath, localPath],
       {
         encoding: 'utf8',
       }
