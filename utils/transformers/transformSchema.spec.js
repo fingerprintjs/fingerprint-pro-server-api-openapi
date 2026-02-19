@@ -77,5 +77,11 @@ describe('Test transformSchema pipelines for v4', () => {
     const parsed = parseYaml(result);
     const parameters = parsed.paths['/events'].get.parameters;
     expectPathOperationInlineEnumsExtractedToComponents(parameters, parsed.components.schemas);
+
+    expect(parsed.components.schemas.EventRuleAction.properties.type).toEqual({
+      type: 'string',
+      description: 'Describes the action to take with the request.',
+      enum: ['allow', 'block'],
+    });
   });
 });
