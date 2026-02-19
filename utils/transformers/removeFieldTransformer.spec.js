@@ -9,7 +9,8 @@ const schemaWithXReadme = fs.readFileSync('./utils/mocks/schemaWithXReadme.yaml'
 const schemaWithXReadmeCleaned = fs.readFileSync('./utils/mocks/schemaWithXReadmeCleaned.yaml');
 
 const removeReadmeFromSchema = (yaml) => transformSchema(yaml, [removeFieldTransformer('x-readme')]);
-const removeAdditionalPropertiesFalseFromSchema = (yaml) => transformSchema(yaml, [removeFieldTransformer('additionalProperties', false)])
+const removeAdditionalPropertiesFalseFromSchema = (yaml) =>
+  transformSchema(yaml, [removeFieldTransformer('additionalProperties', false)]);
 describe('Test removeFieldTransformer', () => {
   it('don`t need to do anything', () => {
     const result = removeReadmeFromSchema(simpleYaml);
