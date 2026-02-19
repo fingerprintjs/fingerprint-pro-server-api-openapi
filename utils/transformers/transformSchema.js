@@ -37,7 +37,7 @@ export const v4SchemaForSdksCommonTransformers = [
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
   removeFieldTransformer('x-readme'),
-  removeFieldTransformer('additionalProperties'),
+  removeFieldTransformer('additionalProperties', false),
   removeBigExamplesTransformer,
 ];
 
@@ -52,7 +52,7 @@ export const v4SchemaForSdksNormalizedTransformers = [
   resolveOneOfTransformer,
   resolveAnyOfTransformer,
   // do this at the end of the pipeline again to make sure previous transformers didn't introduce it again
-  removeFieldTransformer('additionalProperties'),
+  removeFieldTransformer('additionalProperties', false),
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
