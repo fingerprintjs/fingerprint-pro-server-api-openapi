@@ -1,0 +1,43 @@
+openapi: 3.1.1
+components:
+  schemas:
+    Kind:
+      type: string
+      enum:
+        - allow
+        - block
+    ActionAllow:
+      description: allow action
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/Kind'
+          const: allow
+        allow_only:
+          type: string
+    ActionBlock:
+      description: block action
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/Kind'
+          const: block
+        block_only:
+          type: string
+    Action:
+      type: object
+      description: action union
+      required:
+        - shared
+      properties:
+        shared:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/ActionAllow'
+        - $ref: '#/components/schemas/ActionBlock'
+      discriminator:
+        propertyName: type
