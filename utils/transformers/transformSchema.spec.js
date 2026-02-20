@@ -65,6 +65,18 @@ describe('Test transformSchema pipelines for v4', () => {
     const parsed = parseYaml(result);
     const getEventsParamenters = parsed.paths['/events'].get.parameters;
     expectPathOperationInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
+
+    // This allOf should not be removed
+    expect(parsed.components.schemas.EventRuleActionAllow.properties.type).toEqual({
+      allOf: [
+        {
+          $ref: '#/components/schemas/RuleActionType',
+        },
+        {
+          const: 'allow',
+        },
+      ],
+    });
   });
 
   it('v4 normalized sdk schema removes examples, additionalProperties: false, composition operators and path-operation inline enums', () => {
