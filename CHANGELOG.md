@@ -1,5 +1,23 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.1.0
+
+### Minor Changes
+
+- Add `asn_type` field to the IPInfo signals ([854b38d](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/854b38de1c519aea0c0f0afa99d23c440dd42229))
+- **events**: Add `rule_action` field and `ruleset_id` query parameter for evaluating events against rulesets ([c8cd4d3](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/c8cd4d3b3acc9cd5b3ceb4f047aa431158c415d8))
+- **webhook**: require event payload ([5adbb2b](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/5adbb2b0fe903bfe6db69a58414ba5b8523483a2))
+- **events-search**: Add `tor_node` filter parameter ([c8cd4d3](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/c8cd4d3b3acc9cd5b3ceb4f047aa431158c415d8))
+- Add `HighActivity` signal ([806f883](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/806f883d559c1e871ac0855b9a141ae60adc8365))
+- Add `ClientReferrer` field to the Event ([806f883](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/806f883d559c1e871ac0855b9a141ae60adc8365))
+- **events**: Add `raw_device_attributes` field exposing browser fingerprinting signals ([c8cd4d3](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/c8cd4d3b3acc9cd5b3ceb4f047aa431158c415d8))
+- **events-search**: Add `asn` and `proximity_id` filters to `searchEvents` method ([df2936a](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/df2936ae26514a6ebe279b5e937c1ba59fee79af))
+
+### Patch Changes
+
+- **events**: Fix 429 error response being incorrectly placed under 403 status ([c8cd4d3](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/c8cd4d3b3acc9cd5b3ceb4f047aa431158c415d8))
+- Add `service_unavailable` error code ([806f883](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/806f883d559c1e871ac0855b9a141ae60adc8365))
+
 ## 3.0.1
 
 ### Patch Changes
