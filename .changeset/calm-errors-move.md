@@ -1,5 +1,0 @@
----
-'fingerprint-pro-server-api-openapi': patch
----
-
-**events**: Fix 429 error response being incorrectly placed under 403 status
