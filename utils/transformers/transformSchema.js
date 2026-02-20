@@ -13,11 +13,13 @@ import { addXReadmeTransformer } from './addXReadmeTransformer.js';
 import { extractPathOperationInlineEnumsTransformer } from './extractPathOperationInlineEnumsTransformer.js';
 import { parseYaml } from './parseYaml.js';
 import { removeUnusedSchemasTransformer } from './removeUnusedSchemasTransformer.js';
+import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertiesTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
   resolveExternalValueTransformer({ examplesPath: './schemas/paths/' }),
   removeFieldTransformer('triggered_by'),
+  liftOneOfSharedPropertiesTransformer,
   resolveAllOfTransformer,
 ];
 
