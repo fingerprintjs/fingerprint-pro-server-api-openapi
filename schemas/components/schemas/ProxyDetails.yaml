@@ -1,0 +1,24 @@
+type: object
+# can be nullable when proxy is not detected
+nullable: true
+additionalProperties: false
+description: Proxy detection details (present if proxy is detected)
+required:
+  - proxyType
+properties:
+  proxyType:
+    type: string
+    enum:
+      - residential
+      - data_center
+    description: |
+      Residential proxies use real user IP addresses to appear as legitimate traffic, 
+      while data center proxies are public proxies hosted in data centers
+  lastSeenAt:
+    type: string
+    format: date-time
+    x-ogen-time-format: 2006-01-02T15:00:00Z
+    description: |
+      ISO 8601 formatted timestamp in UTC with hourly resolution
+      of when this IP was last seen as a proxy when available.
+    
