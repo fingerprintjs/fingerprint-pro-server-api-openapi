@@ -134,7 +134,7 @@ jobs:
       app-id: ${{ vars.RUNNER_APP_ID }}
       repository: fingerprint-pro-server-api-java-sdk
       pre-release: ${{ inputs.pre-release }}
-      pre-release-tag: develop
+      pre-release-tag: rc
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
       force: ${{ inputs.force }}
     secrets:
