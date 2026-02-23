@@ -2,23 +2,16 @@
  * Transformer that removes schemas from `/components/schemas` if they are not referenced elsewhere in the schema.
  */
 
+import { getSchemaNameFromRef } from '../refUtils.js';
 import { walkJson } from '../walkJson.js';
 
-const SCHEMA_REF_PREFIX = '#/components/schemas/';
 const MAX_REFERENCE_DEPTH = 10;
-
-function extractSchemaName(ref) {
-  if (typeof ref === 'string' && ref.startsWith(SCHEMA_REF_PREFIX)) {
-    return ref.slice(SCHEMA_REF_PREFIX.length);
-  }
-  return null;
-}
 
 function removeUnreferencedSchemas(apiDefinition, schemas) {
   const referencedSchemas = new Set();
 
   walkJson(apiDefinition, '$ref', (node) => {
-    const name = extractSchemaName(node.$ref);
+    const name = getSchemaNameFromRef(node.$ref);
     if (name) {
       referencedSchemas.add(name);
     }
@@ -28,7 +21,7 @@ function removeUnreferencedSchemas(apiDefinition, schemas) {
     const mapping = node.discriminator?.mapping;
     if (mapping) {
       for (const ref of Object.values(mapping)) {
-        const name = extractSchemaName(ref);
+        const name = getSchemaNameFromRef(ref);
         if (name) {
           referencedSchemas.add(name);
         }

@@ -1,3 +1,5 @@
+import { getSchemaNameFromRef } from '../refUtils.js';
+
 const BASE_SCHEMA_KEYS = [
   'properties',
   'required',
@@ -65,20 +67,6 @@ function normalizeRefSiblings(node) {
 
     node.allOf = [{ $ref }, siblingConstraints];
   }
-}
-
-/**
- * @param {string} ref
- * @returns {string | null}
- */
-function getSchemaNameFromRef(ref) {
-  const prefix = '#/components/schemas/';
-
-  if (typeof ref !== 'string' || !ref.startsWith(prefix)) {
-    return null;
-  }
-
-  return ref.slice(prefix.length).replace(/~1/g, '/').replace(/~0/g, '~');
 }
 
 /**
