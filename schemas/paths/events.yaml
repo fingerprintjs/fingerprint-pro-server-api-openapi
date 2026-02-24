@@ -146,7 +146,7 @@ get:
       schema:
         type: boolean
       description: |
-        Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-update-event).
+        Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event).
         > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
     - name: vpn
       in: query

@@ -23,7 +23,7 @@ delete:
     ### Corollary
     After requesting to delete a visitor ID,
     - If the same browser (or device) requests to identify, it will receive a different visitor ID.
-    - If you request [`/v4/events` API](https://docs.fingerprint.com/reference/server-api-get-event) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.
+    - If you request [`/v4/events` API](https://docs.fingerprint.com/reference/server-api-v4-get-event) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.
 
     ### Interested?
     Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
