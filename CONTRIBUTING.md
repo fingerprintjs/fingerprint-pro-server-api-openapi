@@ -1,6 +1,6 @@
 # Contributing to Fingerprint Server API OpenAPI
 
-The repository contains OpenAPI definition files for various [Fingerprint Server-side APIs](https://dev.fingerprint.com/reference).
+The repository contains OpenAPI definition files for various [Fingerprint Server-side APIs](https://docs.fingerprint.com/reference/server-api-v4).
 
 ## Schemas
 
@@ -85,7 +85,7 @@ Example changeset looks like this:
 ### Publishing changes
 
 On every push into `main` (merged PR):  
-- The built schema is published to [Readme API Reference](https://dev.fingerprint.com/reference).
+- The built schema is published to [API Reference](https://docs.fingerprint.com/reference/server-api-v4).
 - The built schema is published to [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
 - The built schema is published as a [raw yaml file](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
 
