@@ -36,7 +36,7 @@ tags:
       analysis events or event history of individual visitors.
     externalDocs:
       description: API documentation
-      url: https://dev.fingerprint.com/reference/pro-server-api
+      url: https://docs.fingerprint.com/reference/server-api
 servers:
   - url: https://api.fpjs.io
     description: Global
