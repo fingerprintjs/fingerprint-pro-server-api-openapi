@@ -15,13 +15,13 @@
 
 # Fingerprint Server API OpenAPI Schema
 
-[Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy. Fingerprint [Server API](https://dev.fingerprint.com/reference/pro-server-api) allows you to search, update, and delete identification events in a server environment.
+[Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy. Fingerprint [Server API](https://docs.fingerprint.com/reference/server-api-v4) allows you to search, update, and delete identification events in a server environment.
 
-This repository contains the [OpenAPI](https://swagger.io/docs/specification/about/) schema of the Fingerprint Server API. You can use it as a reference, to try the API or to generate types for your code. It's the basis for all available [Fingerprint Server SDKs](https://dev.fingerprint.com/docs/backend-libraries).
+This repository contains the [OpenAPI](https://swagger.io/docs/specification/about/) schema of the Fingerprint Server API. You can use it as a reference, to try the API or to generate types for your code. It's the basis for all available [Fingerprint Server SDKs](https://docs.fingerprint.com/reference/server-sdks).
 
 ## Getting started
 
-- The OpenAPI schema is published to the [Fingerprint API reference](https://dev.fingerprint.com/reference/pro-server-api) and also as a [Swagger UI app on GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
+- The OpenAPI schema is published to the [Fingerprint API reference](https://docs.fingerprint.com/reference/server-api-v4) and also as a [Swagger UI app on GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
 - You can also [download the latest schema file here](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api-v4-with-examples.yaml).
 
 > [!NOTE]  

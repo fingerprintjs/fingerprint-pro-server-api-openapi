@@ -10,7 +10,7 @@ export function replaceTagsTransformer(apiDefinition) {
         'Using the Server API you can retrieve information about individual analysis events or event history of individual visitors.',
       externalDocs: {
         description: 'API documentation',
-        url: 'https://dev.fingerprint.com/reference/pro-server-api',
+        url: 'https://docs.fingerprint.com/reference/server-api',
       },
     },
   ];
