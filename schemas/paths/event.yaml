@@ -13,7 +13,7 @@ get:
       required: true
       schema:
         type: string
-      description: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`eventId` can be used in its place).
+      description: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).
     - name: ruleset_id
       in: query
       required: false
