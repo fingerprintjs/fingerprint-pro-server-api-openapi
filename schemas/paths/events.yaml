@@ -56,7 +56,7 @@ get:
       schema:
         type: string
       description: |
-        Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals.
+        Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.
         Filter for events matching this `visitor_id`.
     - name: bot
       in: query
@@ -95,7 +95,7 @@ get:
       description: |
         Filter events by your custom identifier.
 
-        You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
       # example: someId
     - name: url
       in: query
@@ -146,7 +146,7 @@ get:
       schema:
         type: boolean
       description: |
-        Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent).
+        Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-update-event).
         > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
     - name: vpn
       in: query
