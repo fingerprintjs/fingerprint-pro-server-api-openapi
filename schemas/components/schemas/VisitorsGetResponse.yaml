@@ -1,0 +1,27 @@
+type: object
+description: >-
+  Pagination-related fields `lastTimestamp` and `paginationKey` are included if you use a pagination parameter like `limit` or `before` and there is more data available on the next page.
+additionalProperties: false
+required:
+  - visitorId
+  - visits
+properties:
+  visitorId:
+    type: string
+  visits:
+    type: array
+    items:
+      $ref: Visit.yaml
+  lastTimestamp:
+    deprecated: true
+    type: integer
+    format: int64
+    description: >
+      ⚠️ Deprecated paging attribute, please use `paginationKey` instead.
+      Timestamp of the last visit in the current page of results.
+  paginationKey:
+    type: string
+    description: >-
+      Request ID of the last visit in the current page of results. Use this
+      value in the following request as the `paginationKey` parameter to get the
+      next page of results.
