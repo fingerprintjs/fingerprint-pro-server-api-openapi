@@ -142,6 +142,9 @@ properties:
   virtual_machine:
     $ref: smartsignals/VirtualMachine.yaml
     x-platforms: ["browser"]
+  virtual_machine_ml_score:
+    $ref: "smartsignals/VirtualMachineMLScore.yaml"
+    x-platforms: [ "browser" ]
   vpn:
     $ref: smartsignals/Vpn.yaml
     x-platforms: ["android", "ios", "browser"]
