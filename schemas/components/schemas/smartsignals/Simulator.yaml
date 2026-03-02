@@ -1,0 +1,8 @@
+type: boolean
+description: |
+  iOS specific simulator detection. There are 2 values:
+  * `true` - Simulator environment detected.
+  * `false` - No signs of simulator or the client is not iOS.
+x-ruleset-metadata:
+  label: iOS simulator
+  category: mobile

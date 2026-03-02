@@ -85,6 +85,7 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
       { limit: 10, incognito: true },
       { limit: 10, privacy_settings: true },
       { limit: 10, jailbroken: true },
+      { limit: 10, simulator: true },
       { limit: 10, frida: true },
       { limit: 10, factory_reset: true },
       { limit: 10, cloned_app: true },

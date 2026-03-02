@@ -285,6 +285,9 @@ paths:
                       jailbroken:
                         data:
                           result: false
+                      simulator:
+                        data:
+                          result: false
                       frida:
                         data:
                           result: false
@@ -403,6 +406,10 @@ paths:
                           code: Failed
                           message: internal server error
                       jailbroken:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      simulator:
                         error:
                           code: Failed
                           message: internal server error
@@ -1364,6 +1371,17 @@ paths:
             `products.jailbroken.data.result` property set to `true` or `false`
             are returned. Events without a `products.jailbroken` Smart Signal
             result are left out of the response.
+        - name: simulator
+          in: query
+          schema:
+            type: boolean
+          description: >
+            Filter events by iOS Simulator Detection result.
+
+            > Note: When using this parameter, only events with the
+            `products.simulator.data.result` property set to `true` or `false`
+            are returned. Events without a `products.simulator` Smart Signal
+            result are left out of the response.
         - name: frida
           in: query
           schema:
@@ -1767,6 +1785,9 @@ paths:
                               time: '1970-01-01T00:00:00Z'
                               timestamp: 0
                           jailbroken:
+                            data:
+                              result: false
+                          simulator:
                             data:
                               result: false
                           frida:
@@ -6381,6 +6402,26 @@ components:
           $ref: '#/components/schemas/Jailbroken'
         error:
           $ref: '#/components/schemas/Error'
+    Simulator:
+      type: object
+      additionalProperties: false
+      required:
+        - result
+      properties:
+        result:
+          type: boolean
+          description: |
+            iOS specific simulator detection. There are 2 values:
+              * `true` - Simulator environment detected.
+              * `false` - No signs of simulator or the client is not iOS.
+    ProductSimulator:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/Simulator'
+        error:
+          $ref: '#/components/schemas/Error'
     Frida:
       type: object
       additionalProperties: false
@@ -6760,6 +6801,8 @@ components:
           $ref: '#/components/schemas/ProductFactoryReset'
         jailbroken:
           $ref: '#/components/schemas/ProductJailbroken'
+        simulator:
+          $ref: '#/components/schemas/ProductSimulator'
         frida:
           $ref: '#/components/schemas/ProductFrida'
         privacySettings:

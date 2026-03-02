@@ -133,6 +133,7 @@
       "cloned_app": false,
       "factory_reset_timestamp": 0,
       "jailbroken": false,
+      "simulator": false,
       "frida": false,
       "privacy_settings": false,
       "virtual_machine": false,
