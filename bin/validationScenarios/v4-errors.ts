@@ -408,7 +408,6 @@ export async function validateSearchEventsError400SchemaV4({
       { limit: 10, incognito: 'not a boolean' },
       { limit: 10, privacy_settings: 'not a boolean' },
       { limit: 10, jailbroken: 'not a boolean' },
-      { limit: 10, simulator: 'not a boolean' },
       { limit: 10, frida: 'not a boolean' },
       { limit: 10, factory_reset: 'not a boolean' },
       { limit: 10, cloned_app: 'not a boolean' },

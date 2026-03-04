@@ -1371,17 +1371,6 @@ paths:
             `products.jailbroken.data.result` property set to `true` or `false`
             are returned. Events without a `products.jailbroken` Smart Signal
             result are left out of the response.
-        - name: simulator
-          in: query
-          schema:
-            type: boolean
-          description: >
-            Filter events by iOS Simulator Detection result.
-
-            > Note: When using this parameter, only events with the
-            `products.simulator.data.result` property set to `true` or `false`
-            are returned. Events without a `products.simulator` Smart Signal
-            result are left out of the response.
         - name: frida
           in: query
           schema:

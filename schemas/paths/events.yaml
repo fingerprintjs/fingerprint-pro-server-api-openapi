@@ -197,13 +197,6 @@ get:
       description: |
         Filter events by Jailbroken Device Detection result.
         > Note: When using this parameter, only events with the `jailbroken` property set to `true` or `false` are returned. Events without a `jailbroken` Smart Signal result are left out of the response.
-    - name: simulator
-      in: query
-      schema:
-        type: boolean
-      description: |
-        Filter events by iOS Simulator Detection result.
-        > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
     - name: frida
       in: query
       schema:
