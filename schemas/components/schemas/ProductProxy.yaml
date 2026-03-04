@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+properties:
+  data:
+    $ref: Proxy.yaml
+  error:
+    $ref: Error.yaml

@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+properties:
+  data:
+    $ref: Incognito.yaml
+  error:
+    $ref: Error.yaml

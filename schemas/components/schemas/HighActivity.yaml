@@ -1,0 +1,13 @@
+type: object
+additionalProperties: false
+required:
+  - result
+properties:
+  result:
+    type: boolean
+    description: Flag indicating if the request came from a high-activity visitor.
+  dailyRequests:
+    type: integer
+    format: int64
+    minimum: 1
+    description: Number of requests from the same visitor in the previous day.

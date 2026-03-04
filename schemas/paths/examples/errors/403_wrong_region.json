@@ -1,6 +1,6 @@
 {
   "error": {
-    "code": "wrong_region",
+    "code": "WrongRegion",
     "message": "wrong region"
   }
 }

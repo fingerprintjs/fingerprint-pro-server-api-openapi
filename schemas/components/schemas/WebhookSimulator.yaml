@@ -1,0 +1,9 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: |
+      iOS specific simulator detection. There are 2 values:
+        * `true` - Simulator environment detected.
+        * `false` - No signs of simulator or the client is not iOS.
