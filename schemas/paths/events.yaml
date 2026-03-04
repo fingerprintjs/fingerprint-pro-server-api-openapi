@@ -162,15 +162,6 @@ get:
       description: |
         Filter events by Virtual Machine Detection result.
         > Note: When using this parameter, only events with the `virtual_machine` property set to `true` or `false` are returned. Events without a `virtual_machine` Smart Signal result are left out of the response.
-    - name: virtual_machine_ml_score
-      in: query
-      schema:
-        type: number
-        format: double
-        minimum: 0
-        maximum: 1
-      description: |
-        Machine learning–based virtual machine score, A higher score means a higher confidence in the positive `virtual_machine` detection result
     - name: tampering
       in: query
       schema:
