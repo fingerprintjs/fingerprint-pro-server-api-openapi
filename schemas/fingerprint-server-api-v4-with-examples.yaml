@@ -190,6 +190,7 @@ paths:
                     frida: false
                     privacy_settings: false
                     virtual_machine: false
+                    virtual_machine_ml_score: 0.2
                     location_spoofing: false
                     velocity:
                       distinct_ip:
@@ -424,6 +425,7 @@ paths:
                     frida: false
                     privacy_settings: false
                     virtual_machine: false
+                    virtual_machine_ml_score: 0.2
                     location_spoofing: false
                     velocity:
                       distinct_ip:
@@ -1348,6 +1350,7 @@ paths:
                         frida: false
                         privacy_settings: false
                         virtual_machine: false
+                        virtual_machine_ml_score: 0.2
                         location_spoofing: false
                         velocity:
                           distinct_ip:
@@ -2599,6 +2602,18 @@ components:
       description: >
         `true` if the request came from a browser running inside a virtual
         machine (e.g. VMWare), `false` otherwise.
+    VirtualMachineMLScore:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 1
+      description: >
+        Machine learning–based virtual machine score,  represented as a
+        floating-point value between 0 and 1 (inclusive), with up to three
+        decimal places of precision. A higher score means a higher confidence in
+        the positive `virtual_machine` detection result. This optional signal is
+        currently in Beta and available to selected customers. If you'd like to
+        evaluate it, please reach out to support
     Vpn:
       type: boolean
       description: |
@@ -3206,6 +3221,10 @@ components:
             - browser
         virtual_machine:
           $ref: '#/components/schemas/VirtualMachine'
+          x-platforms:
+            - browser
+        virtual_machine_ml_score:
+          $ref: '#/components/schemas/VirtualMachineMLScore'
           x-platforms:
             - browser
         vpn:

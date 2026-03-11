@@ -136,6 +136,7 @@
       "frida": false,
       "privacy_settings": false,
       "virtual_machine": false,
+      "virtual_machine_ml_score": 0.2,
       "location_spoofing": false,
       "velocity": {
         "distinct_ip": {
