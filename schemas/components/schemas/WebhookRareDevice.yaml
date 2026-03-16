@@ -1,0 +1,14 @@
+type: object
+additionalProperties: false
+properties:
+  result:
+    type: boolean
+    description: >
+      `true` if the device is considered rare based on its combination of hardware and software attributes,
+      `false` otherwise.
+  rarityPercentileBucket:
+    type: string
+    description: >
+      The rarity percentile bucket of the device, indicating how uncommon the device configuration is
+      compared to all observed devices. Possible values are: `<p95`, `p95-p99`, `p99-p99.5` `p99.5-p99.9`
+      and p99.9+.

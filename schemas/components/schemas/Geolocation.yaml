@@ -1,0 +1,31 @@
+type: object
+additionalProperties: false
+properties:
+  accuracyRadius:
+    type: integer
+    minimum: 0
+    description: >-
+      The IP address is likely to be within this radius (in km) of the specified location.
+  latitude:
+    type: number
+    format: double
+    minimum: -90
+    maximum: 90
+  longitude:
+    type: number
+    format: double
+    minimum: -180
+    maximum: 180
+  postalCode:
+    type: string
+  timezone:
+    type: string
+    format: timezone
+  city:
+    $ref: GeolocationCity.yaml
+  country:
+    $ref: GeolocationCountry.yaml
+  continent:
+    $ref: GeolocationContinent.yaml
+  subdivisions:
+    $ref: GeolocationSubdivisions.yaml
