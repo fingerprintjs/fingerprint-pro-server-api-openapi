@@ -127,6 +127,9 @@ properties:
     x-platforms: ["android"]
   rule_action:
     $ref: platform/EventRuleAction.yaml
+  simulator:
+    $ref: smartsignals/Simulator.yaml
+    x-platforms: ["ios"]
   suspect_score:
     $ref: smartsignals/SuspectScore.yaml
     x-platforms: ["android", "ios", "browser"]
