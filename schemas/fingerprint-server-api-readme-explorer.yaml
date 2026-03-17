@@ -323,6 +323,10 @@ paths:
                       highActivity:
                         data:
                           result: false
+                      rareDevice:
+                        data:
+                          result: false
+                          rarityPercentileBucket: "<p95"
                       locationSpoofing:
                         data:
                           result: false
@@ -457,6 +461,10 @@ paths:
                           code: Failed
                           message: internal server error
                       highActivity:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      rareDevice:
                         error:
                           code: Failed
                           message: internal server error
@@ -1807,6 +1815,10 @@ paths:
                           highActivity:
                             data:
                               result: false
+                          rareDevice:
+                            data:
+                              result: false
+                              rarityPercentileBucket: "<p95"
                           locationSpoofing:
                             data:
                               result: false
@@ -6471,6 +6483,35 @@ components:
           $ref: '#/components/schemas/HighActivity'
         error:
           $ref: '#/components/schemas/Error'
+    RareDevice:
+      type: object
+      additionalProperties: false
+      required:
+        - result
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the device is considered rare based on its combination of hardware and software attributes, `false` otherwise.
+        rarityPercentileBucket:
+          type: string
+          enum:
+            - "<p95"
+            - "p95-p99"
+            - "p99-p99.5"
+            - "p99.5-p99.9"
+            - "p99.9+"
+            - "not_seen"
+          description: >
+            The rarity percentile bucket of the device, indicating how uncommon the device configuration is compared to all observed devices.
+    ProductRareDevice:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/RareDevice'
+        error:
+          $ref: '#/components/schemas/Error'
     LocationSpoofing:
       type: object
       additionalProperties: false
@@ -6770,6 +6811,8 @@ components:
           $ref: '#/components/schemas/ProductRawDeviceAttributes'
         highActivity:
           $ref: '#/components/schemas/ProductHighActivity'
+        rareDevice:
+          $ref: '#/components/schemas/ProductRareDevice'
         locationSpoofing:
           $ref: '#/components/schemas/ProductLocationSpoofing'
         suspectScore:
