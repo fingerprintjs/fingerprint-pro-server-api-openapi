@@ -187,6 +187,7 @@ paths:
                     cloned_app: false
                     factory_reset_timestamp: 0
                     jailbroken: false
+                    simulator: false
                     frida: false
                     privacy_settings: false
                     virtual_machine: false
@@ -422,6 +423,7 @@ paths:
                     cloned_app: false
                     factory_reset_timestamp: 0
                     jailbroken: false
+                    simulator: false
                     frida: false
                     privacy_settings: false
                     virtual_machine: false
@@ -1347,6 +1349,7 @@ paths:
                         cloned_app: false
                         factory_reset_timestamp: 0
                         jailbroken: false
+                        simulator: false
                         frida: false
                         privacy_settings: false
                         virtual_machine: false
@@ -2472,6 +2475,12 @@ components:
         mapping:
           allow: '#/components/schemas/EventRuleActionAllow'
           block: '#/components/schemas/EventRuleActionBlock'
+    Simulator:
+      type: boolean
+      description: |
+        iOS specific simulator detection. There are 2 values:
+        * `true` - Simulator environment detected.
+        * `false` - No signs of simulator or the client is not iOS.
     SuspectScore:
       type: integer
       description: >
@@ -3195,6 +3204,10 @@ components:
             - android
         rule_action:
           $ref: '#/components/schemas/EventRuleAction'
+        simulator:
+          $ref: '#/components/schemas/Simulator'
+          x-platforms:
+            - ios
         suspect_score:
           $ref: '#/components/schemas/SuspectScore'
           x-platforms:

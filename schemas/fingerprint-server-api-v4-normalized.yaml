@@ -1409,6 +1409,12 @@ components:
       required:
         - ruleset_id
         - type
+    Simulator:
+      type: boolean
+      description: |
+        iOS specific simulator detection. There are 2 values:
+        * `true` - Simulator environment detected.
+        * `false` - No signs of simulator or the client is not iOS.
     SuspectScore:
       type: integer
       description: >
@@ -2118,6 +2124,10 @@ components:
             - android
         rule_action:
           $ref: '#/components/schemas/EventRuleAction'
+        simulator:
+          $ref: '#/components/schemas/Simulator'
+          x-platforms:
+            - ios
         suspect_score:
           $ref: '#/components/schemas/SuspectScore'
           x-platforms:
