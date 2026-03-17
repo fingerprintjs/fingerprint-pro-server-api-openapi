@@ -1,0 +1,8 @@
+type: boolean
+description: |
+  `true` if the device is considered rare based on its combination of hardware and software attributes, `false` otherwise.
+
+  > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+x-ruleset-metadata:
+  label: Rare device
+  category: browser
