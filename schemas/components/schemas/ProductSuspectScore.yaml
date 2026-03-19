@@ -1,0 +1,7 @@
+type: object
+additionalProperties: false
+properties:
+  data:
+    $ref: SuspectScore.yaml
+  error:
+    $ref: Error.yaml
