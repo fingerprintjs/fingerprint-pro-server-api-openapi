@@ -360,7 +360,7 @@ paths:
                       deviceRarity:
                         data:
                           result: false
-                          rareDevicePercentileBucket: "<p95"
+                          percentileBucket: "<p95"
                       proximity:
                         data:
                           id: w1aTfd4MCvl
@@ -1474,7 +1474,7 @@ paths:
                           deviceRarity:
                             data:
                               result: false
-                              rareDevicePercentileBucket: "<p95"
+                              percentileBucket: "<p95"
                           proximity:
                             data:
                               id: w1aTfd4MCvl
@@ -4925,7 +4925,7 @@ paths:
                             result: false
                           deviceRarity:
                             result: false
-                            rareDevicePercentileBucket: "<p95"
+                            percentileBucket: "<p95"
                           sdk:
                             platform: js
                             version: 3.11.10
@@ -6215,7 +6215,7 @@ components:
       additionalProperties: false
       required:
         - result
-        - rareDevicePercentileBucket
+        - percentileBucket
       properties:
         result:
           type: boolean
@@ -6227,7 +6227,7 @@ components:
             > This Smart Signal is currently in beta and only available to select
             customers. If you are interested, please [contact our support
             team](https://fingerprint.com/support/).
-        rareDevicePercentileBucket:
+        percentileBucket:
           type: string
           enum:
             - "<p95"
@@ -6879,7 +6879,7 @@ components:
             > This Smart Signal is currently in beta and only available to select
             customers. If you are interested, please [contact our support
             team](https://fingerprint.com/support/).
-        rareDevicePercentileBucket:
+        percentileBucket:
           type: string
           enum:
             - "<p95"
