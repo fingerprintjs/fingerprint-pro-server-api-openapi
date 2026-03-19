@@ -360,7 +360,7 @@ paths:
                       deviceRarity:
                         data:
                           result: false
-                          rarityPercentileBucket: "<p95"
+                          rareDevicePercentileBucket: "<p95"
                       proximity:
                         data:
                           id: w1aTfd4MCvl
@@ -1113,7 +1113,7 @@ paths:
             `products.deviceRarity.data.result` property set to `true` or `false`
             are returned. Events without a `products.deviceRarity` Smart Signal
             result are left out of the response.
-        - name: rarity_percentile_bucket
+        - name: rare_device_percentile_bucket
           in: query
           schema:
             type: string
@@ -1474,7 +1474,7 @@ paths:
                           deviceRarity:
                             data:
                               result: false
-                              rarityPercentileBucket: "<p95"
+                              rareDevicePercentileBucket: "<p95"
                           proximity:
                             data:
                               id: w1aTfd4MCvl
@@ -4925,7 +4925,7 @@ paths:
                             result: false
                           deviceRarity:
                             result: false
-                            rarityPercentileBucket: "<p95"
+                            rareDevicePercentileBucket: "<p95"
                           sdk:
                             platform: js
                             version: 3.11.10
@@ -6215,7 +6215,7 @@ components:
       additionalProperties: false
       required:
         - result
-        - rarityPercentileBucket
+        - rareDevicePercentileBucket
       properties:
         result:
           type: boolean
@@ -6227,7 +6227,7 @@ components:
             > This Smart Signal is currently in beta and only available to select
             customers. If you are interested, please [contact our support
             team](https://fingerprint.com/support/).
-        rarityPercentileBucket:
+        rareDevicePercentileBucket:
           type: string
           enum:
             - "<p95"
@@ -6879,7 +6879,7 @@ components:
             > This Smart Signal is currently in beta and only available to select
             customers. If you are interested, please [contact our support
             team](https://fingerprint.com/support/).
-        rarityPercentileBucket:
+        rareDevicePercentileBucket:
           type: string
           enum:
             - "<p95"

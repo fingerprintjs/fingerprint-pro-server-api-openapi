@@ -282,7 +282,7 @@ get:
       description: |
         Filter events by Device Rarity detection result.
         > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
-    - name: rarity_percentile_bucket
+    - name: rare_device_percentile_bucket
       in: query
       schema:
         type: string

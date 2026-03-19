@@ -166,8 +166,8 @@ properties:
   rare_device:
     $ref: smartsignals/RareDevice.yaml
     x-platforms: ["browser"]
-  rarity_percentile_bucket:
-    $ref: smartsignals/RarityPercentileBucket.yaml
+  rare_device_percentile_bucket:
+    $ref: smartsignals/RareDevicePercentileBucket.yaml
     x-platforms: ["browser"]
   raw_device_attributes:
     $ref: smartsignals/RawDeviceAttributes.yaml
