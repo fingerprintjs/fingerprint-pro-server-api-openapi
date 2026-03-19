@@ -1,6 +1,8 @@
 type: boolean
 description: |
-  `true` if the device is considered rare based on its combination of hardware and software attributes, `false` otherwise.
+  `true` if the device is considered rare based on its combination of hardware and software attributes. 
+  A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic, 
+  or if its configuration has not been previously seen (`not_seen`).
 
   > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
 x-ruleset-metadata:
