@@ -1,0 +1,25 @@
+type: object
+additionalProperties: false
+required:
+  - browserName
+  - browserFullVersion
+  - browserMajorVersion
+  - os
+  - osVersion
+  - device
+  - userAgent
+properties:
+  browserName:
+    type: string
+  browserMajorVersion:
+    type: string
+  browserFullVersion:
+    type: string
+  os:
+    type: string
+  osVersion:
+    type: string
+  device:
+    type: string
+  userAgent:
+    type: string
