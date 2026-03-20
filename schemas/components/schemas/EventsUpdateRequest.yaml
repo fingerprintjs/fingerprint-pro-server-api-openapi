@@ -1,0 +1,11 @@
+type: object
+properties:
+  linkedId:
+    type: string
+    description: LinkedID value to assign to the existing event
+  tag:
+    $ref: Tag.yaml
+  suspect:
+    type: boolean
+    description: Suspect flag indicating observed suspicious or fraudulent event
+    x-go-force-pointer: true
