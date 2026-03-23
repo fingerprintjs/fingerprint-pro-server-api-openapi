@@ -1,0 +1,22 @@
+type: string
+enum:
+  - "<p95"
+  - "p95-p99"
+  - "p99-p99.5"
+  - "p99.5-p99.9"
+  - "p99.9+"
+  - "not_seen"
+description: |
+  The rarity percentile bucket of the device, indicating how uncommon the device configuration is compared to all observed devices.
+
+  > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+x-ruleset-metadata:
+  label: Rarity percentile bucket
+  category: browser
+  enum-labels:
+    "<p95": "<p95"
+    "p95-p99": "p95-p99"
+    "p99-p99.5": "p99-p99.5"
+    "p99.5-p99.9": "p99.5-p99.9"
+    "p99.9+": "p99.9+"
+    "not_seen": "not_seen"
