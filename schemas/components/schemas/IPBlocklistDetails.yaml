@@ -1,0 +1,12 @@
+type: object
+additionalProperties: false
+required:
+  - emailSpam
+  - attackSource
+properties:
+  emailSpam:
+    type: boolean
+    description: IP address was part of a known email spam attack (SMTP).
+  attackSource:
+    type: boolean
+    description: IP address was part of a known network attack (SSH/HTTPS).
