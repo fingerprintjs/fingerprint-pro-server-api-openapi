@@ -1,7 +1,6 @@
 type: object
-description: >
-  A curated subset of raw browser/device attributes that the API surface
-  exposes. Each property contains a value or object with the data for the collected signal.
+description: |
+  A curated subset of raw browser/device attributes that the API surface exposes. Each property contains a value or object with the data for the collected signal.
 additionalProperties: false
 properties:
   font_preferences:

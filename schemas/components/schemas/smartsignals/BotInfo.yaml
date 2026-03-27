@@ -1,6 +1,5 @@
 type: object
-description: >-
-  Extended bot information.
+description: Extended bot information.
 additionalProperties: false
 required:
   - category
@@ -11,7 +10,7 @@ required:
 properties:
   category:
     type: string
-    description: The type and purpose of the bot. 
+    description: The type and purpose of the bot.
   provider:
     type: string
     description: The organization or company operating the bot.

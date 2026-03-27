@@ -1,7 +1,6 @@
 type: object
-description: >
-  Baseline measurement of canonical fonts rendered on the device.
-  Numeric width metrics, in CSS pixels, for the canonical fonts collected by the agent.
+description: |
+  Baseline measurement of canonical fonts rendered on the device. Numeric width metrics, in CSS pixels, for the canonical fonts collected by the agent.
 additionalProperties: false
 properties:
   default:

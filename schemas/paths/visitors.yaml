@@ -1,7 +1,7 @@
 delete:
   tags:
     - Visitors
-  operationId: 'deleteVisitorData'
+  operationId: deleteVisitorData
   summary: Delete data by visitor ID
   description: |
     Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.
@@ -42,53 +42,53 @@ delete:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             400-visitor-id-required:
               summary: Error response when the request does not include a visitor ID.
-              externalValue: 'examples/errors/400_visitor_id_required.json'
+              externalValue: examples/errors/400_visitor_id_required.json
             400-visitor-id-invalid:
               summary: Error response when the visitor ID is incorrectly formatted.
-              externalValue: 'examples/errors/400_visitor_id_invalid.json'
+              externalValue: examples/errors/400_visitor_id_invalid.json
     '403':
       description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             403-secret-api-key-required:
               summary: Error response when the secret API key was not provided.
-              externalValue: 'examples/errors/403_secret_api_key_required.json'
+              externalValue: examples/errors/403_secret_api_key_required.json
             403-secret-api-key-not-found:
               summary: Error response when the provided secret API key does not exist.
-              externalValue: 'examples/errors/403_secret_api_key_not_found.json'
+              externalValue: examples/errors/403_secret_api_key_not_found.json
             403-wrong-region:
               summary: Error response when the API region is different from the region, the calling workspace is configured with.
-              externalValue: 'examples/errors/403_wrong_region.json'
+              externalValue: examples/errors/403_wrong_region.json
             403-subscription-not-active:
               summary: Error response when the subscription is not active.
-              externalValue: 'examples/errors/403_subscription_not_active.json'
+              externalValue: examples/errors/403_subscription_not_active.json
             403-feature-not-enabled:
               summary: Error response when this feature is not enabled for a subscription.
-              externalValue: 'examples/errors/403_feature_not_enabled.json'
+              externalValue: examples/errors/403_feature_not_enabled.json
     '404':
       description: Not found. The visitor ID cannot be found in this workspace's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             404-visitor-not-found:
               summary: Error response when the visitor ID cannot be found in this workspace's data.
-              externalValue: 'examples/errors/404_visitor_not_found.json'
+              externalValue: examples/errors/404_visitor_not_found.json
     '429':
       description: Too Many Requests. The request is throttled.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             429-too-many-requests:
               summary: Error response when the limit on the provided secret API key requests per second has been exceeded.
-              externalValue: 'examples/errors/429_too_many_requests.json'
+              externalValue: examples/errors/429_too_many_requests.json
