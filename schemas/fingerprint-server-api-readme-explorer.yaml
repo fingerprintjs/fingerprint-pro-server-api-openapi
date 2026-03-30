@@ -273,6 +273,8 @@ paths:
                       tampering:
                         data:
                           result: false
+                          confidence: "high",
+                          mlScore: 0.3231,
                           anomalyScore: 0.1955
                           antiDetectBrowser: false
                       clonedApp:
@@ -1758,6 +1760,8 @@ paths:
                           tampering:
                             data:
                               result: false
+                              confidence: "high",
+                              mlScore: 0.3231,
                               anomalyScore: 0.1955
                               antiDetectBrowser: false
                           clonedApp:
@@ -1779,6 +1783,7 @@ paths:
                           virtualMachine:
                             data:
                               result: false
+                              mlScore: 0.2
                           rawDeviceAttributes:
                             data:
                               architecture:
