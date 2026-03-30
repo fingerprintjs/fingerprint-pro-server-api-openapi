@@ -1,4 +1,8 @@
 type: string
+enum:
+  - low
+  - medium
+  - high
 description: |
   Confidence level of the tampering detection.
   If a proxy is not detected, confidence is "high".
