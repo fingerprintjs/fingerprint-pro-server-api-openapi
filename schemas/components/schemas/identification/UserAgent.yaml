@@ -1,5 +1,5 @@
 type: string
-description: >
+description: |
   User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....`
 x-ruleset-metadata:
   label: Client user agent

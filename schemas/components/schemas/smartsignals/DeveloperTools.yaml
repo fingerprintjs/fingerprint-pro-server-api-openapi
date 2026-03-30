@@ -1,5 +1,5 @@
 type: boolean
-description: >
+description: |
   `true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise.
 x-ruleset-metadata:
   label: Developer tools

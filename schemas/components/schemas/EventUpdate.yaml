@@ -5,8 +5,7 @@ properties:
     description: Linked Id value to assign to the existing event
   tags:
     type: object
-    description: >-
-      A customer-provided value or an object that was sent with the identification request or updated later.
+    description: A customer-provided value or an object that was sent with the identification request or updated later.
     additionalProperties: true
   suspect:
     type: boolean

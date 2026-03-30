@@ -26,6 +26,6 @@ properties:
   x:
     type: number
     format: double
-  y:
+  'y':
     type: number
     format: double
