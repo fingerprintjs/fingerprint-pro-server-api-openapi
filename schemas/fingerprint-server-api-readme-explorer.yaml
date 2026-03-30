@@ -293,7 +293,8 @@ paths:
                           result: false
                       virtualMachine:
                         data:
-                          result: false
+                          result: true
+                          mlScore: 0.2
                       rawDeviceAttributes:
                         data:
                           architecture:
@@ -6450,6 +6451,15 @@ components:
           description: >
             `true` if the request came from a browser running inside a virtual
             machine (e.g. VMWare), `false` otherwise.
+        mlScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: >
+            Machine learning–based virtual machine score, 
+            represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision.
+            A higher score means a higher confidence in the positive `virtual_machine` detection result
     ProductVirtualMachine:
       type: object
       additionalProperties: false
