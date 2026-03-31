@@ -120,6 +120,7 @@
     "proxy_type": "residential",
     "last_seen_at": 1708102555327
   },
+  "proxy_ml_score": 0.2,
   "vpn": false,
   "vpn_confidence": "high",
   "vpn_origin_timezone": "Europe/Berlin",

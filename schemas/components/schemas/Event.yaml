@@ -172,6 +172,10 @@ properties:
       - android
       - ios
       - browser
+  proxy_ml_score:
+    $ref: smartsignals/ProxyMLScore.yaml
+    x-platforms:
+      - browser
   incognito:
     $ref: smartsignals/Incognito.yaml
     x-platforms:
