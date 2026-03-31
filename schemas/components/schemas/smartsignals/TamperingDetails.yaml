@@ -6,7 +6,10 @@ properties:
     format: double
     minimum: 0
     maximum: 1
-    x-platforms: ["android", "ios", "browser"]
+    x-platforms:
+      - android
+      - ios
+      - browser
     description: |
       Confidence score (`0.0 - 1.0`) for tampering detection:
         * Values above `0.5` indicate tampering.
@@ -16,10 +19,10 @@ properties:
       category: browser
   anti_detect_browser:
     type: boolean
-    x-platforms: ["browser"]
-    description: >
-      True if the identified browser resembles an "anti-detect" browser, such as Incognition,
-      which attempts to evade identification by manipulating its fingerprint.
+    x-platforms:
+      - browser
+    description: |
+      True if the identified browser resembles an "anti-detect" browser, such as Incognition, which attempts to evade identification by manipulating its fingerprint.
     x-ruleset-metadata:
       label: Anti-detect browser
-      category: browser 
+      category: browser

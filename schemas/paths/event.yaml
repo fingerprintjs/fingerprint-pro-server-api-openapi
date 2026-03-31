@@ -1,7 +1,7 @@
 get:
   tags:
     - Events
-  operationId: 'getEvent'
+  operationId: getEvent
   summary: Get an event by event ID
   description: |
     Get a detailed analysis of an individual identification event, including Smart Signals.
@@ -28,83 +28,86 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/Event.yaml'
+            $ref: ../components/schemas/Event.yaml
           examples:
             200-ok:
               summary: Example response
-              externalValue: 'examples/events/get_event_200.json'
+              externalValue: examples/events/get_event_200.json
             200-ok-with-ruleset:
               summary: Example response with rule_action (when ruleset_id is provided)
-              externalValue: 'examples/events/get_event_ruleset_200.json'
+              externalValue: examples/events/get_event_ruleset_200.json
+            200-ok-with-bot-info:
+              summary: Example response with bot_info
+              externalValue: examples/events/get_event_with_bot_info_200.json
     '400':
-      description: "Bad request. The event Id provided is not valid."
+      description: Bad request. The event Id provided is not valid.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             400-bad-request:
               summary: Error response when the provided event Id is invalid.
-              externalValue: 'examples/errors/400_event_id_invalid.json'
+              externalValue: examples/errors/400_event_id_invalid.json
             400-ruleset-not-found:
               summary: Error response when the ruleset with the provided ID is not found.
-              externalValue: 'examples/errors/400_ruleset_not_found.json'
+              externalValue: examples/errors/400_ruleset_not_found.json
     '403':
       description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             403-secret-api-key-required:
               summary: Error response when the secret API key was not provided.
-              externalValue: 'examples/errors/403_secret_api_key_required.json'
+              externalValue: examples/errors/403_secret_api_key_required.json
             403-secret-api-key-not-found:
               summary: Error response when the provided secret API key does not exist.
-              externalValue: 'examples/errors/403_secret_api_key_not_found.json'
+              externalValue: examples/errors/403_secret_api_key_not_found.json
     '404':
-      description: "Not found. The event Id cannot be found in this workspace's data."
+      description: Not found. The event Id cannot be found in this workspace's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             404-request-not-found:
               summary: Error response when the provided event Id does not exist.
-              externalValue: 'examples/errors/404_event_not_found.json'
+              externalValue: examples/errors/404_event_not_found.json
     '429':
-      description: "Too Many Requests. The request is throttled."
+      description: Too Many Requests. The request is throttled.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             429-too-many-requests-error:
               summary: Too many requests error
-              externalValue: 'examples/errors/429_too_many_requests.json'
+              externalValue: examples/errors/429_too_many_requests.json
     '500':
       description: Workspace error.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             500-error:
               summary: Request failed
-              externalValue: 'examples/errors/500_internal_server_error.json'
+              externalValue: examples/errors/500_internal_server_error.json
 patch:
   tags:
     - Events
-  operationId: 'updateEvent'
+  operationId: updateEvent
   summary: Update an event
   description: |
     Change information in existing events specified by `event_id` or *flag suspicious events*.
-    
+
     When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters. 
     This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.
-    
+
     **Warning** It's not possible to update events older than one month. 
-    
+
     **Warning** Trying to update an event immediately after creation may temporarily result in an 
     error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
   parameters:
@@ -119,7 +122,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/schemas/EventUpdate.yaml'
+          $ref: ../components/schemas/EventUpdate.yaml
   responses:
     '200':
       description: OK.
@@ -128,44 +131,44 @@ patch:
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             example:
               summary: Error response when the specified request payload is not valid and cannot be parsed.
-              externalValue: 'examples/errors/400_request_body_invalid.json'
+              externalValue: examples/errors/400_request_body_invalid.json
     '403':
       description: Forbidden. Access to this API is denied.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             403-secret-api-key-required:
               summary: Error response when the secret API key was not provided.
-              externalValue: 'examples/errors/403_secret_api_key_required.json'
+              externalValue: examples/errors/403_secret_api_key_required.json
             403-secret-api-key-not-found:
               summary: Error response when the provided secret API key does not exist.
-              externalValue: 'examples/errors/403_secret_api_key_not_found.json'
+              externalValue: examples/errors/403_secret_api_key_not_found.json
             403-wrong-region:
               summary: Error response when the API region is different from the region, the calling workspace is configured with.
-              externalValue: 'examples/errors/403_wrong_region.json'
+              externalValue: examples/errors/403_wrong_region.json
     '404':
-      description: "Not found. The event Id cannot be found in this workspace's data."
+      description: Not found. The event Id cannot be found in this workspace's data.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             404-request-not-found:
               summary: Error response when the provided event Id does not exist.
-              externalValue: 'examples/errors/404_event_not_found.json'
+              externalValue: examples/errors/404_event_not_found.json
     '409':
       description: Conflict. The event is not mutable yet.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             example:
               summary: Error response when the event is not mutable yet.
-              externalValue: 'examples/errors/409_state_not_ready.json'
+              externalValue: examples/errors/409_state_not_ready.json

@@ -1,5 +1,5 @@
 type: boolean
-description: >
+description: |
   `true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise.
 x-ruleset-metadata:
   label: Virtual machine

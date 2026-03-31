@@ -22,12 +22,10 @@ properties:
   first_seen_at:
     type: integer
     format: int64
-    description: > 
-      Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was first seen.
-      example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
+    description: |
+      Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was first seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
   last_seen_at:
     type: integer
     format: int64
-    description:  >
-      Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was last seen.
-      example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
+    description: |
+      Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was last seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000

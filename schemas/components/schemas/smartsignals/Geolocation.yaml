@@ -4,8 +4,7 @@ properties:
   accuracy_radius:
     type: integer
     minimum: 0
-    description: >-
-      The IP address is likely to be within this radius (in km) of the specified location.
+    description: The IP address is likely to be within this radius (in km) of the specified location.
     x-ruleset-metadata:
       label: accuracy radius
       category: ip_address
