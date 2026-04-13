@@ -3,9 +3,7 @@ format: double
 minimum: 0
 maximum: 1
 description: |
-  A score that indicates the models calculated probability that an event is coming from an anti detect browser.
-    * Values above `0.8` indicate that the request is an anti detect browser based on the ml model
-    * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model
+  The output of this model is captured as tampering_ml_score, a number indicating how likely an event is coming from an anti detect browser. Values close to 1 signify higher confidence and we consider anything above the threshold of 0.8 to be actionable (the result and anti_detect_browser fields conveniently captures that fact)
 x-ruleset-metadata:
   label: Tampering ml score
   category: browser
