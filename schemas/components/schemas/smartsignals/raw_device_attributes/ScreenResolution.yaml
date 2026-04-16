@@ -1,5 +1,5 @@
 type: array
-description: Current screen resolution.
+description: Current screen resolution. Available for both browsers and iOS devices
 minItems: 2
 maxItems: 2
 items:
