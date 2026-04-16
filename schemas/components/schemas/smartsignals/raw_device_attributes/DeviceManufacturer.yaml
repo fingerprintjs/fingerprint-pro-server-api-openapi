@@ -1,0 +1,2 @@
+type: string
+description: Device manufacturer string.  Available only for iOS devices
