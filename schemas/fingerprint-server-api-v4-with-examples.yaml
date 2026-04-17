@@ -234,6 +234,8 @@ paths:
                             version: 10.21.0
                     replayed: false
                     high_activity_device: false
+                    rare_device: false
+                    rare_device_percentile_bucket: <p95
                     raw_device_attributes:
                       math: 5f030fa7d2e5f9f757bfaf81642eb1a6
                       vendor: Google Inc.
@@ -473,6 +475,8 @@ paths:
                             version: 10.21.0
                     replayed: false
                     high_activity_device: false
+                    rare_device: false
+                    rare_device_percentile_bucket: <p95
                     raw_device_attributes:
                       math: 5f030fa7d2e5f9f757bfaf81642eb1a6
                       vendor: Google Inc.
@@ -1416,6 +1420,36 @@ paths:
             `mitm_attack` property set to `true` or `false` are returned. Events
             without a `mitm_attack` Smart Signal result are left out of the
             response.
+        - name: rare_device
+          in: query
+          schema:
+            type: boolean
+          description: >
+            Filter events by Device Rarity detection result.
+
+            > Note: When using this parameter, only events with the
+            `rare_device` property set to `true` or `false` are returned. Events
+            without a Device Rarity Smart Signal result are left out of the
+            response.
+        - name: rare_device_percentile_bucket
+          in: query
+          schema:
+            type: string
+            enum:
+              - <p95
+              - p95-p99
+              - p99-p99.5
+              - p99.5-p99.9
+              - p99.9+
+              - not_seen
+          description: |
+            Filter events by Device Rarity percentile bucket.
+            `<p95` - device configuration is in the bottom 95% (most common).
+            `p95-p99` - device is in the 95th to 99th percentile.
+            `p99-p99.5` - device is in the 99th to 99.5th percentile.
+            `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile.
+            `p99.9+` - device is in the top 0.1% (rarest).
+            `not_seen` - device configuration has never been observed before.
         - name: proxy
           in: query
           schema:
@@ -1694,6 +1728,8 @@ paths:
                                 version: 10.21.0
                         replayed: false
                         high_activity_device: false
+                        rare_device: false
+                        rare_device_percentile_bucket: <p95
                         raw_device_attributes:
                           math: 5f030fa7d2e5f9f757bfaf81642eb1a6
                           vendor: Google Inc.
@@ -3045,6 +3081,38 @@ components:
     HighActivity:
       type: boolean
       description: Flag indicating if the request came from a high-activity visitor.
+    RareDevice:
+      type: boolean
+      description: >
+        `true` if the device is considered rare based on its combination of
+        hardware and software attributes. 
+
+        A device is classified as rare if it falls within the top 99.9
+        percentile (lowest-frequency segment) of observed traffic, 
+
+        or if its configuration has not been previously seen (`not_seen`).
+
+
+        > This Smart Signal is currently in beta and only available to select
+        customers. If you are interested, please [contact our support
+        team](https://fingerprint.com/support/).
+    RareDevicePercentileBucket:
+      type: string
+      enum:
+        - <p95
+        - p95-p99
+        - p99-p99.5
+        - p99.5-p99.9
+        - p99.9+
+        - not_seen
+      description: >
+        The rarity percentile bucket of the device, indicating how uncommon the
+        device configuration is compared to all observed devices.
+
+
+        > This Smart Signal is currently in beta and only available to select
+        customers. If you are interested, please [contact our support
+        team](https://fingerprint.com/support/).
     FontPreferences:
       type: object
       description: >
@@ -3636,6 +3704,14 @@ components:
           x-platforms:
             - android
             - ios
+            - browser
+        rare_device:
+          $ref: '#/components/schemas/RareDevice'
+          x-platforms:
+            - browser
+        rare_device_percentile_bucket:
+          $ref: '#/components/schemas/RareDevicePercentileBucket'
+          x-platforms:
             - browser
         raw_device_attributes:
           $ref: '#/components/schemas/RawDeviceAttributes'
