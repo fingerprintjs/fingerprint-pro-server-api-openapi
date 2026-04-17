@@ -357,7 +357,7 @@ paths:
                       mitmAttack:
                         data:
                           result: false
-                      deviceRarity:
+                      rareDevice:
                         data:
                           result: false
                           percentileBucket: "<p95"
@@ -472,7 +472,7 @@ paths:
                         error:
                           code: Failed
                           message: internal server error
-                      deviceRarity:
+                      rareDevice:
                         error:
                           code: Failed
                           message: internal server error
@@ -1107,11 +1107,11 @@ paths:
           schema:
             type: boolean
           description: >
-            Filter events by Device Rarity detection result.
+            Filter events by Rare Device detection result.
 
             > Note: When using this parameter, only events with the
-            `products.deviceRarity.data.result` property set to `true` or `false`
-            are returned. Events without a `products.deviceRarity` Smart Signal
+            `products.rareDevice.data.result` property set to `true` or `false`
+            are returned. Events without a `products.rareDevice` Smart Signal
             result are left out of the response.
         - name: rare_device_percentile_bucket
           in: query
@@ -1125,7 +1125,7 @@ paths:
               - "p99.9+"
               - "not_seen"
           description: >
-            Filter events by Device Rarity percentile bucket.
+            Filter events by Rare Device percentile bucket.
             `<p95` - device configuration is in the bottom 95% (most common).
             `p95-p99` - device is in the 95th to 99th percentile.
             `p99-p99.5` - device is in the 99th to 99.5th percentile.
@@ -1471,7 +1471,7 @@ paths:
                           mitmAttack:
                             data:
                               result: false
-                          deviceRarity:
+                          rareDevice:
                             data:
                               result: false
                               percentileBucket: "<p95"
@@ -4923,7 +4923,7 @@ paths:
                             result: false
                           mitmAttack:
                             result: false
-                          deviceRarity:
+                          rareDevice:
                             result: false
                             percentileBucket: "<p95"
                           sdk:
@@ -6004,6 +6004,40 @@ components:
           $ref: '#/components/schemas/HighActivity'
         error:
           $ref: '#/components/schemas/Error'
+    RareDevice:
+      type: object
+      additionalProperties: false
+      description: >
+        Rare device details (present if the device is considered rare)
+
+        > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+      properties:
+        result:
+          type: boolean
+          description: >
+            `true` if the device is considered rare based on its combination of hardware and software attributes.
+            A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic,
+            or if its configuration has not been previously seen (`not_seen`).
+        percentileBucket:
+          type: string
+          description: >
+            The rarity percentile bucket of the device, indicating how uncommon the device configuration is
+            compared to all observed devices.
+          enum:
+            - "<p95"
+            - "p95-p99"
+            - "p99-p99.5"
+            - "p99.5-p99.9"
+            - "p99.9+"
+            - "not_seen"
+    ProductRareDevice:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/RareDevice'
+        error:
+          $ref: '#/components/schemas/Error'
     LocationSpoofing:
       type: object
       additionalProperties: false
@@ -6210,43 +6244,6 @@ components:
           $ref: '#/components/schemas/MitMAttack'
         error:
           $ref: '#/components/schemas/Error'
-    DeviceRarity:
-      type: object
-      additionalProperties: false
-      required:
-        - result
-        - percentileBucket
-      properties:
-        result:
-          type: boolean
-          description: >
-            `true` if the device is considered rare based on its combination of hardware and software attributes. 
-            A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic, 
-            or if its configuration has not been previously seen (`not_seen`).
-
-            > This Smart Signal is currently in beta and only available to select
-            customers. If you are interested, please [contact our support
-            team](https://fingerprint.com/support/).
-        percentileBucket:
-          type: string
-          enum:
-            - "<p95"
-            - "p95-p99"
-            - "p99-p99.5"
-            - "p99.5-p99.9"
-            - "p99.9+"
-            - "not_seen"
-          description: >
-            The rarity percentile bucket of the device, indicating how uncommon
-            the device configuration is compared to all observed devices.
-    ProductDeviceRarity:
-      type: object
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/DeviceRarity'
-        error:
-          $ref: '#/components/schemas/Error'
     Proximity:
       type: object
       description: >
@@ -6352,8 +6349,8 @@ components:
           $ref: '#/components/schemas/ProductDeveloperTools'
         mitmAttack:
           $ref: '#/components/schemas/ProductMitMAttack'
-        deviceRarity:
-          $ref: '#/components/schemas/ProductDeviceRarity'
+        rareDevice:
+          $ref: '#/components/schemas/ProductRareDevice'
         proximity:
           $ref: '#/components/schemas/ProductProximity'
     EventsGetResponse:
@@ -6865,7 +6862,7 @@ components:
             See [MitM Attack
             Detection](https://dev.fingerprint.com/docs/smart-signals-overview#mitm-attack-detection)
             to learn more about this Smart Signal.
-    WebhookDeviceRarity:
+    WebhookRareDevice:
       type: object
       additionalProperties: false
       properties:
@@ -6876,11 +6873,12 @@ components:
             A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic, 
             or if its configuration has not been previously seen (`not_seen`).
 
-            > This Smart Signal is currently in beta and only available to select
-            customers. If you are interested, please [contact our support
-            team](https://fingerprint.com/support/).
+            > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
         percentileBucket:
           type: string
+          description: >
+            The rarity percentile bucket of the device, indicating how uncommon the device configuration is
+            compared to all observed devices.
           enum:
             - "<p95"
             - "p95-p99"
@@ -6888,9 +6886,6 @@ components:
             - "p99.5-p99.9"
             - "p99.9+"
             - "not_seen"
-          description: >
-            The rarity percentile bucket of the device, indicating how uncommon
-            the device configuration is compared to all observed devices.
     SupplementaryID:
       type: object
       additionalProperties: false
@@ -7073,8 +7068,8 @@ components:
           $ref: '#/components/schemas/WebhookDeveloperTools'
         mitmAttack:
           $ref: '#/components/schemas/WebhookMitMAttack'
-        deviceRarity:
-          $ref: '#/components/schemas/WebhookDeviceRarity'
+        rareDevice:
+          $ref: '#/components/schemas/WebhookRareDevice'
         replayed:
           type: boolean
           description: >
