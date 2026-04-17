@@ -1,6 +1,6 @@
 type: array
 description: |
-  Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs.
+  Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for both browsers and iOS devices
 items:
   type: array
   items:

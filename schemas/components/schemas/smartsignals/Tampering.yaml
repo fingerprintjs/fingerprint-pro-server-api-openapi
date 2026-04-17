@@ -1,8 +1,8 @@
 type: boolean
 description: |
-  Flag indicating browser tampering was detected. This happens when either:
-    * There are inconsistencies in the browser configuration that cross internal tampering thresholds (see `tampering_details.anomaly_score`).
-    * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`).
+  The field can be used as a standalone flag for tampering detection. Alternatively, the more granular fields documented below can be used for workflows that require more context.
+  * `true` if tampering is detected through an anomalous browser signature, anti-detect browser detection, or other tampering-related methods
+  * `false` if none of the tampering checks return a positive result
 x-ruleset-metadata:
   label: Tampering
   category: browser
