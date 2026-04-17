@@ -85,7 +85,7 @@ export default {
           from: 'schemas/fingerprint-server-api-v4.yaml',
           // normalized schema used by SDKs in weakly typed languages
           // examples are removed
-          // `oneOf` operators and similar are resolved
+          // `oneOf` query parameters are split into two or more parameters
           // additionalProperties: false are removed for backward compatibility
           to: 'schemas/fingerprint-server-api-v4-normalized.yaml',
           transform: (content) => transformSchema(content, v4SchemaForSdksNormalizedTransformers),
