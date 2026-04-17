@@ -274,7 +274,7 @@ paths:
                         data:
                           result: false
                           confidence: "high"
-                          mlScore: 0.3231,
+                          mlScore: 0.3231
                           anomalyScore: 0.1955
                           antiDetectBrowser: false
                       clonedApp:
