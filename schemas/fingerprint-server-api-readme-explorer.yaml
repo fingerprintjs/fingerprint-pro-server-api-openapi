@@ -273,8 +273,8 @@ paths:
                       tampering:
                         data:
                           result: false
-                          confidence: "high",
-                          mlScore: 0.3231,
+                          confidence: "high"
+                          mlScore: 0.3231
                           anomalyScore: 0.1955
                           antiDetectBrowser: false
                       clonedApp:
@@ -1798,7 +1798,7 @@ paths:
                           tampering:
                             data:
                               result: false
-                              confidence: "high",
+                              confidence: "high"
                               mlScore: 0.3231,
                               anomalyScore: 0.1955
                               antiDetectBrowser: false
