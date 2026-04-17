@@ -36,6 +36,7 @@ properties:
     type: boolean
     x-ruleset-metadata:
       label: IPv4 data center IP
+      category: ip_address
   datacenter_name:
     type: string
     x-ruleset-metadata:

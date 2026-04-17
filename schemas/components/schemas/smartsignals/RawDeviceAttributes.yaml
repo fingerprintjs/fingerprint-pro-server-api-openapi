@@ -53,3 +53,7 @@ properties:
     $ref: raw_device_attributes/IndexedDb.yaml
   math:
     $ref: raw_device_attributes/Math.yaml
+  device_model:
+    $ref: raw_device_attributes/DeviceModel.yaml
+  device_manufacturer:
+    $ref: raw_device_attributes/DeviceManufacturer.yaml

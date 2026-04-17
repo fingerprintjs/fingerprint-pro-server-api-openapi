@@ -172,6 +172,10 @@ properties:
       - android
       - ios
       - browser
+  proxy_ml_score:
+    $ref: smartsignals/ProxyMLScore.yaml
+    x-platforms:
+      - browser
   incognito:
     $ref: smartsignals/Incognito.yaml
     x-platforms:
@@ -285,11 +289,14 @@ properties:
       - browser
   rare_device:
     $ref: smartsignals/RareDevice.yaml
-    x-platforms: ["browser"]
+    x-platforms:
+      - browser
   rare_device_percentile_bucket:
     $ref: smartsignals/RareDevicePercentileBucket.yaml
-    x-platforms: ["browser"]
+    x-platforms:
+      - browser
   raw_device_attributes:
     $ref: smartsignals/RawDeviceAttributes.yaml
     x-platforms:
       - browser
+      - ios
