@@ -282,6 +282,32 @@ get:
       description: |
         Filter events by MITM (Man-in-the-Middle) Attack detection result.
         > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response.
+    - name: rare_device
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by Device Rarity detection result.
+        > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
+    - name: rare_device_percentile_bucket
+      in: query
+      schema:
+        type: string
+        enum:
+          - "<p95"
+          - "p95-p99"
+          - "p99-p99.5"
+          - "p99.5-p99.9"
+          - "p99.9+"
+          - "not_seen"
+      description: |
+        Filter events by Device Rarity percentile bucket.
+        `<p95` - device configuration is in the bottom 95% (most common).
+        `p95-p99` - device is in the 95th to 99th percentile.
+        `p99-p99.5` - device is in the 99th to 99.5th percentile.
+        `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile.
+        `p99.9+` - device is in the top 0.1% (rarest).
+        `not_seen` - device configuration has never been observed before.
     - name: proxy
       in: query
       schema:
