@@ -170,6 +170,7 @@ paths:
                       proxy_type: residential
                       last_seen_at: 1708102555327
                       provider: Massive
+                    proxy_ml_score: 0.2
                     vpn: false
                     vpn_confidence: high
                     vpn_origin_timezone: Europe/Berlin
@@ -234,8 +235,6 @@ paths:
                             version: 10.21.0
                     replayed: false
                     high_activity_device: false
-                    rare_device: false
-                    rare_device_percentile_bucket: <p95
                     raw_device_attributes:
                       math: 5f030fa7d2e5f9f757bfaf81642eb1a6
                       vendor: Google Inc.
@@ -312,6 +311,8 @@ paths:
                       session_storage: true
                       date_time_locale: en-US
                       audio: 124.04347745512496
+                    rare_device: false
+                    rare_device_percentile_bucket: <p95
                 200-ok-with-ruleset:
                   summary: >-
                     Example response with rule_action (when ruleset_id is
@@ -411,6 +412,7 @@ paths:
                       proxy_type: residential
                       last_seen_at: 1708102555327
                       provider: Massive
+                    proxy_ml_score: 0.2
                     vpn: false
                     vpn_confidence: high
                     vpn_origin_timezone: Europe/Berlin
@@ -475,8 +477,6 @@ paths:
                             version: 10.21.0
                     replayed: false
                     high_activity_device: false
-                    rare_device: false
-                    rare_device_percentile_bucket: <p95
                     raw_device_attributes:
                       math: 5f030fa7d2e5f9f757bfaf81642eb1a6
                       vendor: Google Inc.
@@ -553,6 +553,8 @@ paths:
                       session_storage: true
                       date_time_locale: en-US
                       audio: 124.04347745512496
+                    rare_device: false
+                    rare_device_percentile_bucket: <p95
                     rule_action:
                       type: block
                       status_code: 403
@@ -667,6 +669,8 @@ paths:
                     proxy_details:
                       proxy_type: residential
                       last_seen_at: 1708102555327
+                      provider: Massive
+                    proxy_ml_score: 0.2
                     vpn: false
                     vpn_confidence: high
                     vpn_origin_timezone: Europe/Berlin
@@ -804,6 +808,8 @@ paths:
                       session_storage: true
                       date_time_locale: en-US
                       audio: 124.04347745512496
+                    rare_device: false
+                    rare_device_percentile_bucket: <p95
         '400':
           description: Bad request. The event Id provided is not valid.
           content:
@@ -1664,6 +1670,7 @@ paths:
                           proxy_type: residential
                           last_seen_at: 1708102555327
                           provider: Massive
+                        proxy_ml_score: 0.2
                         vpn: false
                         vpn_confidence: high
                         vpn_origin_timezone: Europe/Berlin
@@ -1728,8 +1735,6 @@ paths:
                                 version: 10.21.0
                         replayed: false
                         high_activity_device: false
-                        rare_device: false
-                        rare_device_percentile_bucket: <p95
                         raw_device_attributes:
                           math: 5f030fa7d2e5f9f757bfaf81642eb1a6
                           vendor: Google Inc.
@@ -1806,6 +1811,8 @@ paths:
                           session_storage: true
                           date_time_locale: en-US
                           audio: 124.04347745512496
+                        rare_device: false
+                        rare_device_percentile_bucket: <p95
                     pagination_key: '1708102555327'
         '400':
           description: >-
@@ -2667,6 +2674,16 @@ components:
             this
 
             IP was synced. An IP can be shared by multiple service providers.
+    ProxyMLScore:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 1
+      description: >
+        Machine learning–based proxy score, represented as a floating-point
+        value between 0 and 1 (inclusive), with up to three decimal places of
+        precision. A higher score means a higher confidence in the positive
+        `proxy` detection result
     Incognito:
       type: boolean
       description: >
@@ -2847,30 +2864,57 @@ components:
     Tampering:
       type: boolean
       description: >
-        Flag indicating browser tampering was detected. This happens when
-        either:
-          * There are inconsistencies in the browser configuration that cross internal tampering thresholds (see `tampering_details.anomaly_score`).
-          * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`).
+        The field can be used as a standalone flag for tampering detection.
+        Alternatively, the more granular fields documented below can be used for
+        workflows that require more context.
+
+        * `true` if tampering is detected through an anomalous browser
+        signature, anti-detect browser detection, or other tampering-related
+        methods
+
+        * `false` if none of the tampering checks return a positive result
     TamperingConfidence:
       type: string
       enum:
         - low
         - medium
         - high
-      description: |
-        Confidence level of the tampering detection.
-        If a proxy is not detected, confidence is "high".
-        If it's detected, can be "low", "medium", or "high".
+      description: >
+        The confidence level indicates how certain Fingerprint is that the
+        current request involves browser tampering. This confidence level is
+        determined by evaluating multiple factors, such as heuristic rules,
+        probabilistic anomaly detection, an anti detect browser ml model, and
+        other relevant methods. It is conveyed as a string with possible values
+        such as high, medium, or low
+
+        In case of tampering: `true`
+
+        * **High confidence**: heuristic anti detect browser signals and the ml
+        model are triggered, or all of the methods are triggered.
+
+        * **Medium confidence**: either the ml model triggers alone, the anomaly
+        score triggers alone with or without the heuristic anti detect browser
+        methods trigger.
+
+        * **Low confidence**: only the heuristic anti detect methods are
+        triggered.
+
+
+        In case of tampering: `false`
+
+        * **High confidence:** Strong signals suggest the user is not tampering
+        with their request.
     TamperingMlScore:
       type: number
       format: double
       minimum: 0
       maximum: 1
       description: >
-        A score that indicates the models calculated probability that an event
-        is coming from an anti detect browser.
-          * Values above `0.8` indicate that the request is an anti detect browser based on the ml model
-          * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model
+        The output of this model is captured as tampering_ml_score, a number
+        indicating how likely an event is coming from an anti detect browser.
+        Values close to 1 signify higher confidence and we consider anything
+        above the threshold of 0.8 to be actionable (the result and
+        anti_detect_browser fields conveniently captures that fact)
     TamperingDetails:
       type: object
       additionalProperties: false
@@ -2884,18 +2928,30 @@ components:
             - android
             - ios
             - browser
-          description: |
-            Confidence score (`0.0 - 1.0`) for tampering detection:
-              * Values above `0.5` indicate tampering.
-              * Values below `0.5` indicate genuine browsers.
+          description: >
+            The output of this model is captured as anomaly_score, a statistical
+            score indicating how rare the visitor's browser signature is
+            compared to the overall population. Values close to 1 signify highly
+            anomalous browsers and we consider anything above the threshold of
+            0.5 to be actionable (the result field conveniently captures that
+            fact).
         anti_detect_browser:
           type: boolean
           x-platforms:
             - browser
           description: >
-            True if the identified browser resembles an "anti-detect" browser,
-            such as Incognition, which attempts to evade identification by
-            manipulating its fingerprint.
+            Detects whether the request shows evidence of anti-detect browser
+            usage.
+
+            This field may be triggered by:
+
+            * heuristic detection of known anti-detect browser behavior
+
+            * machine learning detection of anti-detect browser patterns
+
+
+            Examples of anti-detect browsers include tools such as AdsPower,
+            DolphinAnty, OctoBrowser, and GoLogin.
     VelocityData:
       type: object
       description: >
@@ -3085,19 +3141,23 @@ components:
       type: boolean
       description: >
         `true` if the device is considered rare based on its combination of
-        hardware and software attributes. 
-
-        A device is classified as rare if it falls within the top 99.9
-        percentile (lowest-frequency segment) of observed traffic, 
-
-        or if its configuration has not been previously seen (`not_seen`).
-
+        hardware and software attributes.  A device is classified as rare if it
+        falls within the top 99.9 percentile (lowest-frequency segment) of
+        observed traffic,  or if its configuration has not been previously seen
+        (`not_seen`).
 
         > This Smart Signal is currently in beta and only available to select
         customers. If you are interested, please [contact our support
         team](https://fingerprint.com/support/).
     RareDevicePercentileBucket:
       type: string
+      description: >
+        The rarity percentile bucket of the device, indicating how uncommon the
+        device configuration is compared to all observed devices. 
+
+        > This Smart Signal is currently in beta and only available to select
+        customers. If you are interested, please [contact our support
+        team](https://fingerprint.com/support/).
       enum:
         - <p95
         - p95-p99
@@ -3105,14 +3165,6 @@ components:
         - p99.5-p99.9
         - p99.9+
         - not_seen
-      description: >
-        The rarity percentile bucket of the device, indicating how uncommon the
-        device configuration is compared to all observed devices.
-
-
-        > This Smart Signal is currently in beta and only available to select
-        customers. If you are interested, please [contact our support
-        team](https://fingerprint.com/support/).
     FontPreferences:
       type: object
       description: >
@@ -3211,7 +3263,7 @@ components:
       description: >
         Navigator languages reported by the agent including fallbacks. Each
         inner array represents ordered language preferences reported by
-        different APIs.
+        different APIs. Available for both browsers and iOS devices
       items:
         type: array
         items:
@@ -3254,7 +3306,7 @@ components:
           type: string
     ScreenResolution:
       type: array
-      description: Current screen resolution.
+      description: Current screen resolution. Available for both browsers and iOS devices
       minItems: 2
       maxItems: 2
       items:
@@ -3285,7 +3337,6 @@ components:
     HardwareConcurrency:
       type: integer
       format: int32
-      minimum: 1
       description: Number of logical CPU cores reported by the browser.
     DateTimeLocale:
       type: string
@@ -3361,6 +3412,12 @@ components:
     Math:
       type: string
       description: Hash of Math APIs used for entropy collection.
+    DeviceModel:
+      type: string
+      description: Device model string. Available only for iOS devices
+    DeviceManufacturer:
+      type: string
+      description: Device manufacturer string.  Available only for iOS devices
     RawDeviceAttributes:
       type: object
       description: >
@@ -3419,6 +3476,10 @@ components:
           $ref: '#/components/schemas/IndexedDb'
         math:
           $ref: '#/components/schemas/Math'
+        device_model:
+          $ref: '#/components/schemas/DeviceModel'
+        device_manufacturer:
+          $ref: '#/components/schemas/DeviceManufacturer'
     Event:
       type: object
       description: >-
@@ -3594,6 +3655,10 @@ components:
             - android
             - ios
             - browser
+        proxy_ml_score:
+          $ref: '#/components/schemas/ProxyMLScore'
+          x-platforms:
+            - browser
         incognito:
           $ref: '#/components/schemas/Incognito'
           x-platforms:
@@ -3717,10 +3782,12 @@ components:
           $ref: '#/components/schemas/RawDeviceAttributes'
           x-platforms:
             - browser
+            - ios
     ErrorCode:
       type: string
       enum:
         - request_cannot_be_parsed
+        - request_read_timeout
         - secret_api_key_required
         - secret_api_key_not_found
         - public_api_key_required
@@ -3743,6 +3810,9 @@ components:
         * `request_cannot_be_parsed` - The query parameters or JSON payload
         contains some errors
           that prevented us from parsing it (wrong type/surpassed limits).
+        * `request_read_timeout` - The request body could not be read before the
+        connection timed out.
+
         * `secret_api_key_required` - secret API key in header is missing or
         empty.
 
