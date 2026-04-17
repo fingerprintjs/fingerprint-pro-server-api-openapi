@@ -1,5 +1,14 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.2.0
+
+### Minor Changes
+
+- **events**: Add `proxy_ml_score` to `Event` ([f923eab](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/f923eabda484ef6c2aff1ae7bd3468570c508750))
+- **events**: Add `requset_read_timeout` error code ([f923eab](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/f923eabda484ef6c2aff1ae7bd3468570c508750))
+- **events**: Enable `raw_device_attributes` for iOS devices. Only `device_manufacturer`, `device_model`, `hardware_concurrency`, `languages`, and `screen_resolution` are currently supported for iOS devices. ([f923eab](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/f923eabda484ef6c2aff1ae7bd3468570c508750))
+- **events**: Add Device Rarity Smart Signal ([40a3096](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/40a30963661c7663c57b5437f11f04475dffee3d))
+
 ## 3.1.0
 
 ### Minor Changes
