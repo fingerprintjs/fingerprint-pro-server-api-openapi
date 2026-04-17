@@ -54,7 +54,7 @@ jobs:
       schema-path: resources/fingerprint-server-api.yaml
       examples-path: tests/mocked-responses-tests/mocked-responses-data
       app-id: ${{ vars.RUNNER_APP_ID }}
-      repository: fingerprintjs-pro-server-api-node-sdk
+      repository: node-sdk
       pre-release: ${{ inputs.pre-release }}
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
       force: ${{ inputs.force }}
@@ -69,11 +69,11 @@ jobs:
       tag: ${{ inputs.tag }}
       language: golang
       language-version: 1.21
-      generate-command: 'go run generate.go'
-      schema-path: res/fingerprint-server-api.yaml
+      generate-command: 'bash ./bin/openapi-codegen-docker.sh'
+      schema-path: res/fingerprint-server-api-v4.yaml
       examples-path: test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
-      repository: fingerprint-pro-server-api-go-sdk
+      repository: go-sdk
       pre-release: ${{ inputs.pre-release }}
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
       force: ${{ inputs.force }}
@@ -90,9 +90,9 @@ jobs:
       language-version: '8.x'
       generate-command: 'bash ./generate.sh'
       schema-path: res/fingerprint-server-api.yaml
-      examples-path: src/FingerprintPro.ServerSdk.Test/mocks
+      examples-path: src/Fingerprint.ServerSdk.Test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
-      repository: fingerprint-pro-server-api-dotnet-sdk
+      repository: dotnet-sdk
       pre-release: ${{ inputs.pre-release }}
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
       force: ${{ inputs.force }}
@@ -111,7 +111,7 @@ jobs:
       schema-path: res/fingerprint-server-api.yaml
       examples-path: test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
-      repository: fingerprint-pro-server-api-python-sdk
+      repository: python-sdk
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: rc
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
@@ -132,7 +132,7 @@ jobs:
       schema-path: res/fingerprint-server-api.yaml
       examples-path: sdk/src/test/resources/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
-      repository: fingerprint-pro-server-api-java-sdk
+      repository: java-sdk
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: rc
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
@@ -152,7 +152,7 @@ jobs:
       schema-path: res/fingerprint-server-api.yaml
       examples-path: test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
-      repository: fingerprint-pro-server-api-php-sdk
+      repository: php-sdk
       pre-release: ${{ inputs.pre-release }}
       pre-release-tag: develop
       allowed-scopes: events,visitors,webhook,related-visitors,events-search

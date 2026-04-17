@@ -1,11 +1,9 @@
 openapi: 3.1.1
 info:
   title: Server API
-  description: >
+  description: |
     Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
-
     Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
-
   version: '4'
   contact:
     name: Fingerprint Support
@@ -28,11 +26,11 @@ security:
   - bearerAuth: []
 paths:
   /events/{event_id}:
-    $ref: "paths/event.yaml"
+    $ref: paths/event.yaml
   /events:
-    $ref: 'paths/events.yaml'
+    $ref: paths/events.yaml
   /visitors/{visitor_id}:
-    $ref: 'paths/visitors.yaml'
+    $ref: paths/visitors.yaml
 webhooks:
   event:
     post:
@@ -45,11 +43,10 @@ webhooks:
         content:
           application/json:
             schema:
-              $ref: 'components/schemas/Event.yaml'
+              $ref: components/schemas/Event.yaml
       responses:
-        "200":
+        '200':
           description: Return a 200 status to indicate that the data was received successfully
-
 components:
   securitySchemes:
     bearerAuth:

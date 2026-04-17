@@ -1,7 +1,7 @@
 get:
   tags:
     - Events
-  operationId: 'searchEvents'
+  operationId: searchEvents
   x-dotnet-use-request-object: true
   summary: Search events
   description: |
@@ -20,7 +20,7 @@ get:
     The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.
 
     You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.
-    
+
     ### Environment scoping
 
     If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.
@@ -50,14 +50,22 @@ get:
 
         1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100`
         2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
-      # example: 1740815825085
     - name: visitor_id
       in: query
       schema:
         type: string
       description: |
         Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.
-        Filter for events matching this `visitor_id`.
+
+        Filter events by matching Visitor ID (`identification.visitor_id` property).
+    - name: high_recall_id
+      in: query
+      schema:
+        type: string
+      description: |
+        The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.
+
+        Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
     - name: bot
       in: query
       schema:
@@ -96,7 +104,6 @@ get:
         Filter events by your custom identifier.
 
         You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
-      # example: someId
     - name: url
       in: query
       schema:
@@ -331,13 +338,15 @@ get:
       in: query
       description: |
         Filter for events by providing one or more environment IDs (`environment_id` property).
+
+        ### Array syntax
+        To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`).
+        Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported.
       required: false
       schema:
         type: array
         items:
           type: string
-      # style defines how multiple values are delimited. See https://swagger.io/docs/specification/v3_0/serialization/ for info on `style` and `explode`
-      # explode (is true by default, with style: form) specifies whether arrays and objects should generate separate parameters for each array item or object property.
       style: form
     - name: proximity_id
       in: query
@@ -362,74 +371,91 @@ get:
       description: |
         Filter events by Tor Node detection result.
         > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response.
+    - name: incremental_identification_status
+      in: query
+      schema:
+        type: string
+        enum:
+          - partially_completed
+          - completed
+      description: |
+        Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
+    - name: simulator
+      in: query
+      schema:
+        type: boolean
+      description: |
+        Filter events by iOS Simulator Detection result.
+
+        > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
   responses:
     '200':
       description: Events matching the filter(s).
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/EventSearch.yaml'
+            $ref: ../components/schemas/EventSearch.yaml
           examples:
             200-ok:
               summary: Example results
-              externalValue: 'examples/events/search/get_event_search_200.json'
-    '403':
-      description: Forbidden. Access to this API is denied.
-      content:
-        application/json:
-          schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
-          examples:
-            403-secret-api-key-required:
-              summary: Error response when the secret API key was not provided.
-              externalValue: 'examples/errors/403_secret_api_key_required.json'
-            403-secret-api-key-not-found:
-              summary: Error response when the provided secret API key does not exist.
-              externalValue: 'examples/errors/403_secret_api_key_not_found.json'
-            403-wrong-region:
-              summary: Error response when the API region does not match the region of your Fingerprint workspace.
-              externalValue: 'examples/errors/403_wrong_region.json'
+              externalValue: examples/events/search/get_event_search_200.json
     '400':
       description: Bad request. One or more supplied search parameters are invalid, or a required parameter is missing.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             400-limit-invalid:
               summary: Error response when no limit is supplied, or is invalid.
-              externalValue: 'examples/errors/400_limit_invalid.json'
+              externalValue: examples/errors/400_limit_invalid.json
             400-ip-address-invalid:
               summary: Error response when an invalid IP address is supplied, or is not using CIDR notation.
-              externalValue: 'examples/errors/400_ip_address_invalid.json'
+              externalValue: examples/errors/400_ip_address_invalid.json
             400-bot-type-invalid:
               summary: Error response when an invalid bot type is specified, must be one of `good`, `bad`, `all`, or `none`.
-              externalValue: 'examples/errors/400_bot_type_invalid.json'
+              externalValue: examples/errors/400_bot_type_invalid.json
             400-reverse-invalid:
               summary: Error response when the reverse parameter is invalid.
-              externalValue: 'examples/errors/400_reverse_invalid.json'
+              externalValue: examples/errors/400_reverse_invalid.json
             400-start-time-invalid:
               summary: Error response when an invalid start time is supplied.
-              externalValue: 'examples/errors/400_start_time_invalid.json'
+              externalValue: examples/errors/400_start_time_invalid.json
             400-end-time-invalid:
               summary: Error response when an invalid end time is supplied.
-              externalValue: 'examples/errors/400_end_time_invalid.json'
+              externalValue: examples/errors/400_end_time_invalid.json
             400-visitor-id-invalid:
               summary: Error response when an invalid visitor Id is supplied.
-              externalValue: 'examples/errors/400_visitor_id_invalid.json'
+              externalValue: examples/errors/400_visitor_id_invalid.json
             400-linked-id-invalid:
               summary: Error response when an invalid (too large) linked Id is supplied.
-              externalValue: 'examples/errors/400_linked_id_invalid.json'
+              externalValue: examples/errors/400_linked_id_invalid.json
             400-pagination-key-invalid:
               summary: Error response when an invalid pagination key is supplied.
-              externalValue: 'examples/errors/400_pagination_key_invalid.json'
+              externalValue: examples/errors/400_pagination_key_invalid.json
+    '403':
+      description: Forbidden. Access to this API is denied.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            403-secret-api-key-required:
+              summary: Error response when the secret API key was not provided.
+              externalValue: examples/errors/403_secret_api_key_required.json
+            403-secret-api-key-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: examples/errors/403_secret_api_key_not_found.json
+            403-wrong-region:
+              summary: Error response when the API region does not match the region of your Fingerprint workspace.
+              externalValue: examples/errors/403_wrong_region.json
     '500':
       description: Workspace error.
       content:
         application/json:
           schema:
-            $ref: '../components/schemas/error/ErrorResponse.yaml'
+            $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             500-error:
               summary: Request failed
-              externalValue: 'examples/errors/500_internal_server_error.json'
+              externalValue: examples/errors/500_internal_server_error.json

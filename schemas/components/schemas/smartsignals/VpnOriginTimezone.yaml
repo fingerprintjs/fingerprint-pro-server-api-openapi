@@ -1,5 +1,5 @@
 type: string
-description: >
+description: |
   Local timezone which is used in timezone_mismatch method.
 x-ruleset-metadata:
   label: VPN origin timezone

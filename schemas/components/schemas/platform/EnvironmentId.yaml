@@ -1,5 +1,5 @@
 type: string
-description: >
+description: |
   Environment Id of the event. For example: `ae_47abaca3db2c7c43`
 x-ruleset-metadata:
   label: Environment ID

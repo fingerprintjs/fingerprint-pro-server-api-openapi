@@ -1,6 +1,5 @@
 type: object
-description: >-
-  The set of header modifications to apply, in the following order: remove, set, append.
+description: 'The set of header modifications to apply, in the following order: remove, set, append.'
 properties:
   remove:
     type: array
