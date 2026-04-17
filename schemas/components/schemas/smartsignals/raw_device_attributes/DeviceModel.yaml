@@ -1,0 +1,2 @@
+type: string
+description: Device model string. Available only for iOS devices

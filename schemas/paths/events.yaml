@@ -294,12 +294,12 @@ get:
       schema:
         type: string
         enum:
-          - "<p95"
-          - "p95-p99"
-          - "p99-p99.5"
-          - "p99.5-p99.9"
-          - "p99.9+"
-          - "not_seen"
+          - <p95
+          - p95-p99
+          - p99-p99.5
+          - p99.5-p99.9
+          - p99.9+
+          - not_seen
       description: |
         Filter events by Device Rarity percentile bucket.
         `<p95` - device configuration is in the bottom 95% (most common).
