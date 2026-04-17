@@ -5,6 +5,3 @@ description: |
   or if its configuration has not been previously seen (`not_seen`).
 
   > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
-x-ruleset-metadata:
-  label: Rare device
-  category: browser
