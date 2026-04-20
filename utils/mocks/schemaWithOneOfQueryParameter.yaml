@@ -1,0 +1,18 @@
+openapi: 3.1.1
+info:
+  title: test
+  version: '1.0'
+paths:
+  /v4/events:
+    get:
+      operationId: getEvents
+      parameters:
+        - name: timestamp
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: integer
+                format: int64
+              - type: string
+                format: date-time
