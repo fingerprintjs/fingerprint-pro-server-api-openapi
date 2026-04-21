@@ -1,0 +1,2 @@
+type: string
+description: UTC offset in "±HH:MM" format derived from the detected IANA timezone.

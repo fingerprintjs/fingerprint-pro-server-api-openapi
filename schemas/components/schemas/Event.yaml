@@ -300,3 +300,4 @@ properties:
     x-platforms:
       - browser
       - ios
+      - android

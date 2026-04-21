@@ -13,7 +13,12 @@ get:
     - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier.
     - Excluding all bot traffic from the query (`good` and `bad` bots)
 
-    If you don't provide `start` or `end` parameters, the default search range is the **last 7 days**.
+    By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.
+
+    - Use `start` and `end` to specify the time range of the search.
+    - Use `reverse=true` to sort the results oldest first.
+    - Use `limit` to specify the number of events to return.
+    - Use `pagination_key` to get the next page of results if there are more than `limit` events.
 
     ### Filtering events with the `suspect` flag
 
@@ -38,7 +43,7 @@ get:
         default: 10
         example: 10
       description: |
-        Limit the number of events returned.
+        Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
     - name: pagination_key
       in: query
       schema:
@@ -131,23 +136,32 @@ get:
     - name: start
       in: query
       schema:
-        type: integer
-        format: int64
+        oneOf:
+          - type: integer
+            format: int64
+          - type: string
+            format: date-time
+        example: 1767225600000
       description: |
-        Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
+        Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
     - name: end
       in: query
       schema:
-        type: integer
-        format: int64
+        oneOf:
+          - type: integer
+            format: int64
+          - type: string
+            format: date-time
+        example: 1769903999000
       description: |
-        Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
+        Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
     - name: reverse
       in: query
       schema:
         type: boolean
+        default: false
       description: |
-        Sort events in reverse timestamp order.
+        When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).
     - name: suspect
       in: query
       schema:
