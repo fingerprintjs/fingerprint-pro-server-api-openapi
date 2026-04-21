@@ -131,17 +131,23 @@ get:
     - name: start
       in: query
       schema:
-        type: integer
-        format: int64
+        oneOf:
+          - type: integer
+            format: int64
+          - type: string
+            format: date-time
       description: |
-        Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
+        Filter events with a timestamp greater than the start time, in Unix time (milliseconds) or an RFC3339 timestamp.
     - name: end
       in: query
       schema:
-        type: integer
-        format: int64
+        oneOf:
+          - type: integer
+            format: int64
+          - type: string
+            format: date-time
       description: |
-        Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
+        Filter events with a timestamp smaller than the end time, in Unix time (milliseconds) or an RFC3339 timestamp.
     - name: reverse
       in: query
       schema:
