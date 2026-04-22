@@ -14,13 +14,9 @@ Two Server API versions ship from this repo:
 - `x-readme/` holds ReadMe.io documentation extensions merged into the schema at build time — not standard OpenAPI.
 - `vacuum-ignore.yaml` lists intentional lint exceptions. Don't "fix" them.
 
-## Release flow
+## Release flow and changesets
 
-Changesets drive both this package's `CHANGELOG.md` and release notes for six downstream SDKs (Node, Go, .NET, Python, Java, PHP) auto-synced on release. A missing changeset means downstream SDKs ship without context for the change.
-
-## Changesets
-
-Files in `.changeset/*.md` feed the generated `CHANGELOG.md` / release notes.
+Changesets (`.changeset/*.md` files) drive both this package's `CHANGELOG.md` and release notes for six downstream SDKs (Node, Go, .NET, Python, Java, PHP) auto-synced on release. A missing changeset means downstream SDKs ship without context for the change.
 
 - **Filename**: descriptive kebab-case, never the auto-generated random slug. Share a prefix to group related entries (e.g. `raw-device-attributes-android.md`, `raw-device-attributes-ios.md`).
 - **Frontmatter**: single-quoted package name.
