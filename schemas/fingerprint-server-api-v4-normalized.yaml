@@ -385,9 +385,9 @@ paths:
             not change `end`'s default of `now` — adjust it separately if
             needed.
           schema:
-            example: 1767225600000
             type: integer
             format: int64
+            example: 1767225600000
         - name: start_date_time
           in: query
           description: >
@@ -397,9 +397,9 @@ paths:
             not change `end`'s default of `now` — adjust it separately if
             needed.
           schema:
-            example: 1767225600000
             type: string
             format: date-time
+            example: '2026-01-01T00:00:00Z'
         - name: end
           in: query
           description: >
@@ -408,9 +408,9 @@ paths:
             timestamp). Defaults to now. Setting `end` does not change `start`'s
             default of `7 days ago` — adjust it separately if needed.
           schema:
-            example: 1769903999000
             type: integer
             format: int64
+            example: 1769903999000
         - name: end_date_time
           in: query
           description: >
@@ -419,9 +419,9 @@ paths:
             timestamp). Defaults to now. Setting `end` does not change `start`'s
             default of `7 days ago` — adjust it separately if needed.
           schema:
-            example: 1769903999000
             type: string
             format: date-time
+            example: '2026-01-31T23:59:59Z'
         - name: reverse
           in: query
           schema:
@@ -2519,9 +2519,9 @@ components:
         raw_device_attributes:
           $ref: '#/components/schemas/RawDeviceAttributes'
           x-platforms:
-            - android
-            - ios
             - browser
+            - ios
+            - android
     ErrorCode:
       type: string
       enum:
