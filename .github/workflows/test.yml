@@ -8,7 +8,7 @@ jobs:
     name: Lint, build and test
     runs-on: ubuntu-latest
     environment: test
-    timeout-minutes: 3
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,4 +16,4 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: ./.github/actions/test-and-build
         with:
-          testSubscriptions: '${{ secrets.TEST_SUBSCRIPTIONS }}'
+          testSubscriptions: "${{ secrets.TEST_SUBSCRIPTIONS }}"

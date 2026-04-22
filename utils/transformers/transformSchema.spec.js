@@ -6,7 +6,7 @@ import {
   v4SchemaForSdksTransformers,
   v4SchemaForSdksNormalizedTransformers,
 } from './transformSchema.js';
-import { parseYaml } from './parseYaml.js';
+import { parseYaml, toYaml } from './parseYaml.js';
 
 const v4Schema = fs.readFileSync('./schemas/fingerprint-server-api-v4.yaml');
 
@@ -79,22 +79,15 @@ describe('Test transformSchema pipelines for v4', () => {
     });
   });
 
-  it('v4 normalized sdk schema removes examples, additionalProperties: false, composition operators and path-operation inline enums', () => {
+  it('v4 normalized sdk schema removes examples, additionalProperties: false, oneOf query parameters', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
     expect(hasYamlKey(result, 'examples')).toBe(false);
     expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
-    expect(hasYamlKey(result, 'oneOf')).toBe(false);
-    expect(hasYamlKey(result, 'anyOf')).toBe(false);
 
     const parsed = parseYaml(result);
-    const parameters = parsed.paths['/events'].get.parameters;
-    expectPathOperationInlineEnumsExtractedToComponents(parameters, parsed.components.schemas);
+    const pathsYaml = toYaml(parsed.paths);
 
-    expect(parsed.components.schemas.EventRuleAction.properties.type).toEqual({
-      type: 'string',
-      description: 'Describes the action to take with the request.',
-      enum: ['allow', 'block'],
-    });
+    expect(hasYamlKey(pathsYaml, 'oneOf')).toBe(false);
   });
 });

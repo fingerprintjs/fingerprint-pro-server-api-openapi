@@ -1,7 +1,7 @@
 import yaml from 'js-yaml';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
-import { resolveAllOfRecursivelyTransformer, resolveAllOfTransformer } from './resolveAllOfTransformer.js';
-import { resolveOneOfTransformer, resolveAnyOfTransformer } from './resolveOneOfTransformer.js';
+import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
+import { expandOneOfQueryParametersTransformer } from './expandOneOfQueryParametersTransformer.js';
 import { removeWebhookTransformer } from './removeWebhookTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
@@ -51,11 +51,7 @@ export const v4SchemaForSdksTransformers = [
 
 export const v4SchemaForSdksNormalizedTransformers = [
   ...v4SchemaForSdksCommonTransformers,
-  resolveAllOfRecursivelyTransformer,
-  resolveOneOfTransformer,
-  resolveAnyOfTransformer,
-  // do this at the end of the pipeline again to make sure previous transformers didn't introduce it again
-  removeFieldTransformer('additionalProperties', false),
+  expandOneOfQueryParametersTransformer,
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
