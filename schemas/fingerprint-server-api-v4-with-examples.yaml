@@ -3418,6 +3418,12 @@ components:
     DeviceManufacturer:
       type: string
       description: Device manufacturer string. Available only for Android and iOS devices.
+    FontHash:
+      type: string
+      description: Unique identifier for the user’s installed fonts.
+    TimezoneOffset:
+      type: string
+      description: UTC offset in "±HH:MM" format derived from the detected IANA timezone.
     RawDeviceAttributes:
       type: object
       description: >
@@ -3480,6 +3486,10 @@ components:
           $ref: '#/components/schemas/DeviceModel'
         device_manufacturer:
           $ref: '#/components/schemas/DeviceManufacturer'
+        font_hash:
+          $ref: '#/components/schemas/FontHash'
+        timezone_offset:
+          $ref: '#/components/schemas/TimezoneOffset'
     Event:
       type: object
       description: >-
