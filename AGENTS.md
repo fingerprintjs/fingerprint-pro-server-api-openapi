@@ -7,6 +7,17 @@ Two Server API versions ship from this repo:
 - **v4 (current)**: source in `schemas/components/` and `schemas/paths/`. Edit there, then run the build to regenerate the bundled schema.
 - **v3 (legacy)**: no source files — edit the bundled YAMLs directly in `schemas/`. Changes should be rare.
 
+## Build outputs
+
+- `dist/` is webpack output — edit source under `schemas/components/` and `schemas/paths/`, then rebuild. Never hand-edit files in `dist/`.
+- `schemas/paths/examples/*.json` are downloaded by downstream SDK repos for validation. Don't delete files that look unused locally.
+- `x-readme/` holds ReadMe.io documentation extensions merged into the schema at build time — not standard OpenAPI.
+- `vacuum-ignore.yaml` lists intentional lint exceptions. Don't "fix" them.
+
+## Release flow
+
+Changesets drive both this package's `CHANGELOG.md` and release notes for six downstream SDKs (Node, Go, .NET, Python, Java, PHP) auto-synced on release. A missing changeset means downstream SDKs ship without context for the change.
+
 ## Changesets
 
 Files in `.changeset/*.md` feed the generated `CHANGELOG.md` / release notes.
