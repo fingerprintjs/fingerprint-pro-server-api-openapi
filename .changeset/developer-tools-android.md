@@ -1,5 +1,5 @@
 ---
-"fingerprint-pro-server-api-openapi": minor
+'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events**: add Android platform support to `developer_tools` smart signal for API v3
+**events**: Add Android platform support to `developer_tools` smart signal for API v3

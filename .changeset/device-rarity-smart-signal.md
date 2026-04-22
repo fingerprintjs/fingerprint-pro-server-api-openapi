@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events**: Add `request_read_timeout` error code
+**events**: Add Device Rarity Smart Signal

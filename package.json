@@ -16,6 +16,7 @@
     "test:dts": "echo 'No typescript tests' && exit 0",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore --max-warnings 0 .",
     "lint:fix": "pnpm lint --fix",
+    "lint:changesets": "node scripts/lintChangesets.js",
     "prettier": "prettier . --check",
     "prettier:fix": "pnpm prettier . --write",
     "changeset": "node scripts/changeset.js",
