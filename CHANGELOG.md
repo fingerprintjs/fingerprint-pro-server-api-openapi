@@ -1,5 +1,17 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.2.0
+
+### Minor Changes
+
+- **events**: Add Android platform support to `developer_tools` smart signal for API v3 ([aeb9ba3](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/aeb9ba310bde1d9c414eaad1731a0b8e554bd344))
+- **events**: Add Device Rarity Smart Signal ([11a1936](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/11a1936851aea652e6ed7ff531406ed293537dac))
+- **events**: Add `proxy_ml_score` to `Event` ([11a1936](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/11a1936851aea652e6ed7ff531406ed293537dac))
+- **events**: Add `font_hash` and `timezone_offset` fields for the `RawDeviceAttributes` ([11a1936](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/11a1936851aea652e6ed7ff531406ed293537dac))
+- **events**: Enable `raw_device_attributes` for Android devices. Only `device_manufacturer` and `device_model` are currently supported for Android devices. ([11a1936](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/11a1936851aea652e6ed7ff531406ed293537dac))
+- **events**: Enable `raw_device_attributes` for iOS devices. Only `device_manufacturer`, `device_model`, `hardware_concurrency`, `languages`, and `screen_resolution` are currently supported for iOS devices. ([11a1936](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/11a1936851aea652e6ed7ff531406ed293537dac))
+- **events**: Add `request_read_timeout` error code ([11a1936](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/11a1936851aea652e6ed7ff531406ed293537dac))
+
 ## 3.1.0
 
 ### Minor Changes
