@@ -1,5 +1,12 @@
 # Agent instructions
 
+## Repository structure and versioning
+
+Two Server API versions ship from this repo:
+
+- **v4 (current)**: source in `schemas/components/` and `schemas/paths/`. Edit there, then run the build to regenerate the bundled schema.
+- **v3 (legacy)**: no source files — edit the bundled YAMLs directly in `schemas/`. Changes should be rare.
+
 ## Changesets
 
 Files in `.changeset/*.md` feed the generated `CHANGELOG.md` / release notes.
