@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events**: Add Device Rarity Smart Signal
+**events**: Add `proxy_ml_score` to `Event`
