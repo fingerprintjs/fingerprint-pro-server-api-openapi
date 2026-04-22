@@ -3414,10 +3414,10 @@ components:
       description: Hash of Math APIs used for entropy collection.
     DeviceModel:
       type: string
-      description: Device model string. Available only for iOS devices
+      description: Device model string. Available only for Android and iOS devices.
     DeviceManufacturer:
       type: string
-      description: Device manufacturer string.  Available only for iOS devices
+      description: Device manufacturer string. Available only for Android and iOS devices.
     RawDeviceAttributes:
       type: object
       description: >
@@ -3781,8 +3781,9 @@ components:
         raw_device_attributes:
           $ref: '#/components/schemas/RawDeviceAttributes'
           x-platforms:
-            - browser
+            - android
             - ios
+            - browser
     ErrorCode:
       type: string
       enum:
