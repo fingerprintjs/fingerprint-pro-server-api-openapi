@@ -1,0 +1,28 @@
+name: Lint changesets
+on:
+  pull_request:
+    paths:
+      - '.changeset/**'
+      - 'scripts/lintChangesets.js'
+      - '.github/workflows/lint-changesets.yml'
+
+jobs:
+  lint-changesets:
+    name: Lint changesets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install PNPM
+        uses: pnpm/action-setup@0eb0e970826653e8af98de91bec007fbd58a23e0
+        with:
+          version: 9
+      - name: Set Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+      - name: Install Node packages
+        run: pnpm install --frozen-lockfile --prefer-offline
+      - name: Lint changesets
+        run: pnpm lint:changesets
