@@ -298,6 +298,6 @@ properties:
   raw_device_attributes:
     $ref: smartsignals/RawDeviceAttributes.yaml
     x-platforms:
-      - browser
-      - ios
       - android
+      - ios
+      - browser
