@@ -57,3 +57,7 @@ properties:
     $ref: raw_device_attributes/DeviceModel.yaml
   device_manufacturer:
     $ref: raw_device_attributes/DeviceManufacturer.yaml
+  font_hash:
+    $ref: raw_device_attributes/FontHash.yaml
+  timezone_offset:
+    $ref: raw_device_attributes/TimezoneOffset.yaml
