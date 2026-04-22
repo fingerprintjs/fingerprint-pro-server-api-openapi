@@ -8,3 +8,13 @@ import yaml from 'js-yaml';
 export function parseYaml(content) {
   return /** @type {Record<string, any>} */ (yaml.load(content.toString()));
 }
+
+/**
+ * Serializes an object into a YAML document.
+ *
+ * @param {unknown} input
+ * @returns {string}
+ */
+export function toYaml(input) {
+  return yaml.dump(input);
+}
