@@ -2506,8 +2506,8 @@ components:
     DeveloperTools:
       type: boolean
       description: >
-        `true` if the browser is Chrome with DevTools open or Firefox with
-        Developer Tools open, `false` otherwise.
+        `true` if the browser has DevTools open (Chrome, Firefox) or the Android
+        device has Developer Tools enabled, `false` otherwise.
     Emulator:
       type: boolean
       description: >
@@ -3651,6 +3651,7 @@ components:
           $ref: '#/components/schemas/DeveloperTools'
           x-platforms:
             - browser
+            - android
         emulator:
           $ref: '#/components/schemas/Emulator'
           x-platforms:
