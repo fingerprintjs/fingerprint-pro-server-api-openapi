@@ -1,21 +1,20 @@
 events:
-  path: /events/{request_id}
+  path: /events/{event_id}
   methods:
     - get
-    - put
+    - patch
 events-search:
-  path: /events/search
+  path: /events
   methods:
     - get
 visitors:
   path: /visitors/{visitor_id}
   methods:
-    - get
     - delete
 webhook:
   path: /webhook
   methods:
-    - trace
+    - post
 related-visitors:
   path: /related-visitors
   methods:

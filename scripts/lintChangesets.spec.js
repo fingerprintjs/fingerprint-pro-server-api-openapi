@@ -55,4 +55,26 @@ describe('lintChangesets', () => {
     expect(status).toBe(1);
     expect(stderr).toMatch(/should end with a period/);
   });
+
+  it('flags a scope that is not in config/scopes.yaml', () => {
+    const { status, stderr } = run({
+      'bad.md': `${frontmatter}**unknown-scope**: Add \`x\` to \`Event\`\n`,
+    });
+    expect(status).toBe(1);
+    expect(stderr).toMatch(/invalid scope "unknown-scope"/);
+  });
+
+  it('accepts a hyphenated scope from config/scopes.yaml', () => {
+    const { status } = run({
+      'good.md': `${frontmatter}**events-search**: Add \`q\` query parameter to search\n`,
+    });
+    expect(status).toBe(0);
+  });
+
+  it('accepts a changeset with no scope line', () => {
+    const { status } = run({
+      'good.md': `${frontmatter}Add \`x\` to \`Event\`\n`,
+    });
+    expect(status).toBe(0);
+  });
 });
