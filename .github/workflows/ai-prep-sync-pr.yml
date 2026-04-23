@@ -1,0 +1,167 @@
+name: AI prep sync PR
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  prep:
+    if: >-
+      github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' &&
+      startsWith(github.event.pull_request.title, 'Sync OpenAPI Schema')
+    name: Add changeset and rename PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.RUNNER_APP_ID }}
+          private-key: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Skip if changeset already present
+        id: guard
+        run: |
+          added=$(git diff --name-only --diff-filter=A origin/${{ github.event.pull_request.base.ref }}...HEAD -- '.changeset/*.md' | grep -v README.md || true)
+          if [ -n "$added" ]; then
+            echo "Changeset already present, skipping:"
+            echo "$added"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install PNPM
+        if: steps.guard.outputs.skip == 'false'
+        uses: pnpm/action-setup@0eb0e970826653e8af98de91bec007fbd58a23e0
+        with:
+          version: 9
+
+      - name: Set Node.js 22.x
+        if: steps.guard.outputs.skip == 'false'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+
+      - name: Install Node packages
+        if: steps.guard.outputs.skip == 'false'
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Run Claude Code
+        if: steps.guard.outputs.skip == 'false'
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: '--model claude-sonnet-4-6 --allowed-tools Bash,Read,Write,Edit'
+          prompt: |
+            You are preparing a sync PR for human review. The PR was opened by a bot
+            that mirrors schema changes from an upstream repo. Your job is to add
+            changeset file(s) and propose a new PR title. Do NOT modify anything
+            outside `.changeset/`.
+
+            Base branch: ${{ github.event.pull_request.base.ref }}
+
+            Steps:
+
+            1. Read `CLAUDE.md` — it documents the changeset filename, frontmatter,
+               and body format. Follow it exactly.
+
+            2. Inspect the diff:
+               `git diff origin/${{ github.event.pull_request.base.ref }}...HEAD -- schemas/`
+
+            3. Group the changes by logical topic. If the diff contains multiple
+               unrelated changes (e.g. a new bot-info field AND an unrelated webhook
+               tweak), write ONE changeset file per topic. If everything is one
+               coherent change, write a single file. Share a filename prefix for
+               related entries as CLAUDE.md describes.
+
+            4. For each changeset:
+               - Identify the scope from: events, visitors, webhook,
+                 related-visitors, events-search. If none applies, omit the bold
+                 scope prefix.
+               - Pick severity: `patch` (fix/docs), `minor` (additive — the usual
+                 case for sync PRs), `major` (breaking: removed required field,
+                 narrowed type, removed endpoint). Default to `minor` when unsure.
+               - Write the file to `.changeset/<kebab-case-summary>.md`.
+
+            5. Verify your work by running `pnpm lint:changesets`. Fix any issues
+               it reports before finishing.
+
+            6. On the LAST line of your response, output a short descriptive
+               caption prefixed exactly `PR_CAPTION: `. This will be appended to
+               the existing PR title (which stays as the prefix). Format:
+               `<scope>: <summary>` (e.g. `events: Add bot info category and
+               confidence fields`). If changes span multiple scopes, use
+               `schema: <summary>`. Keep it under ~70 characters. Do not repeat
+               the sync ID or the words "Sync OpenAPI Schema".
+
+      - name: Verify changesets lint
+        if: steps.guard.outputs.skip == 'false'
+        run: pnpm lint:changesets
+
+      - name: Build new PR title
+        if: steps.guard.outputs.skip == 'false'
+        id: title
+        env:
+          CLAUDE_OUTPUT: ${{ steps.claude.outputs.output }}
+          ORIGINAL_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          caption=$(printf '%s\n' "$CLAUDE_OUTPUT" | grep -oE '^PR_CAPTION: .+' | tail -n1 | sed 's/^PR_CAPTION: //')
+          if [ -z "$caption" ]; then
+            echo "Claude did not emit a PR_CAPTION line; leaving title unchanged"
+            echo "title=" >> "$GITHUB_OUTPUT"
+          else
+            new_title="$ORIGINAL_TITLE - $caption"
+            echo "New title: $new_title"
+            echo "title=$new_title" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push changeset(s)
+        if: steps.guard.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          if [ -z "$(git status --porcelain .changeset)" ]; then
+            echo "No changeset changes to commit"
+            exit 0
+          fi
+          git config user.name "fingerprint-dx-team-actions-runner[bot]"
+          git config user.email "fingerprint-dx-team-actions-runner[bot]@users.noreply.github.com"
+          git add .changeset/
+          git commit -m "chore: add changeset(s) [skip ci-ai-prep]"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
+      - name: Rename PR
+        if: steps.guard.outputs.skip == 'false' && steps.title.outputs.title != ''
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh pr edit ${{ github.event.pull_request.number }} --title "${{ steps.title.outputs.title }}"
+
+      - name: Post reviewer note
+        if: steps.guard.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(cat <<'EOF'
+          🤖 Added changeset(s) and proposed a new title.
+
+          **Please verify before merging:**
+          - Scope prefix is correct (`events`, `visitors`, `webhook`, `related-visitors`, `events-search`)
+          - Severity (`patch` / `minor` / `major`) matches the actual impact — this is a best-effort guess
+          - Summary accurately describes the change
+
+          Feel free to edit the changeset file(s) or PR title directly.
+          EOF
+          )"
