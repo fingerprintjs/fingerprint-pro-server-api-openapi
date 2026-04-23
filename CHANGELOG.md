@@ -1,5 +1,12 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.3.0
+
+### Minor Changes
+
+- **events**: Add Android platform support to `developer_tools` smart signal ([e0a5502](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/e0a550266443ffc6e68694abbf2743b7d6a7d013))
+- **events-search**: Accept RFC3339 timestamps for `start` and `end` filter parameters in addition to Unix milliseconds ([d26c53b](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/d26c53b45f61bd91b0aaa9b42ccb4e7e625627da))
+
 ## 3.2.0
 
 ### Minor Changes
