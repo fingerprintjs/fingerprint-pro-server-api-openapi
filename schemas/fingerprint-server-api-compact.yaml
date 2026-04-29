@@ -2364,7 +2364,7 @@ components:
           type: boolean
           description: >
             `true` if the browser has DevTools open (Chrome, Firefox) or the
-            Android device has Developer Tools enabled, `false` otherwise.
+            Android/iOS device has Developer Tools enabled, `false` otherwise.
     ProductDeveloperTools:
       type: object
       additionalProperties: false
@@ -3030,7 +3030,7 @@ components:
           type: boolean
           description: >
             `true` if the browser has DevTools open (Chrome, Firefox) or the
-            Android device has Developer Tools enabled, `false` otherwise.
+            Android/iOS device has Developer Tools enabled, `false` otherwise.
     WebhookMitMAttack:
       type: object
       additionalProperties: false
