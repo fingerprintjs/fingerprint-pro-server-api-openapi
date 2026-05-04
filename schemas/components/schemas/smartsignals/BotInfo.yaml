@@ -9,7 +9,8 @@ required:
   - confidence
 properties:
   category:
-    $ref: BotInfoCategory.yaml
+    type: string
+    description: The type and purpose of the bot.
   provider:
     type: string
     description: The organization or company operating the bot.
