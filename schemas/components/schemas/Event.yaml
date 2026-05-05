@@ -129,6 +129,7 @@ properties:
     x-platforms:
       - browser
       - android
+      - ios
   emulator:
     $ref: smartsignals/Emulator.yaml
     x-platforms:
