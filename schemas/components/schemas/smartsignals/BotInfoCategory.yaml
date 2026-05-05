@@ -1,0 +1,18 @@
+type: string
+enum:
+  - advertising_and_marketing
+  - aggregator
+  - ai_agent
+  - ai_assistant
+  - ai_browser
+  - ai_crawler
+  - ai_search
+  - browser_automation
+  - ecommerce
+  - monitoring_and_analytics
+  - other
+  - scraping
+  - security
+  - search_engine_crawler
+  - search_engine_optimization
+description: The type and purpose of the bot.
