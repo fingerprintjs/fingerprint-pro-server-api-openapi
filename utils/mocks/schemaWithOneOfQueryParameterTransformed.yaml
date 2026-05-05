@@ -19,3 +19,4 @@ paths:
           schema:
             type: string
             format: date-time
+          x-aliased-parameter-name: timestamp

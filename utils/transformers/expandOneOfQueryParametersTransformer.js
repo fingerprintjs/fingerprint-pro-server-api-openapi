@@ -1,3 +1,5 @@
+const VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME = 'x-aliased-parameter-name';
+
 /**
  * Derives a parameter name suffix from a schema option's format or type.
  * @param {Record<string, unknown>} schema
@@ -45,7 +47,14 @@ export function expandOneOfQueryParametersTransformer(apiDefinition) {
 
         oneOf.forEach((option, index) => {
           const name = index === 0 ? param.name : `${param.name}_${getSuffix(option)}`;
-          expanded.push({ ...restParam, name, schema: { ...restSchema, ...option } });
+          expanded.push({
+            ...restParam,
+            name,
+            schema: { ...restSchema, ...option },
+            // Add a vendor extension to the newly added parameters to indicate they are aliases the first
+            // parameter.
+            ...(index === 0 ? {} : { [VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME]: param.name }),
+          });
         });
       }
 

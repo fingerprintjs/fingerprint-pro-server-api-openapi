@@ -15,7 +15,6 @@ import { parseYaml } from './parseYaml.js';
 import { removeUnusedSchemasTransformer } from './removeUnusedSchemasTransformer.js';
 import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertiesTransformer.js';
 import { removeFieldByPathTransformer } from './removeFieldByPathTransformer.js';
-import { removeObjectByPathTransformer } from './removeObjectByPathTransformer.js';
 import { inlineReferencedPropertiesTransformer } from './inlineReferencedPropertiesTransformer.js';
 
 export const commonTransformers = [
@@ -48,26 +47,18 @@ export const v4SchemaForSdksCommonTransformers = [
 
 export const v4SchemaForSdksTransformers = [
   ...v4SchemaForSdksCommonTransformers,
-
-  // The following transformers temporarily remove some fields to unblock server SDK releases
-  // Remove the use of oneOf for start and end query parameters
-  expandOneOfQueryParametersTransformer,
-  removeObjectByPathTransformer(
-    ['paths', '/events', 'get', 'parameters', '*'],
-    (parameter) => parameter.name === 'start_date_time' || parameter.name === 'end_date_time'
-  ),
-  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs
-  inlineReferencedPropertiesTransformer('BotInfo'),
-  // Remove the added enum attribute for BotInfo.category
-  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
-
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
 
 export const v4SchemaForSdksNormalizedTransformers = [
   ...v4SchemaForSdksCommonTransformers,
+  // Expand oneOf query parameters to avoid breaking changes in the SDKs using this schema
   expandOneOfQueryParametersTransformer,
+  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
+  inlineReferencedPropertiesTransformer('BotInfo'),
+  // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.
+  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
