@@ -54,7 +54,7 @@ export const v4SchemaForSdksTransformers = [
 export const v4SchemaForSdksNormalizedTransformers = [
   ...v4SchemaForSdksCommonTransformers,
   // Expand oneOf query parameters to avoid breaking changes in the SDKs using this schema
-  expandOneOfQueryParametersTransformer,
+  expandOneOfQueryParametersTransformer(['start', 'end']),
   // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
   inlineReferencedPropertiesTransformer('BotInfo'),
   // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.

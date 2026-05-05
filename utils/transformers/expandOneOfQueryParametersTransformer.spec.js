@@ -8,7 +8,7 @@ const schemaWithOneOfQueryParameterTransformed = fs.readFileSync(
   './utils/mocks/schemaWithOneOfQueryParameterTransformed.yaml'
 );
 
-const applyTransformer = (yaml) => transformSchema(yaml, [expandOneOfQueryParametersTransformer]);
+const applyTransformer = (yaml) => transformSchema(yaml, [expandOneOfQueryParametersTransformer(['timestamp'])]);
 
 describe('Test expandOneOfQueryParametersTransformer', () => {
   it('does not modify schema without oneOf query parameters', () => {
