@@ -1,4 +1,3 @@
-import { walkJson } from '../walkJson.js';
 import { resolveComponent } from '../resolveComponent.js';
 
 function inlineProperties(properties, schemas) {

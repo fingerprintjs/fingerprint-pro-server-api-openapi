@@ -34,7 +34,7 @@ export function walkJsonByPrefix(json, prefix, callback) {
  * the specified path.
  *
  * @param {Object} json
- * @param {string[]} pathSegments 
+ * @param {string[]} pathSegments
  * @param {Function} callback  - receives (obj, key) that matches the specified path
  */
 export function walkJsonByPath(json, pathSegments, callback) {
@@ -47,7 +47,7 @@ export function walkJsonByPath(json, pathSegments, callback) {
           // The target of the path has been found
           callback(json, iteratorKey);
         } else if (typeof value === 'object') {
-          walkJsonByPath(value, remainingSegments, callback)
+          walkJsonByPath(value, remainingSegments, callback);
         }
       }
     }

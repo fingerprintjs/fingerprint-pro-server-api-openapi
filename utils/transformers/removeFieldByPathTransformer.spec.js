@@ -21,9 +21,7 @@ describe('Test removeFieldByPathTransformer', () => {
   });
 
   it('removes a field from array elements using a wildcard segment', () => {
-    const result = transformSchema(simpleYaml, [
-      removeFieldByPathTransformer(['servers', '*', 'description']),
-    ]);
+    const result = transformSchema(simpleYaml, [removeFieldByPathTransformer(['servers', '*', 'description'])]);
     expect(result).not.toContain('Global');
     expect(result).toContain('https://api.fpjs.io');
   });
