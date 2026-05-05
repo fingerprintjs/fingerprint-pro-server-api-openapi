@@ -14,6 +14,9 @@ import { extractPathOperationInlineEnumsTransformer } from './extractPathOperati
 import { parseYaml } from './parseYaml.js';
 import { removeUnusedSchemasTransformer } from './removeUnusedSchemasTransformer.js';
 import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertiesTransformer.js';
+import { removeFieldByPathTransformer } from './removeFieldByPathTransformer.js';
+import { removeObjectByPathTransformer } from './removeObjectByPathTransformer.js';
+import { inlineReferencedPropertiesTransformer } from './inlineReferencedPropertiesTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -45,6 +48,19 @@ export const v4SchemaForSdksCommonTransformers = [
 
 export const v4SchemaForSdksTransformers = [
   ...v4SchemaForSdksCommonTransformers,
+
+  // The following transformers temporarily remove some fields to unblock server SDK releases
+  // Remove the use of oneOf for start and end query parameters
+  expandOneOfQueryParametersTransformer,
+  removeObjectByPathTransformer(
+    ['paths', '/events', 'get', 'parameters', '*'],
+    (parameter) => parameter.name === 'start_date_time' || parameter.name === 'end_date_time'
+  ),
+  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs
+  inlineReferencedPropertiesTransformer('BotInfo'),
+  // Remove the added enum attribute for BotInfo.category
+  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
+
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
