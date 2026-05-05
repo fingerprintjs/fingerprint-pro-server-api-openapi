@@ -70,6 +70,7 @@ jobs:
       language: golang
       language-version: 1.21
       generate-command: 'bash ./bin/openapi-codegen-docker.sh'
+      schema-source: fingerprint-server-api-v4-normalized.yaml
       schema-path: res/fingerprint-server-api-v4.yaml
       examples-path: test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
@@ -89,6 +90,7 @@ jobs:
       language: dotnet
       language-version: '8.x'
       generate-command: 'bash ./generate.sh'
+      schema-source: fingerprint-server-api-v4-normalized.yaml
       schema-path: res/fingerprint-server-api.yaml
       examples-path: src/Fingerprint.ServerSdk.Test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
@@ -129,6 +131,7 @@ jobs:
       language-version: '11'
       java-version: '11'
       generate-command: 'bash ./scripts/generate.sh'
+      schema-source: fingerprint-server-api-v4-normalized.yaml
       schema-path: res/fingerprint-server-api.yaml
       examples-path: sdk/src/test/resources/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
