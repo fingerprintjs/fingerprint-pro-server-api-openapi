@@ -15,4 +15,6 @@ enum:
   - security
   - search_engine_crawler
   - search_engine_optimization
-description: The type and purpose of the bot.
+  - unknown
+description: |
+  The type and purpose of the bot.
