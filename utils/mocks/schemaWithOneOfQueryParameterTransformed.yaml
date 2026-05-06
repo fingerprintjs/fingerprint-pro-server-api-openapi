@@ -10,12 +10,15 @@ paths:
         - name: timestamp
           in: query
           required: false
+          description: The updated description
           schema:
             type: integer
             format: int64
-        - name: timestamp_date_time
+          x-parameter-alias: timestamp_alias
+        - name: timestamp_alias
           in: query
           required: false
+          description: The description for the alias
           schema:
             type: string
             format: date-time

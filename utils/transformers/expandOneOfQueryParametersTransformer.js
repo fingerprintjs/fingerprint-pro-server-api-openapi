@@ -1,27 +1,18 @@
+const VENDOR_EXTENSION_PARAMETER_ALIAS_PROPERTY_NAME = 'x-parameter-alias';
 const VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME = 'x-aliased-parameter-name';
 
 /**
- * Derives a parameter name suffix from a schema option's format or type.
- * @param {Record<string, unknown>} schema
- * @returns {string}
- */
-function getSuffix(schema) {
-  const format = typeof schema.format === 'string' ? schema.format : null;
-  const type = typeof schema.type === 'string' ? schema.type : null;
-  const raw = format ?? type ?? 'unknown';
-  return raw.replace(/-/g, '_');
-}
-
-/**
- * Expands query parameters whose schema uses `oneOf` into one parameter per option.
- * The first option retains the original parameter name; subsequent options are named
- * `<originalName>_<suffix>` where the suffix is derived from the option's format or type.
+ * Finds specific query parameters that use the `oneOf` schema construct and replaces the parameter
+ * with two parameters. Only query parameters that use two schemas within the `oneOf` construct are
+ * supported.
  *
- * Use the `includeParams` parameter to only apply the transformer to parameters with a specific name
+ * The replacement parameters are defined by:
+ * - An override description for the first schema. This becomes the primary parameter
+ * - A name and description for the second schema. This becomes the alias of the primary parameter.
  *
- * @param {string[]} includeParams
+ * @param {Record<string, { overrideDescription: string; alias: { name: string; description:string; } }>} replacementParametersMap
  */
-export function expandOneOfQueryParametersTransformer(includeParams = []) {
+export function expandOneOfQueryParametersTransformer(replacementParametersMap) {
   return function (apiDefinition) {
     const paths = apiDefinition?.paths;
     if (!paths || typeof paths !== 'object') {
@@ -45,7 +36,8 @@ export function expandOneOfQueryParametersTransformer(includeParams = []) {
             continue;
           }
 
-          if (includeParams.length > 0 && !includeParams.includes(param.name)) {
+          const replacementParameter = replacementParametersMap[param.name];
+          if (!replacementParameter) {
             expanded.push(param);
             continue;
           }
@@ -54,16 +46,34 @@ export function expandOneOfQueryParametersTransformer(includeParams = []) {
           const { schema, ...restParam } = param;
           void schema; // schema is unused
 
-          oneOf.forEach((option, index) => {
-            const name = index === 0 ? param.name : `${param.name}_${getSuffix(option)}`;
-            expanded.push({
-              ...restParam,
-              name,
-              schema: { ...restSchema, ...option },
-              // Add a vendor extension to the newly added parameters to indicate they are aliases the first
-              // parameter.
-              ...(index === 0 ? {} : { [VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME]: param.name }),
-            });
+          if (oneOf.length !== 2) {
+            // Supporting anything other than exactly two oneOf schemas requires more complex handling
+            // in the server SDKs so throw an error to prevent that case from breaking code
+            // generation downstream
+            throw new Error('Unsupported use of oneOf construct in query parameter');
+          }
+
+          // The primary parameter
+          expanded.push({
+            ...restParam,
+            schema: {
+              ...restSchema,
+              ...oneOf[0],
+            },
+            description: replacementParameter.overrideDescription,
+            [VENDOR_EXTENSION_PARAMETER_ALIAS_PROPERTY_NAME]: replacementParameter.alias.name,
+          });
+
+          // The alias parameter
+          expanded.push({
+            ...restParam,
+            name: replacementParameter.alias.name,
+            schema: {
+              ...restSchema,
+              ...oneOf[1],
+            },
+            description: replacementParameter.alias.description,
+            [VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME]: param.name,
           });
         }
 
