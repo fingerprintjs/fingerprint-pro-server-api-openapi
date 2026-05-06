@@ -853,59 +853,71 @@ paths:
       tags:
         - Fingerprint
       operationId: deleteVisitorData
-      summary: Delete data by visitor ID
+      summary: Delete a visitor ID
       description: >
-        Request deleting all data associated with the specified visitor ID. This
-        API is useful for compliance with privacy regulations.
+        Use this API to request the deletion of all data associated with a
+        specific visitor ID.
 
 
-        ### Which data is deleted?
+        Upon a request to delete data for a visitor ID,
 
-        - Browser (or device) properties
+        - The data collected from the corresponding browser (or device) will be
+        deleted asynchronously, typically within a few minutes. This data will
+        no longer be available to identify this browser (or device). When the
+        same browser (or device) revisits, it will receive a new visitor ID.
 
-        - Identification requests made from this browser (or device)
+        - The identification events made from this browser (or device) in the
+        past 10 days are typically deleted within 24 hrs. 
 
-
-        #### Browser (or device) properties
-
-        - Represents the data that Fingerprint collected from this specific
-        browser (or device) and everything inferred and derived from it.
-
-        - Upon request to delete, this data is deleted asynchronously (typically
-        within a few minutes) and it will no longer be used to identify this
-        browser (or device) for your [Fingerprint
-        Workspace](https://docs.fingerprint.com/docs/glossary#fingerprint-workspace).
+        - The identification events made from this browser (or device) outside
+        of the 10 days will be purged as per your [data retention
+        period](https://docs.fingerprint.com/docs/regions#data-retention).
 
 
-        #### Identification requests made from this browser (or device)
+        The following timeline illustrates which events are deleted and which
+        remain after a DELETE API request:
 
-        - Fingerprint stores the identification requests made from a browser (or
-        device) for up to 30 (or 90) days depending on your plan. To learn more,
-        see [Data
-        Retention](https://docs.fingerprint.com/docs/regions#data-retention).
+        ```
 
-        - Upon request to delete, the identification requests that were made by
-        this browser
-          - Within the past 10 days are deleted within 24 hrs.
-          - Outside of 10 days are allowed to purge as per your data retention period.
+        Day 1:  First visit from browser A. (Assigned visitor ID: VID1000)
 
-        ### Corollary
+        Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000)
 
-        After requesting to delete a visitor ID,
+        Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000)
 
-        - If the same browser (or device) requests to identify, it will receive
-        a different visitor ID.
+        Day 14: Delete VID1000
 
-        - If you request [`/v4/events`
-        API](https://docs.fingerprint.com/reference/server-api-v4-get-event)
-        with an `event_id` that was made outside of the 10 days, you will still
-        receive a valid response.
+        Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999)
+
+        Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days
+        of deleting VID1000 and will have been deleted)
+
+        Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10
+        days of deleting VID1000 and is still available)
+
+        ```
 
 
-        ### Interested?
+        ### Availability
 
-        Please [contact our support team](https://fingerprint.com/support/) to
-        enable it for you. Otherwise, you will receive a 403.
+        This API is available only for Enterprise plans **upon request**. If you
+        are interested, please [contact our support
+        team](https://fingerprint.com/support/).
+
+
+        ### Rate limits and daily quota
+
+        The rate limits and daily quota for this API **differ** from those for
+        our other API.
+
+
+        The maximum number of DELETE requests that can be made in an hour cannot
+        exceed 30 RPH, and the maximum number that can be made in a day cannot
+        exceed 500 RPD.
+
+
+        You can request an increase to these limits by contacting [our support
+        team](https://fingerprint.com/support/).    
       parameters:
         - name: visitor_id
           in: path
@@ -1262,7 +1274,9 @@ components:
         - security
         - search_engine_crawler
         - search_engine_optimization
-      description: The type and purpose of the bot.
+        - unknown
+      description: |
+        The type and purpose of the bot.
     BotInfoIdentity:
       type: string
       enum:
@@ -1295,7 +1309,8 @@ components:
       properties:
         category:
           type: string
-          description: The type and purpose of the bot.
+          description: |
+            The type and purpose of the bot.
         provider:
           type: string
           description: The organization or company operating the bot.
