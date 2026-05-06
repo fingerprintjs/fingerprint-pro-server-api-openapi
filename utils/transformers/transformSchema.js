@@ -1,4 +1,5 @@
 import yaml from 'js-yaml';
+import process from 'node:process';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
 import { expandOneOfQueryParametersTransformer } from './expandOneOfQueryParametersTransformer.js';
@@ -87,13 +88,18 @@ export const schemaForSdksTransformers = [
 ];
 
 export function transformSchema(content, transformers = defaultTransformers) {
-  const apiDefinition = parseYaml(content);
+  try {
+    const apiDefinition = parseYaml(content);
 
-  transformers.forEach((transformer) => {
-    transformer(apiDefinition);
-  });
+    transformers.forEach((transformer) => {
+      transformer(apiDefinition);
+    });
 
-  return yaml.dump(apiDefinition, {
-    noRefs: true,
-  });
+    return yaml.dump(apiDefinition, {
+      noRefs: true,
+    });
+  } catch (error) {
+    console.error('Failed to transform schema', error);
+    process.exit(1);
+  }
 }
