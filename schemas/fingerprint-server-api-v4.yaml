@@ -471,27 +471,35 @@ paths:
             to web events only (e.g., https://example.com)
         - name: start
           in: query
+          schema:
+            oneOf:
+              - type: integer
+                format: int64
+                example: 1767225600000
+              - type: string
+                format: date-time
+                example: '2026-01-01T00:00:00Z'
           description: >
             Include events that happened after this point (with timestamp
             greater than or equal the provided `start` Unix milliseconds value
             or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does
             not change `end`'s default of `now` — adjust it separately if
             needed.
-          schema:
-            type: integer
-            format: int64
-            example: 1767225600000
         - name: end
           in: query
+          schema:
+            oneOf:
+              - type: integer
+                format: int64
+                example: 1769903999000
+              - type: string
+                format: date-time
+                example: '2026-01-31T23:59:59Z'
           description: >
             Include events that happened before this point (with timestamp less
             than or equal the provided `end` Unix milliseconds value or RFC3339
             timestamp). Defaults to now. Setting `end` does not change `start`'s
             default of `7 days ago` — adjust it separately if needed.
-          schema:
-            type: integer
-            format: int64
-            example: 1769903999000
         - name: reverse
           in: query
           schema:
@@ -1308,9 +1316,7 @@ components:
         - confidence
       properties:
         category:
-          type: string
-          description: |
-            The type and purpose of the bot.
+          $ref: '#/components/schemas/BotInfoCategory'
         provider:
           type: string
           description: The organization or company operating the bot.
@@ -1321,25 +1327,9 @@ components:
           type: string
           description: The specific name or identifier of the bot.
         identity:
-          type: string
-          enum:
-            - verified
-            - signed
-            - spoofed
-            - unknown
-          description: |
-            The verification status of the bot's identity:
-             * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
-             * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
-             * `spoofed` - bot that claims a public identity but fails verification.
-             * `unknown` - bot that does not publish a verifiable identity.
+          $ref: '#/components/schemas/BotInfoIdentity'
         confidence:
-          type: string
-          enum:
-            - low
-            - medium
-            - high
-          description: Confidence level of the bot identification.
+          $ref: '#/components/schemas/BotInfoConfidence'
     ClonedApp:
       type: boolean
       description: >
