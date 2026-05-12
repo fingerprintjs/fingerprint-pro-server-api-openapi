@@ -227,9 +227,8 @@ get:
       in: query
       schema:
         type: boolean
-        default: false
       description: |
-        When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).
+        When `true`, sort events oldest first (ascending timestamp order). Defaults to `false` (newest first, descending timestamp order).
     - name: suspect
       in: query
       schema:
@@ -371,6 +370,8 @@ get:
       description: |
         Filter events by Device Rarity detection result.
         > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
+
+        > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
     - name: rare_device_percentile_bucket
       in: query
       schema:
@@ -390,6 +391,8 @@ get:
         `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile.
         `p99.9+` - device is in the top 0.1% (rarest).
         `not_seen` - device configuration has never been observed before.
+
+        > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
     - name: proxy
       in: query
       schema:
