@@ -53,7 +53,7 @@ get:
 
         When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:
 
-        1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100`
+        1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100`
         2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
     - name: visitor_id
       in: query
@@ -227,9 +227,8 @@ get:
       in: query
       schema:
         type: boolean
-        default: false
       description: |
-        When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).
+        When `true`, sort events oldest first (ascending timestamp order). Defaults to `false` (newest first, descending timestamp order).
     - name: suspect
       in: query
       schema:
@@ -371,6 +370,8 @@ get:
       description: |
         Filter events by Device Rarity detection result.
         > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
+
+        > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
     - name: rare_device_percentile_bucket
       in: query
       schema:
@@ -390,6 +391,8 @@ get:
         `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile.
         `p99.9+` - device is in the top 0.1% (rarest).
         `not_seen` - device configuration has never been observed before.
+
+        > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
     - name: proxy
       in: query
       schema:
