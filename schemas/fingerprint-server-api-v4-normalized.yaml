@@ -270,7 +270,7 @@ paths:
             `pagination_key` parameter to get the next page of results:
 
 
-            1. First request, returning most recent 200 events: `GET
+            1. First request, returning most recent 100 events: `GET
             api-base-url/events?limit=100`
 
             2. Use `response.pagination_key` to get the next page of results:
@@ -524,10 +524,9 @@ paths:
           in: query
           schema:
             type: boolean
-            default: false
           description: >
             When `true`, sort events oldest first (ascending timestamp order).
-            Default is newest first (descending timestamp order).
+            Defaults to `false` (newest first, descending timestamp order).
         - name: suspect
           in: query
           schema:
@@ -736,18 +735,34 @@ paths:
             `rare_device` property set to `true` or `false` are returned. Events
             without a Device Rarity Smart Signal result are left out of the
             response.
+
+
+            > This Smart Signal is currently in beta and only available to
+            select customers. If you are interested, please [contact our support
+            team](https://fingerprint.com/support/).
         - name: rare_device_percentile_bucket
           in: query
           schema:
             $ref: '#/components/schemas/SearchEventsRareDevicePercentileBucket'
-          description: |
+          description: >
             Filter events by Device Rarity percentile bucket.
+
             `<p95` - device configuration is in the bottom 95% (most common).
+
             `p95-p99` - device is in the 95th to 99th percentile.
+
             `p99-p99.5` - device is in the 99th to 99.5th percentile.
+
             `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile.
+
             `p99.9+` - device is in the top 0.1% (rarest).
+
             `not_seen` - device configuration has never been observed before.
+
+
+            > This Smart Signal is currently in beta and only available to
+            select customers. If you are interested, please [contact our support
+            team](https://fingerprint.com/support/).
         - name: proxy
           in: query
           schema:
@@ -1582,7 +1597,9 @@ components:
         Machine learning–based proxy score, represented as a floating-point
         value between 0 and 1 (inclusive), with up to three decimal places of
         precision. A higher score means a higher confidence in the positive
-        `proxy` detection result
+        `proxy` detection result. This Smart Signal is currently in beta and
+        only available to select customers. If you are interested, please
+        [contact our support team](https://fingerprint.com/support/).
     Incognito:
       type: boolean
       description: >
@@ -1942,10 +1959,13 @@ components:
       minimum: 0
       maximum: 1
       description: >
-        Machine learning–based virtual machine score,  represented as a
+        Machine learning–based virtual machine score, represented as a
         floating-point value between 0 and 1 (inclusive), with up to three
         decimal places of precision. A higher score means a higher confidence in
-        the positive `virtual_machine` detection result
+        the positive `virtual_machine` detection result. This Smart Signal is
+        currently in beta and only available to select customers. If you are
+        interested, please [contact our support
+        team](https://fingerprint.com/support/).
     Vpn:
       type: boolean
       description: |
@@ -2863,14 +2883,25 @@ components:
         - p99.5-p99.9
         - p99.9+
         - not_seen
-      description: |
+      description: >
         Filter events by Device Rarity percentile bucket.
+
         `<p95` - device configuration is in the bottom 95% (most common).
+
         `p95-p99` - device is in the 95th to 99th percentile.
+
         `p99-p99.5` - device is in the 99th to 99.5th percentile.
+
         `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile.
+
         `p99.9+` - device is in the top 0.1% (rarest).
+
         `not_seen` - device configuration has never been observed before.
+
+
+        > This Smart Signal is currently in beta and only available to select
+        customers. If you are interested, please [contact our support
+        team](https://fingerprint.com/support/).
     SearchEventsSdkPlatform:
       type: string
       enum:
