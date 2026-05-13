@@ -288,15 +288,7 @@
         "audio": 124.04347745512496
       },
       "rare_device": false,
-      "rare_device_percentile_bucket": "<p95",
-      "labels":[
-        {
-          "label": "fraud",
-          "prediction": false,
-          "ml_score": 0.01
-        }
-      ]
-    }
+      "rare_device_percentile_bucket": "<p95"
   ],
   "pagination_key": "1708102555327"
 }
