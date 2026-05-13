@@ -282,5 +282,12 @@
     "session_storage": true,
     "date_time_locale": "en-US",
     "audio": 124.04347745512496
-  }
+  },
+  "labels": [
+    {
+      "label": "fraud",
+      "prediction": false,
+      "ml_score": 0.01
+    }
+  ]
 }
