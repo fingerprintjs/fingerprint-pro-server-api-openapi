@@ -1,0 +1,46 @@
+post:
+  operationId: collectAutomationIntelligenceForRequest
+  summary: Collect Automation Intelligence for an HTTP request made to your server.
+  description: |
+    The Automation Intelligence API gives you the tools to determine whether traffic is legitimate and should be accepted by your application.
+
+    The API detects automation tools like AI Agents, AI Assistants and AI Browsers. Additionally it provides IP intelligence like geolocation and data center detection.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/EdgeRequest.yaml
+        examples:
+          valid:
+            summary: Example request
+            externalValue: examples/edge/collect.json
+  responses:
+    '200':
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EdgeResponse.yaml
+          examples:
+            200-ok:
+              summary: Example response
+              externalValue: examples/edge/collect_200.json
+    '400':
+      description: Bad request. The request payload is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+    '403':
+      description: Forbidden. Access to this API is denied.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+    '500':
+      description: Workspace error.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml

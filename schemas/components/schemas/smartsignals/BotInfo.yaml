@@ -13,12 +13,23 @@ properties:
   provider:
     type: string
     description: The organization or company operating the bot.
+    examples:
+      - Anthropic
+      - Browserbase
+      - Google
+      - OpenAI
   provider_url:
     type: string
     description: The URL of the bot provider's website.
   name:
     type: string
     description: The specific name or identifier of the bot.
+    examples:
+      - ClaudeBot
+      - Browserbase Agent
+      - Googlebot
+      - GPTBot
+      - ChatGPT-User
   identity:
     $ref: BotInfoIdentity.yaml
   confidence:

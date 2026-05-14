@@ -17,23 +17,41 @@ properties:
     x-ruleset-metadata:
       label: IPv6 ASN
       category: ip_address
+    examples:
+      - '396982'
+      - '16509'
+      - '701'
   asn_name:
     type: string
     x-ruleset-metadata:
       label: IPv6 ASN name
       category: ip_address
+    examples:
+      - Google LLC
+      - Amazon.com, Inc.
+      - Verizon Business
   asn_network:
     type: string
     x-ruleset-metadata:
       label: IPv6 ASN network
       category: ip_address
+    examples:
+      - 34.160.0.0/12
+      - 3.208.0.0/12
+      - 173.56.0.0/16
   asn_type:
     type: string
     x-ruleset-metadata:
       label: IPv6 ASN type
       category: ip_address
+    examples:
+      - hosting
+      - isp
+      - business
+      - education
   datacenter_result:
     type: boolean
+    description: When true, the request originated from a datacenter.
     x-ruleset-metadata:
       label: IPv6 data center IP
       category: ip_address
@@ -42,3 +60,6 @@ properties:
     x-ruleset-metadata:
       label: IPv6 data center name
       category: ip_address
+    examples:
+      - Google Cloud
+      - Amazon AWS
