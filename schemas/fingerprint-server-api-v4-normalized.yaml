@@ -2394,6 +2394,27 @@ components:
           $ref: '#/components/schemas/FontHash'
         timezone_offset:
           $ref: '#/components/schemas/TimezoneOffset'
+    Labels:
+      type: array
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+          prediction:
+            type: boolean
+          ml_score:
+            type: number
+            format: double
+            minimum: 0
+            maximum: 1
+      description: >
+        Each label returns a prediction (true or false) for a specific use case
+        (label field) based on a machine learning score. The machine learning
+        score is determined by a model trained on customer data for that use
+        case. This field is in the beta phase and only available to select
+        customers. If you are interested, please [contact our support
+        team](https://fingerprint.com/support/).
     Event:
       type: object
       description: >-
@@ -2695,6 +2716,12 @@ components:
             - browser
         raw_device_attributes:
           $ref: '#/components/schemas/RawDeviceAttributes'
+          x-platforms:
+            - browser
+            - ios
+            - android
+        labels:
+          $ref: '#/components/schemas/Labels'
           x-platforms:
             - browser
             - ios

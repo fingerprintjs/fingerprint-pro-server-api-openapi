@@ -313,6 +313,10 @@ paths:
                       audio: 124.04347745512496
                     rare_device: false
                     rare_device_percentile_bucket: <p95
+                    labels:
+                      - label: fraud
+                        prediction: false
+                        ml_score: 0.01
                 200-ok-with-ruleset:
                   summary: >-
                     Example response with rule_action (when ruleset_id is
@@ -555,6 +559,10 @@ paths:
                       audio: 124.04347745512496
                     rare_device: false
                     rare_device_percentile_bucket: <p95
+                    labels:
+                      - label: fraud
+                        prediction: false
+                        ml_score: 0.01
                     rule_action:
                       type: block
                       status_code: 403
@@ -810,6 +818,10 @@ paths:
                       audio: 124.04347745512496
                     rare_device: false
                     rare_device_percentile_bucket: <p95
+                    labels:
+                      - label: fraud
+                        prediction: false
+                        ml_score: 0.01
         '400':
           description: Bad request. The event Id provided is not valid.
           content:
@@ -1954,6 +1966,10 @@ paths:
                           audio: 124.04347745512496
                         rare_device: false
                         rare_device_percentile_bucket: <p95
+                        labels:
+                          - label: fraud
+                            prediction: false
+                            ml_score: 0.01
                     pagination_key: '1708102555327'
         '400':
           description: >-
@@ -3675,6 +3691,28 @@ components:
           $ref: '#/components/schemas/FontHash'
         timezone_offset:
           $ref: '#/components/schemas/TimezoneOffset'
+    Labels:
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          label:
+            type: string
+          prediction:
+            type: boolean
+          ml_score:
+            type: number
+            format: double
+            minimum: 0
+            maximum: 1
+      description: >
+        Each label returns a prediction (true or false) for a specific use case
+        (label field) based on a machine learning score. The machine learning
+        score is determined by a model trained on customer data for that use
+        case. This field is in the beta phase and only available to select
+        customers. If you are interested, please [contact our support
+        team](https://fingerprint.com/support/).
     Event:
       type: object
       description: >-
@@ -3977,6 +4015,12 @@ components:
             - browser
         raw_device_attributes:
           $ref: '#/components/schemas/RawDeviceAttributes'
+          x-platforms:
+            - browser
+            - ios
+            - android
+        labels:
+          $ref: '#/components/schemas/Labels'
           x-platforms:
             - browser
             - ios
