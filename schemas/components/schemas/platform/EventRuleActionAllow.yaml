@@ -8,3 +8,4 @@ properties:
     const: allow
   request_header_modifications:
     $ref: RequestHeaderModifications.yaml
+unevaluatedProperties: true

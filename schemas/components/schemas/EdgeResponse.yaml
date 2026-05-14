@@ -1,0 +1,10 @@
+type: object
+description: IP and bot analysis for a request submitted through the Automation Intelligence API.
+additionalProperties: false
+required:
+  - ip_info
+properties:
+  ip_info:
+    $ref: smartsignals/IPInfo.yaml
+  bot_info:
+    $ref: smartsignals/BotInfo.yaml

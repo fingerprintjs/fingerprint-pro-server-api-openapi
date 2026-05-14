@@ -25,6 +25,8 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  /v4/edge:
+    $ref: paths/edge.yaml
   /events/{event_id}:
     $ref: paths/event.yaml
   /events:
