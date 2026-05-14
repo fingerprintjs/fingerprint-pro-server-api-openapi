@@ -303,3 +303,9 @@ properties:
       - browser
       - ios
       - android
+  labels:
+    $ref: smartsignals/Labels.yaml
+    x-platforms:
+      - browser
+      - ios
+      - android
