@@ -368,6 +368,11 @@ paths:
                           id: w1aTfd4MCvl
                           precisionRadius: 10
                           confidence: 0.95
+                      labels:
+                        data:
+                          - label: fraud
+                            prediction: false
+                            mlScore: 0.01
                 200-all-errors:
                   summary: All failed signals
                   value:
@@ -479,6 +484,10 @@ paths:
                           code: Failed
                           message: internal server error
                       proximity:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      labels:
                         error:
                           code: Failed
                           message: internal server error
@@ -6290,6 +6299,33 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/MitMAttack'
+        error:
+          $ref: '#/components/schemas/Error'
+    Labels:
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          label:
+            type: string
+          prediction:
+            type: boolean
+          mlScore:
+            type: number
+            format: double
+            minimum: 0
+            maximum: 1
+      description: >
+        Each label returns a prediction (true or false) for a specific use case (label field) based on a machine learning score.
+        The machine learning score is determined by a model trained on customer data for that use case. This field is in the beta phase
+        and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+    ProductLabels:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/Labels'
         error:
           $ref: '#/components/schemas/Error'
     Proximity:
