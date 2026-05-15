@@ -1,5 +1,27 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.3.0
+
+### Minor Changes
+
+- **events-search**: Add `start_date_time` and `end_date_time` RFC3339 timestamp filters ([82dbc47](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/82dbc47e7bc7ab2dd92f6961589359229201c941))
+- **events**: Add Android platform support to `developer_tools` smart signal ([e0a5502](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/e0a550266443ffc6e68694abbf2743b7d6a7d013))
+- **events**: Add iOS platform support to `developer_tools` smart signal for API v3 ([efd8543](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/efd854378447b55c3c6903bc995be1ec2a3fc716))
+- **events-search**: Accept RFC3339 timestamps for `start` and `end` filter parameters in addition to Unix milliseconds ([d26c53b](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/d26c53b45f61bd91b0aaa9b42ccb4e7e625627da))
+- **events**: Add `labels` to `Event` ([237c253](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/237c253cf9b399c37ab77babf9e6b096959cf604))
+- **events**: Add iOS platform support to `developer_tools` ([8b29031](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/8b29031e6956a5a3b23114e8e0f7b48d2b2a19c3))
+- **events-search**: Add `bot_info` filter parameters ([8b29031](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/8b29031e6956a5a3b23114e8e0f7b48d2b2a19c3))
+- **events-search**: Add `unknown` value to `BotInfoCategory` ([2937aa5](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/2937aa52a19c9b505cbc78dadb9c2200b6041af1))
+
+### Patch Changes
+
+- **events-search**: Remove `default` property from `reverse` query parameter ([1806cb2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/1806cb26a188ae90bcad3788367dbff90d6739a5))
+- **events**: Clarify availability of proxy and VM ML score signals ([1806cb2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/1806cb26a188ae90bcad3788367dbff90d6739a5))
+- **events**: Clarify semantics of `incremental_identification_status` ([8b29031](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/8b29031e6956a5a3b23114e8e0f7b48d2b2a19c3))
+- **visitors**: Clarify rate limits for `deleteVisitorData` operation ([2937aa5](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/2937aa52a19c9b505cbc78dadb9c2200b6041af1))
+- **events-search**: Clarify availability of `rare_device` and `rare_device_percentile_bucket` query parameters ([1806cb2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/1806cb26a188ae90bcad3788367dbff90d6739a5))
+- **events-search**: Fix `pagination_key` example ([1806cb2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/1806cb26a188ae90bcad3788367dbff90d6739a5))
+
 ## 3.2.0
 
 ### Minor Changes
