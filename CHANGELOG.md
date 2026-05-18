@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.3.1
+
+### Patch Changes
+
+- **events**: Require `label` on smart signal `Labels` items ([a321a12](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/a321a128b97b5f9afd78088d946c90be7bd95bdf))
+
 ## 3.3.0
 
 ### Minor Changes
