@@ -79,6 +79,33 @@ describe('Test transformSchema pipelines for v4', () => {
     });
   });
 
+  it('v4 docs schema keeps /edge when present', () => {
+    const yamlWithEdge = toYaml({
+      openapi: '3.1.1',
+      paths: { '/edge': { post: {} }, '/events': { get: {} } },
+      components: { schemas: {} },
+    });
+
+    const result = transformSchema(yamlWithEdge, [...v4Transformers]);
+    const parsed = parseYaml(result);
+
+    expect(parsed.paths['/edge']).toBeDefined();
+  });
+
+  it('v4 sdk schemas remove /edge when present', () => {
+    const yamlWithEdge = toYaml({
+      openapi: '3.1.1',
+      paths: { '/edge': { post: {} }, '/events': { get: {} } },
+      components: { schemas: {} },
+    });
+
+    for (const transformers of [v4SchemaForSdksTransformers, v4SchemaForSdksNormalizedTransformers]) {
+      const result = transformSchema(yamlWithEdge, transformers);
+      const parsed = parseYaml(result);
+      expect(parsed.paths['/edge']).toBeUndefined();
+    }
+  });
+
   it('v4 normalized sdk schema removes examples, additionalProperties: false, oneOf query parameters', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
