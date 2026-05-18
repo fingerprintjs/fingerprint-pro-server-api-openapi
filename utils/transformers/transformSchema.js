@@ -48,6 +48,10 @@ export const v4SchemaForSdksCommonTransformers = [
 
 export const v4SchemaForSdksTransformers = [
   ...v4SchemaForSdksCommonTransformers,
+  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
+  inlineReferencedPropertiesTransformer('BotInfo'),
+  // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.
+  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
