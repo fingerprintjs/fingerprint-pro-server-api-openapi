@@ -13,7 +13,7 @@ properties:
       A stable privacy-preserving identifier for a given proximity zone.
     x-ruleset-metadata:
       label: Proximity zone ID
-      category: mobile
+      category: location
   precision_radius:
     type: integer
     format: int32
