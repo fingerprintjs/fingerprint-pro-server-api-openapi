@@ -3,6 +3,7 @@ import process from 'node:process';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
 import { removeWebhookTransformer } from './removeWebhookTransformer.js';
+import { removeEdgeTransformer } from './removeEdgeTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
 import { removeFieldTransformer } from './removeFieldTransformer.js';
@@ -38,6 +39,7 @@ export const v4Transformers = [
 
 export const v4SchemaForSdksCommonTransformers = [
   ...v4Transformers,
+  removeEdgeTransformer,
   extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
