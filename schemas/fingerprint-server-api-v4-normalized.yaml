@@ -8,6 +8,9 @@ info:
 
     Server API is intended for server-side usage, it's not intended to be used
     from the client side, whether it's a browser or a mobile device.
+
+    The API also supports collection of Automation Intelligence for requests to
+    your server in edge, pre-origin, or middleware contexts.
   version: '4'
   contact:
     name: Fingerprint Support
@@ -1010,6 +1013,288 @@ components:
         Add your Secret API Key to the Authorization header using the standard
         Bearer format: `Authorization: Bearer <secret_api_key>`
   schemas:
+    Geolocation:
+      type: object
+      properties:
+        accuracy_radius:
+          type: integer
+          minimum: 0
+          description: >-
+            The IP address is likely to be within this radius (in km) of the
+            specified location.
+        latitude:
+          type: number
+          format: double
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          format: double
+          minimum: -180
+          maximum: 180
+        postal_code:
+          type: string
+        timezone:
+          type: string
+          format: timezone
+        city_name:
+          type: string
+        country_code:
+          type: string
+          minLength: 2
+          maxLength: 2
+        country_name:
+          type: string
+        continent_code:
+          type: string
+          minLength: 2
+          maxLength: 2
+        continent_name:
+          type: string
+        subdivisions:
+          type: array
+          items:
+            type: object
+            required:
+              - iso_code
+              - name
+            properties:
+              iso_code:
+                type: string
+              name:
+                type: string
+    IPInfoV4:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          format: ipv4
+        geolocation:
+          $ref: '#/components/schemas/Geolocation'
+        asn:
+          type: string
+        asn_name:
+          type: string
+        asn_network:
+          type: string
+        asn_type:
+          type: string
+        datacenter_result:
+          type: boolean
+          description: When true, the request originated from a datacenter.
+        datacenter_name:
+          type: string
+    IPInfoV6:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          format: ipv6
+        geolocation:
+          $ref: '#/components/schemas/Geolocation'
+        asn:
+          type: string
+        asn_name:
+          type: string
+        asn_network:
+          type: string
+        asn_type:
+          type: string
+        datacenter_result:
+          type: boolean
+          description: When true, the request originated from a datacenter.
+        datacenter_name:
+          type: string
+    IPInfo:
+      type: object
+      description: >-
+        Details about the request IP address. Has separate fields for v4 and v6
+        IP address versions.
+      properties:
+        v4:
+          $ref: '#/components/schemas/IPInfoV4'
+        v6:
+          $ref: '#/components/schemas/IPInfoV6'
+    BotInfoCategory:
+      type: string
+      enum:
+        - advertising_and_marketing
+        - aggregator
+        - ai_agent
+        - ai_assistant
+        - ai_browser
+        - ai_crawler
+        - ai_search
+        - browser_automation
+        - ecommerce
+        - monitoring_and_analytics
+        - other
+        - scraping
+        - security
+        - search_engine_crawler
+        - search_engine_optimization
+        - unknown
+      description: |
+        The type and purpose of the bot.
+    BotInfoIdentity:
+      type: string
+      enum:
+        - verified
+        - signed
+        - spoofed
+        - unknown
+      description: |
+        The verification status of the bot's identity:
+         * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
+         * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
+         * `spoofed` - bot that claims a public identity but fails verification.
+         * `unknown` - bot that does not publish a verifiable identity.
+    BotInfoConfidence:
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+      description: Confidence level of the bot identification.
+    BotInfo:
+      type: object
+      description: Extended bot information.
+      required:
+        - category
+        - provider
+        - name
+        - identity
+        - confidence
+      properties:
+        category:
+          type: string
+          description: |
+            The type and purpose of the bot.
+        provider:
+          type: string
+          description: The organization or company operating the bot.
+        provider_url:
+          type: string
+          description: The URL of the bot provider's website.
+        name:
+          type: string
+          description: The specific name or identifier of the bot.
+        identity:
+          type: string
+          enum:
+            - verified
+            - signed
+            - spoofed
+            - unknown
+          description: |
+            The verification status of the bot's identity:
+             * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
+             * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
+             * `spoofed` - bot that claims a public identity but fails verification.
+             * `unknown` - bot that does not publish a verifiable identity.
+        confidence:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+          description: Confidence level of the bot identification.
+    ErrorCode:
+      type: string
+      enum:
+        - request_cannot_be_parsed
+        - request_read_timeout
+        - secret_api_key_required
+        - secret_api_key_not_found
+        - public_api_key_required
+        - public_api_key_not_found
+        - subscription_not_active
+        - wrong_region
+        - feature_not_enabled
+        - visitor_not_found
+        - too_many_requests
+        - state_not_ready
+        - failed
+        - event_not_found
+        - missing_module
+        - payload_too_large
+        - service_unavailable
+        - ruleset_not_found
+      description: >
+        Error code:
+
+        * `request_cannot_be_parsed` - The query parameters or JSON payload
+        contains some errors
+          that prevented us from parsing it (wrong type/surpassed limits).
+        * `request_read_timeout` - The request body could not be read before the
+        connection timed out.
+
+        * `secret_api_key_required` - secret API key in header is missing or
+        empty.
+
+        * `secret_api_key_not_found` - No Fingerprint workspace found for
+        specified secret API key.
+
+        * `public_api_key_required` - public API key in header is missing or
+        empty.
+
+        * `public_api_key_not_found` - No Fingerprint workspace found for
+        specified public API key.
+
+        * `subscription_not_active` - Fingerprint workspace is not active.
+
+        * `wrong_region` - Server and workspace region differ.
+
+        * `feature_not_enabled` - This feature (for example, Delete API) is not
+        enabled for your workspace.
+
+        * `visitor_not_found` - The specified visitor ID was not found. It never
+        existed or it may have already been deleted.
+
+        * `too_many_requests` - The limit on secret API key requests per second
+        has been exceeded.
+
+        * `state_not_ready` - The event specified with event ID is
+          not ready for updates yet. Try again.
+          This error happens in rare cases when update API is called immediately
+          after receiving the event ID on the client. In case you need to send
+          information right away, we recommend using the JS agent API instead.
+        * `failed` - Internal server error.
+
+        * `event_not_found` - The specified event ID was not found. It never
+        existed, expired, or it has been deleted.
+
+        * `missing_module` - The request is invalid because it is missing a
+        required module.
+
+        * `payload_too_large` - The request payload is too large and cannot be
+        processed.
+
+        * `service_unavailable` - The service was unable to process the request.
+
+        * `ruleset_not_found` - The specified ruleset was not found. It never
+        existed or it has been deleted.
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
     EventId:
       type: string
       description: >
@@ -1306,90 +1591,6 @@ components:
       type: string
       description: |
         Additional classification of the bot type if detected.
-    BotInfoCategory:
-      type: string
-      enum:
-        - advertising_and_marketing
-        - aggregator
-        - ai_agent
-        - ai_assistant
-        - ai_browser
-        - ai_crawler
-        - ai_search
-        - browser_automation
-        - ecommerce
-        - monitoring_and_analytics
-        - other
-        - scraping
-        - security
-        - search_engine_crawler
-        - search_engine_optimization
-        - unknown
-      description: |
-        The type and purpose of the bot.
-    BotInfoIdentity:
-      type: string
-      enum:
-        - verified
-        - signed
-        - spoofed
-        - unknown
-      description: |
-        The verification status of the bot's identity:
-         * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
-         * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
-         * `spoofed` - bot that claims a public identity but fails verification.
-         * `unknown` - bot that does not publish a verifiable identity.
-    BotInfoConfidence:
-      type: string
-      enum:
-        - low
-        - medium
-        - high
-      description: Confidence level of the bot identification.
-    BotInfo:
-      type: object
-      description: Extended bot information.
-      required:
-        - category
-        - provider
-        - name
-        - identity
-        - confidence
-      properties:
-        category:
-          type: string
-          description: |
-            The type and purpose of the bot.
-        provider:
-          type: string
-          description: The organization or company operating the bot.
-        provider_url:
-          type: string
-          description: The URL of the bot provider's website.
-        name:
-          type: string
-          description: The specific name or identifier of the bot.
-        identity:
-          type: string
-          enum:
-            - verified
-            - signed
-            - spoofed
-            - unknown
-          description: |
-            The verification status of the bot's identity:
-             * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
-             * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
-             * `spoofed` - bot that claims a public identity but fails verification.
-             * `unknown` - bot that does not publish a verifiable identity.
-        confidence:
-          type: string
-          enum:
-            - low
-            - medium
-            - high
-          description: Confidence level of the bot identification.
     ClonedApp:
       type: boolean
       description: >
@@ -1447,110 +1648,6 @@ components:
         tor_node:
           type: boolean
           description: IP address was part of known TOR network activity.
-    Geolocation:
-      type: object
-      properties:
-        accuracy_radius:
-          type: integer
-          minimum: 0
-          description: >-
-            The IP address is likely to be within this radius (in km) of the
-            specified location.
-        latitude:
-          type: number
-          format: double
-          minimum: -90
-          maximum: 90
-        longitude:
-          type: number
-          format: double
-          minimum: -180
-          maximum: 180
-        postal_code:
-          type: string
-        timezone:
-          type: string
-          format: timezone
-        city_name:
-          type: string
-        country_code:
-          type: string
-          minLength: 2
-          maxLength: 2
-        country_name:
-          type: string
-        continent_code:
-          type: string
-          minLength: 2
-          maxLength: 2
-        continent_name:
-          type: string
-        subdivisions:
-          type: array
-          items:
-            type: object
-            required:
-              - iso_code
-              - name
-            properties:
-              iso_code:
-                type: string
-              name:
-                type: string
-    IPInfoV4:
-      type: object
-      required:
-        - address
-      properties:
-        address:
-          type: string
-          format: ipv4
-        geolocation:
-          $ref: '#/components/schemas/Geolocation'
-        asn:
-          type: string
-        asn_name:
-          type: string
-        asn_network:
-          type: string
-        asn_type:
-          type: string
-        datacenter_result:
-          type: boolean
-        datacenter_name:
-          type: string
-    IPInfoV6:
-      type: object
-      required:
-        - address
-      properties:
-        address:
-          type: string
-          format: ipv6
-        geolocation:
-          $ref: '#/components/schemas/Geolocation'
-        asn:
-          type: string
-        asn_name:
-          type: string
-        asn_network:
-          type: string
-        asn_type:
-          type: string
-        datacenter_result:
-          type: boolean
-        datacenter_name:
-          type: string
-    IPInfo:
-      type: object
-      description: >-
-        Details about the request IP address. Has separate fields for v4 and v6
-        IP address versions.
-      properties:
-        v4:
-          $ref: '#/components/schemas/IPInfoV4'
-        v6:
-          $ref: '#/components/schemas/IPInfoV6'
     Proxy:
       type: boolean
       description: >
@@ -2736,98 +2833,6 @@ components:
             - browser
             - ios
             - android
-    ErrorCode:
-      type: string
-      enum:
-        - request_cannot_be_parsed
-        - request_read_timeout
-        - secret_api_key_required
-        - secret_api_key_not_found
-        - public_api_key_required
-        - public_api_key_not_found
-        - subscription_not_active
-        - wrong_region
-        - feature_not_enabled
-        - visitor_not_found
-        - too_many_requests
-        - state_not_ready
-        - failed
-        - event_not_found
-        - missing_module
-        - payload_too_large
-        - service_unavailable
-        - ruleset_not_found
-      description: >
-        Error code:
-
-        * `request_cannot_be_parsed` - The query parameters or JSON payload
-        contains some errors
-          that prevented us from parsing it (wrong type/surpassed limits).
-        * `request_read_timeout` - The request body could not be read before the
-        connection timed out.
-
-        * `secret_api_key_required` - secret API key in header is missing or
-        empty.
-
-        * `secret_api_key_not_found` - No Fingerprint workspace found for
-        specified secret API key.
-
-        * `public_api_key_required` - public API key in header is missing or
-        empty.
-
-        * `public_api_key_not_found` - No Fingerprint workspace found for
-        specified public API key.
-
-        * `subscription_not_active` - Fingerprint workspace is not active.
-
-        * `wrong_region` - Server and workspace region differ.
-
-        * `feature_not_enabled` - This feature (for example, Delete API) is not
-        enabled for your workspace.
-
-        * `visitor_not_found` - The specified visitor ID was not found. It never
-        existed or it may have already been deleted.
-
-        * `too_many_requests` - The limit on secret API key requests per second
-        has been exceeded.
-
-        * `state_not_ready` - The event specified with event ID is
-          not ready for updates yet. Try again.
-          This error happens in rare cases when update API is called immediately
-          after receiving the event ID on the client. In case you need to send
-          information right away, we recommend using the JS agent API instead.
-        * `failed` - Internal server error.
-
-        * `event_not_found` - The specified event ID was not found. It never
-        existed, expired, or it has been deleted.
-
-        * `missing_module` - The request is invalid because it is missing a
-        required module.
-
-        * `payload_too_large` - The request payload is too large and cannot be
-        processed.
-
-        * `service_unavailable` - The service was unable to process the request.
-
-        * `ruleset_not_found` - The specified ruleset was not found. It never
-        existed or it has been deleted.
-    Error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          $ref: '#/components/schemas/ErrorCode'
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      required:
-        - error
-      properties:
-        error:
-          $ref: '#/components/schemas/Error'
     EventUpdate:
       type: object
       properties:
