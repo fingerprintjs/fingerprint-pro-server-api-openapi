@@ -3833,6 +3833,7 @@ components:
           x-platforms:
             - android
             - ios
+            - browser
         bot:
           $ref: '#/components/schemas/BotResult'
           x-platforms:
