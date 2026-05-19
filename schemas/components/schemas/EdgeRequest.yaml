@@ -1,0 +1,75 @@
+type: object
+description: HTTP request metadata (including the HTTP method, headers and IP address) sent by you (your server) to the Fingerprint API for IP and bot analysis. To improve accuracy, retain as much of the original semantics of the HTTP request as possible. For example, preserve the order of the request headers and their capitalization.
+additionalProperties: false
+required:
+  - headers
+  - method
+  - url
+properties:
+  headers:
+    type: array
+    description: |
+      Ordered header entries from the request made to your server. Each entry represents one header line. If one header name appears as multiple lines, send each as a separate item in the array.
+
+      Headers that contain authentication details like `Cookie` or `Authorization` should be included with their value set to an empty string.
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          description: Header name as forwarded by your server. Headers must be valid according to RFC 7230 and will be canonicalized according to RFC 9112.
+        value:
+          type: string
+          description: Value of a single forwarded header entry. Be careful to preserve the original encoding and escaping. For example, do not double escape quotes.
+    examples:
+      - - name: host
+          value: example.com
+        - name: user-agent
+          value: Mozilla/5.0
+        - name: accept-language
+          value: en-US,en;q=0.9
+      - - name: host
+          value: example.com
+        - name: user-agent
+          value: Mozilla/5.0
+        - name: accept-encoding
+          value: gzip
+        - name: accept-encoding
+          value: deflate
+  method:
+    type: string
+    description: HTTP method of the request. Preserve the original HTTP method of the request, including casing.
+    examples:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+  url:
+    type: string
+    description: Absolute URL of the request, without a \#fragment suffix. Only HTTP and HTTPS schemes are supported.
+    format: uri
+    examples:
+      - http://example.com
+      - https://example.com/checkout?method=card
+  ipv4_address:
+    type: string
+    description: Client IPv4 address observed by your server.
+    format: ipv4
+    examples:
+      - 34.162.244.71
+      - 3.208.0.3
+      - 173.56.0.4
+  ipv6_address:
+    type: string
+    description: Client IPv6 address observed by your server.
+    format: ipv6
+    examples:
+      - 2001:4860:4801:10::1
+      - 2600:1f42:abcd:5678:9876:fedc:1357:2468
+      - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
