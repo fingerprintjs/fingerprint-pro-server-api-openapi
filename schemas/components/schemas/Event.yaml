@@ -108,6 +108,7 @@ properties:
     x-platforms:
       - android
       - ios
+      - browser
   bot:
     $ref: smartsignals/BotResult.yaml
     x-platforms:
