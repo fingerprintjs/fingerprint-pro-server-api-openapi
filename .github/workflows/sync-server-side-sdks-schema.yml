@@ -157,7 +157,7 @@ jobs:
       app-id: ${{ vars.RUNNER_APP_ID }}
       repository: php-sdk
       pre-release: ${{ inputs.pre-release }}
-      pre-release-tag: develop
+      pre-release-tag: beta
       allowed-scopes: events,visitors,webhook,related-visitors,events-search
       force: ${{ inputs.force }}
     secrets:
