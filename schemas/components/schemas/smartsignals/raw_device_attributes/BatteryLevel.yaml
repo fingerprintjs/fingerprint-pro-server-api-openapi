@@ -1,0 +1,6 @@
+type: integer
+format: int32
+minimum: 0
+maximum: 100
+example: 75
+description: Battery charge level as a percentage (0-100). Available only for Android and iOS devices.
