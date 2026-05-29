@@ -2236,7 +2236,7 @@ components:
       format: int32
       minimum: 0
       example: 8
-      description: Rounded amount of RAM (in gigabytes) reported by the browser.
+      description: Rounded amount of RAM in gigabytes.
     Timezone:
       type: string
       description: Timezone identifier detected on the client.
@@ -2257,7 +2257,7 @@ components:
       description: >
         Navigator languages reported by the agent including fallbacks. Each
         inner array represents ordered language preferences reported by
-        different APIs. Available for both browsers and iOS devices
+        different APIs. Available for browsers, iOS, and Android devices.
       items:
         type: array
         items:
@@ -2413,6 +2413,20 @@ components:
     TimezoneOffset:
       type: string
       description: UTC offset in "±HH:MM" format derived from the detected IANA timezone.
+    BatteryLevel:
+      type: integer
+      format: int32
+      minimum: 0
+      maximum: 100
+      example: 75
+      description: >-
+        Battery charge level as a percentage (0-100). Available only for Android
+        and iOS devices.
+    BatteryLowPowerMode:
+      type: boolean
+      description: >-
+        Whether the device's low power mode is enabled. Available only for
+        Android and iOS devices.
     RawDeviceAttributes:
       type: object
       description: >
@@ -2478,6 +2492,10 @@ components:
           $ref: '#/components/schemas/FontHash'
         timezone_offset:
           $ref: '#/components/schemas/TimezoneOffset'
+        battery_level:
+          $ref: '#/components/schemas/BatteryLevel'
+        battery_low_power_mode:
+          $ref: '#/components/schemas/BatteryLowPowerMode'
     Labels:
       type: array
       items:
