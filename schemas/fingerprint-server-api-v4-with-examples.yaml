@@ -36,7 +36,7 @@ paths:
   /edge:
     post:
       operationId: analyzeRequestForAutomationIntelligence
-      summary: Collect Automation Intelligence for an HTTP request made to your server.
+      summary: Collect Automation Intelligence.
       description: >
         The Automation Intelligence API (in public preview) gives you the tools
         to determine whether traffic is legitimate and should be accepted by
@@ -83,8 +83,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EdgeResponse'
               examples:
-                200-ok:
-                  summary: Example response
+                200-ok-bot-detected:
+                  summary: Example response when a bot was detected.
                   value:
                     ip_info:
                       v4:
@@ -116,18 +116,113 @@ paths:
                       name: Fingerprint Agent
                       identity: signed
                       confidence: high
+                200-ok-bot-not-detected:
+                  summary: Example response when a bot was not detected.
+                  value:
+                    ip_info:
+                      v4:
+                        address: 173.56.25.103
+                        geolocation:
+                          accuracy_radius: 20
+                          latitude: 40.71427
+                          longitude: -74.00597
+                          postal_code: '10001'
+                          timezone: America/New_York
+                          city_name: New York City
+                          country_code: US
+                          country_name: United States
+                          continent_code: NA
+                          continent_name: North America
+                          subdivisions:
+                            - iso_code: NY
+                              name: New York
+                        asn: '701'
+                        asn_name: Verizon Business
+                        asn_network: 173.56.0.0/16
+                        asn_type: isp
+                        datacenter_result: false
         '400':
           description: Bad request. The request payload is not valid.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                400-unknown-field:
+                  summary: Error response when an unknown field is provided.
+                  value:
+                    error:
+                      code: request_cannot_be_parsed
+                      message: request body contains an unknown field "unknown"
+                400-ip-required:
+                  summary: Error response when an IP address was not provided.
+                  value:
+                    error:
+                      code: request_cannot_be_parsed
+                      message: at least one of ipv4_address or ipv6_address is required
+                400-read-timeout:
+                  summary: Error response if the request is not sent within 5 seconds.
+                  value:
+                    error:
+                      code: request_read_timeout
+                      message: request read timeout
         '403':
           description: Forbidden. Access to this API is denied.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                403-secret-api-key-required:
+                  summary: Error response when the secret API key was not provided.
+                  value:
+                    error:
+                      code: secret_api_key_required
+                      message: secret API key in header is missing or empty
+                403-secret-api-key-not-found:
+                  summary: >-
+                    Error response when the provided secret API key does not
+                    exist.
+                  value:
+                    error:
+                      code: secret_api_key_not_found
+                      message: >-
+                        no fingerprint workspace found for specified secret API
+                        key
+                403-wrong-region:
+                  summary: >-
+                    Error response when the API region is different from the
+                    region, the calling workspace is configured with.
+                  value:
+                    error:
+                      code: wrong_region
+                      message: wrong region
+        '413':
+          description: Bad request. The request payload is too large.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                '413':
+                  summary: Payload too large error
+                  value:
+                    error:
+                      code: request_cannot_be_parsed
+                      message: payload too large
+        '429':
+          description: Too Many Requests. The request is throttled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                429-too-many-requests-error:
+                  summary: Too many requests error
+                  value:
+                    error:
+                      code: too_many_requests
+                      message: too many requests
         '500':
           description: Workspace error.
           content:
