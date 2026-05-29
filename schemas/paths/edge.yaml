@@ -29,6 +29,9 @@ post:
             200-ok-bot-not-detected:
               summary: Example response when a bot was not detected.
               externalValue: examples/edge/analyze_200_non_bot.json
+            200-ok-proxy-detected:
+              summary: Example response when a proxy was detected.
+              externalValue: examples/edge/analyze_200_proxy.json
     '400':
       description: Bad request. The request payload is not valid.
       content:
