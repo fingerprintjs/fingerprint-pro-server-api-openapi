@@ -95,6 +95,24 @@ properties:
       - android
       - ios
       - browser
+  device:
+    $ref: identification/Device.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
+  os:
+    $ref: identification/Os.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
+  os_version:
+    $ref: identification/OsVersion.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
   client_referrer:
     $ref: identification/ClientReferrer.yaml
     x-platforms:

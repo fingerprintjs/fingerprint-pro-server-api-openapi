@@ -1,4 +1,12 @@
 {
+  "bot_info": {
+    "category": "ai_agent",
+    "provider": "Fingerprint",
+    "provider_url": "https://fingerprint.com",
+    "name": "Fingerprint Agent",
+    "identity": "signed",
+    "confidence": "high"
+  },
   "ip_info": {
     "v4": {
       "address": "34.162.244.71",
@@ -28,12 +36,12 @@
       "datacenter_name": "Google Cloud"
     }
   },
-  "bot_info": {
-    "category": "ai_agent",
-    "provider": "Fingerprint",
-    "provider_url": "https://fingerprint.com",
-    "name": "Fingerprint Agent",
-    "identity": "signed",
-    "confidence": "high"
+  "proxy": false,
+  "proxy_confidence": "high",
+  "vpn": true,
+  "vpn_confidence": "high",
+  "vpn_methods": {
+    "public_vpn": false,
+    "relay": true
   }
 }
