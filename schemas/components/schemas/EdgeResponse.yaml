@@ -4,7 +4,19 @@ additionalProperties: false
 required:
   - ip_info
 properties:
-  ip_info:
-    $ref: smartsignals/IPInfo.yaml
   bot_info:
     $ref: smartsignals/BotInfo.yaml
+  ip_info:
+    $ref: smartsignals/IPInfo.yaml
+  proxy:
+    $ref: smartsignals/Proxy.yaml
+  proxy_confidence:
+    $ref: smartsignals/ProxyConfidence.yaml
+  proxy_details:
+    $ref: smartsignals/ProxyDetails.yaml
+  vpn:
+    $ref: smartsignals/Vpn.yaml
+  vpn_confidence:
+    $ref: smartsignals/VpnConfidence.yaml
+  vpn_methods:
+    $ref: smartsignals/VpnMethods.yaml
