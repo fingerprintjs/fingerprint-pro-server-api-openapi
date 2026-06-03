@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-added vpn mlScore field and vpn mlPrediction field
+Added vpn mlScore field and vpn mlPrediction field
