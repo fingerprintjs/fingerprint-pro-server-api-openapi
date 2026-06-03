@@ -252,6 +252,7 @@ paths:
                         data:
                           result: false
                           confidence: high
+                          mlScore: 0.002
                           originTimezone: Europe/Berlin
                           originCountry: unknown
                           methods:
@@ -260,6 +261,7 @@ paths:
                             auxiliaryMobile: false
                             osMismatch: false
                             relay: false
+                            mlPrediction: false
                       proxy:
                         data:
                           result: true
@@ -1777,6 +1779,7 @@ paths:
                             data:
                               result: false
                               confidence: high
+                              mlScore: 0.002
                               originTimezone: Europe/Berlin
                               originCountry: unknown
                               methods:
@@ -1785,6 +1788,7 @@ paths:
                                 auxiliaryMobile: false
                                 osMismatch: false
                                 relay: false
+                                mlPrediction: false
                           proxy:
                             data:
                               result: false
@@ -6193,6 +6197,11 @@ components:
 
             This field allows you to differentiate VPN users and relay service
             users in your fraud prevention logic.
+        mlPrediction:
+          type: boolean
+          description: >
+            `true` if the request came from a device running a VPN, `false`
+            otherwise.  
     VPN:
       type: object
       additionalProperties: false
@@ -6210,6 +6219,18 @@ components:
             request.
         confidence:
           $ref: '#/components/schemas/VPNConfidence'
+        mlScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: >
+            Machine learning–based VPN score, represented as a floating-point
+            value between 0 and 1 (inclusive), with up to three decimal places
+            of precision. A higher score means a higher confidence in the
+            positive `vpn` detection result. This Smart Signal is currently in
+            beta and only available to select customers. If you are interested,
+            please [contact our support team](https://fingerprint.com/support/).
         originTimezone:
           type: string
           description: Local timezone which is used in timezoneMismatch method.
