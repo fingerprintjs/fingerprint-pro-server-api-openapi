@@ -27,8 +27,13 @@
       "datacenter_result": false
     }
   },
-  "proxy": false,
+  "proxy": true,
   "proxy_confidence": "high",
+  "proxy_details": {
+    "proxy_type": "data_center",
+    "last_seen_at": 1716057600000,
+    "provider": "DataImpulse"
+  },
   "vpn": false,
   "vpn_confidence": "medium",
   "vpn_methods": {
