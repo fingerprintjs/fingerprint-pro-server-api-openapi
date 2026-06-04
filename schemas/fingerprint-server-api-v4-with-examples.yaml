@@ -86,6 +86,13 @@ paths:
                 200-ok-bot-detected:
                   summary: Example response when a bot was detected.
                   value:
+                    bot_info:
+                      category: ai_agent
+                      provider: Fingerprint
+                      provider_url: https://fingerprint.com
+                      name: Fingerprint Agent
+                      identity: signed
+                      confidence: high
                     ip_info:
                       v4:
                         address: 34.162.244.71
@@ -109,13 +116,13 @@ paths:
                         asn_type: hosting
                         datacenter_result: true
                         datacenter_name: Google Cloud
-                    bot_info:
-                      category: ai_agent
-                      provider: Fingerprint
-                      provider_url: https://fingerprint.com
-                      name: Fingerprint Agent
-                      identity: signed
-                      confidence: high
+                    proxy: false
+                    proxy_confidence: high
+                    vpn: true
+                    vpn_confidence: high
+                    vpn_methods:
+                      public_vpn: false
+                      relay: true
                 200-ok-bot-not-detected:
                   summary: Example response when a bot was not detected.
                   value:
@@ -141,6 +148,49 @@ paths:
                         asn_network: 173.56.0.0/16
                         asn_type: isp
                         datacenter_result: false
+                    proxy: false
+                    proxy_confidence: high
+                    vpn: false
+                    vpn_confidence: medium
+                    vpn_methods:
+                      public_vpn: false
+                      relay: false
+                200-ok-proxy-detected:
+                  summary: Example response when a proxy was detected.
+                  value:
+                    ip_info:
+                      v4:
+                        address: 173.56.25.103
+                        geolocation:
+                          accuracy_radius: 20
+                          latitude: 40.71427
+                          longitude: -74.00597
+                          postal_code: '10001'
+                          timezone: America/New_York
+                          city_name: New York City
+                          country_code: US
+                          country_name: United States
+                          continent_code: NA
+                          continent_name: North America
+                          subdivisions:
+                            - iso_code: NY
+                              name: New York
+                        asn: '701'
+                        asn_name: Verizon Business
+                        asn_network: 173.56.0.0/16
+                        asn_type: isp
+                        datacenter_result: false
+                    proxy: true
+                    proxy_confidence: high
+                    proxy_details:
+                      proxy_type: data_center
+                      last_seen_at: 1716057600000
+                      provider: DataImpulse
+                    vpn: false
+                    vpn_confidence: medium
+                    vpn_methods:
+                      public_vpn: false
+                      relay: false
         '400':
           description: Bad request. The request payload is not valid.
           content:
@@ -2589,6 +2639,84 @@ components:
             - 2001:4860:4801:10::1
             - 2600:1f42:abcd:5678:9876:fedc:1357:2468
             - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
+    BotInfoCategory:
+      type: string
+      enum:
+        - advertising_and_marketing
+        - aggregator
+        - ai_agent
+        - ai_assistant
+        - ai_browser
+        - ai_crawler
+        - ai_search
+        - browser_automation
+        - ecommerce
+        - monitoring_and_analytics
+        - other
+        - scraping
+        - security
+        - search_engine_crawler
+        - search_engine_optimization
+        - unknown
+      description: |
+        The type and purpose of the bot.
+    BotInfoIdentity:
+      type: string
+      enum:
+        - verified
+        - signed
+        - spoofed
+        - unknown
+      description: |
+        The verification status of the bot's identity:
+         * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
+         * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
+         * `spoofed` - bot that claims a public identity but fails verification.
+         * `unknown` - bot that does not publish a verifiable identity.
+    BotInfoConfidence:
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+      description: Confidence level of the bot identification.
+    BotInfo:
+      type: object
+      description: Extended bot information.
+      additionalProperties: false
+      required:
+        - category
+        - provider
+        - name
+        - identity
+        - confidence
+      properties:
+        category:
+          $ref: '#/components/schemas/BotInfoCategory'
+        provider:
+          type: string
+          description: The organization or company operating the bot.
+          examples:
+            - Anthropic
+            - Browserbase
+            - Google
+            - OpenAI
+        provider_url:
+          type: string
+          description: The URL of the bot provider's website.
+        name:
+          type: string
+          description: The specific name or identifier of the bot.
+          examples:
+            - ClaudeBot
+            - Browserbase Agent
+            - Googlebot
+            - GPTBot
+            - ChatGPT-User
+        identity:
+          $ref: '#/components/schemas/BotInfoIdentity'
+        confidence:
+          $ref: '#/components/schemas/BotInfoConfidence'
     Geolocation:
       type: object
       additionalProperties: false
@@ -2740,84 +2868,124 @@ components:
           $ref: '#/components/schemas/IPInfoV4'
         v6:
           $ref: '#/components/schemas/IPInfoV6'
-    BotInfoCategory:
-      type: string
-      enum:
-        - advertising_and_marketing
-        - aggregator
-        - ai_agent
-        - ai_assistant
-        - ai_browser
-        - ai_crawler
-        - ai_search
-        - browser_automation
-        - ecommerce
-        - monitoring_and_analytics
-        - other
-        - scraping
-        - security
-        - search_engine_crawler
-        - search_engine_optimization
-        - unknown
-      description: |
-        The type and purpose of the bot.
-    BotInfoIdentity:
-      type: string
-      enum:
-        - verified
-        - signed
-        - spoofed
-        - unknown
-      description: |
-        The verification status of the bot's identity:
-         * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.
-         * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.
-         * `spoofed` - bot that claims a public identity but fails verification.
-         * `unknown` - bot that does not publish a verifiable identity.
-    BotInfoConfidence:
+    Proxy:
+      type: boolean
+      description: >
+        IP address was used by a public proxy provider or belonged to a known
+        recent residential proxy
+    ProxyConfidence:
       type: string
       enum:
         - low
         - medium
         - high
-      description: Confidence level of the bot identification.
-    BotInfo:
+      description: >
+        Confidence level of the proxy detection. If a proxy is not detected,
+        confidence is "high". If it's detected, can be "low", "medium", or
+        "high".
+    ProxyDetails:
       type: object
-      description: Extended bot information.
       additionalProperties: false
+      description: Proxy detection details (present if `proxy` is `true`)
       required:
-        - category
-        - provider
-        - name
-        - identity
-        - confidence
+        - proxy_type
       properties:
-        category:
-          $ref: '#/components/schemas/BotInfoCategory'
+        proxy_type:
+          type: string
+          enum:
+            - residential
+            - data_center
+          description: >
+            Residential proxies use real user IP addresses to appear as
+            legitimate traffic, 
+
+            while data center proxies are public proxies hosted in data centers
+        last_seen_at:
+          type: integer
+          format: int64
+          description: >
+            Unix millisecond timestamp with hourly resolution of when this IP
+            was last seen as a proxy
         provider:
           type: string
-          description: The organization or company operating the bot.
-          examples:
-            - Anthropic
-            - Browserbase
-            - Google
-            - OpenAI
-        provider_url:
-          type: string
-          description: The URL of the bot provider's website.
-        name:
-          type: string
-          description: The specific name or identifier of the bot.
-          examples:
-            - ClaudeBot
-            - Browserbase Agent
-            - Googlebot
-            - GPTBot
-            - ChatGPT-User
-        identity:
-          $ref: '#/components/schemas/BotInfoIdentity'
-        confidence:
-          $ref: '#/components/schemas/BotInfoConfidence'
+          description: >
+            String representing the last proxy service provider detected when
+            this
+
+            IP was synced. An IP can be shared by multiple service providers.
+    Vpn:
+      type: boolean
+      description: |
+        VPN or other anonymizing service has been used when sending the request.
+    VpnConfidence:
+      type: string
+      enum:
+        - low
+        - medium
+        - high
+      description: >-
+        A confidence rating for the VPN detection result — "low", "medium", or
+        "high". Depends on the combination of results returned from all VPN
+        detection methods.
+    VpnMethods:
+      type: object
+      additionalProperties: false
+      properties:
+        timezone_mismatch:
+          type: boolean
+          x-platforms:
+            - android
+            - ios
+            - browser
+          description: >-
+            The browser timezone doesn't match the timezone inferred from the
+            request IP address.
+        public_vpn:
+          type: boolean
+          x-platforms:
+            - android
+            - ios
+            - browser
+          description: >-
+            Request IP address is owned and used by a public VPN service
+            provider.
+        auxiliary_mobile:
+          type: boolean
+          x-platforms:
+            - android
+            - ios
+            - browser
+          description: >-
+            This method applies to mobile devices only. Indicates the result of
+            additional methods used to detect a VPN in mobile devices.
+        os_mismatch:
+          type: boolean
+          x-platforms:
+            - browser
+          description: >-
+            The browser runs on a different operating system than the operating
+            system inferred from the request network signature.
+        relay:
+          type: boolean
+          x-platforms:
+            - android
+            - ios
+            - browser
+          description: >
+            Request IP address belongs to a relay service provider, indicating
+            the use of relay services like [Apple Private
+            relay](https://support.apple.com/en-us/102602) or [Cloudflare
+            Warp](https://developers.cloudflare.com/warp-client/).
+
+
+            * Like VPNs, relay services anonymize the visitor's true IP address.
+
+            * Unlike traditional VPNs, relay services don't let visitors spoof
+            their location by choosing an exit node in a different country.
+
+
+            This field allows you to differentiate VPN users and relay service
+            users in your fraud prevention logic.
     EdgeResponse:
       type: object
       description: >-
@@ -2827,10 +2995,22 @@ components:
       required:
         - ip_info
       properties:
-        ip_info:
-          $ref: '#/components/schemas/IPInfo'
         bot_info:
           $ref: '#/components/schemas/BotInfo'
+        ip_info:
+          $ref: '#/components/schemas/IPInfo'
+        proxy:
+          $ref: '#/components/schemas/Proxy'
+        proxy_confidence:
+          $ref: '#/components/schemas/ProxyConfidence'
+        proxy_details:
+          $ref: '#/components/schemas/ProxyDetails'
+        vpn:
+          $ref: '#/components/schemas/Vpn'
+        vpn_confidence:
+          $ref: '#/components/schemas/VpnConfidence'
+        vpn_methods:
+          $ref: '#/components/schemas/VpnMethods'
     ErrorCode:
       type: string
       enum:
@@ -3287,51 +3467,6 @@ components:
         tor_node:
           type: boolean
           description: IP address was part of known TOR network activity.
-    Proxy:
-      type: boolean
-      description: >
-        IP address was used by a public proxy provider or belonged to a known
-        recent residential proxy
-    ProxyConfidence:
-      type: string
-      enum:
-        - low
-        - medium
-        - high
-      description: >
-        Confidence level of the proxy detection. If a proxy is not detected,
-        confidence is "high". If it's detected, can be "low", "medium", or
-        "high".
-    ProxyDetails:
-      type: object
-      additionalProperties: false
-      description: Proxy detection details (present if `proxy` is `true`)
-      required:
-        - proxy_type
-      properties:
-        proxy_type:
-          type: string
-          enum:
-            - residential
-            - data_center
-          description: >
-            Residential proxies use real user IP addresses to appear as
-            legitimate traffic, 
-
-            while data center proxies are public proxies hosted in data centers
-        last_seen_at:
-          type: integer
-          format: int64
-          description: >
-            Unix millisecond timestamp with hourly resolution of when this IP
-            was last seen as a proxy
-        provider:
-          type: string
-          description: >
-            String representing the last proxy service provider detected when
-            this
-
-            IP was synced. An IP can be shared by multiple service providers.
     ProxyMLScore:
       type: number
       format: double
@@ -3715,20 +3850,6 @@ components:
         currently in beta and only available to select customers. If you are
         interested, please [contact our support
         team](https://fingerprint.com/support/).
-    Vpn:
-      type: boolean
-      description: |
-        VPN or other anonymizing service has been used when sending the request.
-    VpnConfidence:
-      type: string
-      enum:
-        - low
-        - medium
-        - high
-      description: >-
-        A confidence rating for the VPN detection result — "low", "medium", or
-        "high". Depends on the combination of results returned from all VPN
-        detection methods.
     VpnOriginTimezone:
       type: string
       description: |
@@ -3738,65 +3859,6 @@ components:
       description: >
         Country of the request (only for Android SDK version >= 2.4.0, ISO 3166
         format or unknown).
-    VpnMethods:
-      type: object
-      additionalProperties: false
-      properties:
-        timezone_mismatch:
-          type: boolean
-          x-platforms:
-            - android
-            - ios
-            - browser
-          description: >-
-            The browser timezone doesn't match the timezone inferred from the
-            request IP address.
-        public_vpn:
-          type: boolean
-          x-platforms:
-            - android
-            - ios
-            - browser
-          description: >-
-            Request IP address is owned and used by a public VPN service
-            provider.
-        auxiliary_mobile:
-          type: boolean
-          x-platforms:
-            - android
-            - ios
-            - browser
-          description: >-
-            This method applies to mobile devices only. Indicates the result of
-            additional methods used to detect a VPN in mobile devices.
-        os_mismatch:
-          type: boolean
-          x-platforms:
-            - browser
-          description: >-
-            The browser runs on a different operating system than the operating
-            system inferred from the request network signature.
-        relay:
-          type: boolean
-          x-platforms:
-            - android
-            - ios
-            - browser
-          description: >
-            Request IP address belongs to a relay service provider, indicating
-            the use of relay services like [Apple Private
-            relay](https://support.apple.com/en-us/102602) or [Cloudflare
-            Warp](https://developers.cloudflare.com/warp-client/).
-
-
-            * Like VPNs, relay services anonymize the visitor's true IP address.
-
-            * Unlike traditional VPNs, relay services don't let visitors spoof
-            their location by choosing an exit node in a different country.
-
-
-            This field allows you to differentiate VPN users and relay service
-            users in your fraud prevention logic.
     HighActivity:
       type: boolean
       description: Flag indicating if the request came from a high-activity visitor.
