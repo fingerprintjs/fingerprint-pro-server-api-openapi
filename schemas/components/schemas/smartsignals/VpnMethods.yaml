@@ -55,3 +55,12 @@ properties:
     x-ruleset-metadata:
       label: VPN method - relay
       category: ip_address
+  ml_prediction:
+    type: boolean
+    x-platforms:
+      - browser
+    description: |
+      `true` if the request came from a device running a VPN, `false` otherwise.  
+    x-ruleset-metadata:
+      label: VPN method - ml prediction
+      category: ip_address
