@@ -1,0 +1,6 @@
+type: string
+description: |
+  Operating system version string extracted from the user agent string (e.g. `17.4`, `14`, `10`). On web, this field is also present inside `browser_details`.
+x-ruleset-metadata:
+  label: OS version
+  category: platform

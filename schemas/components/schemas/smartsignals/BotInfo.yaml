@@ -18,6 +18,9 @@ properties:
       - Browserbase
       - Google
       - OpenAI
+    x-ruleset-metadata:
+      label: Bot Provider
+      category: bots
   provider_url:
     type: string
     description: The URL of the bot provider's website.
@@ -30,6 +33,9 @@ properties:
       - Googlebot
       - GPTBot
       - ChatGPT-User
+    x-ruleset-metadata:
+      label: Bot Name
+      category: bots
   identity:
     $ref: BotInfoIdentity.yaml
   confidence:
