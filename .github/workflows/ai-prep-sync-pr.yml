@@ -5,15 +5,17 @@ on:
     types: [opened]
 
 jobs:
-  prep:
+  guard:
     if: >-
       github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' &&
       startsWith(github.event.pull_request.title, 'Sync OpenAPI Schema')
-    name: Add changeset and rename PR
+    name: Check if changeset is already present
     runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.guard.outputs.skip }}
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
+      pull-requests: read
     steps:
       - name: Generate app token
         id: app-token
@@ -41,25 +43,47 @@ jobs:
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
+  prep:
+    if: >-
+      github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' &&
+      startsWith(github.event.pull_request.title, 'Sync OpenAPI Schema') &&
+      needs.guard.outputs.skip != 'true'
+    name: Add changeset and rename PR
+    runs-on: ubuntu-latest
+    needs: guard
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.RUNNER_APP_ID }}
+          private-key: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
       - name: Install PNPM
-        if: steps.guard.outputs.skip == 'false'
         uses: pnpm/action-setup@0eb0e970826653e8af98de91bec007fbd58a23e0
         with:
           version: 9
 
       - name: Set Node.js 22.x
-        if: steps.guard.outputs.skip == 'false'
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
           cache: pnpm
 
       - name: Install Node packages
-        if: steps.guard.outputs.skip == 'false'
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Run Claude Code
-        if: steps.guard.outputs.skip == 'false'
         id: claude
         uses: anthropics/claude-code-action@30544b674398ee15c84819bd87caf8a87e8c7b55 # v1.0.154
         with:
@@ -114,11 +138,9 @@ jobs:
                the sync ID or the words "Sync OpenAPI Schema".
 
       - name: Verify changesets lint
-        if: steps.guard.outputs.skip == 'false'
         run: pnpm lint:changesets
 
       - name: Build new PR title
-        if: steps.guard.outputs.skip == 'false'
         id: title
         env:
           ORIGINAL_TITLE: ${{ github.event.pull_request.title }}
@@ -137,7 +159,6 @@ jobs:
           fi
 
       - name: Commit and push changeset(s)
-        if: steps.guard.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
@@ -152,13 +173,12 @@ jobs:
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
 
       - name: Rename PR
-        if: steps.guard.outputs.skip == 'false' && steps.title.outputs.title != ''
+        if: steps.title.outputs.title != ''
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: gh pr edit ${{ github.event.pull_request.number }} --title "${{ steps.title.outputs.title }}"
 
       - name: Post reviewer note
-        if: steps.guard.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
