@@ -55,3 +55,13 @@ properties:
     x-ruleset-metadata:
       label: VPN method - relay
       category: ip_address
+  datacenter:
+    type: boolean
+    x-platforms:
+      - android
+      - ios
+      - browser
+    description: Request IP address belongs to a hosting or datacenter provider, which is commonly associated with VPN and proxy services.
+    x-ruleset-metadata:
+      label: VPN method - datacenter
+      category: ip_address
