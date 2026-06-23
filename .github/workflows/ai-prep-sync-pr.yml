@@ -64,7 +64,7 @@ jobs:
       - name: Run Claude Code
         if: steps.guard.outputs.skip == 'false'
         id: claude
-        uses: anthropics/claude-code-action@b4d67413279fc18c6e5de930ae307c4f108714eb # v1.0.104
+        uses: anthropics/claude-code-action@v1.0.154
         with:
           # Reuse the app token so the action doesn't fall back to minting one
           # via OIDC (which would require `id-token: write` and the Claude GitHub App).
