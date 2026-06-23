@@ -1,0 +1,6 @@
+type: string
+enum:
+  - low
+  - medium
+  - high
+description: Confidence level of the bot identification.

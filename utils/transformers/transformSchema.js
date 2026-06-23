@@ -1,8 +1,9 @@
 import yaml from 'js-yaml';
+import process from 'node:process';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
-import { expandOneOfQueryParametersTransformer } from './expandOneOfQueryParametersTransformer.js';
 import { removeWebhookTransformer } from './removeWebhookTransformer.js';
+import { removeEdgeTransformer } from './removeEdgeTransformer.js';
 import { replaceTagsTransformer } from './replaceTagsTransformer.js';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
 import { removeFieldTransformer } from './removeFieldTransformer.js';
@@ -14,6 +15,9 @@ import { extractPathOperationInlineEnumsTransformer } from './extractPathOperati
 import { parseYaml } from './parseYaml.js';
 import { removeUnusedSchemasTransformer } from './removeUnusedSchemasTransformer.js';
 import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertiesTransformer.js';
+import { removeFieldByPathTransformer } from './removeFieldByPathTransformer.js';
+import { inlineReferencedPropertiesTransformer } from './inlineReferencedPropertiesTransformer.js';
+import { replaceStartEndQueryParameters } from './replaceStartEndQueryParameters.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -35,6 +39,7 @@ export const v4Transformers = [
 
 export const v4SchemaForSdksCommonTransformers = [
   ...v4Transformers,
+  removeEdgeTransformer,
   extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
@@ -45,13 +50,22 @@ export const v4SchemaForSdksCommonTransformers = [
 
 export const v4SchemaForSdksTransformers = [
   ...v4SchemaForSdksCommonTransformers,
+  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
+  inlineReferencedPropertiesTransformer('BotInfo'),
+  // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.
+  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
 
 export const v4SchemaForSdksNormalizedTransformers = [
   ...v4SchemaForSdksCommonTransformers,
-  expandOneOfQueryParametersTransformer,
+  // Expand oneOf query parameters, start and end, to avoid breaking changes in the SDKs using this schema
+  replaceStartEndQueryParameters(),
+  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
+  inlineReferencedPropertiesTransformer('BotInfo'),
+  // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.
+  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
   // This transformer should run last to ensure all unused schemas are found
   removeUnusedSchemasTransformer,
 ];
@@ -80,13 +94,18 @@ export const schemaForSdksTransformers = [
 ];
 
 export function transformSchema(content, transformers = defaultTransformers) {
-  const apiDefinition = parseYaml(content);
+  try {
+    const apiDefinition = parseYaml(content);
 
-  transformers.forEach((transformer) => {
-    transformer(apiDefinition);
-  });
+    transformers.forEach((transformer) => {
+      transformer(apiDefinition);
+    });
 
-  return yaml.dump(apiDefinition, {
-    noRefs: true,
-  });
+    return yaml.dump(apiDefinition, {
+      noRefs: true,
+    });
+  } catch (error) {
+    console.error('Failed to transform schema', error);
+    process.exit(1);
+  }
 }

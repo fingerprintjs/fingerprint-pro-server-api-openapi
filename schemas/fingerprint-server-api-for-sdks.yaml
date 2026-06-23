@@ -244,6 +244,7 @@ paths:
                         data:
                           result: false
                           confidence: high
+                          mlScore: 0.002
                           originTimezone: Europe/Berlin
                           originCountry: unknown
                           methods:
@@ -252,10 +253,12 @@ paths:
                             auxiliaryMobile: false
                             osMismatch: false
                             relay: false
+                            mlPrediction: false
                       proxy:
                         data:
                           result: true
                           confidence: high
+                          mlScore: 0.99
                           details:
                             proxyType: residential
                             lastSeenAt: '2025-08-12T13:00:00Z'
@@ -367,6 +370,11 @@ paths:
                           id: w1aTfd4MCvl
                           precisionRadius: 10
                           confidence: 0.95
+                      labels:
+                        data:
+                          - label: fraud
+                            prediction: false
+                            mlScore: 0.01
                 200-all-errors:
                   summary: All failed signals
                   value:
@@ -478,6 +486,10 @@ paths:
                           code: Failed
                           message: internal server error
                       proximity:
+                        error:
+                          code: Failed
+                          message: internal server error
+                      labels:
                         error:
                           code: Failed
                           message: internal server error
@@ -1359,6 +1371,7 @@ paths:
                             data:
                               result: false
                               confidence: high
+                              mlScore: 0.002
                               originTimezone: Europe/Berlin
                               originCountry: unknown
                               methods:
@@ -1367,10 +1380,12 @@ paths:
                                 auxiliaryMobile: false
                                 osMismatch: false
                                 relay: false
+                                mlPrediction: false
                           proxy:
                             data:
                               result: false
                               confidence: high
+                              mlScore: 0.7
                               details:
                                 proxyType: residential
                                 lastSeenAt: '2025-08-12T13:00:00Z'
@@ -4834,6 +4849,7 @@ paths:
                           vpn:
                             result: false
                             confidence: high
+                            mlScore: 0.002
                             originTimezone: Europe/Berlin
                             originCountry: unknown
                             methods:
@@ -4842,9 +4858,11 @@ paths:
                               auxiliaryMobile: false
                               osMismatch: false
                               relay: false
+                              mlPrediction: false
                           proxy:
                             result: true
                             confidence: high
+                            mlScore: 0.99
                             details:
                               proxyType: residential
                               lastSeenAt: '2025-08-12T13:00:00Z'
@@ -5679,6 +5697,10 @@ components:
 
             This field allows you to differentiate VPN users and relay service
             users in your fraud prevention logic.
+        mlPrediction: 
+          type: boolean
+          description: >
+            `true` if the request came from a device running a VPN, `false` otherwise.  
     VPN:
       type: object
       additionalProperties: false
@@ -5696,6 +5718,15 @@ components:
             request.
         confidence:
           $ref: '#/components/schemas/VPNConfidence'
+        mlScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: >
+            Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive),
+            with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result.
+            This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
         originTimezone:
           type: string
           description: Local timezone which is used in timezoneMismatch method.
@@ -5765,6 +5796,19 @@ components:
           $ref: '#/components/schemas/ProxyConfidence'
         details:
           $ref: '#/components/schemas/ProxyDetails'
+        mlScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: >
+            Machine learning-based proxy score, represented as a floating-point
+            value between 0 and 1 (inclusive), with up to three decimal places
+            of precision. A higher score means a higher confidence in the
+            positive `proxy` detection result. This Smart Signal is currently in
+            beta and only available to select customers. If you are interested,
+            please [contact our support
+            team](https://fingerprint.com/support/).
     ProductProxy:
       type: object
       additionalProperties: false
@@ -6242,7 +6286,7 @@ components:
           type: boolean
           description: >
             `true` if the browser has DevTools open (Chrome, Firefox) or the
-            Android device has Developer Tools enabled, `false` otherwise.
+            Android/iOS device has Developer Tools enabled, `false` otherwise.
     ProductDeveloperTools:
       type: object
       additionalProperties: false
@@ -6274,6 +6318,33 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/MitMAttack'
+        error:
+          $ref: '#/components/schemas/Error'
+    Labels:
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          label:
+            type: string
+          prediction:
+            type: boolean
+          mlScore:
+            type: number
+            format: double
+            minimum: 0
+            maximum: 1
+      description: >
+        Each label returns a prediction (true or false) for a specific use case (label field) based on a machine learning score.
+        The machine learning score is determined by a model trained on customer data for that use case. This field is in the beta phase
+        and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+    ProductLabels:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/Labels'
         error:
           $ref: '#/components/schemas/Error'
     Proximity:
@@ -6621,6 +6692,15 @@ components:
             request.
         confidence:
           $ref: '#/components/schemas/VPNConfidence'
+        mlScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: >
+            Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive),
+            with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result.
+            This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
         originTimezone:
           type: string
           description: Local timezone which is used in timezoneMismatch method.
@@ -6644,6 +6724,19 @@ components:
           $ref: '#/components/schemas/ProxyConfidence'
         details:
           $ref: '#/components/schemas/ProxyDetails'
+        mlScore:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+          description: >
+            Machine learning-based proxy score, represented as a floating-point
+            value between 0 and 1 (inclusive), with up to three decimal places
+            of precision. A higher score means a higher confidence in the
+            positive `proxy` detection result. This Smart Signal is currently in
+            beta and only available to select customers. If you are interested,
+            please [contact our support
+            team](https://fingerprint.com/support/).
     WebhookTampering:
       type: object
       additionalProperties: false
@@ -6906,7 +6999,7 @@ components:
           type: boolean
           description: >
             `true` if the browser has DevTools open (Chrome, Firefox) or the
-            Android device has Developer Tools enabled, `false` otherwise.
+            Android/iOS device has Developer Tools enabled, `false` otherwise.
     WebhookMitMAttack:
       type: object
       additionalProperties: false

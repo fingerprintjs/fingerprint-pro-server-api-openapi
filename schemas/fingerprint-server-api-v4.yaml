@@ -4,6 +4,7 @@ info:
   description: |
     Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
     Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+    The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
   version: '4'
   contact:
     name: Fingerprint Support
@@ -25,6 +26,8 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  /edge:
+    $ref: paths/edge.yaml
   /events/{event_id}:
     $ref: paths/event.yaml
   /events:

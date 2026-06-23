@@ -1,0 +1,2 @@
+type: boolean
+description: Whether the device's low power mode is enabled. Available only for Android and iOS devices.

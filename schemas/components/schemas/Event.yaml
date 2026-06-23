@@ -108,6 +108,7 @@ properties:
     x-platforms:
       - android
       - ios
+      - browser
   bot:
     $ref: smartsignals/BotResult.yaml
     x-platforms:
@@ -129,6 +130,7 @@ properties:
     x-platforms:
       - browser
       - android
+      - ios
   emulator:
     $ref: smartsignals/Emulator.yaml
     x-platforms:
@@ -298,6 +300,12 @@ properties:
       - browser
   raw_device_attributes:
     $ref: smartsignals/RawDeviceAttributes.yaml
+    x-platforms:
+      - browser
+      - ios
+      - android
+  labels:
+    $ref: smartsignals/Labels.yaml
     x-platforms:
       - browser
       - ios

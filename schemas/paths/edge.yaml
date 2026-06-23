@@ -1,0 +1,92 @@
+post:
+  operationId: analyzeRequestForAutomationIntelligence
+  summary: Collect Automation Intelligence.
+  description: |
+    The Automation Intelligence API (in public preview) gives you the tools to determine whether traffic is legitimate and should be accepted by your application.
+
+    The API detects automation tools like AI Agents, AI Assistants and AI Browsers. Additionally it provides IP intelligence like geolocation and data center detection.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/EdgeRequest.yaml
+        examples:
+          valid:
+            summary: Example request
+            externalValue: examples/edge/analyze.json
+  responses:
+    '200':
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/EdgeResponse.yaml
+          examples:
+            200-ok-bot-detected:
+              summary: Example response when a bot was detected.
+              externalValue: examples/edge/analyze_200.json
+            200-ok-bot-not-detected:
+              summary: Example response when a bot was not detected.
+              externalValue: examples/edge/analyze_200_non_bot.json
+            200-ok-proxy-detected:
+              summary: Example response when a proxy was detected.
+              externalValue: examples/edge/analyze_200_proxy.json
+    '400':
+      description: Bad request. The request payload is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            400-unknown-field:
+              summary: Error response when an unknown field is provided.
+              externalValue: examples/errors/400_edge_unknown_field.json
+            400-ip-required:
+              summary: Error response when an IP address was not provided.
+              externalValue: examples/errors/400_edge_ip_required.json
+            400-read-timeout:
+              summary: Error response if the request is not sent within 5 seconds.
+              externalValue: examples/errors/400_request_read_timeout.json
+    '403':
+      description: Forbidden. Access to this API is denied.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            403-secret-api-key-required:
+              summary: Error response when the secret API key was not provided.
+              externalValue: examples/errors/403_secret_api_key_required.json
+            403-secret-api-key-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: examples/errors/403_secret_api_key_not_found.json
+            403-wrong-region:
+              summary: Error response when the API region is different from the region, the calling workspace is configured with.
+              externalValue: examples/errors/403_wrong_region.json
+    '413':
+      description: Bad request. The request payload is too large.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            '413':
+              summary: Payload too large error
+              externalValue: examples/errors/413_payload_too_large.json
+    '429':
+      description: Too Many Requests. The request is throttled.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            429-too-many-requests-error:
+              summary: Too many requests error
+              externalValue: examples/errors/429_too_many_requests.json
+    '500':
+      description: Workspace error.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml

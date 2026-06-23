@@ -17,3 +17,4 @@ discriminator:
   mapping:
     allow: EventRuleActionAllow.yaml
     block: EventRuleActionBlock.yaml
+unevaluatedProperties: true
