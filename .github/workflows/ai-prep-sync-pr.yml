@@ -6,8 +6,11 @@ on:
 
 jobs:
   prep:
+    # TEMP(test): JuroUhlar added to author allow-list so a manually opened PR can
+    # exercise this workflow end-to-end. Revert to bot-only before merging #355.
     if: >-
-      github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' &&
+      (github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' ||
+       github.event.pull_request.user.login == 'JuroUhlar') &&
       startsWith(github.event.pull_request.title, 'Sync OpenAPI Schema')
     name: Add changeset and rename PR
     runs-on: ubuntu-latest
