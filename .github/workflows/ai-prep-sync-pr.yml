@@ -85,13 +85,15 @@ jobs:
 
       - name: Run Claude Code
         id: claude
+        env:
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-sonnet-4-6' }}
         uses: anthropics/claude-code-action@30544b674398ee15c84819bd87caf8a87e8c7b55 # v1.0.154
         with:
           # Reuse the app token so the action doesn't fall back to minting one via
           # OIDC (which would require `id-token: write` and the Claude GitHub App).
           github_token: ${{ steps.app-token.outputs.token }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          claude_args: '--model claude-sonnet-4-6 --allowed-tools Bash,Read,Write,Edit'
+          claude_args: '--allowed-tools Bash,Read,Write,Edit'
           prompt: |
             You are preparing a sync PR for human review. The PR was opened by a bot
             that mirrors schema changes from an upstream repo. Your job is to add
