@@ -7,11 +7,15 @@ items:
   properties:
     label:
       type: string
+      examples:
+        - automation_tool
     prediction:
       type: boolean
     ml_score:
       type: number
       format: double
+      examples:
+        - 0.95
       minimum: 0
       maximum: 1
 description: |

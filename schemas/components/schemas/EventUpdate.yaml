@@ -1,12 +1,16 @@
 type: object
+required: []
 properties:
   linked_id:
     type: string
-    description: Linked Id value to assign to the existing event
+    examples:
+      - somelinkedId
+    description: Linked ID value to assign to the existing event
   tags:
     type: object
     description: A customer-provided value or an object that was sent with the identification request or updated later.
     additionalProperties: true
+    required: []
   suspect:
     type: boolean
     description: Suspect flag indicating observed suspicious or fraudulent event

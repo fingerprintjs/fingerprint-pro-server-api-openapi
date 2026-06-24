@@ -10,8 +10,12 @@ properties:
       $ref: Event.yaml
   pagination_key:
     type: string
+    examples:
+      - S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q
     description: Use this value in the `pagination_key` parameter to request the next page of search results.
   total_hits:
     type: integer
     format: int64
+    examples:
+      - 100
     description: This value represents the total number of events matching the search query, up to the limit provided in the `total_hits` query parameter. Only present if the `total_hits` query parameter was provided.

@@ -1,31 +1,50 @@
 type: object
 description: Bounding box metrics describing how the emoji glyph renders.
 additionalProperties: false
+required: []
 properties:
   font:
     type: string
+    examples:
+      - Times
     description: Font family reported by the browser when drawing the emoji.
   width:
     type: number
     format: double
+    examples:
+      - 1600
   height:
     type: number
     format: double
+    examples:
+      - 18
   top:
     type: number
     format: double
+    examples:
+      - 14
   bottom:
     type: number
     format: double
+    examples:
+      - 32
   left:
     type: number
     format: double
+    examples:
+      - 8
   right:
     type: number
     format: double
+    examples:
+      - 1608
   x:
     type: number
     format: double
+    examples:
+      - 8
   'y':
     type: number
     format: double
+    examples:
+      - 14

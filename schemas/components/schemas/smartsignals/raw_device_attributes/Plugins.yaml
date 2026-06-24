@@ -6,19 +6,30 @@ items:
   properties:
     name:
       type: string
+      examples:
+        - PDF Viewer
     description:
       type: string
+      examples:
+        - Portable Document Format
     mimeTypes:
       type: array
       items:
         type: object
         additionalProperties: false
+        required: []
         properties:
           type:
             type: string
+            examples:
+              - application/pdf
           suffixes:
             type: string
+            examples:
+              - pdf
           description:
             type: string
+            examples:
+              - Portable Document Format
   required:
     - name

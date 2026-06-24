@@ -37,6 +37,8 @@ delete:
       required: true
       schema:
         type: string
+        examples:
+          - Ibk1527CUFmcnjLwIs4A9
       description: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.
   responses:
     '200':

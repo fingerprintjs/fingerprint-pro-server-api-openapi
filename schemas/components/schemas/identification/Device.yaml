@@ -1,0 +1,10 @@
+type: string
+examples:
+  - Generic Smartphone
+  - Desktop
+  - iPhone
+description: |
+  Device model or family extracted from the user agent string. On web, this field is also present inside `browser_details`.
+x-ruleset-metadata:
+  label: Device
+  category: platform

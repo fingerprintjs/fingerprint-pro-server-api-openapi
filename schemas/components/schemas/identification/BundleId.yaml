@@ -1,6 +1,8 @@
 type: string
+examples:
+  - com.foo.app
 description: |
-  Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. For example: `com.foo.app`
+  Bundle Id of the iOS application integrated with the Fingerprint SDK for the event.
 x-ruleset-metadata:
   label: iOS app bundle ID
   category: mobile

@@ -1,2 +1,4 @@
 type: string
+examples:
+  - e9f96f6c0e2c0b3a7a8b1d2c3e4f5a6b
 description: Unique identifier for the user’s installed fonts.

@@ -1,4 +1,6 @@
 type: string
+examples:
+  - 61.127.217.15
 description: IP address of the requesting browser or bot.
 x-ruleset-metadata:
   label: IP address

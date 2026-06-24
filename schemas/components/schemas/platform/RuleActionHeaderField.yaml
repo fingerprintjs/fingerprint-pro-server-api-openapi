@@ -5,7 +5,11 @@ required:
 properties:
   name:
     type: string
+    examples:
+      - Content-Type
     description: The header field name.
   value:
     type: string
+    examples:
+      - application/json
     description: The value of the header field.

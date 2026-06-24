@@ -13,12 +13,16 @@ get:
       required: true
       schema:
         type: string
+        examples:
+          - 1708102555327.NLOjmg
       description: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).
     - name: ruleset_id
       in: query
       required: false
       schema:
         type: string
+        examples:
+          - D6N9Kbk9HRWrIWGz
       description: |
         The ID of the ruleset to evaluate against the event, producing the action to take for this event.
         The resulting action is returned in the `rule_action` attribute of the response.
@@ -116,6 +120,8 @@ patch:
       required: true
       schema:
         type: string
+        examples:
+          - 1708102555327.NLOjmg
       description: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).
   requestBody:
     required: true

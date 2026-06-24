@@ -6,6 +6,8 @@ properties:
   address:
     type: string
     format: ipv4
+    examples:
+      - 94.142.239.124
     x-ruleset-metadata:
       label: IPv4 address
       category: ip_address

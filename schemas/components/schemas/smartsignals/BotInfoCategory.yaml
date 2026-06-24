@@ -18,3 +18,24 @@ enum:
   - unknown
 description: |
   The type and purpose of the bot.
+x-ruleset-metadata:
+  label: Bot Category
+  category: bots
+  string-set: true
+  enum-labels:
+    advertising_and_marketing: Advertising & Marketing
+    aggregator: Aggregator
+    ai_agent: AI Agent
+    ai_assistant: AI Assistant
+    ai_browser: AI Browser
+    ai_crawler: AI Crawler
+    ai_search: AI Search
+    browser_automation: Browser Automation
+    ecommerce: E-commerce
+    monitoring_and_analytics: Monitoring & Analytics
+    other: Other
+    scraping: Scraping
+    security: Security
+    search_engine_crawler: Search Engine Crawler
+    search_engine_optimization: Search Engine Optimization
+    unknown: Unknown

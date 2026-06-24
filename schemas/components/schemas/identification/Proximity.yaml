@@ -9,6 +9,8 @@ required:
 properties:
   id:
     type: string
+    examples:
+      - w1aTfd4MCvl
     description: |
       A stable privacy-preserving identifier for a given proximity zone.
     x-ruleset-metadata:
@@ -32,6 +34,8 @@ properties:
   confidence:
     type: number
     format: float
+    examples:
+      - 0.95
     minimum: 0
     maximum: 1
     description: |
