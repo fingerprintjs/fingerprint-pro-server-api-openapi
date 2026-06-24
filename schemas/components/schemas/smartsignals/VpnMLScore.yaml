@@ -1,0 +1,11 @@
+type: number
+format: double
+examples:
+  - 0.2
+minimum: 0
+maximum: 1
+description: |
+  Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+x-ruleset-metadata:
+  label: VPN ML Score
+  category: ip_address

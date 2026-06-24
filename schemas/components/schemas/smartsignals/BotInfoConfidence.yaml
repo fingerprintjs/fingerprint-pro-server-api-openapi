@@ -4,3 +4,11 @@ enum:
   - medium
   - high
 description: Confidence level of the bot identification.
+x-ruleset-metadata:
+  label: Bot Confidence
+  category: bots
+  string-set: true
+  enum-labels:
+    low: Low
+    medium: Medium
+    high: High

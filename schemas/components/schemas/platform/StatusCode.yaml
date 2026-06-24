@@ -1,2 +1,4 @@
 type: integer
+examples:
+  - 200
 description: A valid HTTP status code.

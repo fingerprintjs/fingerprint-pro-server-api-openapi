@@ -18,8 +18,13 @@ properties:
       - Browserbase
       - Google
       - OpenAI
+    x-ruleset-metadata:
+      label: Bot Provider
+      category: bots
   provider_url:
     type: string
+    examples:
+      - https://fingerprint.com
     description: The URL of the bot provider's website.
   name:
     type: string
@@ -30,6 +35,9 @@ properties:
       - Googlebot
       - GPTBot
       - ChatGPT-User
+    x-ruleset-metadata:
+      label: Bot Name
+      category: bots
   identity:
     $ref: BotInfoIdentity.yaml
   confidence:

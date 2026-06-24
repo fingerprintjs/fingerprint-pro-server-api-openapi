@@ -1,3 +1,5 @@
 description: Timestamp of the event with millisecond precision in Unix time.
 type: integer
 format: int64
+examples:
+  - 1708102555327

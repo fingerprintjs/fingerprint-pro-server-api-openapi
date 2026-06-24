@@ -1,3 +1,5 @@
 type: integer
 format: int32
+examples:
+  - 24
 description: Screen color depth in bits.

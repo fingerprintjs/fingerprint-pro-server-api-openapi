@@ -10,7 +10,13 @@ items:
   properties:
     id:
       type: string
+      examples:
+        - r_uE0af8497PFAOD
     name:
       type: string
+      examples:
+        - Block bots
     description:
       type: string
+      examples:
+        - Blocks requests detected as bots

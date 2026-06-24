@@ -2,25 +2,40 @@ type: object
 description: |
   Baseline measurement of canonical fonts rendered on the device. Numeric width metrics, in CSS pixels, for the canonical fonts collected by the agent.
 additionalProperties: false
+required: []
 properties:
   default:
     type: number
     format: double
+    examples:
+      - 147.5625
   serif:
     type: number
     format: double
+    examples:
+      - 147.5625
   sans:
     type: number
     format: double
+    examples:
+      - 144.015625
   mono:
     type: number
     format: double
+    examples:
+      - 133.0625
   apple:
     type: number
     format: double
+    examples:
+      - 147.5625
   min:
     type: number
     format: double
+    examples:
+      - 9.234375
   system:
     type: number
     format: double
+    examples:
+      - 146.09375

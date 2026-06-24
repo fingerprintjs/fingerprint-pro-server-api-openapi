@@ -1,2 +1,4 @@
 type: string
+examples:
+  - MacIntel
 description: Navigator platform string.
