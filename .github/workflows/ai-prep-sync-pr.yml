@@ -44,10 +44,7 @@ jobs:
           fi
 
   prep:
-    if: >-
-      github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' &&
-      startsWith(github.event.pull_request.title, 'Sync OpenAPI Schema') &&
-      needs.guard.outputs.skip != 'true'
+    if: needs.guard.outputs.skip != 'true'
     name: Add changeset and rename PR
     runs-on: ubuntu-latest
     needs: guard
