@@ -90,6 +90,10 @@ jobs:
           # OIDC (which would require `id-token: write` and the Claude GitHub App).
           github_token: ${{ steps.app-token.outputs.token }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # This workflow only ever runs on sync PRs opened by this bot (see the
+          # `guard` job). Allow that bot to trigger the action; otherwise the
+          # action's human-actor check rejects the bot-initiated run.
+          allowed_bots: 'fingerprint-dx-team-actions-runner[bot]'
           claude_args: '--allowed-tools Bash,Read,Write,Edit'
           prompt: |
             You are preparing a sync PR for human review. The PR was opened by a bot
