@@ -40,25 +40,29 @@ get:
         format: int32
         minimum: 1
         maximum: 100
-        default: 10
-        example: 10
+        examples:
+          - 10
       description: |
-        Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
+        Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
     - name: pagination_key
       in: query
       schema:
         type: string
+        examples:
+          - S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q
       description: |
         Use `pagination_key` to get the next page of results.
 
         When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:
 
         1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100`
-        2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
     - name: visitor_id
       in: query
       schema:
         type: string
+        examples:
+          - Ibk1527CUFmcnjLwIs4A9
       description: |
         Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.
 
@@ -67,6 +71,8 @@ get:
       in: query
       schema:
         type: string
+        examples:
+          - Ibk1527CUFmcnjLwIs4A9
       description: |
         The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.
 
@@ -138,6 +144,8 @@ get:
         type: array
         items:
           type: string
+          examples:
+            - OpenAI
       description: |
         Filter events by their Bot Info Provider. The provider must match exactly, partial or wildcard matching is not supported.
 
@@ -149,6 +157,8 @@ get:
         type: array
         items:
           type: string
+          examples:
+            - ChatGPT-User
       description: |
         Filter events by their Bot Info Name. The name must match exactly, partial or wildcard matching is not supported.
 
@@ -157,6 +167,8 @@ get:
       in: query
       schema:
         type: string
+        examples:
+          - 61.127.217.15
       description: |
         Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed.
         Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
@@ -164,6 +176,8 @@ get:
       in: query
       schema:
         type: string
+        examples:
+          - '12876'
       description: |
         Filter events by the ASN associated with the event's IP address.
         This corresponds to the `ip_info.(v4|v6).asn` property in the response.
@@ -171,6 +185,8 @@ get:
       in: query
       schema:
         type: string
+        examples:
+          - somelinkedId
       description: |
         Filter events by your custom identifier.
 
@@ -179,24 +195,32 @@ get:
       in: query
       schema:
         type: string
+        examples:
+          - https://example.com/login
       description: |
         Filter events by the URL (`url` property) associated with the event.
     - name: bundle_id
       in: query
       schema:
         type: string
+        examples:
+          - com.example.app
       description: |
         Filter events by the Bundle ID (iOS) associated with the event.
     - name: package_name
       in: query
       schema:
         type: string
+        examples:
+          - com.example.app
       description: |
         Filter events by the Package Name (Android) associated with the event.
     - name: origin
       in: query
       schema:
         type: string
+        examples:
+          - https://example.com
       description: |
         Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
     - name: start
@@ -205,10 +229,14 @@ get:
         oneOf:
           - type: integer
             format: int64
-            example: 1767225600000
+            examples:
+              - 1767225600000
           - type: string
             format: date-time
-            example: '2026-01-01T00:00:00Z'
+            examples:
+              - '2026-01-01T00:00:00Z'
+        examples:
+          - '2026-01-01T00:00:00Z'
       description: |
         Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
     - name: end
@@ -217,10 +245,14 @@ get:
         oneOf:
           - type: integer
             format: int64
-            example: 1769903999000
+            examples:
+              - 1769903999000
           - type: string
             format: date-time
-            example: '2026-01-31T23:59:59Z'
+            examples:
+              - '2026-01-31T23:59:59Z'
+        examples:
+          - '2026-01-31T23:59:59Z'
       description: |
         Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
     - name: reverse
@@ -339,6 +371,8 @@ get:
       schema:
         type: number
         format: float
+        examples:
+          - 7.5
       description: |
         Filter events with Suspect Score result above a provided minimum threshold.
         > Note: When using this parameter, only events where the `suspect_score` property set to a value exceeding your threshold are returned. Events without a `suspect_score` Smart Signal result are left out of the response.
@@ -404,6 +438,8 @@ get:
       in: query
       schema:
         type: string
+        examples:
+          - 3.11.14
       description: |
         Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
     - name: sdk_platform
@@ -432,11 +468,15 @@ get:
         type: array
         items:
           type: string
+          examples:
+            - ae_47abaca3db2c7c43
       style: form
     - name: proximity_id
       in: query
       schema:
         type: string
+        examples:
+          - C9rJYBlOFsAfBwQ
       description: |
         Filter events by the most precise Proximity ID provided by default.
         > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
@@ -447,6 +487,8 @@ get:
         format: int64
         minimum: 1
         maximum: 1000
+        examples:
+          - 100
       description: |
         When set, the response will include a `total_hits` property with a count of total query matches across all pages, up to the specified limit.
     - name: tor_node
@@ -473,6 +515,20 @@ get:
         Filter events by iOS Simulator Detection result.
 
         > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+    - name: source
+      in: query
+      required: false
+      schema:
+        type: array
+        maxItems: 1
+        items:
+          type: string
+          enum:
+            - edge
+      description: |
+        Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.
+
+        > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
   responses:
     '200':
       description: Events matching the filter(s).

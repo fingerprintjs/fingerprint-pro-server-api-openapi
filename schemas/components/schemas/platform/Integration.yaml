@@ -1,19 +1,29 @@
 type: object
 additionalProperties: false
+required: []
 properties:
   name:
     type: string
-    description: The name of the specific integration, e.g. "fingerprint-pro-react".
+    examples:
+      - fingerprint-pro-react
+    description: The name of the specific integration.
   version:
     type: string
-    description: The version of the specific integration, e.g. "3.11.10".
+    examples:
+      - 3.11.10
+    description: The version of the specific integration.
   subintegration:
     type: object
     additionalProperties: false
+    required: []
     properties:
       name:
         type: string
-        description: The name of the specific subintegration, e.g. "preact".
+        examples:
+          - preact
+        description: The name of the specific subintegration.
       version:
         type: string
-        description: The version of the specific subintegration, e.g. "10.21.0".
+        examples:
+          - 10.21.0
+        description: The version of the specific subintegration.

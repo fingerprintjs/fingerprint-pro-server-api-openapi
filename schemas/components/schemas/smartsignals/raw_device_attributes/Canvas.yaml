@@ -1,12 +1,17 @@
 type: object
 description: Canvas fingerprint containing winding flag plus geometry/text hashes.
 additionalProperties: false
+required: []
 properties:
   winding:
     type: boolean
   geometry:
     type: string
+    examples:
+      - db3c1462576a399a03ae93d0ab9eb5c4
     description: Hash of geometry rendering output or `unsupported` markers.
   text:
     type: string
+    examples:
+      - 70c3d3f7eb4408dc37a6bf8af1c51029
     description: Hash of text rendering output or `unsupported` markers.

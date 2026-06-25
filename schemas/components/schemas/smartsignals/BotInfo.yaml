@@ -23,6 +23,8 @@ properties:
       category: bots
   provider_url:
     type: string
+    examples:
+      - https://fingerprint.com
     description: The URL of the bot provider's website.
   name:
     type: string

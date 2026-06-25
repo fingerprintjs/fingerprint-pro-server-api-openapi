@@ -2,8 +2,20 @@ type: object
 description: IP and bot analysis for a request submitted through the Automation Intelligence API.
 additionalProperties: false
 required:
+  - event_id
+  - timestamp
   - ip_info
 properties:
+  event_id:
+    $ref: platform/EventId.yaml
+  timestamp:
+    $ref: platform/Timestamp.yaml
+  linked_id:
+    $ref: platform/LinkedId.yaml
+  tags:
+    $ref: identification/Tags.yaml
+  url:
+    $ref: identification/Url.yaml
   bot_info:
     $ref: smartsignals/BotInfo.yaml
   ip_info:

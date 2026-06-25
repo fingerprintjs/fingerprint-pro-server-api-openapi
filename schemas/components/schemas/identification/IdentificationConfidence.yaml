@@ -7,6 +7,8 @@ properties:
   score:
     type: number
     format: double
+    examples:
+      - 0.97
     minimum: 0
     maximum: 1
     description: 'A floating-point number between 0 and 1 that represents the probability of a false-positive identification. For High Recall ID, this value is 0. '
@@ -15,6 +17,10 @@ properties:
       category: identity
   version:
     type: string
+    examples:
+      - '1.1'
     description: 'The version name of the method used to calculate the confidence score. For High Recall ID, this value is "Not Supported". '
   comment:
     type: string
+    examples:
+      - Low confidence due to bot signals
