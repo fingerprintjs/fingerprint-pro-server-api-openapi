@@ -7,6 +7,10 @@ Two Server API versions ship from this repo:
 - **v4 (current)**: source in `schemas/components/` and `schemas/paths/`. Edit there, then run the build to regenerate the bundled schema.
 - **v3 (legacy)**: no source files — edit the bundled YAMLs directly in `schemas/`. Changes should be rare.
 
+## Tooling
+
+- This repository uses `pnpm`. Never use `npm`.
+
 ## Build outputs
 
 - `dist/` is webpack output — edit source under `schemas/components/` and `schemas/paths/`, then rebuild. Never hand-edit files in `dist/`.
