@@ -1,2 +1,4 @@
 type: string
+examples:
+  - r_uE0af8497PFAOD
 description: The ID of the rule that matched the identification event.

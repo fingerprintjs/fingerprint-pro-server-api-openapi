@@ -1,2 +1,4 @@
 type: string
+examples:
+  - iPhone 15 Pro
 description: Device model string. Available only for Android and iOS devices.

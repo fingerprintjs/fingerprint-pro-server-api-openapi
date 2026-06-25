@@ -5,3 +5,5 @@ maxItems: 2
 items:
   type: integer
   format: int32
+  examples:
+    - 1920

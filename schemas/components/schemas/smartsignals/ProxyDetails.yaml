@@ -20,14 +20,19 @@ properties:
       category: ip_address
       enum-labels:
         residential: Residential
-        data_center: Data center
+        data_center: Data Center
+        unknown: Unknown
   last_seen_at:
     type: integer
     format: int64
+    examples:
+      - 1708102555327
     description: |
       Unix millisecond timestamp with hourly resolution of when this IP was last seen as a proxy
   provider:
     type: string
+    examples:
+      - Massive
     description: |
       String representing the last proxy service provider detected when this
       IP was synced. An IP can be shared by multiple service providers.

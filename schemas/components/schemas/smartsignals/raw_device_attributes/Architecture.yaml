@@ -1,3 +1,5 @@
 type: integer
 format: int32
+examples:
+  - 127
 description: Integer representing the CPU architecture exposed by the browser.

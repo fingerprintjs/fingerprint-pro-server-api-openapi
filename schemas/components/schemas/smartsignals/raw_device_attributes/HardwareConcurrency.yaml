@@ -1,3 +1,5 @@
 type: integer
 format: int32
+examples:
+  - 10
 description: Number of logical CPU cores reported by the browser.

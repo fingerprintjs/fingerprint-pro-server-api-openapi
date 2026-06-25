@@ -8,3 +8,5 @@ properties:
     $ref: ErrorCode.yaml
   message:
     type: string
+    examples:
+      - Forbidden

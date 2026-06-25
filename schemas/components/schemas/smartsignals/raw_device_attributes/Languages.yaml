@@ -5,3 +5,5 @@ items:
   type: array
   items:
     type: string
+    examples:
+      - en-US

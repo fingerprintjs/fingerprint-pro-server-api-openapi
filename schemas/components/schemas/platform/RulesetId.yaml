@@ -1,2 +1,4 @@
 type: string
+examples:
+  - rs_b1k1blhqpOX3kU
 description: The ID of the evaluated ruleset.

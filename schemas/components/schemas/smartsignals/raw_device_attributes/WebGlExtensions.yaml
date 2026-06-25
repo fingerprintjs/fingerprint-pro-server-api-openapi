@@ -1,18 +1,31 @@
 type: object
 description: Hashes of WebGL context attributes and extension support.
 additionalProperties: false
+required: []
 properties:
   context_attributes:
     type: string
+    examples:
+      - 6b1ed336830d2bc96442a9d76373252a
   parameters:
     type: string
+    examples:
+      - ea118c48e308bc4b0677118bbb3019ec
   shader_precisions:
     type: string
+    examples:
+      - f223dfbcd580cf142da156d93790eb83
   extensions:
     type: string
+    examples:
+      - 57233d7b10f89fcd1ff95e3837ccd72d
   extension_parameters:
     type: string
+    examples:
+      - 86a8abb36f0cb30b5946dec0c761d042
   unsupported_extensions:
     type: array
     items:
       type: string
+      examples:
+        - WEBGL_compressed_texture_s3tc_srgb

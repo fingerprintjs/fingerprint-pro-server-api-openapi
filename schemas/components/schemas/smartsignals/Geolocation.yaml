@@ -1,8 +1,11 @@
 type: object
 additionalProperties: false
+required: []
 properties:
   accuracy_radius:
     type: integer
+    examples:
+      - 20
     minimum: 0
     description: The IP address is likely to be within this radius (in km) of the specified location.
     x-ruleset-metadata:
@@ -11,6 +14,8 @@ properties:
   latitude:
     type: number
     format: double
+    examples:
+      - 50.05
     minimum: -90
     maximum: 90
     x-ruleset-metadata:
@@ -19,6 +24,8 @@ properties:
   longitude:
     type: number
     format: double
+    examples:
+      - 14.4
     minimum: -180
     maximum: 180
     x-ruleset-metadata:
@@ -26,19 +33,27 @@ properties:
       category: location
   postal_code:
     type: string
+    examples:
+      - 150 00
   timezone:
     type: string
     format: timezone
+    examples:
+      - Europe/Prague
     x-ruleset-metadata:
       label: time zone
       category: location
   city_name:
     type: string
+    examples:
+      - Prague
     x-ruleset-metadata:
       label: city name
       category: ip_address
   country_code:
     type: string
+    examples:
+      - CZ
     minLength: 2
     maxLength: 2
     x-ruleset-metadata:
@@ -46,11 +61,15 @@ properties:
       category: location
   country_name:
     type: string
+    examples:
+      - Czechia
     x-ruleset-metadata:
       label: country name
       category: ip_address
   continent_code:
     type: string
+    examples:
+      - EU
     minLength: 2
     maxLength: 2
     x-ruleset-metadata:
@@ -58,6 +77,8 @@ properties:
       category: ip_address
   continent_name:
     type: string
+    examples:
+      - Europe
     x-ruleset-metadata:
       label: continent name
       category: ip_address
@@ -72,5 +93,9 @@ properties:
       properties:
         iso_code:
           type: string
+          examples:
+            - '10'
         name:
           type: string
+          examples:
+            - Hlavni mesto Praha
