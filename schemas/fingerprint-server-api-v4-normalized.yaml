@@ -888,6 +888,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            Not found. The requested visitor does not exist in this workspace's
+            data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Workspace error.
           content:
@@ -1320,6 +1328,13 @@ components:
 
             This field allows you to differentiate VPN users and relay service
             users in your fraud prevention logic.
+        ml_prediction:
+          type: boolean
+          x-platforms:
+            - browser
+          description: >
+            `true` if the request came from a device running a VPN, `false`
+            otherwise.  
     ErrorCode:
       type: string
       enum:
@@ -1624,6 +1639,24 @@ components:
       description: >
         User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1;
         Win64; x64) ....`
+    Device:
+      type: string
+      description: >
+        Device model or family extracted from the user agent string (e.g.
+        `iPhone`, `Generic Smartphone`, `Desktop`). On web, this field is also
+        present inside `browser_details`.
+    Os:
+      type: string
+      description: >
+        Operating system family extracted from the user agent string (e.g.
+        `iOS`, `Android`, `Windows`). On web, this field is also present inside
+        `browser_details`.
+    OsVersion:
+      type: string
+      description: >
+        Operating system version string extracted from the user agent string
+        (e.g. `17.4`, `14`, `10`). On web, this field is also present inside
+        `browser_details`.
     ClientReferrer:
       type: string
       description: >
@@ -2143,6 +2176,18 @@ components:
         currently in beta and only available to select customers. If you are
         interested, please [contact our support
         team](https://fingerprint.com/support/).
+    VpnMLScore:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 1
+      description: >
+        Machine learning–based VPN score, represented as a floating-point value
+        between 0 and 1 (inclusive), with up to three decimal places of
+        precision. A higher score means a higher confidence in the positive
+        `vpn` detection result. This Smart Signal is currently in beta and only
+        available to select customers. If you are interested, please [contact
+        our support team](https://fingerprint.com/support/).
     VpnOriginTimezone:
       type: string
       description: |
@@ -2637,6 +2682,24 @@ components:
             - android
             - ios
             - browser
+        device:
+          $ref: '#/components/schemas/Device'
+          x-platforms:
+            - android
+            - ios
+            - browser
+        os:
+          $ref: '#/components/schemas/Os'
+          x-platforms:
+            - android
+            - ios
+            - browser
+        os_version:
+          $ref: '#/components/schemas/OsVersion'
+          x-platforms:
+            - android
+            - ios
+            - browser
         client_referrer:
           $ref: '#/components/schemas/ClientReferrer'
           x-platforms:
@@ -2808,6 +2871,10 @@ components:
           x-platforms:
             - android
             - ios
+            - browser
+        vpn_ml_score:
+          $ref: '#/components/schemas/VpnMLScore'
+          x-platforms:
             - browser
         vpn_origin_timezone:
           $ref: '#/components/schemas/VpnOriginTimezone'
