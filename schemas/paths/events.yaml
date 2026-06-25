@@ -534,6 +534,16 @@ get:
             403-wrong-region:
               summary: Error response when the API region does not match the region of your Fingerprint workspace.
               externalValue: examples/errors/403_wrong_region.json
+    '404':
+      description: Not found. The requested visitor does not exist in this workspace's data.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            404-visitor-not-found:
+              summary: Error response when the provided visitor ID does not exist.
+              externalValue: examples/errors/404_visitor_not_found.json
     '500':
       description: Workspace error.
       content:
