@@ -155,11 +155,16 @@ get:
         Multiple Names can be provided using the repeated keys syntax. For example, `bot_info_name=ChatGPT%20Agent&bot_info_name=Bedrock%20AgentCore`, will match events with a Bot Info Name of `ChatGPT Agent` or `Bedrock AgentCore`. Other notations like comma-separated or bracket notation are not supported.
     - name: ip_address
       in: query
+      style: form
       schema:
-        type: string
+        type: array
+        items:
+          type: string
       description: |
         Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed.
         Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
+
+        Multiple IP addresses can be provided using the repeated keys syntax. For example, `ip_address=192.168.0.1&ip_address=10.0.0.0/24`, will match events with either IP address or range. Other notations like comma-separated or bracket notation are not supported.
     - name: asn
       in: query
       schema:
@@ -169,12 +174,17 @@ get:
         This corresponds to the `ip_info.(v4|v6).asn` property in the response.
     - name: linked_id
       in: query
+      style: form
       schema:
-        type: string
+        type: array
+        items:
+          type: string
       description: |
         Filter events by your custom identifier.
 
         You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+
+        Multiple linked Ids can be provided using the repeated keys syntax. For example, `linked_id=session-1&linked_id=session-2`, will match events with a linked Id of `session-1` or `session-2`. Other notations like comma-separated or bracket notation are not supported.
     - name: url
       in: query
       schema:
