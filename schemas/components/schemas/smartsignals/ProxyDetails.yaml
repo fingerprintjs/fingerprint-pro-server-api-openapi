@@ -20,7 +20,8 @@ properties:
       category: ip_address
       enum-labels:
         residential: Residential
-        data_center: Data center
+        data_center: Data Center
+        unknown: Unknown
   last_seen_at:
     type: integer
     format: int64
