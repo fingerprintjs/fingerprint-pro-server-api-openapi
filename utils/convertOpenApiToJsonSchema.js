@@ -30,6 +30,13 @@ function componentsToDefenitions(components) {
   walkJson(components, 'example', (json) => {
     delete json.example;
   });
+  // Drop empty `required: []` arrays — they are a no-op for validation but
+  // violate the draft-04 meta-schema (`required` must have at least 1 item).
+  walkJson(components, 'required', (json) => {
+    if (Array.isArray(json.required) && json.required.length === 0) {
+      delete json.required;
+    }
+  });
   // Convert {schema: {$ref: '#/definitions/someRef'}} to  {$ref: '#/definitions/someRef'}
   walkJson(components, 'schema', (json) => {
     json.$ref = json.schema.$ref;
