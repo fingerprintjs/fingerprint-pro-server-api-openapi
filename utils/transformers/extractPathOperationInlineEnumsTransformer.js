@@ -12,6 +12,7 @@
  * @property {Record<string, unknown> | unknown[] | null} parent - Parent object or array containing the enum
  * @property {string | number | null} key - Key under which the enum exists in parent
  * @property {(string | number)[]} path - Path segments to reach this node from the operation root
+ * @property {string} nearestName - The name property of the nearest ancestor
  */
 
 function toPascalCase(value) {
@@ -56,52 +57,36 @@ function getOperationPrefix(operation, pathKey, method) {
 }
 
 /**
- * Gets a base component name for an inline enum based on its location in the schema.
- * Always returns a non-empty string (e.g., 'Status', 'Inline').
- * @param {InlineEnum} target
- * @returns {string} Non-empty component base name
- */
-function getComponentBaseName(target) {
-  let valueName = null;
-  const parent = target.parent && !Array.isArray(target.parent) ? target.parent : null;
-  if (target.key === 'schema' && parent?.name) {
-    valueName = parent.name;
-  } else {
-    valueName = getLastPathValue(target.path, 'properties');
-
-    if (!valueName && typeof target.key === 'string' && target.key !== 'items') {
-      valueName = target.key;
-    }
-  }
-
-  return toPascalCase(valueName || 'Inline');
-}
-
-/**
  * Recursively finds inline enum schemas in an operation node.
  * @param {unknown} node - Current node being traversed
  * @param {Record<string, unknown> | unknown[] | null} parent - Parent object or array
  * @param {string | number | null} key - Key of node in parent
  * @param {(string | number)[]} path - Path segments to current node
+ * @param {string | null} nearestName - The name property encountered most recently during the traversal
  * @returns {InlineEnum[]}
  */
-function findInlineEnumsInOperation(node, parent, key, path) {
+function findInlineEnumsInOperation(node, parent, key, path, nearestName) {
   if (!node || typeof node !== 'object') {
     return [];
   }
 
   if (Array.isArray(node)) {
-    return node.flatMap((item, index) => findInlineEnumsInOperation(item, node, index, [...path, index]));
+    return node.flatMap((item, index) => findInlineEnumsInOperation(item, node, index, [...path, index], nearestName));
   }
 
   const objectNode = /** @type {Record<string, unknown>} */ (node);
 
   if (isInlineEnumSchema(objectNode)) {
-    return [{ node: objectNode, parent, key, path }];
+    if (!nearestName) {
+      throw new Error(`Failed to calculate enum name suffix for enum: ${JSON.stringify(objectNode)}`)
+    }
+    return [{ node: objectNode, parent, key, path, nearestName }];
   }
 
+  nearestName = typeof objectNode.name === 'string' ? objectNode.name : nearestName
+
   return Object.keys(objectNode).flatMap((childKey) =>
-    findInlineEnumsInOperation(objectNode[childKey], objectNode, childKey, [...path, childKey])
+    findInlineEnumsInOperation(objectNode[childKey], objectNode, childKey, [...path, childKey], nearestName)
   );
 }
 
@@ -147,12 +132,12 @@ export function extractPathOperationInlineEnumsTransformer(apiDefinition) {
 
       const operation = /** @type {Record<string, unknown>} */ (operationValue);
       const operationPrefix = getOperationPrefix(operation, pathKey, method.toLowerCase());
-      const inlineEnums = findInlineEnumsInOperation(operation, null, null, []);
+      const inlineEnums = findInlineEnumsInOperation(operation, null, null, [], null);
 
       for (const inlineEnum of inlineEnums) {
         const schema = structuredClone(inlineEnum.node);
         const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
-        const baseName = getComponentBaseName(inlineEnum);
+        const baseName = inlineEnum.nearestName ? toPascalCase(inlineEnum.nearestName) : 'Inline'
         const componentName = `${operationPrefix}${baseName}`;
 
         // Inherit description from parent if not already set

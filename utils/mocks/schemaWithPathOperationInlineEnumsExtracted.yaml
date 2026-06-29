@@ -29,6 +29,14 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/GetEventsDevice'
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: array
+            maxItems: 1
+            items:
+              $ref: '#/components/schemas/GetEventsSource'
   /v4/users:
     get:
       operationId: getUsers
@@ -68,6 +76,10 @@ components:
       enum:
         - desktop
         - mobile
+    GetEventsSource:
+      type: string
+      enum:
+        - edge
     GetUsersBot:
       type: string
       enum:

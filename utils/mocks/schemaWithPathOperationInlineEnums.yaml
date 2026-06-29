@@ -38,6 +38,16 @@ paths:
             enum:
               - desktop
               - mobile
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: array
+            maxItems: 1
+            items:
+              type: string
+              enum:
+                - edge
   /v4/users:
     get:
       operationId: getUsers
