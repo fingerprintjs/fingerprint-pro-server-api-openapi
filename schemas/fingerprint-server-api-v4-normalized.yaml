@@ -863,6 +863,24 @@ paths:
             > Note: When using this parameter, only events with the `simulator`
             property set to `true` or `false` are returned. Events without a
             `simulator` Smart Signal result are left out of the response.
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: array
+            maxItems: 1
+            items:
+              $ref: '#/components/schemas/SearchEventsInline'
+          description: >
+            Selects the source of events to search. When omitted, only
+            traditional identification events generated from devices are
+            returned (the default behavior). When set to `edge`, only Automation
+            Intelligence (Edge) events are returned.
+
+
+            > Note: The Automation Intelligence API is in public preview testing
+            phase.  If you encounter any issues, please
+            [contact](https://fingerprint.com/support/) our support team.
       responses:
         '200':
           description: Events matching the filter(s).
@@ -1017,6 +1035,21 @@ components:
         Add your Secret API Key to the Authorization header using the standard
         Bearer format: `Authorization: Bearer <secret_api_key>`
   schemas:
+    LinkedId:
+      type: string
+      description: A customer-provided id that was sent with the request.
+    EventId:
+      type: string
+      description: >
+        Unique identifier of the user's request. The first portion of the
+        event_id is a unix epoch milliseconds timestamp.
+    Timestamp:
+      description: Timestamp of the event with millisecond precision in Unix time.
+      type: integer
+      format: int64
+    Url:
+      type: string
+      description: Page URL from which the request was sent.
     BotInfoCategory:
       type: string
       enum:
@@ -1426,15 +1459,6 @@ components:
       properties:
         error:
           $ref: '#/components/schemas/Error'
-    EventId:
-      type: string
-      description: >
-        Unique identifier of the user's request. The first portion of the
-        event_id is a unix epoch milliseconds timestamp.
-    Timestamp:
-      description: Timestamp of the event with millisecond precision in Unix time.
-      type: integer
-      format: int64
     IncrementalIdentificationStatus:
       type: string
       description: >
@@ -1450,9 +1474,6 @@ components:
       enum:
         - partially_completed
         - completed
-    LinkedId:
-      type: string
-      description: A customer-provided id that was sent with the request.
     EnvironmentId:
       type: string
       description: Environment Id of the event.
@@ -1614,9 +1635,6 @@ components:
         identification request or updated later.
       additionalProperties: true
       required: []
-    Url:
-      type: string
-      description: Page URL from which the request was sent.
     BundleId:
       type: string
       description: >
@@ -1636,21 +1654,18 @@ components:
     Device:
       type: string
       description: >
-        Device model or family extracted from the user agent string (e.g.
-        `iPhone`, `Generic Smartphone`, `Desktop`). On web, this field is also
-        present inside `browser_details`.
+        Device model or family extracted from the user agent string. On web,
+        this field is also present inside `browser_details`.
     Os:
       type: string
       description: >
-        Operating system family extracted from the user agent string (e.g.
-        `iOS`, `Android`, `Windows`). On web, this field is also present inside
-        `browser_details`.
+        Operating system family extracted from the user agent string. On web,
+        this field is also present inside `browser_details`.
     OsVersion:
       type: string
       description: >
-        Operating system version string extracted from the user agent string
-        (e.g. `17.4`, `14`, `10`). On web, this field is also present inside
-        `browser_details`.
+        Operating system version string extracted from the user agent string. On
+        web, this field is also present inside `browser_details`.
     ClientReferrer:
       type: string
       description: >
@@ -3054,3 +3069,7 @@ components:
         Filter events by their incremental identification status
         (`incremental_identification_status` property). Non incremental
         identification events are left out of the response.
+    SearchEventsInline:
+      type: string
+      enum:
+        - edge

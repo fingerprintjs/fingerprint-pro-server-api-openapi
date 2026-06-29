@@ -86,6 +86,9 @@ paths:
                 200-ok-bot-detected:
                   summary: Example response when a bot was detected.
                   value:
+                    event_id: 1758130560902.8tRtrH
+                    timestamp: 1758130560902
+                    url: https://example.com/login?foo=bar
                     bot_info:
                       category: ai_agent
                       provider: Fingerprint
@@ -126,6 +129,9 @@ paths:
                 200-ok-bot-not-detected:
                   summary: Example response when a bot was not detected.
                   value:
+                    event_id: 1758130561034.Kp2Wqz
+                    timestamp: 1758130561034
+                    url: https://example.com/login?foo=bar
                     ip_info:
                       v4:
                         address: 173.56.25.103
@@ -158,6 +164,9 @@ paths:
                 200-ok-proxy-detected:
                   summary: Example response when a proxy was detected.
                   value:
+                    event_id: 1758130561187.Rm9Vxd
+                    timestamp: 1758130561187
+                    url: https://example.com/login?foo=bar
                     ip_info:
                       v4:
                         address: 173.56.25.103
@@ -2032,6 +2041,26 @@ paths:
             > Note: When using this parameter, only events with the `simulator`
             property set to `true` or `false` are returned. Events without a
             `simulator` Smart Signal result are left out of the response.
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: array
+            maxItems: 1
+            items:
+              type: string
+              enum:
+                - edge
+          description: >
+            Selects the source of events to search. When omitted, only
+            traditional identification events generated from devices are
+            returned (the default behavior). When set to `edge`, only Automation
+            Intelligence (Edge) events are returned.
+
+
+            > Note: The Automation Intelligence API is in public preview testing
+            phase.  If you encounter any issues, please
+            [contact](https://fingerprint.com/support/) our support team.
       responses:
         '200':
           description: Events matching the filter(s).
@@ -2632,6 +2661,11 @@ components:
         Add your Secret API Key to the Authorization header using the standard
         Bearer format: `Authorization: Bearer <secret_api_key>`
   schemas:
+    LinkedId:
+      type: string
+      examples:
+        - somelinkedId
+      description: A customer-provided id that was sent with the request.
     EdgeRequest:
       type: object
       description: >-
@@ -2732,6 +2766,26 @@ components:
             - 2001:4860:4801:10::1
             - 2600:1f42:abcd:5678:9876:fedc:1357:2468
             - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
+        linked_id:
+          $ref: '#/components/schemas/LinkedId'
+    EventId:
+      type: string
+      examples:
+        - 1708102555327.NLOjmg
+      description: >
+        Unique identifier of the user's request. The first portion of the
+        event_id is a unix epoch milliseconds timestamp.
+    Timestamp:
+      description: Timestamp of the event with millisecond precision in Unix time.
+      type: integer
+      format: int64
+      examples:
+        - 1708102555327
+    Url:
+      type: string
+      examples:
+        - https://www.example.com/login
+      description: Page URL from which the request was sent.
     BotInfoCategory:
       type: string
       enum:
@@ -3131,8 +3185,18 @@ components:
         Intelligence API.
       additionalProperties: false
       required:
+        - event_id
+        - timestamp
         - ip_info
       properties:
+        event_id:
+          $ref: '#/components/schemas/EventId'
+        timestamp:
+          $ref: '#/components/schemas/Timestamp'
+        linked_id:
+          $ref: '#/components/schemas/LinkedId'
+        url:
+          $ref: '#/components/schemas/Url'
         bot_info:
           $ref: '#/components/schemas/BotInfo'
         ip_info:
@@ -3245,19 +3309,6 @@ components:
       properties:
         error:
           $ref: '#/components/schemas/Error'
-    EventId:
-      type: string
-      examples:
-        - 1708102555327.NLOjmg
-      description: >
-        Unique identifier of the user's request. The first portion of the
-        event_id is a unix epoch milliseconds timestamp.
-    Timestamp:
-      description: Timestamp of the event with millisecond precision in Unix time.
-      type: integer
-      format: int64
-      examples:
-        - 1708102555327
     IncrementalIdentificationStatus:
       type: string
       description: >
@@ -3273,11 +3324,6 @@ components:
       enum:
         - partially_completed
         - completed
-    LinkedId:
-      type: string
-      examples:
-        - somelinkedId
-      description: A customer-provided id that was sent with the request.
     EnvironmentId:
       type: string
       examples:
@@ -3475,11 +3521,6 @@ components:
         identification request or updated later.
       additionalProperties: true
       required: []
-    Url:
-      type: string
-      examples:
-        - https://www.example.com/login
-      description: Page URL from which the request was sent.
     BundleId:
       type: string
       examples:
@@ -3511,9 +3552,8 @@ components:
         - Desktop
         - iPhone
       description: >
-        Device model or family extracted from the user agent string (e.g.
-        `iPhone`, `Generic Smartphone`, `Desktop`). On web, this field is also
-        present inside `browser_details`.
+        Device model or family extracted from the user agent string. On web,
+        this field is also present inside `browser_details`.
     Os:
       type: string
       examples:
@@ -3521,9 +3561,8 @@ components:
         - iOS
         - Android
       description: >
-        Operating system family extracted from the user agent string (e.g.
-        `iOS`, `Android`, `Windows`). On web, this field is also present inside
-        `browser_details`.
+        Operating system family extracted from the user agent string. On web,
+        this field is also present inside `browser_details`.
     OsVersion:
       type: string
       examples:
@@ -3531,9 +3570,8 @@ components:
         - '14'
         - '10'
       description: >
-        Operating system version string extracted from the user agent string
-        (e.g. `17.4`, `14`, `10`). On web, this field is also present inside
-        `browser_details`.
+        Operating system version string extracted from the user agent string. On
+        web, this field is also present inside `browser_details`.
     ClientReferrer:
       type: string
       examples:
