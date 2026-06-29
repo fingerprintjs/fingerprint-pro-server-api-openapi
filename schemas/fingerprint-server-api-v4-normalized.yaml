@@ -249,13 +249,12 @@ paths:
             format: int32
             minimum: 1
             maximum: 100
-            default: 10
-            example: 10
           description: >
-            Maximum number of events to return. Results are selected from the
-            time range (`start`, `end`), ordered by `reverse`, then truncated to
-            provided `limit` size. So `reverse=true` returns the oldest
-            N=`limit` events, otherwise the newest N=`limit` events.
+            Maximum number of events to return. Defaults to 10 when omitted.
+            Results are selected from the time range (`start`, `end`), ordered
+            by `reverse`, then truncated to provided `limit` size. So
+            `reverse=true` returns the oldest N=`limit` events, otherwise the
+            newest N=`limit` events.
         - name: pagination_key
           in: query
           schema:
@@ -277,7 +276,8 @@ paths:
             api-base-url/events?limit=100`
 
             2. Use `response.pagination_key` to get the next page of results:
-            `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+            `GET
+            api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         - name: visitor_id
           in: query
           schema:
@@ -483,7 +483,6 @@ paths:
           schema:
             type: integer
             format: int64
-            example: 1767225600000
           x-parameter-alias: start_date_time
         - name: start_date_time
           in: query
@@ -496,7 +495,6 @@ paths:
           schema:
             type: string
             format: date-time
-            example: '2026-01-01T00:00:00Z'
           x-aliased-parameter-name: start
         - name: end
           in: query
@@ -508,7 +506,6 @@ paths:
           schema:
             type: integer
             format: int64
-            example: 1769903999000
           x-parameter-alias: end_date_time
         - name: end_date_time
           in: query
@@ -521,7 +518,6 @@ paths:
           schema:
             type: string
             format: date-time
-            example: '2026-01-31T23:59:59Z'
           x-aliased-parameter-name: end
         - name: reverse
           in: query
@@ -1107,6 +1103,7 @@ components:
           description: Confidence level of the bot identification.
     Geolocation:
       type: object
+      required: []
       properties:
         accuracy_radius:
           type: integer
@@ -1206,6 +1203,7 @@ components:
       description: >-
         Details about the request IP address. Has separate fields for v4 and v6
         IP address versions.
+      required: []
       properties:
         v4:
           $ref: '#/components/schemas/IPInfoV4'
@@ -1272,6 +1270,7 @@ components:
         detection methods.
     VpnMethods:
       type: object
+      required: []
       properties:
         timezone_mismatch:
           type: boolean
@@ -1431,8 +1430,7 @@ components:
       type: string
       description: >
         Unique identifier of the user's request. The first portion of the
-        event_id is a unix epoch milliseconds timestamp For example:
-        `1758130560902.8tRtrH`
+        event_id is a unix epoch milliseconds timestamp.
     Timestamp:
       description: Timestamp of the event with millisecond precision in Unix time.
       type: integer
@@ -1457,8 +1455,7 @@ components:
       description: A customer-provided id that was sent with the request.
     EnvironmentId:
       type: string
-      description: |
-        Environment Id of the event. For example: `ae_47abaca3db2c7c43`
+      description: Environment Id of the event.
     Suspect:
       type: boolean
       description: >-
@@ -1467,22 +1464,24 @@ components:
         endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).
     Integration:
       type: object
+      required: []
       properties:
         name:
           type: string
-          description: The name of the specific integration, e.g. "fingerprint-pro-react".
+          description: The name of the specific integration.
         version:
           type: string
-          description: The version of the specific integration, e.g. "3.11.10".
+          description: The version of the specific integration.
         subintegration:
           type: object
+          required: []
           properties:
             name:
               type: string
-              description: The name of the specific subintegration, e.g. "preact".
+              description: The name of the specific subintegration.
             version:
               type: string
-              description: The version of the specific subintegration, e.g. "10.21.0".
+              description: The version of the specific subintegration.
     SDK:
       type: object
       description: Contains information about the SDK used to perform the request.
@@ -1500,9 +1499,7 @@ components:
           description: Platform of the SDK used for the identification request.
         version:
           type: string
-          description: >
-            Version string of the SDK used for the identification request. For
-            example: `"3.12.1"`
+          description: Version string of the SDK used for the identification request.
         integrations:
           type: array
           items:
@@ -1616,29 +1613,26 @@ components:
         A customer-provided value or an object that was sent with the
         identification request or updated later.
       additionalProperties: true
+      required: []
     Url:
       type: string
-      description: >
-        Page URL from which the request was sent. For example
-        `https://example.com/`
+      description: Page URL from which the request was sent.
     BundleId:
       type: string
       description: >
         Bundle Id of the iOS application integrated with the Fingerprint SDK for
-        the event. For example: `com.foo.app`
+        the event.
     PackageName:
       type: string
       description: >
         Package name of the Android application integrated with the Fingerprint
-        SDK for the event. For example: `com.foo.app`
+        SDK for the event.
     IpAddress:
       type: string
       description: IP address of the requesting browser or bot.
     UserAgent:
       type: string
-      description: >
-        User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1;
-        Win64; x64) ....`
+      description: User Agent of the client.
     Device:
       type: string
       description: >
@@ -1663,8 +1657,7 @@ components:
         Client Referrer field corresponds to the `document.referrer` field
         gathered during an identification request. The value is an empty string
         if the user navigated to the page directly (not through a link, but, for
-        example, by using a bookmark) For example:
-        `https://example.com/blog/my-article`
+        example, by using a bookmark).
     BrowserDetails:
       type: object
       required:
@@ -1788,6 +1781,7 @@ components:
         * `false` - No signs of Frida or the client is not a mobile device.
     IPBlockList:
       type: object
+      required: []
       properties:
         email_spam:
           type: boolean
@@ -1883,6 +1877,7 @@ components:
       description: >-
         The set of header modifications to apply, in the following order:
         remove, set, append.
+      required: []
       properties:
         remove:
           type: array
@@ -2041,6 +2036,7 @@ components:
         anti_detect_browser fields conveniently captures that fact)
     TamperingDetails:
       type: object
+      required: []
       properties:
         anomaly_score:
           type: number
@@ -2143,6 +2139,7 @@ components:
         if the 
 
         associated event does not have the required data, such as a linked_id.
+      required: []
       properties:
         distinct_ip:
           $ref: '#/components/schemas/VelocityData'
@@ -2234,6 +2231,7 @@ components:
         Baseline measurement of canonical fonts rendered on the device. Numeric
         width metrics, in CSS pixels, for the canonical fonts collected by the
         agent.
+      required: []
       properties:
         default:
           type: number
@@ -2259,6 +2257,7 @@ components:
     Emoji:
       type: object
       description: Bounding box metrics describing how the emoji glyph renders.
+      required: []
       properties:
         font:
           type: string
@@ -2292,16 +2291,10 @@ components:
       description: List of fonts detected on the device.
       items:
         type: string
-      example:
-        - Arial Unicode MS
-        - Gill Sans
-        - Helvetica Neue
-        - Menlo
     DeviceMemory:
       type: integer
       format: int32
       minimum: 0
-      example: 8
       description: Rounded amount of RAM in gigabytes.
     Timezone:
       type: string
@@ -2309,6 +2302,7 @@ components:
     Canvas:
       type: object
       description: Canvas fingerprint containing winding flag plus geometry/text hashes.
+      required: []
       properties:
         winding:
           type: boolean
@@ -2331,6 +2325,7 @@ components:
     WebGlExtensions:
       type: object
       description: Hashes of WebGL context attributes and extension support.
+      required: []
       properties:
         context_attributes:
           type: string
@@ -2349,6 +2344,7 @@ components:
     WebGlBasics:
       type: object
       description: Render and vendor strings reported by the WebGL context.
+      required: []
       properties:
         version:
           type: string
@@ -2373,6 +2369,7 @@ components:
     TouchSupport:
       type: object
       description: Browser-reported touch capabilities.
+      required: []
       properties:
         touch_event:
           type: boolean
@@ -2452,6 +2449,7 @@ components:
             type: array
             items:
               type: object
+              required: []
               properties:
                 type:
                   type: string
@@ -2484,7 +2482,6 @@ components:
       format: int32
       minimum: 0
       maximum: 100
-      example: 75
       description: >-
         Battery charge level as a percentage (0-100). Available only for Android
         and iOS devices.
@@ -2499,6 +2496,7 @@ components:
         A curated subset of raw browser/device attributes that the API surface
         exposes. Each property contains a value or object with the data for the
         collected signal.
+      required: []
       properties:
         font_preferences:
           $ref: '#/components/schemas/FontPreferences'
@@ -2921,16 +2919,18 @@ components:
             - android
     EventUpdate:
       type: object
+      required: []
       properties:
         linked_id:
           type: string
-          description: Linked Id value to assign to the existing event
+          description: Linked ID value to assign to the existing event
         tags:
           type: object
           description: >-
             A customer-provided value or an object that was sent with the
             identification request or updated later.
           additionalProperties: true
+          required: []
         suspect:
           type: boolean
           description: Suspect flag indicating observed suspicious or fraudulent event
