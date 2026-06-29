@@ -28,20 +28,6 @@ function isInlineEnumSchema(schema) {
 }
 
 /**
- * Finds the last occurrence of a key in a path array and returns the value that follows it.
- * getLastPathValue('schema', 'properties', 'status', 'properties'); // returns 'status'
- */
-function getLastPathValue(path, key) {
-  const keyIndex = path.lastIndexOf(key);
-  if (keyIndex === -1 || keyIndex + 1 >= path.length) {
-    return null;
-  }
-
-  const value = path[keyIndex + 1];
-  return typeof value === 'string' ? value : null;
-}
-
-/**
  * Returns a stable component prefix for an operation.
  * @param {Record<string, unknown>} operation
  * @param {string} pathKey
@@ -78,12 +64,12 @@ function findInlineEnumsInOperation(node, parent, key, path, nearestName) {
 
   if (isInlineEnumSchema(objectNode)) {
     if (!nearestName) {
-      throw new Error(`Failed to calculate enum name suffix for enum: ${JSON.stringify(objectNode)}`)
+      throw new Error(`Failed to calculate enum name suffix for enum: ${JSON.stringify(objectNode)}`);
     }
     return [{ node: objectNode, parent, key, path, nearestName }];
   }
 
-  nearestName = typeof objectNode.name === 'string' ? objectNode.name : nearestName
+  nearestName = typeof objectNode.name === 'string' ? objectNode.name : nearestName;
 
   return Object.keys(objectNode).flatMap((childKey) =>
     findInlineEnumsInOperation(objectNode[childKey], objectNode, childKey, [...path, childKey], nearestName)
@@ -137,7 +123,7 @@ export function extractPathOperationInlineEnumsTransformer(apiDefinition) {
       for (const inlineEnum of inlineEnums) {
         const schema = structuredClone(inlineEnum.node);
         const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
-        const baseName = inlineEnum.nearestName ? toPascalCase(inlineEnum.nearestName) : 'Inline'
+        const baseName = inlineEnum.nearestName ? toPascalCase(inlineEnum.nearestName) : 'Inline';
         const componentName = `${operationPrefix}${baseName}`;
 
         // Inherit description from parent if not already set
