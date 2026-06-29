@@ -2666,6 +2666,13 @@ components:
       examples:
         - somelinkedId
       description: A customer-provided id that was sent with the request.
+    Tags:
+      type: object
+      description: >-
+        A customer-provided value or an object that was sent with the
+        identification request or updated later.
+      additionalProperties: true
+      required: []
     EdgeRequest:
       type: object
       description: >-
@@ -2768,6 +2775,8 @@ components:
             - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
         linked_id:
           $ref: '#/components/schemas/LinkedId'
+        tags:
+          $ref: '#/components/schemas/Tags'
     EventId:
       type: string
       examples:
@@ -3195,6 +3204,8 @@ components:
           $ref: '#/components/schemas/Timestamp'
         linked_id:
           $ref: '#/components/schemas/LinkedId'
+        tags:
+          $ref: '#/components/schemas/Tags'
         url:
           $ref: '#/components/schemas/Url'
         bot_info:
@@ -3514,13 +3525,6 @@ components:
             Unix epoch timestamp (in milliseconds) corresponding to the most
             recent visit by this browser. example: `1758069706642` -
             Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
-    Tags:
-      type: object
-      description: >-
-        A customer-provided value or an object that was sent with the
-        identification request or updated later.
-      additionalProperties: true
-      required: []
     BundleId:
       type: string
       examples:

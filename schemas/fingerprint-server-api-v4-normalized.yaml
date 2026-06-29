@@ -1038,6 +1038,13 @@ components:
     LinkedId:
       type: string
       description: A customer-provided id that was sent with the request.
+    Tags:
+      type: object
+      description: >-
+        A customer-provided value or an object that was sent with the
+        identification request or updated later.
+      additionalProperties: true
+      required: []
     EventId:
       type: string
       description: >
@@ -1628,13 +1635,6 @@ components:
             Unix epoch timestamp (in milliseconds) corresponding to the most
             recent visit by this browser. example: `1758069706642` -
             Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
-    Tags:
-      type: object
-      description: >-
-        A customer-provided value or an object that was sent with the
-        identification request or updated later.
-      additionalProperties: true
-      required: []
     BundleId:
       type: string
       description: >
