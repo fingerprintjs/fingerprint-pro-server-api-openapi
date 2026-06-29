@@ -1,2 +1,4 @@
 type: string
+examples:
+  - Windows NT 6.1; Win64; x64
 description: Navigator `oscpu` string.

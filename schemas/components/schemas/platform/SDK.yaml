@@ -23,8 +23,9 @@ properties:
         unknown: Unknown
   version:
     type: string
-    description: |
-      Version string of the SDK used for the identification request. For example: `"3.12.1"`
+    examples:
+      - 3.11.10
+    description: Version string of the SDK used for the identification request.
     x-ruleset-metadata:
       label: SDK version
       category: platform

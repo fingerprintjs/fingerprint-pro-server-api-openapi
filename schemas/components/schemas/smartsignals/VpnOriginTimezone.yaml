@@ -1,4 +1,6 @@
 type: string
+examples:
+  - Europe/Berlin
 description: |
   Local timezone which is used in timezone_mismatch method.
 x-ruleset-metadata:

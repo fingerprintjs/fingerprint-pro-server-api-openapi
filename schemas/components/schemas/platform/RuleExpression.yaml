@@ -1,2 +1,4 @@
 type: string
+examples:
+  - bot in ["bad"] || incognito
 description: The expression of the rule that matched the identification event.

@@ -1,16 +1,29 @@
 type: object
 description: Render and vendor strings reported by the WebGL context.
 additionalProperties: false
+required: []
 properties:
   version:
     type: string
+    examples:
+      - WebGL 1.0 (OpenGL ES 2.0 Chromium)
   vendor:
     type: string
+    examples:
+      - WebKit
   vendor_unmasked:
     type: string
+    examples:
+      - Google Inc. (Apple)
   renderer:
     type: string
+    examples:
+      - WebKit WebGL
   renderer_unmasked:
     type: string
+    examples:
+      - 'ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)'
   shading_language_version:
     type: string
+    examples:
+      - WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)

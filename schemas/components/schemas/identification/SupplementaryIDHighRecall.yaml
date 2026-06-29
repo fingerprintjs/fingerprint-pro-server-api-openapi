@@ -7,6 +7,8 @@ required:
 properties:
   visitor_id:
     type: string
+    examples:
+      - 0jnGMkPYXX37DqVa4ZIO3f_hr
     description: The High Recall identifier for the visitor's browser. It is an alphanumeric string with a maximum length of 25 characters.
   visitor_found:
     type: boolean
@@ -17,10 +19,14 @@ properties:
   first_seen_at:
     type: integer
     format: int64
+    examples:
+      - 1778086556130
     description: |
       Unix epoch timestamp (in milliseconds) indicating when the browser was first identified. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
   last_seen_at:
     type: integer
     format: int64
+    examples:
+      - 1778604975494
     description: |
       Unix epoch timestamp (in milliseconds) corresponding to the most recent visit by this browser. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000

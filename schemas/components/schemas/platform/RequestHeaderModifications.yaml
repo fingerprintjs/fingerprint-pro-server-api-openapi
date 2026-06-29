@@ -1,11 +1,14 @@
 type: object
 description: 'The set of header modifications to apply, in the following order: remove, set, append.'
+required: []
 properties:
   remove:
     type: array
     description: The list of headers to remove.
     items:
       type: string
+      examples:
+        - X-Forwarded-For
   set:
     type: array
     description: The list of headers to set, overwriting any existing headers with the same name.

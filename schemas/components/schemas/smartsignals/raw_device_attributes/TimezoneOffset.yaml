@@ -1,2 +1,4 @@
 type: string
+examples:
+  - '+02:00'
 description: UTC offset in "±HH:MM" format derived from the detected IANA timezone.

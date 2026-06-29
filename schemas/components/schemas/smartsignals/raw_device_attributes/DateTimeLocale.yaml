@@ -1,4 +1,6 @@
 type: string
+examples:
+  - en-US
 description: |
   Locale derived from the Intl.DateTimeFormat API. Negative values indicate known error states. The negative statuses can be:
   - "-1": A permanent status for browsers that don't support Intl API.

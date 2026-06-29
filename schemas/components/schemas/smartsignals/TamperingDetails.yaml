@@ -1,9 +1,12 @@
 type: object
 additionalProperties: false
+required: []
 properties:
   anomaly_score:
     type: number
     format: double
+    examples:
+      - 0.5
     minimum: 0
     maximum: 1
     x-platforms:

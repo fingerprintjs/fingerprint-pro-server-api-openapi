@@ -1,2 +1,4 @@
 type: string
+examples:
+  - America/Sao_Paulo
 description: Timezone identifier detected on the client.

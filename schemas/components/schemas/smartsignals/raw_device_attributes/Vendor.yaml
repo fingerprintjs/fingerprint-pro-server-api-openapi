@@ -1,2 +1,4 @@
 type: string
+examples:
+  - Google Inc.
 description: Navigator vendor string.

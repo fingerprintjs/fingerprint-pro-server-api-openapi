@@ -1,5 +1,7 @@
 type: number
 format: double
+examples:
+  - 124.04347745512496
 description: |
   AudioContext fingerprint or negative status when unavailable. The negative statuses can be:
   - -1: A permanent status for those browsers which are known to always suspend audio context

@@ -1,2 +1,4 @@
 type: string
+examples:
+  - 5f030fa7d2e5f9f757bfaf81642eb1a6
 description: Hash of Math APIs used for entropy collection.

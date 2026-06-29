@@ -1,2 +1,4 @@
 type: string
+examples:
+  - '{"title":"Forbidden"}'
 description: The response body to send to the client.

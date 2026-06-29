@@ -19,6 +19,7 @@ description: |
   All will not necessarily be returned in a response, some may be omitted if the 
   associated event does not have the required data, such as a linked_id.
 additionalProperties: false
+required: []
 properties:
   distinct_ip:
     $ref: VelocityData.yaml
