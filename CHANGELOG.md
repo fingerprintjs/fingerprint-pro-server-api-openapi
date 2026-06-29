@@ -1,5 +1,20 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.4.0
+
+### Minor Changes
+
+- Add required `event_id` and `timestamp` and optional `linked_id` and `url` to `EdgeResponse`; add `linked_id` to `EdgeRequest` ([4802e33](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/4802e3346f3030d1852cef82fd03bb191006a750))
+- Add `proxy`, `proxy_confidence`, `proxy_details`, `vpn`, `vpn_confidence`, and `vpn_methods` to `EdgeResponse` ([2d4f791](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/2d4f791911e57e0c6a975939c9e8a3d8e149cdf9))
+- Add `tags` to `EdgeResponse` and `EdgeRequest` ([21a58a2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/21a58a2713bbbca4c9c9f3592842a736366b3de7))
+- **events**: Add `device`, `os`, and `os_version` to `Event` ([7d9ed6a](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/7d9ed6abaa0978f5aa3066dbd9a3c48924e0c98a))
+- **events-search**: Add `source` query parameter to filter events by `edge` (Automation Intelligence) source ([4802e33](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/4802e3346f3030d1852cef82fd03bb191006a750))
+- **events**: Add `battery_level` and `battery_low_power_mode` to `RawDeviceAttributes` ([ba43bc1](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ba43bc1ad583b2898c2f3fc8075b5941633d388b))
+- **events**: Add `ml_prediction` to `vpn_methods` ([0939dc2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/0939dc214503850e4119bdda79c66c1fa88a3f60))
+- **events**: Add `vpn_ml_score` to `Event` ([0939dc2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/0939dc214503850e4119bdda79c66c1fa88a3f60))
+- Added VPN mlScore and mlPrediction to v3 events and events search ([2d17209](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/2d1720908819a9183c7f1dafba4ee1daa9e73e2c))
+- **events-search**: Document 404 response for `searchEvents` operation ([0939dc2](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/0939dc214503850e4119bdda79c66c1fa88a3f60))
+
 ## 3.3.1
 
 ### Patch Changes
