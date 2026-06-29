@@ -1,4 +1,7 @@
 {
+  "event_id": "1758130561187.Rm9Vxd",
+  "timestamp": 1758130561187,
+  "url": "https://example.com/login?foo=bar",
   "ip_info": {
     "v4": {
       "address": "173.56.25.103",

@@ -515,6 +515,20 @@ get:
         Filter events by iOS Simulator Detection result.
 
         > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+    - name: source
+      in: query
+      required: false
+      schema:
+        type: array
+        maxItems: 1
+        items:
+          type: string
+          enum:
+            - edge
+      description: |
+        Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.
+
+        > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
   responses:
     '200':
       description: Events matching the filter(s).

@@ -1,4 +1,7 @@
 {
+  "event_id": "1758130560902.8tRtrH",
+  "timestamp": 1758130560902,
+  "url": "https://example.com/login?foo=bar",
   "bot_info": {
     "category": "ai_agent",
     "provider": "Fingerprint",

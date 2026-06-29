@@ -4,7 +4,7 @@ examples:
   - iOS
   - Android
 description: |
-  Operating system family extracted from the user agent string (e.g. `iOS`, `Android`, `Windows`). On web, this field is also present inside `browser_details`.
+  Operating system family extracted from the user agent string. On web, this field is also present inside `browser_details`.
 x-ruleset-metadata:
   label: OS
   category: platform
