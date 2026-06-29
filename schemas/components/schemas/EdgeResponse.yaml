@@ -12,6 +12,8 @@ properties:
     $ref: platform/Timestamp.yaml
   linked_id:
     $ref: platform/LinkedId.yaml
+  tags:
+    $ref: identification/Tags.yaml
   url:
     $ref: identification/Url.yaml
   bot_info:

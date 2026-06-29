@@ -79,3 +79,5 @@ properties:
       - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
   linked_id:
     $ref: platform/LinkedId.yaml
+  tags:
+    $ref: identification/Tags.yaml
