@@ -870,7 +870,7 @@ paths:
             type: array
             maxItems: 1
             items:
-              $ref: '#/components/schemas/SearchEventsInline'
+              $ref: '#/components/schemas/SearchEventsSource'
           description: >
             Selects the source of events to search. When omitted, only
             traditional identification events generated from devices are
@@ -3069,7 +3069,7 @@ components:
         Filter events by their incremental identification status
         (`incremental_identification_status` property). Non incremental
         identification events are left out of the response.
-    SearchEventsInline:
+    SearchEventsSource:
       type: string
       enum:
         - edge
