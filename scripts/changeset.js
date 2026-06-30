@@ -1,6 +1,5 @@
 import prompt from 'prompts';
 import pkg from '../package.json' with { type: 'json' };
-import { humanId } from 'human-id';
 import fs from 'fs';
 import yaml from 'js-yaml';
 import { fileURLToPath } from 'url';
@@ -61,10 +60,18 @@ const data = await prompt([
       })),
     ],
   },
+  {
+    type: 'text',
+    name: 'fileName',
+    message: [
+      'Enter a file name for the changeset (without the .md extension). Use a descriptive kebab-case name like `add-os-event-property`',
+    ].join('\n'),
+    validate: (v) => (v && v.trim() ? true : 'File name is required'),
+  },
 ]);
 
 const description = data.scope ? `**${data.scope}**: ${data.description}` : data.description;
-if (description) {
+if (description && data.fileName) {
   const changeset = `
 ---
 '${pkg.name}': ${data.version}
@@ -74,7 +81,7 @@ ${description}
 
   `.trim();
 
-  const fileName = `${humanId({ separator: '-', capitalize: false })}.md`;
+  const fileName = `${data.fileName.trim().replace(/\.md$/, '')}.md`;
   const filePath = `.changeset/${fileName}`;
 
   fs.writeFileSync(filePath, changeset, 'utf-8');
