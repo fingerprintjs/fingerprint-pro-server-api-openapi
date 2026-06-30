@@ -15,7 +15,11 @@ paths:
           in: query
           schema:
             type: string
-          example: 1708102555327.NLOjmg
+            example: 1708102555327.NLOjmg
+        - name: value
+          in: query
+          schema:
+            type: number
       responses:
         '200':
           description: Auto generated using Swagger Inspector
