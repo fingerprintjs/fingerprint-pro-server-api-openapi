@@ -14,6 +14,19 @@ paths:
           enum:
             - us
             - eu
+    post:
+      operationId: createEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - created
+                    - updated
     get:
       operationId: getEvents
       parameters:
@@ -38,6 +51,16 @@ paths:
             enum:
               - desktop
               - mobile
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: array
+            maxItems: 1
+            items:
+              type: string
+              enum:
+                - edge
   /v4/users:
     get:
       operationId: getUsers

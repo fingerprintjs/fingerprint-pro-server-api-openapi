@@ -13,6 +13,16 @@ paths:
           enum:
             - us
             - eu
+    post:
+      operationId: createEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  $ref: '#/components/schemas/CreateEventStatus'
     get:
       operationId: getEvents
       parameters:
@@ -29,6 +39,14 @@ paths:
           in: query
           schema:
             $ref: '#/components/schemas/GetEventsDevice'
+        - name: source
+          in: query
+          required: false
+          schema:
+            type: array
+            maxItems: 1
+            items:
+              $ref: '#/components/schemas/GetEventsSource'
   /v4/users:
     get:
       operationId: getUsers
@@ -57,6 +75,11 @@ components:
           enum:
             - web
             - mobile
+    CreateEventStatus:
+      type: string
+      enum:
+        - created
+        - updated
     GetEventsBot:
       type: string
       enum:
@@ -68,6 +91,10 @@ components:
       enum:
         - desktop
         - mobile
+    GetEventsSource:
+      type: string
+      enum:
+        - edge
     GetUsersBot:
       type: string
       enum:
