@@ -11,7 +11,6 @@
  * @property {Record<string, unknown>} node - The inline enum schema object
  * @property {Record<string, unknown> | unknown[] | null} parent - Parent object or array containing the enum
  * @property {string | number | null} key - Key under which the enum exists in parent
- * @property {(string | number)[]} path - Path segments to reach this node from the operation root
  * @property {string} nearestName - The name property of the nearest ancestor
  */
 
@@ -25,6 +24,20 @@ function toPascalCase(value) {
 
 function isInlineEnumSchema(schema) {
   return Boolean(schema && typeof schema === 'object' && !schema.$ref && Array.isArray(schema.enum));
+}
+
+/**
+ * Finds the last occurrence of a key in a path array and returns the value that follows it.
+ * getLastPathValue('schema', 'properties', 'status', 'properties'); // returns 'status'
+ */
+function getLastPathValue(path, key) {
+  const keyIndex = path.lastIndexOf(key);
+  if (keyIndex === -1 || keyIndex + 1 >= path.length) {
+    return null;
+  }
+
+  const value = path[keyIndex + 1];
+  return typeof value === 'string' ? value : null;
 }
 
 /**
@@ -64,9 +77,15 @@ function findInlineEnumsInOperation(node, parent, key, path, nearestName) {
 
   if (isInlineEnumSchema(objectNode)) {
     if (!nearestName) {
+      // This means there wasn't a name property in the traversal from the operation to this enum.
+      // In this case, try to use the name of the property that defined the enum.
+      nearestName = getLastPathValue(path, 'properties');
+    }
+
+    if (!nearestName) {
       throw new Error(`Failed to calculate enum name suffix for enum: ${JSON.stringify(objectNode)}`);
     }
-    return [{ node: objectNode, parent, key, path, nearestName }];
+    return [{ node: objectNode, parent, key, nearestName }];
   }
 
   nearestName = typeof objectNode.name === 'string' ? objectNode.name : nearestName;

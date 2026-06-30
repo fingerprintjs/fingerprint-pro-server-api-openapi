@@ -14,6 +14,19 @@ paths:
           enum:
             - us
             - eu
+    post:
+      operationId: createEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - created
+                    - updated
     get:
       operationId: getEvents
       parameters:
