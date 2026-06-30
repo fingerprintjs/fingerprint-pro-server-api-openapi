@@ -11,6 +11,9 @@ paths:
           required: true
           schema:
             type: string
+          examples:
+            - mcEozNgqhKgmfXx7ZaMW
+          example: mcEozNgqhKgmfXx7ZaMW
         - name: event_id
           in: query
           schema:
@@ -23,6 +26,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response'
+              examples:
+                exampleA:
+                  summary: Example A
+                  value:
+                    visitorId: qwerty
 components:
   schemas:
     Response:
@@ -40,3 +48,5 @@ components:
       properties:
         id:
           type: string
+          examples:
+            - sample_id

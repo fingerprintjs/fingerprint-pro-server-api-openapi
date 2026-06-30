@@ -11,7 +11,13 @@ paths:
           required: true
           schema:
             type: string
-          example: mcEozNgqhKgmfXx7ZaMW
+          examples:
+            - mcEozNgqhKgmfXx7ZaMW
+        - name: event_id
+          in: query
+          schema:
+            type: string
+          example: 1708102555327.NLOjmg
       responses:
         '200':
           description: Auto generated using Swagger Inspector
@@ -36,3 +42,10 @@ components:
         - visitorId
         - visits
       title: Response
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+          examples:
+            - sample_id
