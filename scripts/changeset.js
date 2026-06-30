@@ -1,6 +1,5 @@
 import prompt from 'prompts';
 import pkg from '../package.json' with { type: 'json' };
-import { humanId } from 'human-id';
 import fs from 'fs';
 import yaml from 'js-yaml';
 import { fileURLToPath } from 'url';
@@ -65,11 +64,8 @@ const data = await prompt([
     type: 'text',
     name: 'fileName',
     message: [
-      'Enter a file name for the changeset (without the .md extension)',
-      'Use a descriptive kebab-case name, never the auto-generated random slug.',
-      'Share a prefix to group related entries (e.g. raw-device-attributes-android, raw-device-attributes-ios).',
+      'Enter a file name for the changeset (without the .md extension). Use a descriptive kebab-case name like `add-os-event-property`',
     ].join('\n'),
-    initial: humanId({ separator: '-', capitalize: false }),
     validate: (v) => (v && v.trim() ? true : 'File name is required'),
   },
 ]);
