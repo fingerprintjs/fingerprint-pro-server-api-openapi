@@ -8,7 +8,7 @@ const schemaWithExamplesNormalized = fs.readFileSync('./utils/mocks/schemaWithEx
 
 const cleanSchema = (yaml) => transformSchema(yaml, [extractFirstParameterExampleTransformer]);
 describe('extractFirstParameterExampleTransformer', () => {
-  it('don`t need to do anything', () => {
+  it("don't need to do anything", () => {
     const result = cleanSchema(simpleYaml);
     expect(result.toString()).toEqual(simpleYaml.toString());
   });
