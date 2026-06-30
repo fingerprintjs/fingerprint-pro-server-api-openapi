@@ -16,7 +16,7 @@ export function extractFirstParameterExampleTransformer(apiDefinition) {
     walkJson(apiDefinition.paths, 'examples', (partWithKey) => {
       if (Array.isArray(partWithKey.examples)) {
         const firstExample = partWithKey.examples[0];
-        if (firstExample) {
+        if (firstExample !== undefined) {
           partWithKey.example = firstExample;
         }
       }
