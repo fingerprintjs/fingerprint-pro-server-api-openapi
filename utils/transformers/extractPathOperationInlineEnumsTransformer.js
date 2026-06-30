@@ -142,7 +142,7 @@ export function extractPathOperationInlineEnumsTransformer(apiDefinition) {
       for (const inlineEnum of inlineEnums) {
         const schema = structuredClone(inlineEnum.node);
         const parent = inlineEnum.parent && !Array.isArray(inlineEnum.parent) ? inlineEnum.parent : null;
-        const baseName = inlineEnum.nearestName ? toPascalCase(inlineEnum.nearestName) : 'Inline';
+        const baseName = toPascalCase(inlineEnum.nearestName);
         const componentName = `${operationPrefix}${baseName}`;
 
         // Inherit description from parent if not already set
