@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.4.1
+
+### Patch Changes
+
+- **events-search**: Rename `SearchEventsInline` to `SearchEventsSource` in server SDKs schema ([abcaffb](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/abcaffbeb8ae39953dd4c8b7db73c352643cfb50))
+
 ## 3.4.0
 
 ### Minor Changes
