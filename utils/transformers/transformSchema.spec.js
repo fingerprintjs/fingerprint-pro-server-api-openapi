@@ -19,11 +19,9 @@ function hasYamlKey(yamlContent, key, value) {
 }
 
 /**
- * Returns true if any response defines media type `examples` (the large response
- * body examples that `removeBigExamplesTransformer` strips).
  * @param {Record<string, any>} parsed
  */
-function hasResponseMediaTypeExamples(parsed) {
+function hasResponseExamples(parsed) {
   const paths = parsed.paths || {};
   for (const pathItem of Object.values(paths)) {
     for (const operation of Object.values(pathItem)) {
@@ -80,13 +78,12 @@ describe('Test transformSchema pipelines for v4', () => {
   it('v4 sdk schema removes response examples and additionalProperties: false while keeping schema examples and oneOf operators', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksTransformers);
 
-    // Schema-level examples arrays are retained; only response media type examples are removed
     expect(hasYamlKey(result, 'examples')).toBe(true);
     expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
 
     const parsed = parseYaml(result);
-    expect(hasResponseMediaTypeExamples(parsed)).toBe(false);
+    expect(hasResponseExamples(parsed)).toBe(false);
 
     const getEventsParamenters = parsed.paths['/events'].get.parameters;
     expectPathOperationInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
@@ -134,12 +131,11 @@ describe('Test transformSchema pipelines for v4', () => {
   it('v4 normalized sdk schema removes response examples, additionalProperties: false, oneOf query parameters while keeping schema examples', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
-    // Schema-level examples arrays are retained; only response media type examples are removed
     expect(hasYamlKey(result, 'examples')).toBe(true);
     expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
 
     const parsed = parseYaml(result);
-    expect(hasResponseMediaTypeExamples(parsed)).toBe(false);
+    expect(hasResponseExamples(parsed)).toBe(false);
 
     const pathsYaml = toYaml(parsed.paths);
 
