@@ -13,6 +13,7 @@ paths:
             type: string
             examples:
               - mcEozNgqhKgmfXx7ZaMW
+            example: mcEozNgqhKgmfXx7ZaMW
         - name: event_id
           in: query
           schema:
@@ -24,6 +25,7 @@ paths:
             type: number
             examples:
               - 0
+            example: 0
       requestBody:
         content:
           application/json:

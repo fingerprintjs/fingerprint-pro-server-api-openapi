@@ -18,6 +18,7 @@ import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertie
 import { removeFieldByPathTransformer } from './removeFieldByPathTransformer.js';
 import { inlineReferencedPropertiesTransformer } from './inlineReferencedPropertiesTransformer.js';
 import { replaceStartEndQueryParameters } from './replaceStartEndQueryParameters.js';
+import { extractFirstParameterExampleTransformer } from './extractFirstParameterExampleTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),
@@ -39,6 +40,7 @@ export const v4Transformers = [
 
 export const v4SchemaForSdksCommonTransformers = [
   ...v4Transformers,
+  extractFirstParameterExampleTransformer,
   removeEdgeTransformer,
   extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
