@@ -1,5 +1,12 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.4.2
+
+### Patch Changes
+
+- Add `example` properties for operation parameters to SDK schemas ([7bd299e](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/7bd299e523fcb98b055bdc68c8aa1c32e84832d4))
+- Preserve schema-level `examples` in SDK schemas, removing only request and response body examples ([7bd299e](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/7bd299e523fcb98b055bdc68c8aa1c32e84832d4))
+
 ## 3.4.1
 
 ### Patch Changes
