@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Fingerprint server API
   version: '0.1'
@@ -32,6 +32,8 @@ components:
       properties:
         visitorId:
           type: string
+          examples:
+            - qwerty
       required:
         - visitorId
         - visits
