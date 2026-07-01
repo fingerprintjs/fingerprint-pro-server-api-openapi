@@ -12,6 +12,11 @@ paths:
           schema:
             type: string
           example: mcEozNgqhKgmfXx7ZaMW
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
       responses:
         '200':
           description: Auto generated using Swagger Inspector
