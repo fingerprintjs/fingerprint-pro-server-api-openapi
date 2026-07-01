@@ -12,10 +12,30 @@ const v4Schema = fs.readFileSync('./schemas/fingerprint-server-api-v4.yaml');
 
 /** @param {Buffer | string} yamlContent */
 /** @param {string} key */
-/** @param {unknown} value */
+/** @param {unknown=} value */
 function hasYamlKey(yamlContent, key, value) {
   const pattern = new RegExp(value !== undefined ? `^\\s*${key}\\s*:\\s*${value}\\s*$` : `^\\s*${key}\\s*:`, 'm');
   return pattern.test(yamlContent);
+}
+
+/**
+ * @param {Record<string, any>} parsed
+ */
+function hasResponseExamples(parsed) {
+  const paths = parsed.paths || {};
+  for (const pathItem of Object.values(paths)) {
+    for (const operation of Object.values(pathItem)) {
+      const responses = operation && operation.responses;
+      if (!responses) continue;
+      for (const response of Object.values(responses)) {
+        const content = (response && response.content) || {};
+        for (const mediaType of Object.values(content)) {
+          if (mediaType && mediaType.examples) return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 const extractedPathOperationEnumComponentsToCheck = {
@@ -55,14 +75,16 @@ describe('Test transformSchema pipelines for v4', () => {
     expect(parsed.components.schemas.BotEnum).toBeUndefined();
   });
 
-  it('v4 sdk schema removes examples and additionalProperties: false while keeping oneOf operators', () => {
+  it('v4 sdk schema removes response examples and additionalProperties: false while keeping schema examples and oneOf operators', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksTransformers);
 
-    expect(hasYamlKey(result, 'examples')).toBe(false);
+    expect(hasYamlKey(result, 'examples')).toBe(true);
     expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
     expect(hasYamlKey(result, 'oneOf')).toBe(true);
 
     const parsed = parseYaml(result);
+    expect(hasResponseExamples(parsed)).toBe(false);
+
     const getEventsParamenters = parsed.paths['/events'].get.parameters;
     expectPathOperationInlineEnumsExtractedToComponents(getEventsParamenters, parsed.components.schemas);
 
@@ -106,13 +128,15 @@ describe('Test transformSchema pipelines for v4', () => {
     }
   });
 
-  it('v4 normalized sdk schema removes examples, additionalProperties: false, oneOf query parameters', () => {
+  it('v4 normalized sdk schema removes response examples, additionalProperties: false, oneOf query parameters while keeping schema examples', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
-    expect(hasYamlKey(result, 'examples')).toBe(false);
+    expect(hasYamlKey(result, 'examples')).toBe(true);
     expect(hasYamlKey(result, 'additionalProperties', false)).toBe(false);
 
     const parsed = parseYaml(result);
+    expect(hasResponseExamples(parsed)).toBe(false);
+
     const pathsYaml = toYaml(parsed.paths);
 
     expect(hasYamlKey(pathsYaml, 'oneOf')).toBe(false);
