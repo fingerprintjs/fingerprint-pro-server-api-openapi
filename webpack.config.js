@@ -22,6 +22,9 @@ const __dirname = path.dirname(__filename);
 
 const outputPath = path.resolve(__dirname, 'dist');
 
+// subdirectories under `schemas/paths/examples` whose examples should not be copied to `dist`
+const excludedExampleDirs = ['edge'];
+
 export default {
   mode: 'development',
   entry: {
@@ -118,6 +121,10 @@ export default {
         {
           from: 'schemas/paths/examples',
           to: 'examples',
+          globOptions: {
+            // subdirectories under `schemas/paths/examples` whose examples should not be copied
+            ignore: excludedExampleDirs.map((/** @type {string} */ dir) => `**/schemas/paths/examples/${dir}/**`),
+          },
         },
         {
           from: 'res/favicon.ico',
