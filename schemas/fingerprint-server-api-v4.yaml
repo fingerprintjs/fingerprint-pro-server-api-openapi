@@ -56,6 +56,9 @@ paths:
           required: true
           schema:
             type: string
+            examples:
+              - 1708102555327.NLOjmg
+            example: 1708102555327.NLOjmg
           description: >-
             The unique
             [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id)
@@ -66,6 +69,9 @@ paths:
           required: false
           schema:
             type: string
+            examples:
+              - D6N9Kbk9HRWrIWGz
+            example: D6N9Kbk9HRWrIWGz
           description: >
             The ID of the ruleset to evaluate against the event, producing the
             action to take for this event.
@@ -141,6 +147,9 @@ paths:
           required: true
           schema:
             type: string
+            examples:
+              - 1708102555327.NLOjmg
+            example: 1708102555327.NLOjmg
           description: >-
             The unique event
             [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).
@@ -249,6 +258,9 @@ paths:
             format: int32
             minimum: 1
             maximum: 100
+            examples:
+              - 10
+            example: 10
           description: >
             Maximum number of events to return. Defaults to 10 when omitted.
             Results are selected from the time range (`start`, `end`), ordered
@@ -259,6 +271,11 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - >-
+                S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q
+            example: >-
+              S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q
           description: >
             Use `pagination_key` to get the next page of results.
 
@@ -282,6 +299,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - Ibk1527CUFmcnjLwIs4A9
+            example: Ibk1527CUFmcnjLwIs4A9
           description: >
             Unique [visitor
             identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
@@ -294,6 +314,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - Ibk1527CUFmcnjLwIs4A9
+            example: Ibk1527CUFmcnjLwIs4A9
           description: >
             The High Recall ID is a supplementary browser identifier designed
             for use cases that require wider coverage over precision. Compared
@@ -385,6 +408,9 @@ paths:
             type: array
             items:
               type: string
+              examples:
+                - OpenAI
+              example: OpenAI
           description: >
             Filter events by their Bot Info Provider. The provider must match
             exactly, partial or wildcard matching is not supported.
@@ -402,6 +428,9 @@ paths:
             type: array
             items:
               type: string
+              examples:
+                - ChatGPT-User
+              example: ChatGPT-User
           description: >
             Filter events by their Bot Info Name. The name must match exactly,
             partial or wildcard matching is not supported.
@@ -417,6 +446,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - 61.127.217.15
+            example: 61.127.217.15
           description: >
             Filter events by IP address or IP range (if CIDR notation is used).
             If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is
@@ -427,6 +459,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - '12876'
+            example: '12876'
           description: >
             Filter events by the ASN associated with the event's IP address.
 
@@ -436,6 +471,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - somelinkedId
+            example: somelinkedId
           description: >
             Filter events by your custom identifier.
 
@@ -450,18 +488,27 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - https://example.com/login
+            example: https://example.com/login
           description: |
             Filter events by the URL (`url` property) associated with the event.
         - name: bundle_id
           in: query
           schema:
             type: string
+            examples:
+              - com.example.app
+            example: com.example.app
           description: |
             Filter events by the Bundle ID (iOS) associated with the event.
         - name: package_name
           in: query
           schema:
             type: string
+            examples:
+              - com.example.app
+            example: com.example.app
           description: >
             Filter events by the Package Name (Android) associated with the
             event.
@@ -469,6 +516,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - https://example.com
+            example: https://example.com
           description: >
             Filter events by the origin field of the event. This is applicable
             to web events only (e.g., https://example.com)
@@ -478,8 +528,17 @@ paths:
             oneOf:
               - type: integer
                 format: int64
+                examples:
+                  - 1767225600000
+                example: 1767225600000
               - type: string
                 format: date-time
+                examples:
+                  - '2026-01-01T00:00:00Z'
+                example: '2026-01-01T00:00:00Z'
+            examples:
+              - '2026-01-01T00:00:00Z'
+            example: '2026-01-01T00:00:00Z'
           description: >
             Include events that happened after this point (with timestamp
             greater than or equal the provided `start` Unix milliseconds value
@@ -492,8 +551,17 @@ paths:
             oneOf:
               - type: integer
                 format: int64
+                examples:
+                  - 1769903999000
+                example: 1769903999000
               - type: string
                 format: date-time
+                examples:
+                  - '2026-01-31T23:59:59Z'
+                example: '2026-01-31T23:59:59Z'
+            examples:
+              - '2026-01-31T23:59:59Z'
+            example: '2026-01-31T23:59:59Z'
           description: >
             Include events that happened before this point (with timestamp less
             than or equal the provided `end` Unix milliseconds value or RFC3339
@@ -662,6 +730,9 @@ paths:
           schema:
             type: number
             format: float
+            examples:
+              - 7.5
+            example: 7.5
           description: >
             Filter events with Suspect Score result above a provided minimum
             threshold.
@@ -756,6 +827,9 @@ paths:
           in: query
           schema:
             type: string
+            examples:
+              - 3.11.14
+            example: 3.11.14
           description: >
             Filter events by a specific SDK version associated with the
             identification event (`sdk.version` property). Example: `3.11.14`
@@ -792,11 +866,17 @@ paths:
             type: array
             items:
               type: string
+              examples:
+                - ae_47abaca3db2c7c43
+              example: ae_47abaca3db2c7c43
           style: form
         - name: proximity_id
           in: query
           schema:
             type: string
+            examples:
+              - C9rJYBlOFsAfBwQ
+            example: C9rJYBlOFsAfBwQ
           description: >
             Filter events by the most precise Proximity ID provided by default.
 
@@ -810,6 +890,9 @@ paths:
             format: int64
             minimum: 1
             maximum: 1000
+            examples:
+              - 100
+            example: 100
           description: >
             When set, the response will include a `total_hits` property with a
             count of total query matches across all pages, up to the specified
@@ -972,6 +1055,9 @@ paths:
           required: true
           schema:
             type: string
+            examples:
+              - Ibk1527CUFmcnjLwIs4A9
+            example: Ibk1527CUFmcnjLwIs4A9
           description: >-
             The [visitor
             ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
@@ -1017,6 +1103,8 @@ components:
   schemas:
     LinkedId:
       type: string
+      examples:
+        - somelinkedId
       description: A customer-provided id that was sent with the request.
     Tags:
       type: object
@@ -1027,6 +1115,8 @@ components:
       required: []
     EventId:
       type: string
+      examples:
+        - 1708102555327.NLOjmg
       description: >
         Unique identifier of the user's request. The first portion of the
         event_id is a unix epoch milliseconds timestamp.
@@ -1034,8 +1124,12 @@ components:
       description: Timestamp of the event with millisecond precision in Unix time.
       type: integer
       format: int64
+      examples:
+        - 1708102555327
     Url:
       type: string
+      examples:
+        - https://www.example.com/login
       description: Page URL from which the request was sent.
     BotInfoCategory:
       type: string
@@ -1095,12 +1189,25 @@ components:
         provider:
           type: string
           description: The organization or company operating the bot.
+          examples:
+            - Anthropic
+            - Browserbase
+            - Google
+            - OpenAI
         provider_url:
           type: string
+          examples:
+            - https://fingerprint.com
           description: The URL of the bot provider's website.
         name:
           type: string
           description: The specific name or identifier of the bot.
+          examples:
+            - ClaudeBot
+            - Browserbase Agent
+            - Googlebot
+            - GPTBot
+            - ChatGPT-User
         identity:
           type: string
           enum:
@@ -1127,6 +1234,8 @@ components:
       properties:
         accuracy_radius:
           type: integer
+          examples:
+            - 20
           minimum: 0
           description: >-
             The IP address is likely to be within this radius (in km) of the
@@ -1134,32 +1243,50 @@ components:
         latitude:
           type: number
           format: double
+          examples:
+            - 50.05
           minimum: -90
           maximum: 90
         longitude:
           type: number
           format: double
+          examples:
+            - 14.4
           minimum: -180
           maximum: 180
         postal_code:
           type: string
+          examples:
+            - 150 00
         timezone:
           type: string
           format: timezone
+          examples:
+            - Europe/Prague
         city_name:
           type: string
+          examples:
+            - Prague
         country_code:
           type: string
+          examples:
+            - CZ
           minLength: 2
           maxLength: 2
         country_name:
           type: string
+          examples:
+            - Czechia
         continent_code:
           type: string
+          examples:
+            - EU
           minLength: 2
           maxLength: 2
         continent_name:
           type: string
+          examples:
+            - Europe
         subdivisions:
           type: array
           items:
@@ -1170,8 +1297,12 @@ components:
             properties:
               iso_code:
                 type: string
+                examples:
+                  - '10'
               name:
                 type: string
+                examples:
+                  - Hlavni mesto Praha
     IPInfoV4:
       type: object
       required:
@@ -1180,21 +1311,43 @@ components:
         address:
           type: string
           format: ipv4
+          examples:
+            - 94.142.239.124
         geolocation:
           $ref: '#/components/schemas/Geolocation'
         asn:
           type: string
+          examples:
+            - '396982'
+            - '16509'
+            - '701'
         asn_name:
           type: string
+          examples:
+            - Google LLC
+            - Amazon.com, Inc.
+            - Verizon Business
         asn_network:
           type: string
+          examples:
+            - 34.160.0.0/12
+            - 3.208.0.0/12
+            - 173.56.0.0/16
         asn_type:
           type: string
+          examples:
+            - hosting
+            - isp
+            - business
+            - education
         datacenter_result:
           type: boolean
           description: When true, the request originated from a datacenter.
         datacenter_name:
           type: string
+          examples:
+            - Google Cloud
+            - Amazon AWS
     IPInfoV6:
       type: object
       required:
@@ -1203,21 +1356,43 @@ components:
         address:
           type: string
           format: ipv6
+          examples:
+            - 2001:db8:3333:4444:5555:6666:7777:8888
         geolocation:
           $ref: '#/components/schemas/Geolocation'
         asn:
           type: string
+          examples:
+            - '396982'
+            - '16509'
+            - '701'
         asn_name:
           type: string
+          examples:
+            - Google LLC
+            - Amazon.com, Inc.
+            - Verizon Business
         asn_network:
           type: string
+          examples:
+            - 2001:4860:4801:10::/64
+            - 2600:1f00::/24
+            - 2001:4868:800::/40
         asn_type:
           type: string
+          examples:
+            - hosting
+            - isp
+            - business
+            - education
         datacenter_result:
           type: boolean
           description: When true, the request originated from a datacenter.
         datacenter_name:
           type: string
+          examples:
+            - Google Cloud
+            - Amazon AWS
     IPInfo:
       type: object
       description: >-
@@ -1264,11 +1439,15 @@ components:
         last_seen_at:
           type: integer
           format: int64
+          examples:
+            - 1708102555327
           description: >
             Unix millisecond timestamp with hourly resolution of when this IP
             was last seen as a proxy
         provider:
           type: string
+          examples:
+            - Massive
           description: >
             String representing the last proxy service provider detected when
             this
@@ -1439,6 +1618,8 @@ components:
           $ref: '#/components/schemas/ErrorCode'
         message:
           type: string
+          examples:
+            - Forbidden
     ErrorResponse:
       type: object
       required:
@@ -1463,6 +1644,8 @@ components:
         - completed
     EnvironmentId:
       type: string
+      examples:
+        - ae_47abaca3db2c7c43
       description: Environment Id of the event.
     Suspect:
       type: boolean
@@ -1476,9 +1659,13 @@ components:
       properties:
         name:
           type: string
+          examples:
+            - fingerprint-pro-react
           description: The name of the specific integration.
         version:
           type: string
+          examples:
+            - 3.11.10
           description: The version of the specific integration.
         subintegration:
           type: object
@@ -1486,9 +1673,13 @@ components:
           properties:
             name:
               type: string
+              examples:
+                - preact
               description: The name of the specific subintegration.
             version:
               type: string
+              examples:
+                - 10.21.0
               description: The version of the specific subintegration.
     SDK:
       type: object
@@ -1507,6 +1698,8 @@ components:
           description: Platform of the SDK used for the identification request.
         version:
           type: string
+          examples:
+            - 3.11.10
           description: Version string of the SDK used for the identification request.
         integrations:
           type: array
@@ -1532,6 +1725,8 @@ components:
         score:
           type: number
           format: double
+          examples:
+            - 0.97
           minimum: 0
           maximum: 1
           description: >-
@@ -1540,11 +1735,15 @@ components:
             this value is 0. 
         version:
           type: string
+          examples:
+            - '1.1'
           description: >-
             The version name of the method used to calculate the confidence
             score. For High Recall ID, this value is "Not Supported". 
         comment:
           type: string
+          examples:
+            - Low confidence due to bot signals
     Identification:
       type: object
       required:
@@ -1553,6 +1752,8 @@ components:
       properties:
         visitor_id:
           type: string
+          examples:
+            - Ibk1527CUFmcnjLwIs4A9
           description: >-
             String of 20 characters that uniquely identifies the visitor's
             browser or mobile device.
@@ -1564,6 +1765,8 @@ components:
         first_seen_at:
           type: integer
           format: int64
+          examples:
+            - 1708102555327
           description: >
             Unix epoch time milliseconds timestamp indicating the time at which
             this visitor ID was first seen. example: `1758069706642` -
@@ -1571,6 +1774,8 @@ components:
         last_seen_at:
           type: integer
           format: int64
+          examples:
+            - 1708102555327
           description: >
             Unix epoch time milliseconds timestamp indicating the time at which
             this visitor ID was last seen. example: `1758069706642` -
@@ -1591,6 +1796,8 @@ components:
       properties:
         visitor_id:
           type: string
+          examples:
+            - 0jnGMkPYXX37DqVa4ZIO3f_hr
           description: >-
             The High Recall identifier for the visitor's browser. It is an
             alphanumeric string with a maximum length of 25 characters.
@@ -1604,6 +1811,8 @@ components:
         first_seen_at:
           type: integer
           format: int64
+          examples:
+            - 1778086556130
           description: >
             Unix epoch timestamp (in milliseconds) indicating when the browser
             was first identified. example: `1758069706642` - Corresponding to
@@ -1611,43 +1820,67 @@ components:
         last_seen_at:
           type: integer
           format: int64
+          examples:
+            - 1778604975494
           description: >
             Unix epoch timestamp (in milliseconds) corresponding to the most
             recent visit by this browser. example: `1758069706642` -
             Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
     BundleId:
       type: string
+      examples:
+        - com.foo.app
       description: >
         Bundle Id of the iOS application integrated with the Fingerprint SDK for
         the event.
     PackageName:
       type: string
+      examples:
+        - com.foo.app
       description: >
         Package name of the Android application integrated with the Fingerprint
         SDK for the event.
     IpAddress:
       type: string
+      examples:
+        - 61.127.217.15
       description: IP address of the requesting browser or bot.
     UserAgent:
       type: string
+      examples:
+        - Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....
       description: User Agent of the client.
     Device:
       type: string
+      examples:
+        - Generic Smartphone
+        - Desktop
+        - iPhone
       description: >
         Device model or family extracted from the user agent string. On web,
         this field is also present inside `browser_details`.
     Os:
       type: string
+      examples:
+        - Windows
+        - iOS
+        - Android
       description: >
         Operating system family extracted from the user agent string. On web,
         this field is also present inside `browser_details`.
     OsVersion:
       type: string
+      examples:
+        - '17.4'
+        - '14'
+        - '10'
       description: >
         Operating system version string extracted from the user agent string. On
         web, this field is also present inside `browser_details`.
     ClientReferrer:
       type: string
+      examples:
+        - https://example.com/blog/my-article
       description: >
         Client Referrer field corresponds to the `document.referrer` field
         gathered during an identification request. The value is an empty string
@@ -1665,16 +1898,28 @@ components:
       properties:
         browser_name:
           type: string
+          examples:
+            - Chrome
         browser_major_version:
           type: string
+          examples:
+            - '74'
         browser_full_version:
           type: string
+          examples:
+            - 74.0.3729
         os:
           type: string
+          examples:
+            - Windows
         os_version:
           type: string
+          examples:
+            - '7'
         device:
           type: string
+          examples:
+            - Other
     Proximity:
       type: object
       description: >
@@ -1687,6 +1932,8 @@ components:
       properties:
         id:
           type: string
+          examples:
+            - w1aTfd4MCvl
           description: |
             A stable privacy-preserving identifier for a given proximity zone.
         precision_radius:
@@ -1707,6 +1954,8 @@ components:
         confidence:
           type: number
           format: float
+          examples:
+            - 0.95
           minimum: 0
           maximum: 1
           description: >
@@ -1727,6 +1976,8 @@ components:
          * `not_detected` - the visitor is not a bot
     BotType:
       type: string
+      examples:
+        - fingerprint_agent
       description: |
         Additional classification of the bot type if detected.
     ClonedApp:
@@ -1757,6 +2008,8 @@ components:
     FactoryReset:
       type: integer
       format: int64
+      examples:
+        - 1708102555327
       description: >
         The time of the most recent factory reset that happened on the **mobile
         device** is expressed as Unix epoch time. When a factory reset cannot be
@@ -1790,6 +2043,8 @@ components:
     ProxyMLScore:
       type: number
       format: double
+      examples:
+        - 0.2
       minimum: 0
       maximum: 1
       description: >
@@ -1842,12 +2097,18 @@ components:
         Android.
     RulesetId:
       type: string
+      examples:
+        - rs_b1k1blhqpOX3kU
       description: The ID of the evaluated ruleset.
     RuleId:
       type: string
+      examples:
+        - r_uE0af8497PFAOD
       description: The ID of the rule that matched the identification event.
     RuleExpression:
       type: string
+      examples:
+        - bot in ["bad"] || incognito
       description: The expression of the rule that matched the identification event.
     RuleActionType:
       type: string
@@ -1863,9 +2124,13 @@ components:
       properties:
         name:
           type: string
+          examples:
+            - Content-Type
           description: The header field name.
         value:
           type: string
+          examples:
+            - application/json
           description: The value of the header field.
     RequestHeaderModifications:
       type: object
@@ -1879,6 +2144,8 @@ components:
           description: The list of headers to remove.
           items:
             type: string
+            examples:
+              - X-Forwarded-For
         set:
           type: array
           description: >-
@@ -1914,9 +2181,13 @@ components:
         - type
     StatusCode:
       type: integer
+      examples:
+        - 200
       description: A valid HTTP status code.
     RuleActionBody:
       type: string
+      examples:
+        - '{"title":"Forbidden"}'
       description: The response body to send to the client.
     EventRuleActionBlock:
       description: >-
@@ -1969,6 +2240,8 @@ components:
         * `false` - No signs of simulator or the client is not iOS.
     SuspectScore:
       type: integer
+      examples:
+        - 8
       description: >
         Suspect Score is an easy way to integrate Smart Signals into your fraud
         protection work flow.  It is a weighted representation of all Smart
@@ -2021,6 +2294,8 @@ components:
     TamperingMlScore:
       type: number
       format: double
+      examples:
+        - 0.5
       minimum: 0
       maximum: 1
       description: >
@@ -2036,6 +2311,8 @@ components:
         anomaly_score:
           type: number
           format: double
+          examples:
+            - 0.5
           minimum: 0
           maximum: 1
           x-platforms:
@@ -2077,16 +2354,22 @@ components:
       properties:
         5_minutes:
           type: integer
+          examples:
+            - 1
           description: >
             Count for the last 5 minutes of velocity data, from the time of the
             event.
         1_hour:
           type: integer
+          examples:
+            - 5
           description: >
             Count for the last 1 hour of velocity data, from the time of the
             event.
         24_hours:
           type: integer
+          examples:
+            - 5
           description: >
             The `24_hours` interval of `distinct_ip`, `distinct_linked_id`,
             `distinct_country`, `distinct_ip_by_linked_id` and
@@ -2158,6 +2441,8 @@ components:
     VirtualMachineMLScore:
       type: number
       format: double
+      examples:
+        - 0.5
       minimum: 0
       maximum: 1
       description: >
@@ -2171,6 +2456,8 @@ components:
     VpnMLScore:
       type: number
       format: double
+      examples:
+        - 0.2
       minimum: 0
       maximum: 1
       description: >
@@ -2182,10 +2469,14 @@ components:
         our support team](https://fingerprint.com/support/).
     VpnOriginTimezone:
       type: string
+      examples:
+        - Europe/Berlin
       description: |
         Local timezone which is used in timezone_mismatch method.
     VpnOriginCountry:
       type: string
+      examples:
+        - DE
       description: >
         Country of the request (only for Android SDK version >= 2.4.0, ISO 3166
         format or unknown).
@@ -2231,24 +2522,38 @@ components:
         default:
           type: number
           format: double
+          examples:
+            - 147.5625
         serif:
           type: number
           format: double
+          examples:
+            - 147.5625
         sans:
           type: number
           format: double
+          examples:
+            - 144.015625
         mono:
           type: number
           format: double
+          examples:
+            - 133.0625
         apple:
           type: number
           format: double
+          examples:
+            - 147.5625
         min:
           type: number
           format: double
+          examples:
+            - 9.234375
         system:
           type: number
           format: double
+          examples:
+            - 146.09375
     Emoji:
       type: object
       description: Bounding box metrics describing how the emoji glyph renders.
@@ -2256,43 +2561,72 @@ components:
       properties:
         font:
           type: string
+          examples:
+            - Times
           description: Font family reported by the browser when drawing the emoji.
         width:
           type: number
           format: double
+          examples:
+            - 1600
         height:
           type: number
           format: double
+          examples:
+            - 18
         top:
           type: number
           format: double
+          examples:
+            - 14
         bottom:
           type: number
           format: double
+          examples:
+            - 32
         left:
           type: number
           format: double
+          examples:
+            - 8
         right:
           type: number
           format: double
+          examples:
+            - 1608
         x:
           type: number
           format: double
+          examples:
+            - 8
         'y':
           type: number
           format: double
+          examples:
+            - 14
     Fonts:
       type: array
       description: List of fonts detected on the device.
       items:
         type: string
+        examples:
+          - Arial Unicode MS
+      examples:
+        - - Arial Unicode MS
+          - Gill Sans
+          - Helvetica Neue
+          - Menlo
     DeviceMemory:
       type: integer
       format: int32
       minimum: 0
+      examples:
+        - 8
       description: Rounded amount of RAM in gigabytes.
     Timezone:
       type: string
+      examples:
+        - America/Sao_Paulo
       description: Timezone identifier detected on the client.
     Canvas:
       type: object
@@ -2303,9 +2637,13 @@ components:
           type: boolean
         geometry:
           type: string
+          examples:
+            - db3c1462576a399a03ae93d0ab9eb5c4
           description: Hash of geometry rendering output or `unsupported` markers.
         text:
           type: string
+          examples:
+            - 70c3d3f7eb4408dc37a6bf8af1c51029
           description: Hash of text rendering output or `unsupported` markers.
     Languages:
       type: array
@@ -2317,6 +2655,8 @@ components:
         type: array
         items:
           type: string
+          examples:
+            - en-US
     WebGlExtensions:
       type: object
       description: Hashes of WebGL context attributes and extension support.
@@ -2324,18 +2664,30 @@ components:
       properties:
         context_attributes:
           type: string
+          examples:
+            - 6b1ed336830d2bc96442a9d76373252a
         parameters:
           type: string
+          examples:
+            - ea118c48e308bc4b0677118bbb3019ec
         shader_precisions:
           type: string
+          examples:
+            - f223dfbcd580cf142da156d93790eb83
         extensions:
           type: string
+          examples:
+            - 57233d7b10f89fcd1ff95e3837ccd72d
         extension_parameters:
           type: string
+          examples:
+            - 86a8abb36f0cb30b5946dec0c761d042
         unsupported_extensions:
           type: array
           items:
             type: string
+            examples:
+              - WEBGL_compressed_texture_s3tc_srgb
     WebGlBasics:
       type: object
       description: Render and vendor strings reported by the WebGL context.
@@ -2343,16 +2695,28 @@ components:
       properties:
         version:
           type: string
+          examples:
+            - WebGL 1.0 (OpenGL ES 2.0 Chromium)
         vendor:
           type: string
+          examples:
+            - WebKit
         vendor_unmasked:
           type: string
+          examples:
+            - Google Inc. (Apple)
         renderer:
           type: string
+          examples:
+            - WebKit WebGL
         renderer_unmasked:
           type: string
+          examples:
+            - 'ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)'
         shading_language_version:
           type: string
+          examples:
+            - WebGL GLSL ES 1.0 (OpenGL ES GLSL ES 1.0 Chromium)
     ScreenResolution:
       type: array
       description: Current screen resolution. Available for both browsers and iOS devices
@@ -2361,6 +2725,8 @@ components:
       items:
         type: integer
         format: int32
+        examples:
+          - 1920
     TouchSupport:
       type: object
       description: Browser-reported touch capabilities.
@@ -2373,12 +2739,18 @@ components:
         max_touch_points:
           type: integer
           format: int64
+          examples:
+            - 0
     Oscpu:
       type: string
+      examples:
+        - Windows NT 6.1; Win64; x64
       description: Navigator `oscpu` string.
     Architecture:
       type: integer
       format: int32
+      examples:
+        - 127
       description: Integer representing the CPU architecture exposed by the browser.
     CookiesEnabled:
       type: boolean
@@ -2386,9 +2758,13 @@ components:
     HardwareConcurrency:
       type: integer
       format: int32
+      examples:
+        - 10
       description: Number of logical CPU cores reported by the browser.
     DateTimeLocale:
       type: string
+      examples:
+        - en-US
       description: >
         Locale derived from the Intl.DateTimeFormat API. Negative values
         indicate known error states. The negative statuses can be:
@@ -2402,13 +2778,19 @@ components:
         is undefined or null.
     Vendor:
       type: string
+      examples:
+        - Google Inc.
       description: Navigator vendor string.
     ColorDepth:
       type: integer
       format: int32
+      examples:
+        - 24
       description: Screen color depth in bits.
     Platform:
       type: string
+      examples:
+        - MacIntel
       description: Navigator platform string.
     SessionStorage:
       type: boolean
@@ -2419,6 +2801,8 @@ components:
     Audio:
       type: number
       format: double
+      examples:
+        - 124.04347745512496
       description: >
         AudioContext fingerprint or negative status when unavailable. The
         negative statuses can be:
@@ -2438,8 +2822,12 @@ components:
         properties:
           name:
             type: string
+            examples:
+              - PDF Viewer
           description:
             type: string
+            examples:
+              - Portable Document Format
           mimeTypes:
             type: array
             items:
@@ -2448,10 +2836,16 @@ components:
               properties:
                 type:
                   type: string
+                  examples:
+                    - application/pdf
                 suffixes:
                   type: string
+                  examples:
+                    - pdf
                 description:
                   type: string
+                  examples:
+                    - Portable Document Format
         required:
           - name
     IndexedDb:
@@ -2459,24 +2853,36 @@ components:
       description: Whether IndexedDB is available.
     Math:
       type: string
+      examples:
+        - 5f030fa7d2e5f9f757bfaf81642eb1a6
       description: Hash of Math APIs used for entropy collection.
     DeviceModel:
       type: string
+      examples:
+        - iPhone 15 Pro
       description: Device model string. Available only for Android and iOS devices.
     DeviceManufacturer:
       type: string
+      examples:
+        - Apple
       description: Device manufacturer string. Available only for Android and iOS devices.
     FontHash:
       type: string
+      examples:
+        - e9f96f6c0e2c0b3a7a8b1d2c3e4f5a6b
       description: Unique identifier for the user’s installed fonts.
     TimezoneOffset:
       type: string
+      examples:
+        - '+02:00'
       description: UTC offset in "±HH:MM" format derived from the detected IANA timezone.
     BatteryLevel:
       type: integer
       format: int32
       minimum: 0
       maximum: 100
+      examples:
+        - 75
       description: >-
         Battery charge level as a percentage (0-100). Available only for Android
         and iOS devices.
@@ -2564,11 +2970,15 @@ components:
         properties:
           label:
             type: string
+            examples:
+              - automation_tool
           prediction:
             type: boolean
           ml_score:
             type: number
             format: double
+            examples:
+              - 0.95
             minimum: 0
             maximum: 1
       description: >
@@ -2918,6 +3328,8 @@ components:
       properties:
         linked_id:
           type: string
+          examples:
+            - somelinkedId
           description: Linked ID value to assign to the existing event
         tags:
           type: object
@@ -2944,12 +3356,17 @@ components:
             $ref: '#/components/schemas/Event'
         pagination_key:
           type: string
+          examples:
+            - >-
+              S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q
           description: >-
             Use this value in the `pagination_key` parameter to request the next
             page of search results.
         total_hits:
           type: integer
           format: int64
+          examples:
+            - 100
           description: >-
             This value represents the total number of events matching the search
             query, up to the limit provided in the `total_hits` query parameter.
