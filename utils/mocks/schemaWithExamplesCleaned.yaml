@@ -11,6 +11,8 @@ paths:
           required: true
           schema:
             type: string
+            examples:
+              - mcEozNgqhKgmfXx7ZaMW
         - name: event_id
           in: query
           schema:
@@ -20,6 +22,8 @@ paths:
           in: query
           schema:
             type: number
+            examples:
+              - 0
       requestBody:
         content:
           application/json:
@@ -51,3 +55,5 @@ components:
       properties:
         id:
           type: string
+          examples:
+            - sample_id
