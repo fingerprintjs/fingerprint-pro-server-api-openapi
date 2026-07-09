@@ -941,6 +941,11 @@ paths:
             Intelligence (Edge) events are returned.
 
 
+            To retrieve all events regardless of source, you must make two
+            requests. One with the `source` parameter set to `edge`, and another
+            with the `source` parameter omitted.
+
+
             > Note: The Automation Intelligence API is in public preview testing
             phase.  If you encounter any issues, please
             [contact](https://fingerprint.com/support/) our support team.
