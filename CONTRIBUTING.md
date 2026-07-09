@@ -82,6 +82,16 @@ Example changeset looks like this:
 - `fingerprint-pro-server-api-openapi` - name of the package
 - `minor` - version of the change, can be: `patch`, `minor`, `major`
 
+#### Choosing the version bump
+
+A changeset is only needed when a change affects the generated SDKs. Pick the version bump as follows:
+
+- `major` - a breaking change: removing a field, schema, endpoint, or query parameter, narrowing a type, or making an optional field required. Very rare, and usually an accidental change to revert.
+- `minor` - a backwards-compatible addition: new fields, schemas, query parameters, paths, or methods.
+- `patch` - a backwards-compatible change that isn't an addition, e.g. deprecating a field, or a vendor extension that affects SDK code generation (like `x-parameter-alias` / `x-aliased-parameter-name`).
+
+Don't create a changeset for documentation-only changes (descriptions, examples) or for vendor extensions that don't affect the generated SDKs.
+
 ### Publishing changes
 
 On every push into `main` (merged PR):  
