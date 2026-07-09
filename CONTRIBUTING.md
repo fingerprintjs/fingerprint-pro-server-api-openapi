@@ -84,12 +84,13 @@ Example changeset looks like this:
 
 #### Choosing the version bump
 
-Use the following criteria to decide whether a change needs a changeset and, if so, which version bump to use:
+A changeset is only needed when a change affects the generated SDKs. Pick the version bump as follows:
 
-- `major` - a breaking change (e.g. removing a field, schema, endpoint, or query parameter, narrowing a type, or making a previously optional field required). This should be very rare. If you find yourself reaching for `major`, it is likely an accidental change that should be reverted instead.
-- `minor` - a backwards-compatible addition, such as new fields on existing schemas, entirely new schemas, new query parameters, or new paths and methods.
-- `patch` - a backwards-compatible change that is not a new addition, such as deprecating an existing field, or adding vendor extensions or other attributes to existing properties.
-- Documentation-only changes (e.g. editing descriptions or examples) should **not** create a changeset.
+- `major` - a breaking change: removing a field, schema, endpoint, or query parameter, narrowing a type, or making an optional field required. Very rare, and usually an accidental change to revert.
+- `minor` - a backwards-compatible addition: new fields, schemas, query parameters, paths, or methods.
+- `patch` - a backwards-compatible change that isn't an addition, e.g. deprecating a field, or a vendor extension that affects SDK code generation (like `x-parameter-alias` / `x-aliased-parameter-name`).
+
+Don't create a changeset for documentation-only changes (descriptions, examples) or for vendor extensions that don't affect the generated SDKs.
 
 ### Publishing changes
 

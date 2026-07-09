@@ -104,11 +104,10 @@ jobs:
 
             Steps:
 
-            1. Read `CLAUDE.md` — it documents the changeset filename, frontmatter,
-               and body format. Follow it exactly. Also read the "Describing
-               changes" section of `CONTRIBUTING.md`, which defines the criteria
-               for whether a change needs a changeset and which version bump
-               (`patch` / `minor` / `major`) to use. Follow that guidance.
+            1. Read `CLAUDE.md` for the changeset filename, frontmatter, and body
+               format, and the "Describing changes" section of `CONTRIBUTING.md`
+               for when a change needs a changeset and which version bump to use.
+               Follow both exactly.
 
             2. Inspect the diff:
                `git diff origin/${{ github.event.pull_request.base.ref }}...HEAD -- schemas/`
@@ -119,19 +118,17 @@ jobs:
                coherent change, write a single file. Share a filename prefix for
                related entries as CLAUDE.md describes.
 
-               If the diff contains ONLY documentation changes (e.g. descriptions
-               or examples) and no functional schema changes, then per the
-               `CONTRIBUTING.md` guidance no changeset is needed: do not write any
-               changeset file and skip step 6 (leave `pr-caption.txt` unwritten).
+               If nothing in the diff needs a changeset per that guidance (e.g. only
+               documentation changes), don't write a changeset file and skip step 6
+               (leave `pr-caption.txt` unwritten).
 
             4. For each changeset:
                - Identify the scope from: events, visitors, webhook,
                  related-visitors, events-search. If none applies, omit the bold
                  scope prefix.
-               - Pick the version bump (`patch` / `minor` / `major`) using the
-                 criteria from the "Describing changes" section of `CONTRIBUTING.md`.
-                 Sync PRs are additive in the usual case, so `minor` is the most
-                 common; default to `minor` when unsure.
+               - Pick the version bump per `CONTRIBUTING.md`. Sync PRs are usually
+                 additive, so `minor` is the common case; default to `minor` when
+                 unsure.
                - Write the file to `.changeset/<kebab-case-summary>.md`.
 
             5. Verify your work by running `pnpm lint:changesets`. Fix any issues
