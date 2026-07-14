@@ -1,0 +1,2 @@
+type: boolean
+description: When `true`, the device is currently charging. Available only for web devices on Chromium-based browsers.

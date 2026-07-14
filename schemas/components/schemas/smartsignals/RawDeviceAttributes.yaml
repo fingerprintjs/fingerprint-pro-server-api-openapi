@@ -64,5 +64,7 @@ properties:
     $ref: raw_device_attributes/TimezoneOffset.yaml
   battery_level:
     $ref: raw_device_attributes/BatteryLevel.yaml
+  battery_charging:
+    $ref: raw_device_attributes/BatteryCharging.yaml
   battery_low_power_mode:
     $ref: raw_device_attributes/BatteryLowPowerMode.yaml

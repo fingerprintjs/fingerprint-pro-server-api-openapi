@@ -4,4 +4,4 @@ minimum: 0
 maximum: 100
 examples:
   - 75
-description: Battery charge level as a percentage (0-100). Available only for Android and iOS devices.
+description: Battery charge level as a percentage (0-100). Available for Android, iOS, and web devices. On web, only available in Chromium-based browsers.
