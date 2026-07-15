@@ -532,10 +532,10 @@ paths:
             needed.
           schema:
             examples:
-              - 1767225600000
-            example: 1767225600000
-            type: integer
-            format: int64
+              - '2026-01-01T00:00:00Z'
+            example: '2026-01-01T00:00:00Z'
+            type: string
+            format: date-time
           x-parameter-alias: start_date_time
         - name: start_date_time
           in: query
@@ -547,10 +547,10 @@ paths:
             separately if needed. This parameter is an alias for `start`.
           schema:
             examples:
-              - '2026-01-01T00:00:00Z'
-            example: '2026-01-01T00:00:00Z'
-            type: string
-            format: date-time
+              - 1767225600000
+            example: 1767225600000
+            type: integer
+            format: int64
           x-aliased-parameter-name: start
         - name: end
           in: query
@@ -561,10 +561,10 @@ paths:
             for `start`/`start_date_time` — adjust it separately if needed.
           schema:
             examples:
-              - 1769903999000
-            example: 1769903999000
-            type: integer
-            format: int64
+              - '2026-01-31T23:59:59Z'
+            example: '2026-01-31T23:59:59Z'
+            type: string
+            format: date-time
           x-parameter-alias: end_date_time
         - name: end_date_time
           in: query
@@ -576,10 +576,10 @@ paths:
             if needed. This parameter is an alias for `end`.
           schema:
             examples:
-              - '2026-01-31T23:59:59Z'
-            example: '2026-01-31T23:59:59Z'
-            type: string
-            format: date-time
+              - 1769903999000
+            example: 1769903999000
+            type: integer
+            format: int64
           x-aliased-parameter-name: end
         - name: reverse
           in: query
