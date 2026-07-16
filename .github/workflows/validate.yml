@@ -5,6 +5,12 @@ on:
   schedule:
     - cron: '0 5 * * *'
 jobs:
+  set_datadog_team:
+    name: 'Set Datadog team'
+    uses: fingerprintjs/dx-team-toolkit/.github/workflows/set-datadog-team.yml@v1
+    secrets:
+      DD_API_KEY: ${{ secrets.INTEGRATIONS_DATADOG_API_KEY }}
+
   validate:
     runs-on: ubuntu-latest
     environment: test
