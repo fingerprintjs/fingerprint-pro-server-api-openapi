@@ -2903,8 +2903,13 @@ components:
       examples:
         - 75
       description: >-
-        Battery charge level as a percentage (0-100). Available only for Android
-        and iOS devices.
+        Battery charge level as a percentage (0-100). Available for Android,
+        iOS, and web devices. On web, only available in Chromium-based browsers.
+    BatteryCharging:
+      type: boolean
+      description: >-
+        When `true`, the device is currently charging. Available only for web
+        devices on Chromium-based browsers.
     BatteryLowPowerMode:
       type: boolean
       description: >-
@@ -2978,6 +2983,8 @@ components:
           $ref: '#/components/schemas/TimezoneOffset'
         battery_level:
           $ref: '#/components/schemas/BatteryLevel'
+        battery_charging:
+          $ref: '#/components/schemas/BatteryCharging'
         battery_low_power_mode:
           $ref: '#/components/schemas/BatteryLowPowerMode'
     Labels:
