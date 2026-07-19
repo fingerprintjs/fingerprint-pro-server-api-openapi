@@ -2641,7 +2641,9 @@ components:
       minimum: 0
       examples:
         - 8
-      description: Rounded amount of RAM in gigabytes.
+      description: >-
+        Rounded amount of RAM in gigabytes. Available for browsers, Android, and
+        iOS devices.
     Timezone:
       type: string
       examples:
