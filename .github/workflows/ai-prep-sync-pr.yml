@@ -29,18 +29,6 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
-      - name: Check for pre-existing changeset(s)
-        id: existing
-        run: |
-          added=$(git diff --name-only --diff-filter=A origin/${{ github.event.pull_request.base.ref }}...HEAD -- '.changeset/*.md' | grep -v README.md || true)
-          if [ -n "$added" ]; then
-            echo "Changeset(s) already present:"
-            echo "$added"
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Install PNPM
         uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
@@ -57,7 +45,6 @@ jobs:
         id: claude
         env:
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-sonnet-4-6' }}
-          CHANGESET_ALREADY_PRESENT: ${{ steps.existing.outputs.present }}
         uses: anthropics/claude-code-action@30544b674398ee15c84819bd87caf8a87e8c7b55 # v1.0.154
         with:
           # Reuse the app token so the action doesn't fall back to minting one via
@@ -79,13 +66,12 @@ jobs:
 
             2. Review the diff: `git diff origin/${{ github.event.pull_request.base.ref }}...HEAD -- schemas/`
 
-            3. Decide if a changeset is needed. Changeset already present on this
-               branch: `${{ steps.existing.outputs.present }}` — if true, don't add
-               another. Otherwise, add one per topic (share a filename prefix for
-               related entries), picking a scope (events, visitors, webhook,
-               related-visitors, events-search — omit if none fits) and a bump
-               (`minor` is the common case for sync PRs). Skip it if nothing in the
-               diff warrants one. Run `pnpm lint:changesets` and fix any issues.
+            3. Decide if a changeset is needed. If so, add one per topic (share a
+               filename prefix for related entries), picking a scope (events,
+               visitors, webhook, related-visitors, events-search — omit if none
+               fits) and a bump (`minor` is the common case for sync PRs). Skip it
+               if nothing in the diff warrants one. Run `pnpm lint:changesets` and
+               fix any issues.
 
             4. Write a one-line PR title caption to `pr-caption.txt` (repo root,
                caption text only) describing the diff, regardless of whether a
@@ -97,9 +83,8 @@ jobs:
                short comment, in your own words (no fixed template), covering (a)
                the new title caption, (b) what happened with changesets — file
                name(s) + link (`https://github.com/${{ github.repository }}/blob/${{ github.event.pull_request.head.ref }}/.changeset/<filename>.md`)
-               + scope/bump if added, which already existed, or why none was needed,
-               and (c) anything ambiguous or uncertain (or say it was straightforward
-               if not).
+               + scope/bump if added, or why none was needed, and (c) anything
+               ambiguous or uncertain (or say it was straightforward if not).
 
             Only touch files under `.changeset/`, plus the two files above (not
             committed).
