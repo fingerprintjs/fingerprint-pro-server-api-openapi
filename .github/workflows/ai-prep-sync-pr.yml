@@ -137,8 +137,5 @@ jobs:
           if [ -f pr-comment.txt ] && [ -s pr-comment.txt ]; then
             gh pr comment ${{ github.event.pull_request.number }} --body-file pr-comment.txt
           else
-            gh pr comment ${{ github.event.pull_request.number }} --body "$(cat <<'EOF'
-          🤖 This action ran but did not produce a comment (pr-comment.txt was missing or empty). Please check the workflow run logs for details, and verify the PR title and changesets manually.
-          EOF
-          )"
+            gh pr comment ${{ github.event.pull_request.number }} --body "🤖 This action ran but did not produce a comment (pr-comment.txt was missing or empty). Please check the workflow run logs for details, and verify the PR title and changesets manually."
           fi
