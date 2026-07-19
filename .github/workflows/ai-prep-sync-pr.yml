@@ -5,49 +5,12 @@ on:
     types: [opened]
 
 jobs:
-  guard:
+  prep:
     if: >-
       github.event.pull_request.user.login == 'fingerprint-dx-team-actions-runner[bot]' &&
       startsWith(github.event.pull_request.title, 'Sync OpenAPI Schema')
-    name: Check if changeset is already present
+    name: Update PR title and add changeset(s)
     runs-on: ubuntu-latest
-    outputs:
-      skip: ${{ steps.guard.outputs.skip }}
-    permissions:
-      contents: read
-      pull-requests: read
-    steps:
-      - name: Generate app token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ vars.RUNNER_APP_ID }}
-          private-key: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}
-
-      - name: Checkout PR branch
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-
-      - name: Skip if changeset already present
-        id: guard
-        run: |
-          added=$(git diff --name-only --diff-filter=A origin/${{ github.event.pull_request.base.ref }}...HEAD -- '.changeset/*.md' | grep -v README.md || true)
-          if [ -n "$added" ]; then
-            echo "Changeset already present, skipping:"
-            echo "$added"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-
-  prep:
-    if: needs.guard.outputs.skip != 'true'
-    name: Add changeset and rename PR
-    runs-on: ubuntu-latest
-    needs: guard
     permissions:
       contents: write
       pull-requests: write
@@ -66,6 +29,18 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
+      - name: Check for pre-existing changeset(s)
+        id: existing
+        run: |
+          added=$(git diff --name-only --diff-filter=A origin/${{ github.event.pull_request.base.ref }}...HEAD -- '.changeset/*.md' | grep -v README.md || true)
+          if [ -n "$added" ]; then
+            echo "Changeset(s) already present:"
+            echo "$added"
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install PNPM
         uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
@@ -82,6 +57,7 @@ jobs:
         id: claude
         env:
           ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL || 'claude-sonnet-4-6' }}
+          CHANGESET_ALREADY_PRESENT: ${{ steps.existing.outputs.present }}
         uses: anthropics/claude-code-action@30544b674398ee15c84819bd87caf8a87e8c7b55 # v1.0.154
         with:
           # Reuse the app token so the action doesn't fall back to minting one via
@@ -89,18 +65,28 @@ jobs:
           github_token: ${{ steps.app-token.outputs.token }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           # This workflow only ever runs on sync PRs opened by this bot (see the
-          # `guard` job). Allow that bot to trigger the action; otherwise the
+          # job-level `if`). Allow that bot to trigger the action; otherwise the
           # action's human-actor check rejects the bot-initiated run.
           allowed_bots: 'fingerprint-dx-team-actions-runner[bot]'
           claude_args: '--allowed-tools Bash,Read,Write,Edit'
           prompt: |
             You are preparing a sync PR for human review. The PR was opened by a bot
-            that mirrors schema changes from an upstream repo. Your job is to add
-            changeset file(s) and propose a new PR title. Do NOT modify anything
-            outside `.changeset/`, except for the single `pr-caption.txt` file
-            described in step 6.
+            that mirrors schema changes from an upstream repo. Your job is to:
+
+            1. Always propose an updated, descriptive PR title based on what actually
+               changed in the diff.
+            2. Decide whether the change needs a changeset, and add one if so.
+            3. Write a clear, specific PR comment explaining exactly what you did and
+               why, so a human reviewer can tell at a glance whether the action ran
+               correctly.
+
+            Do NOT modify anything outside `.changeset/`, except for the two
+            plain-text files described in steps 5 and 6 (`pr-caption.txt` and
+            `pr-comment.txt`), which are not committed.
 
             Base branch: ${{ github.event.pull_request.base.ref }}
+            A changeset was already present on this branch before this run:
+            `${{ steps.existing.outputs.present }}`
 
             Steps:
 
@@ -112,37 +98,66 @@ jobs:
             2. Inspect the diff:
                `git diff origin/${{ github.event.pull_request.base.ref }}...HEAD -- schemas/`
 
-            3. Group the changes by logical topic. If the diff contains multiple
-               unrelated changes (e.g. a new bot-info field AND an unrelated webhook
-               tweak), write ONE changeset file per topic. If everything is one
-               coherent change, write a single file. Share a filename prefix for
-               related entries as CLAUDE.md describes.
+               Use this diff to understand what actually changed — this is the
+               basis for both the title caption and the changeset(s).
 
-               If nothing in the diff needs a changeset per that guidance (e.g. only
-               documentation changes), don't write a changeset file and skip step 6
-               (leave `pr-caption.txt` unwritten).
+            3. Decide if a changeset is needed, per the CONTRIBUTING.md guidance:
+               - If `CHANGESET_ALREADY_PRESENT` is `true`, do NOT add another one.
+                 Just note in the comment (step 6) which changeset file(s) already
+                 exist and that you left them as-is.
+               - Otherwise, if the diff needs a changeset, group changes by logical
+                 topic. If the diff contains multiple unrelated changes (e.g. a new
+                 bot-info field AND an unrelated webhook tweak), write ONE changeset
+                 file per topic. If everything is one coherent change, write a
+                 single file. Share a filename prefix for related entries as
+                 CLAUDE.md describes.
+               - If nothing in the diff needs a changeset per that guidance (e.g.
+                 only documentation changes), don't write one — but explain why in
+                 the comment (step 6).
 
-            4. For each changeset:
+            4. For each changeset you add:
                - Identify the scope from: events, visitors, webhook,
                  related-visitors, events-search. If none applies, omit the bold
                  scope prefix.
                - Pick the version bump per `CONTRIBUTING.md`. Sync PRs are usually
                  additive, so `minor` is the common case; default to `minor` when
-                 unsure.
+                 unsure, but flag that guess in the comment (step 6).
                - Write the file to `.changeset/<kebab-case-summary>.md`.
+               - Verify your work by running `pnpm lint:changesets`. Fix any issues
+                 it reports before finishing.
 
-            5. Verify your work by running `pnpm lint:changesets`. Fix any issues
-               it reports before finishing.
+            5. Regardless of whether a changeset was needed, write a short
+               descriptive caption to a file named `pr-caption.txt` in the
+               repository root. Write ONLY the caption text, nothing else. It is
+               appended to the existing PR title (which stays as the prefix).
+               Format: `<scope>: <summary>` (e.g. `events: Add bot info category
+               and confidence fields`). If changes span multiple scopes, use
+               `schema: <summary>`. Keep it under ~70 characters. Do not repeat the
+               sync ID or the words "Sync OpenAPI Schema". Base this purely on the
+               diff content, not on whether a changeset was added.
 
-            6. Write a short descriptive caption to a file named `pr-caption.txt`
-               in the repository root (this single file is the one exception to
-               the "only modify `.changeset/`" rule; it is not committed). Write
-               ONLY the caption text, nothing else. It is appended to the
-               existing PR title (which stays as the prefix). Format:
-               `<scope>: <summary>` (e.g. `events: Add bot info category and
-               confidence fields`). If changes span multiple scopes, use
-               `schema: <summary>`. Keep it under ~70 characters. Do not repeat
-               the sync ID or the words "Sync OpenAPI Schema".
+            6. Write a PR comment to a file named `pr-comment.txt` in the
+               repository root (plain markdown, not committed). This comment is
+               the main way a human reviewer verifies the action ran correctly, so
+               write it yourself based on what you actually did — do not use a
+               fixed template. It must cover, in your own words:
+               - That you updated the PR title, and what you changed it to (quote
+                 the caption from step 5).
+               - Whether you added changeset(s): if yes, name each file and link to
+                 it at `https://github.com/${{ github.repository }}/blob/${{ github.event.pull_request.head.ref }}/.changeset/<filename>.md`,
+                 and briefly state the scope + bump you chose for each. If a
+                 changeset already existed, say so and link to it the same way
+                 instead of claiming you added it. If none was needed, say so and
+                 give the reason.
+               - Anything you were unsure about or found confusing while doing this
+                 (e.g. ambiguous scope, guessed version bump, diff that was hard to
+                 categorize, multiple unrelated changes). If nothing was unclear,
+                 explicitly say the change was straightforward — don't omit this
+                 section.
+               Keep it concise (a short paragraph plus a bullet list is plenty),
+               but make sure every point above is addressed with real specifics
+               from this run, not generic boilerplate. Start the comment with
+               "🤖 " so it's easy to spot as an automated comment.
 
       - name: Verify changesets lint
         run: pnpm lint:changesets
@@ -189,14 +204,11 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "$(cat <<'EOF'
-          🤖 Added changeset(s) and proposed a new title.
-
-          **Please verify before merging:**
-          - Scope prefix is correct (`events`, `visitors`, `webhook`, `related-visitors`, `events-search`)
-          - Severity (`patch` / `minor` / `major`) matches the actual impact — this is a best-effort guess
-          - Summary accurately describes the change
-
-          Feel free to edit the changeset file(s) or PR title directly.
+          if [ -f pr-comment.txt ] && [ -s pr-comment.txt ]; then
+            gh pr comment ${{ github.event.pull_request.number }} --body-file pr-comment.txt
+          else
+            gh pr comment ${{ github.event.pull_request.number }} --body "$(cat <<'EOF'
+          🤖 This action ran but did not produce a comment (pr-comment.txt was missing or empty). Please check the workflow run logs for details, and verify the PR title and changesets manually.
           EOF
           )"
+          fi
