@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.5.0
+
+### Minor Changes
+
+- **events**: Add `battery_charging` field to `RawDeviceAttributes` ([495b482](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/495b482630ffe4f7e4b73e1934923d72439dc741))
+
 ## 3.4.2
 
 ### Patch Changes
