@@ -2484,8 +2484,8 @@ components:
       examples:
         - DE
       description: >
-        Country of the request (only for Android SDK version >= 2.4.0, ISO 3166
-        format or unknown).
+        Country of the request (Android SDK version >= 2.4.0, iOS SDK version >=
+        2.9.0, JS agent >= 3.12.9 / 4.0.2), ISO 3166 format or unknown.
     HighActivity:
       type: boolean
       description: Flag indicating if the request came from a high-activity visitor.
