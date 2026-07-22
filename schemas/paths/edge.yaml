@@ -1,10 +1,20 @@
 post:
+  tags:
+    - Edge
   operationId: analyzeRequestForAutomationIntelligence
   summary: Collect Automation Intelligence.
   description: |
-    The Automation Intelligence API (in public preview) gives you the tools to determine whether traffic is legitimate and should be accepted by your application.
+    The Automation Intelligence API gives you the tools to determine whether traffic is legitimate and should be accepted by your application.
 
-    The API detects automation tools like AI Agents, AI Assistants and AI Browsers. Additionally it provides IP intelligence like geolocation and data center detection.
+    This feature is currently in a Public Preview testing phase. All feedback is welcome! If you encounter any issues, please [contact our support team](https://fingerprint.com/support/).
+
+    The API detects automation tools like AI Agents, AI Assistants, AI Browsers, and other bots. Additionally, it provides IP intelligence like geolocation, residential proxy, VPN and data center detection.
+
+    Automation Intelligence is derived from HTTP request metadata that reaches your server. It does not require the use of a JavaScript client-side agent or mobile SDKs to collect device context.
+
+    The API is fast, with average response times of less than 30ms, making it a great fit for edge, pre-origin or middleware contexts. The API is platform-agnostic and can be used with different CDN providers, cloud platforms, or any server backend.
+
+    Because this API doesn’t require the use of a client-side device collection agent, it doesn’t support device identification via `visitor_id` and a few Smart Signals derived from deep device telemetry.
 
     ### Event Retrieval
 

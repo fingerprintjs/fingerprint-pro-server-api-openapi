@@ -13,9 +13,15 @@ info:
     name: MIT
     url: https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/blob/main/LICENSE
 tags:
-  - name: Event
+  - name: Events
     description: |
       Get, update, or search for information about events.
+  - name: Visitors
+    description: |
+      Delete visitor data.
+  - name: Edge
+    description: |
+      Create events with the Automation Intelligence API.
 servers:
   - url: https://api.fpjs.io/v4
     description: Global
