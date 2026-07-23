@@ -1,0 +1,4 @@
+type: string
+examples:
+  - 3f33b68235d36b8821147349f1161379
+description: Unique identifier for the user's keyboard layout.

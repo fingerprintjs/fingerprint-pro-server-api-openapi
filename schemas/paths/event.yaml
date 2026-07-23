@@ -43,6 +43,9 @@ get:
             200-ok-with-bot-info:
               summary: Example response with bot_info
               externalValue: examples/events/get_event_with_bot_info_200.json
+            200-ok-with-edge:
+              summary: Example event from the Automation Intelligence API with Bot and IP intelligence
+              externalValue: examples/events/get_event_with_edge_200.json
     '400':
       description: Bad request. The event Id provided is not valid.
       content:
