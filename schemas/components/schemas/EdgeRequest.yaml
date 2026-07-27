@@ -1,5 +1,7 @@
 type: object
-description: HTTP request metadata (including the HTTP method, headers and IP address) sent by you (your server) to the Fingerprint API for IP and bot analysis. To improve accuracy, retain as much of the original semantics of the HTTP request as possible. For example, preserve the order of the request headers and their capitalization.
+description: |-
+  HTTP request metadata (including the HTTP method, headers and IP address) sent by you (your server) to the Fingerprint API for IP and bot analysis. To improve accuracy, retain as much of the original semantics of the HTTP request as possible. For example, preserve the order of the request headers and their capitalization.
+  At least one of `ipv4_address` or `ipv6_address` must be provided; a request with neither is rejected with a `400` error.
 additionalProperties: false
 required:
   - headers
@@ -31,19 +33,19 @@ properties:
             - Mozilla/5.0
           description: Value of a single forwarded header entry. Be careful to preserve the original encoding and escaping. For example, do not double escape quotes.
     examples:
-      - - name: host
+      - - name: Host
           value: example.com
-        - name: user-agent
+        - name: User-Agent
           value: Mozilla/5.0
-        - name: accept-language
+        - name: Accept-Language
           value: en-US,en;q=0.9
-      - - name: host
+      - - name: Host
           value: example.com
-        - name: user-agent
+        - name: User-Agent
           value: Mozilla/5.0
-        - name: accept-encoding
+        - name: Accept-Encoding
           value: gzip
-        - name: accept-encoding
+        - name: Accept-Encoding
           value: deflate
   method:
     type: string

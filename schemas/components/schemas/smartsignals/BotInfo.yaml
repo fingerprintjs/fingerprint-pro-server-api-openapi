@@ -24,7 +24,7 @@ properties:
   provider_url:
     type: string
     examples:
-      - https://fingerprint.com
+      - https://chatgpt.com
     description: The URL of the bot provider's website.
   name:
     type: string
