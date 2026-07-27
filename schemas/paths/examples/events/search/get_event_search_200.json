@@ -154,6 +154,11 @@
           "1_hour": 1,
           "24_hours": 1
         },
+        "distinct_linked_id": {
+          "5_minutes": 1,
+          "1_hour": 5,
+          "24_hours": 5
+        },
         "distinct_country": {
           "5_minutes": 1,
           "1_hour": 2,
@@ -300,7 +305,8 @@
           "prediction": false,
           "ml_score": 0.01
         }
-      ]
+      ],
+      "active_call": false
     }
   ],
   "pagination_key": "S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q"
