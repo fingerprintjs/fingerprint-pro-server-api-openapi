@@ -68,3 +68,5 @@ properties:
     $ref: raw_device_attributes/BatteryCharging.yaml
   battery_low_power_mode:
     $ref: raw_device_attributes/BatteryLowPowerMode.yaml
+  keyboard_layout_hash:
+    $ref: raw_device_attributes/KeyboardLayoutHash.yaml

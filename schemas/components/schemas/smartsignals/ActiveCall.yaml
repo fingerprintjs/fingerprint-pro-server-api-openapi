@@ -1,0 +1,6 @@
+type: boolean
+description: |
+  Indicates whether the mobile device had an active call (cellular or VoIP) at the time of the request. Available from SDK 2.16.0+ on iOS and Android.
+x-ruleset-metadata:
+  label: Active call
+  category: mobile
