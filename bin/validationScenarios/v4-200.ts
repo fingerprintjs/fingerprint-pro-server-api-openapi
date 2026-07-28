@@ -66,6 +66,13 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
       region: REGION_MAP[subscription.region || 'us'],
     });
 
+    const firstPageResponse = await client.searchEvents({ limit: 10 });
+    // Wait for 100ms to avoid rate limiting
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const paginationFilter = firstPageResponse.pagination_key
+      ? { limit: 10, pagination_key: firstPageResponse.pagination_key }
+      : undefined;
     const filters = [
       { limit: 10 },
       { limit: 10, bot: 'bad' },
@@ -77,7 +84,7 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
       { limit: 10, visitor_id: subscription.visitorId },
       { limit: 10, reverse: true },
       { limit: 10, suspect: true },
-      { limit: 10, pagination_key: '123' },
+      ...(paginationFilter ? [paginationFilter] : []),
       { limit: 10, vpn: true },
       { limit: 10, virtual_machine: true },
       { limit: 10, tampering: true },
