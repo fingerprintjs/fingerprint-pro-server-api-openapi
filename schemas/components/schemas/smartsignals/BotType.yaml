@@ -1,5 +1,5 @@
 type: string
 examples:
-  - fingerprint_agent
+  - chatgpt_agent
 description: |
   Additional classification of the bot type if detected.
