@@ -350,7 +350,7 @@ paths:
           description: |
             Filter events by their Bot Info result, specifically:
               - `all` - events where any kind of bot was detected.
-              - `none` - events where no bot was detected.
+              - `none` - events where no bot was detected, and no `bot_info` was present.
         - name: bot_info_category
           in: query
           style: form
@@ -627,10 +627,9 @@ paths:
           description: >
             Filter events by Browser Tampering Detection result.
 
-            > Note: When using this parameter, only events with the
-            `tampering.result` property set to `true` or `false` are returned.
-            Events without a `tampering` Smart Signal result are left out of the
-            response.
+            > Note: When using this parameter, only events with the `tampering`
+            property set to `true` or `false` are returned. Events without a
+            `tampering` Smart Signal result are left out of the response.
         - name: anti_detect_browser
           in: query
           schema:
@@ -639,9 +638,9 @@ paths:
             Filter events by Anti-detect Browser Detection result.
 
             > Note: When using this parameter, only events with the
-            `tampering.anti_detect_browser` property set to `true` or `false`
-            are returned. Events without a `tampering` Smart Signal result are
-            left out of the response.
+            `tampering_details.anti_detect_browser` property set to `true` or
+            `false` are returned. Events without a `tampering` Smart Signal
+            result are left out of the response.
         - name: incognito
           in: query
           schema:
@@ -691,8 +690,9 @@ paths:
             Filter events by Factory Reset Detection result.
 
             > Note: When using this parameter, only events with a
-            `factory_reset` time. Events without a `factory_reset` Smart Signal
-            result are left out of the response.
+            `factory_reset_timestamp` property populated are included. Events
+            without a `factory_reset_timestamp` Smart Signal result are left out
+            of the response.
         - name: cloned_app
           in: query
           schema:
@@ -2390,11 +2390,8 @@ components:
           examples:
             - 5
           description: >
-            The `24_hours` interval of `distinct_ip`, `distinct_linked_id`,
-            `distinct_country`, `distinct_ip_by_linked_id` and
-            `distinct_visitor_id_by_linked_id` will be omitted if the number of
-            `events` for the visitor Id in the last 24 hours
-            (`events.['24_hours']`) is higher than 20.000.
+            Count for the last 24 hours of velocity data, from the time of the
+            event.
     Velocity:
       type: object
       description: >
@@ -2421,7 +2418,7 @@ components:
         - Number of distinct visitor Ids associated with the provided linked Id.
 
 
-        The `24h` interval of `distinct_ip`, `distinct_linked_id`,
+        The `24_hours` interval of `distinct_ip`, `distinct_linked_id`,
         `distinct_country`,
 
         `distinct_ip_by_linked_id` and `distinct_visitor_id_by_linked_id` will
@@ -2429,7 +2426,7 @@ components:
 
         if the number of `events` for the visitor Id in the last 24
 
-        hours (`events.['24h']`) is higher than 20.000.
+        hours (`events.['24_hours']`) is higher than 20.000.
 
 
         All will not necessarily be returned in a response, some may be omitted
@@ -3423,7 +3420,7 @@ components:
       description: |
         Filter events by their Bot Info result, specifically:
           - `all` - events where any kind of bot was detected.
-          - `none` - events where no bot was detected.
+          - `none` - events where no bot was detected, and no `bot_info` was present.
     SearchEventsVpnConfidence:
       type: string
       enum:
