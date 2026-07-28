@@ -153,6 +153,11 @@
       "1_hour": 1,
       "24_hours": 1
     },
+    "distinct_linked_id": {
+      "5_minutes": 1,
+      "1_hour": 5,
+      "24_hours": 5
+    },
     "distinct_country": {
       "5_minutes": 1,
       "1_hour": 2,
