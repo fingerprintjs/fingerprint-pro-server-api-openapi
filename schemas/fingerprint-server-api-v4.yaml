@@ -1203,7 +1203,7 @@ components:
         provider_url:
           type: string
           examples:
-            - https://fingerprint.com
+            - https://chatgpt.com
           description: The URL of the bot provider's website.
         name:
           type: string
@@ -1983,7 +1983,7 @@ components:
     BotType:
       type: string
       examples:
-        - fingerprint_agent
+        - chatgpt_agent
       description: |
         Additional classification of the bot type if detected.
     ClonedApp:
