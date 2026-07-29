@@ -127,6 +127,11 @@ properties:
       - android
       - ios
       - browser
+  active_call:
+    $ref: smartsignals/ActiveCall.yaml
+    x-platforms:
+      - android
+      - ios
   bot:
     $ref: smartsignals/BotResult.yaml
     x-platforms:
