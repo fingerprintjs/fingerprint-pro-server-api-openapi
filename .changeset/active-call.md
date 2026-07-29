@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': minor
 ---
 
-**events**: Add `active_call` Smart Signal to `Event`
+**events**: Add `active_call` smart signal to `Event`
