@@ -294,7 +294,15 @@
     "local_storage": true,
     "session_storage": true,
     "date_time_locale": "en-US",
-    "audio": 124.04347745512496
+    "audio": 124.04347745512496,
+    "keyboard_layout_hash": "691e3845c85c202a1514b6fd7ef17065",
+    "battery_charging": true,
+    "battery_level": 80,
+    "battery_low_power_mode": true,
+    "timezone_offset": "-03:00",
+    "font_hash": "bb4d842593877975d45017c603ff5994",
+    "device_manufacturer": "samsung",
+    "device_model": "SM-S921U"
   },
   "rare_device": false,
   "rare_device_percentile_bucket": "<p95",
