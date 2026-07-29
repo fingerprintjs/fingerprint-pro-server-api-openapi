@@ -309,5 +309,6 @@
       "prediction": false,
       "ml_score": 0.01
     }
-  ]
+  ],
+  "active_call": false
 }

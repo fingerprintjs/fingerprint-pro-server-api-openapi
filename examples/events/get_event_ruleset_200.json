@@ -304,6 +304,7 @@
       "ml_score": 0.01
     }
   ],
+  "active_call": false,
   "rule_action": {
     "type": "block",
     "status_code": 403,

@@ -1969,6 +1969,12 @@ components:
             true device location lies within the mapped proximity zone.
               * Scores closer to `1` indicate high confidence that the location is inside the mapped proximity zone.
               * Scores closer to `0` indicate lower confidence, suggesting the true location may fall in an adjacent zone.
+    ActiveCall:
+      type: boolean
+      description: >
+        Indicates whether the mobile device had an active call (cellular or
+        VoIP) at the time of the request. Available from SDK 2.16.0+ on iOS and
+        Android.
     BotResult:
       type: string
       enum:
@@ -3136,6 +3142,11 @@ components:
             - android
             - ios
             - browser
+        active_call:
+          $ref: '#/components/schemas/ActiveCall'
+          x-platforms:
+            - android
+            - ios
         bot:
           $ref: '#/components/schemas/BotResult'
           x-platforms:

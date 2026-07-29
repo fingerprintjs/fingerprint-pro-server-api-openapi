@@ -305,5 +305,6 @@
       "ml_score": 0.01
     }
   ],
+  "active_call": false,
   "unknown_field": "unknown_field_value"
 }
