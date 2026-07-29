@@ -3017,7 +3017,11 @@ components:
       type: object
       description: >-
         Contains results from Fingerprint Identification and all active Smart
-        Signals.
+        Signals. Some Smart Signals are only supported for certain device types,
+        these fields will be omitted for events not generated from the supported
+        devices. Consult the [Smart Signals
+        reference](https://docs.fingerprint.com/docs/smart-signals-reference)
+        for more details.
       required:
         - event_id
         - timestamp
