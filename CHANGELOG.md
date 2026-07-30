@@ -1,5 +1,16 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.5.0
+
+### Minor Changes
+
+- **events**: Add `active_call` smart signal to `Event` ([4952304](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/4952304ece13cdd9681943129cd995dd0f844f2e))
+- Add `Edge` tag to the Automation Intelligence API endpoint ([b9ae956](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/b9ae956b96193103817ce7d76761882dedd27565))
+- **events**: Add `keyboard_layout_hash` to `RawDeviceAttributes` ([42ef6dd](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/42ef6dd78f888bb65fae29eb3551f8d0824ef6b5))
+- **events**: Add `battery_charging` field to `RawDeviceAttributes` ([495b482](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/495b482630ffe4f7e4b73e1934923d72439dc741))
+- **events-search**: Add 429 and 504 error responses to Search Events endpoint ([7d3e11f](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/7d3e11f93546532c7c8fd38ced58c3031ac64108))
+- **events**: Add 504 error response to Get Event endpoint ([7d3e11f](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/7d3e11f93546532c7c8fd38ced58c3031ac64108))
+
 ## 3.4.2
 
 ### Patch Changes
