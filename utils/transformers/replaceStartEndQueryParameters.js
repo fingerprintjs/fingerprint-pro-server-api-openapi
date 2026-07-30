@@ -2,6 +2,7 @@ import { expandOneOfQueryParametersTransformer } from './expandOneOfQueryParamet
 
 const replacementParametersMap = {
   start: {
+    primaryType: 'integer',
     overrideDescription:
       'Include events that happened after this point (with timestamp greater than or equal to the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change the default of `now` for `end`/`end_date_time` — adjust it separately if needed.',
     alias: {
@@ -11,6 +12,7 @@ const replacementParametersMap = {
     },
   },
   end: {
+    primaryType: 'integer',
     overrideDescription:
       'Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change the default of `7 days ago` for `start`/`start_date_time` — adjust it separately if needed.',
     alias: {

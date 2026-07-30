@@ -13,7 +13,7 @@ paths:
           description: The original description
           schema:
             oneOf:
-              - type: integer
-                format: int64
               - type: string
                 format: date-time
+              - type: integer
+                format: int64
