@@ -8,7 +8,7 @@ const replacementParametersMap = {
     alias: {
       name: 'start_date_time',
       description:
-        'Include events that happened after this point (with timestamp greater than or equal to the provided `start_date_time` RFC3339 timestamp). Defaults to 7 days ago. Setting `start_date_time` does not the default of `now` for `end`/`end_date_time` — adjust it separately if needed. This parameter is an alias for `start`.',
+        'Include events that happened after this point (with timestamp greater than or equal to the provided `start_date_time` RFC3339 timestamp). Defaults to 7 days ago. Setting `start_date_time` does not change the default of `now` for `end`/`end_date_time` — adjust it separately if needed. This parameter is an alias for `start`.',
     },
   },
   end: {
