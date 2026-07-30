@@ -14,11 +14,11 @@ const replacementParametersMap = {
   end: {
     primaryType: 'integer',
     overrideDescription:
-      'Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change the default of `7 days ago` for `start`/`start_date_time` — adjust it separately if needed.',
+      'Include events that happened before this point (with timestamp less than or equal to the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change the default of `7 days ago` for `start`/`start_date_time` — adjust it separately if needed.',
     alias: {
       name: 'end_date_time',
       description:
-        'Include events that happened before this point (with timestamp less than or equal the provided `end_date_time` RFC3339 timestamp). Defaults to now. Setting `end_date_time` does not change the default of `7 days ago` for `start`/`start_date_time` — adjust it separately if needed. This parameter is an alias for `end`.',
+        'Include events that happened before this point (with timestamp less than or equal to the provided `end_date_time` RFC3339 timestamp). Defaults to now. Setting `end_date_time` does not change the default of `7 days ago` for `start`/`start_date_time` — adjust it separately if needed. This parameter is an alias for `end`.',
     },
   },
 };
