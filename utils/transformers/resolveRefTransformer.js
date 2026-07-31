@@ -4,6 +4,35 @@ import { walkJson } from '../walkJson.js';
 import path from 'path';
 
 /**
+ * Maps a schema file path (relative to the `schemas/` directory) to its
+ * source path in the private `koala` repo.
+ *
+ * Reverse of the sync config that pulls multi-file YAML from koala into
+ * this repo:
+ *   - `components/...` -> `api/v4/components/...`
+ *   - `paths/...`     -> `api/v4/paths/...`
+ *   - `fingerprint-server-api-v4.yaml` -> `api/v4/server-api.yaml`
+ *
+ * Anything else is returned as-is (after stripping a leading `./`).
+ *
+ * @param {string} refPath - path relative to the `schemas/` directory
+ * @returns {string} koala source path
+ */
+export function toKoalaPath(refPath) {
+  const p = refPath.replace(/^\.\//, '');
+
+  if (p === 'fingerprint-server-api-v4.yaml') {
+    return 'api/v4/server-api.yaml';
+  }
+
+  if (p.startsWith('components/') || p.startsWith('paths/')) {
+    return `api/v4/${p}`;
+  }
+
+  return p;
+}
+
+/**
  * Load and parse yaml file
  * @param {string} path
  * @returns {object}
@@ -13,22 +42,35 @@ function loadYaml(path) {
 }
 
 class ModelsCache {
-  constructor() {
+  /**
+   * @param {string} rootSchemaPath - absolute path to the schemas root, used to compute
+   *   the file path relative to `schemas/` for `x-gh-source` values.
+   * @param {boolean} addGhSource - when true, stamps `x-gh-source` with the koala
+   *   source file path onto each inlined schema.
+   */
+  constructor(rootSchemaPath, addGhSource = false) {
     this.models = {};
     this.refs = {};
+    this.rootSchemaPath = rootSchemaPath;
+    this.addGhSource = addGhSource;
   }
 
   /**
    * Get model by $ref
    * @param {string} modelRef
    * @param {string} schemaPath
-   * @returns {string}
+   * @returns {string|object}
    */
   get(modelRef, schemaPath = '.') {
     if (this.refs.hasOwnProperty(modelRef)) {
       return this.refs[modelRef];
     } else {
       const model = loadYaml(schemaPath + '/' + modelRef);
+      if (this.addGhSource) {
+        const fullAbs = path.resolve(schemaPath, modelRef);
+        const relativeToRoot = path.relative(this.rootSchemaPath, fullAbs);
+        model['x-gh-source'] = toKoalaPath(relativeToRoot);
+      }
       findAndResolveRefs(model, this, schemaPath + '/' + path.parse(modelRef).dir);
       const modelName = path.parse(modelRef).name;
       // Load paths inline
@@ -57,7 +99,7 @@ class ModelsCache {
  * Resolves external refs
  * For components replace ref to local and adds component to ModelsCache
  * For other external refs just inline code
- * @param {string} apiDefinition
+ * @param {object} apiDefinition
  * @param {ModelsCache} modelsCache
  * @param {string} schemaPath
  */
@@ -97,12 +139,16 @@ function findAndResolveRefs(apiDefinition, modelsCache, schemaPath) {
  * Resolves external references in an API definition and replaces them with inline code or local references.
  * @param {object} options
  * @param {string} options.schemaPath
+ * @param {boolean} [options.addGhSource] - when true, stamps `x-gh-source` with the koala
+ *   source file path onto each inlined schema.
  * @returns {(function({object}): void)}
  */
 export function resolveRefTransformer(options) {
   const schemaPath = options.schemaPath || './';
+  const addGhSource = options.addGhSource === true;
+  const rootSchemaPath = path.resolve(schemaPath);
   return function (apiDefinition) {
-    const modelsCache = new ModelsCache();
+    const modelsCache = new ModelsCache(rootSchemaPath, addGhSource);
     // resolve external refs and replace them with inline code or local ref
     findAndResolveRefs(apiDefinition, modelsCache, schemaPath);
     const models = modelsCache.serialize();
