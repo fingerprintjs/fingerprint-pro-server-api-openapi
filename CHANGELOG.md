@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.5.1
+
+### Patch Changes
+
+- **events**: Fix types for `start`/`start_date_time` and `end`/`end_date_time` in normalized schema ([dac93c9](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/dac93c901566901781fcfac09a6995fded66ce3c))
+
 ## 3.5.0
 
 ### Minor Changes
