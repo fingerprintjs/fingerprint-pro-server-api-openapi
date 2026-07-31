@@ -7,10 +7,11 @@ const VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME = 'x-aliased-parameter-na
  * supported.
  *
  * The replacement parameters are defined by:
- * - An override description for the first schema. This becomes the primary parameter
- * - A name and description for the second schema. This becomes the alias of the primary parameter.
+ * - The type of the primary parameter.
+ * - An override description for the primary parameter.
+ * - A name and description for alias, which uses the other schema from the `oneOf` array.
  *
- * @param {Record<string, { overrideDescription: string; alias: { name: string; description:string; } }>} replacementParametersMap
+ * @param {Record<string, { primaryType: string; overrideDescription: string; alias: { name: string; description:string; } }>} replacementParametersMap
  */
 export function expandOneOfQueryParametersTransformer(replacementParametersMap) {
   return function (apiDefinition) {
@@ -53,12 +54,20 @@ export function expandOneOfQueryParametersTransformer(replacementParametersMap) 
             throw new Error('Unsupported use of oneOf construct in query parameter');
           }
 
+          const primarySchema = oneOf.find((s) => s.type === replacementParameter.primaryType);
+          const aliasSchema = oneOf.find((s) => s !== primarySchema);
+          if (!primarySchema) {
+            throw new Error(
+              `No oneOf schema matches primaryType "${replacementParameter.primaryType}" for query parameter "${param.name}"`
+            );
+          }
+
           // The primary parameter
           expanded.push({
             ...restParam,
             schema: {
               ...restSchema,
-              ...oneOf[0],
+              ...primarySchema,
             },
             description: replacementParameter.overrideDescription,
             [VENDOR_EXTENSION_PARAMETER_ALIAS_PROPERTY_NAME]: replacementParameter.alias.name,
@@ -70,7 +79,7 @@ export function expandOneOfQueryParametersTransformer(replacementParametersMap) 
             name: replacementParameter.alias.name,
             schema: {
               ...restSchema,
-              ...oneOf[1],
+              ...aliasSchema,
             },
             description: replacementParameter.alias.description,
             [VENDOR_EXTENSION_ALIASED_PARAMETER_PROPERTY_NAME]: param.name,

@@ -10,6 +10,7 @@ const schemaWithOneOfQueryParameterTransformed = fs.readFileSync(
 
 const replacementParametersMap = {
   timestamp: {
+    primaryType: 'integer',
     overrideDescription: 'The updated description',
     alias: {
       name: 'timestamp_alias',
