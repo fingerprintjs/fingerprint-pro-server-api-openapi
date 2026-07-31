@@ -2484,6 +2484,8 @@ components:
           $ref: '#/components/schemas/ProductRareDevice'
         proximity:
           $ref: '#/components/schemas/ProductProximity'
+        labels:
+          $ref: '#/components/schemas/ProductLabels'
     EventsGetResponse:
       type: object
       description: >-
