@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.5.2
+
+### Patch Changes
+
+- **events**: Add `labels` signal to v3 schema ([e1b1166](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/e1b1166ad6920e88b125bf5e69005df59e1f5bb3))
+
 ## 3.5.1
 
 ### Patch Changes
