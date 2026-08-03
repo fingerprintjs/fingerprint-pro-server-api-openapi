@@ -1,6 +1,7 @@
 {
   "event_id": "1758130561034.Kp2Wqz",
   "timestamp": 1758130561034,
+  "source": "edge",
   "url": "https://example.com/login?foo=bar",
   "ip_info": {
     "v4": {

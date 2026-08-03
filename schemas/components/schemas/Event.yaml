@@ -17,6 +17,12 @@ properties:
       - android
       - ios
       - browser
+  source:
+    $ref: platform/EventSource.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
   incremental_identification_status:
     $ref: platform/IncrementalIdentificationStatus.yaml
     x-platforms:
