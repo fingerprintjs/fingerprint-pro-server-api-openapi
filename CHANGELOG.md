@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.6.0
+
+### Minor Changes
+
+- Add `source` field to `Event` and `EdgeResponse` to identify how the event was generated (`device` or `edge`) ([fe128de](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/fe128de16e96976d0d7453a01e018d3f3fdc8100))
+
 ## 3.5.2
 
 ### Patch Changes
