@@ -10,6 +10,8 @@ properties:
     $ref: platform/EventId.yaml
   timestamp:
     $ref: platform/Timestamp.yaml
+  source:
+    $ref: platform/EventSource.yaml
   linked_id:
     $ref: platform/LinkedId.yaml
   tags:
