@@ -12,20 +12,20 @@ jobs:
     environment: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - uses: ./.github/actions/test-and-build
         with:
           testSubscriptions: '${{ secrets.TEST_SUBSCRIPTIONS }}'
       - name: Deploy to GitHub pages 🚀📘
-        uses: JamesIves/github-pages-deploy-action@94f3c658273cf92fb48ef99e5fbc02bd2dc642b2
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
         with:
           branch: gh-pages
           folder: dist
       - name: Deploy to Readme APIv3 Reference 🚀🦉
-        uses: readmeio/rdme@62bc5a43208c46fc0d90c78ebeddf0365a41b2cc
+        uses: readmeio/rdme@6c330ae4130595720421809c4eaa37ba95d07f87 # v10.9.5
         with:
           rdme: openapi upload dist/schemas/fingerprint-server-api-readme-explorer.yaml --key=${{ secrets.README_API_KEY }} --slug=fingerprint-pro-server-api.json
       - name: Deploy to Readme APIv4 Reference 🚀🦉
-        uses: readmeio/rdme@62bc5a43208c46fc0d90c78ebeddf0365a41b2cc
+        uses: readmeio/rdme@6c330ae4130595720421809c4eaa37ba95d07f87 # v10.9.5
         with:
           rdme: openapi upload dist/schemas/fingerprint-server-api-v4-with-examples.yaml --key=${{ secrets.README_API_KEY }} --slug=fingerprint-server-api-readme-explorer.yaml

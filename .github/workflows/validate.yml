@@ -16,7 +16,7 @@ jobs:
     environment: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - uses: ./.github/actions/test-and-build
         with:
           testSubscriptions: '${{ secrets.TEST_SUBSCRIPTIONS }}'
