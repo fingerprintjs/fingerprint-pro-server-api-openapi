@@ -1,0 +1,8 @@
+allowBuilds:
+  '@quobix/vacuum': true
+  esbuild: true
+  '@scarf/scarf': false
+  core-js-pure: false
+  tree-sitter: false
+  tree-sitter-json: false
+  '@tree-sitter-grammars/tree-sitter-yaml': false
