@@ -1,5 +1,5 @@
 import process from 'node:process';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
 import { extractFirstParameterExampleTransformer } from './extractFirstParameterExampleTransformer.js';
