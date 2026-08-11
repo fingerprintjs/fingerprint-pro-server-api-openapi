@@ -70,8 +70,7 @@
     "yaml": "^2.9.0",
     "yaml-loader": "^0.8.1",
     "zip-lib": "^1.4.0",
-    "znv": "^0.4.0",
-    "zod": "^3.25.76"
+    "zod": "^4.4.3"
   },
   "packageManager": "pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee"
 }

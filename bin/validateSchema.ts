@@ -1,5 +1,4 @@
 import type { ValidateFunction } from 'ajv-draft-04';
-import { parseEnv } from 'znv';
 import { z } from 'zod';
 import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent.ts';
 import 'dotenv/config';
@@ -73,10 +72,12 @@ const validateJson: ValidateJsonFn = ({
  * Main function
  */
 (async () => {
-  // Parse an array of test subscriptions objects from environment variables
-  const { TEST_SUBSCRIPTIONS } = parseEnv(process.env, {
-    TEST_SUBSCRIPTIONS: z.array(testSubscriptionEnvVariableZod),
-  });
+  // Parse an array of test subscription objects from the TEST_SUBSCRIPTIONS env variable
+  const rawTestSubscriptions = process.env.TEST_SUBSCRIPTIONS;
+  if (!rawTestSubscriptions) {
+    throw new Error('TEST_SUBSCRIPTIONS environment variable is required');
+  }
+  const TEST_SUBSCRIPTIONS = z.array(testSubscriptionEnvVariableZod).parse(JSON.parse(rawTestSubscriptions));
 
   // Generate and identification event for each subscription and add the fresh requestId and visitorId to the object
   const testSubscriptions: TestSubscription[] = [];
