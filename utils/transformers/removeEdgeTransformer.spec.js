@@ -1,6 +1,6 @@
 import { parseYaml } from './parseYaml.js';
-import { transformSchema } from './transformSchema.js';
 import { removeEdgeTransformer } from './removeEdgeTransformer.js';
+import { transformSchema } from './transformSchema.js';
 
 const yamlWithEdge = `
 openapi: 3.1.1

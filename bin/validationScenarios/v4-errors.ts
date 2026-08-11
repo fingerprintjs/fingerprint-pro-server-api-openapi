@@ -1,9 +1,9 @@
-import { REGION_MAP } from '../validationTools/constants';
-import { createValidatorV4 } from '../validationTools/validation';
-import { ValidationContext } from '../validationTools/types';
 import fs from 'fs';
-import { FingerprintJsServerApiClientV4, RequestError } from '../validationTools/clientV4';
 import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent';
+import { FingerprintJsServerApiClientV4, RequestError } from '../validationTools/clientV4';
+import { REGION_MAP } from '../validationTools/constants';
+import { ValidationContext } from '../validationTools/types';
+import { createValidatorV4 } from '../validationTools/validation';
 
 /**
  * Validates ErrorCommon403Response schema
@@ -19,14 +19,14 @@ export async function validateCommonError403SchemaV4({ testSubscriptions, valida
     './schemas/paths/examples/errors/403_secret_api_key_required.json',
     './schemas/paths/examples/errors/403_subscription_not_active.json',
     './schemas/paths/examples/errors/403_wrong_region.json',
-  ].forEach((examplePath) =>
+  ].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: commonError403Validator,
       schemaName,
-    })
-  );
+    });
+  });
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
@@ -94,14 +94,14 @@ export async function validateCommonError500SchemaV4({ validateJson }: Validatio
   const commonError403Validator = createValidatorV4(schemaName, 'validateCommonError500SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/500_internal_server_error.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/errors/500_internal_server_error.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: commonError403Validator,
       schemaName,
-    })
-  );
+    });
+  });
 }
 
 /**
@@ -112,14 +112,14 @@ export async function validateEventError404SchemaV4({ testSubscriptions, validat
   const eventError404Validator = createValidatorV4(schemaName, 'validateEventError404SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/404_event_not_found.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/errors/404_event_not_found.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: eventError404Validator,
       schemaName,
-    })
-  );
+    });
+  });
 
   const nonExistentRequestId = 'non-existent-request-id';
 
@@ -168,14 +168,14 @@ export async function validateErrorVisitor400ResponseV4({ testSubscriptions, val
     './schemas/paths/examples/errors/400_request_body_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_required.json',
-  ].forEach((examplePath) =>
+  ].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitorError400Validator,
       schemaName,
-    })
-  );
+    });
+  });
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
@@ -207,14 +207,14 @@ export async function validateErrorCommon429ResponseV4({ validateJson }: Validat
   const errorCommon429ResponseValidator = createValidatorV4(schemaName, 'validateErrorCommon429ResponseV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/429_too_many_requests.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/errors/429_too_many_requests.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: errorCommon429ResponseValidator,
       schemaName,
-    })
-  );
+    });
+  });
 }
 
 /**
@@ -225,14 +225,14 @@ export async function validateErrorVisitor404ResponseV4({ testSubscriptions, val
   const visitorError404Validator = createValidatorV4(schemaName, 'validateErrorVisitor404ResponseV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/404_visitor_not_found.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/errors/404_visitor_not_found.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitorError404Validator,
       schemaName: 'DeleteVisitsError404',
-    })
-  );
+    });
+  });
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
@@ -268,14 +268,14 @@ export async function validateUpdateEventError400SchemaV4({
   const updateEvent400ErrorValidator = createValidatorV4(schemaName, 'validateUpdateEventError400SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/400_request_body_invalid.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/errors/400_request_body_invalid.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: updateEvent400ErrorValidator,
       schemaName,
-    })
-  );
+    });
+  });
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
@@ -312,14 +312,14 @@ export async function validateUpdateEventError409SchemaV4({
   const updateEvent409ErrorValidator = createValidatorV4(schemaName, 'validateUpdateEventError409SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/409_state_not_ready.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/errors/409_state_not_ready.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: updateEvent409ErrorValidator,
       schemaName,
-    })
-  );
+    });
+  });
 
   /**
    * Validate against live Server API responses
@@ -375,14 +375,14 @@ export async function validateSearchEventsError400SchemaV4({
     './schemas/paths/examples/errors/400_start_time_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_required.json',
-  ].forEach((examplePath) =>
+  ].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: searchEventsError400Validator,
       schemaName,
-    })
-  );
+    });
+  });
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {

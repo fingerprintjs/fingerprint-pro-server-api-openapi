@@ -1,5 +1,5 @@
-import { walkJson } from '../walkJson.js';
 import { replaceOneOf } from '../replaceOneOf.js';
+import { walkJson } from '../walkJson.js';
 
 /**
  * `oneOf` is used to specify that the object must match *exactly one* of the schemas in the array

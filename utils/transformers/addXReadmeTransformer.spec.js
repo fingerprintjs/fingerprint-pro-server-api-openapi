@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { transformSchema } from './transformSchema.js';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
+import { transformSchema } from './transformSchema.js';
 
 const simpleYaml = fs.readFileSync('./utils/mocks/simple.yaml');
 const simpleWithXReadmeYaml = fs.readFileSync('./utils/mocks/simpleWithXReadme.yaml');

@@ -1,9 +1,9 @@
-import { SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
-import { REGION_MAP } from '../validationTools/constants';
-import { createValidatorV4 } from '../validationTools/validation';
-import { ValidationContext } from '../validationTools/types';
 import fs from 'fs';
+import { SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
 import { FingerprintJsServerApiClientV4 } from '../validationTools/clientV4';
+import { REGION_MAP } from '../validationTools/constants';
+import { ValidationContext } from '../validationTools/types';
+import { createValidatorV4 } from '../validationTools/validation';
 
 /**
  * Validate Event schema
@@ -14,13 +14,14 @@ export async function validateEventSchemaV4({ testSubscriptions, validateJson, f
 
   // Validate against example files
   ['./schemas/paths/examples/events/get_event_200.json', './schemas/paths/examples/webhook/webhook_event.json'].forEach(
-    (examplePath) =>
+    (examplePath) => {
       validateJson({
         json: JSON.parse(fs.readFileSync(examplePath).toString()),
         jsonName: examplePath,
         validator: eventValidator,
         schemaName,
-      })
+      });
+    }
   );
 
   // Validate against live Server API responses
@@ -50,14 +51,14 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
   const searchEventsResponseValidator = createValidatorV4(schemaName, 'validateEventSearchSchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/events/search/get_event_search_200.json'].forEach((examplePath) =>
+  ['./schemas/paths/examples/events/search/get_event_search_200.json'].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: searchEventsResponseValidator,
       schemaName,
-    })
-  );
+    });
+  });
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
@@ -124,12 +125,12 @@ export async function validateEventUpdateRequestSchemaV4({ validateJson }: Valid
   [
     './schemas/paths/examples/events/update_event_multiple_fields_request.json',
     './schemas/paths/examples/events/update_event_one_field_request.json',
-  ].forEach((examplePath) =>
+  ].forEach((examplePath) => {
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: eventUpdateRequestValidator,
       schemaName,
-    })
-  );
+    });
+  });
 }

@@ -1,10 +1,10 @@
 // @ts-check
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
 import 'dotenv/config';
 import {
   readmeApiExplorerTransformers,

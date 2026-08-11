@@ -1,15 +1,25 @@
 import { ValidateFunction } from 'ajv-draft-04';
-import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent';
-import { z } from 'zod';
 import { parseEnv } from 'znv';
+import { z } from 'zod';
+import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent';
 import 'dotenv/config';
-import { TestSubscription, testSubscriptionEnvVariableZod, ValidateJsonFn } from './validationTools/types';
 import {
   validateEventResponseSchemaV3,
   validateRelatedVisitorsResponseSchemaV3,
   validateSearchEventsResponseSchemaV3,
   validateVisitsResponseSchemaV3,
 } from './validationScenarios/v3-200';
+import {
+  validateCommonError403SchemaV3,
+  validateErrorVisitor400ResponseV3,
+  validateErrorVisitor404ResponseV3,
+  validateEventError404SchemaV3,
+  validateGetVisitsError400SchemaV3,
+  validateGetVisitsError403SchemaV3,
+  validateSearchEventsError400SchemaV3,
+  validateUpdateEventError400SchemaV3,
+  validateUpdateEventError409SchemaV3,
+} from './validationScenarios/v3-errors';
 import {
   validateEventSchemaV4,
   validateEventSearchSchemaV4,
@@ -26,17 +36,7 @@ import {
   validateUpdateEventError400SchemaV4,
   validateUpdateEventError409SchemaV4,
 } from './validationScenarios/v4-errors';
-import {
-  validateCommonError403SchemaV3,
-  validateErrorVisitor400ResponseV3,
-  validateErrorVisitor404ResponseV3,
-  validateEventError404SchemaV3,
-  validateGetVisitsError400SchemaV3,
-  validateGetVisitsError403SchemaV3,
-  validateSearchEventsError400SchemaV3,
-  validateUpdateEventError400SchemaV3,
-  validateUpdateEventError409SchemaV3,
-} from './validationScenarios/v3-errors';
+import { TestSubscription, testSubscriptionEnvVariableZod, ValidateJsonFn } from './validationTools/types';
 import { initAjv } from './validationTools/validation';
 
 initAjv();

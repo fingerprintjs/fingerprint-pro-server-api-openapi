@@ -1,6 +1,6 @@
-import { walkJson } from '../walkJson.js';
-import yaml from 'js-yaml';
 import fs from 'fs';
+import yaml from 'js-yaml';
+import { walkJson } from '../walkJson.js';
 
 /**
  * Appends external schema references to the given API definition.

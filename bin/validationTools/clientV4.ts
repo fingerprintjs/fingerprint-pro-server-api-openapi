@@ -110,12 +110,12 @@ export class RequestError<Code extends number = number, Body = unknown> extends 
 function isErrorResponse(value: unknown): value is ErrorResponse {
   return Boolean(
     value &&
-      typeof value === 'object' &&
-      'error' in value &&
-      typeof value.error === 'object' &&
-      value.error &&
-      'code' in value.error &&
-      'message' in value.error
+    typeof value === 'object' &&
+    'error' in value &&
+    typeof value.error === 'object' &&
+    value.error &&
+    'code' in value.error &&
+    'message' in value.error
   );
 }
 

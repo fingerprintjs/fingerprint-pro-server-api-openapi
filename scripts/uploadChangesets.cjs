@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
+const path = require('node:path');
+const os = require('os');
 const glob = require('glob');
 const zipLib = require('zip-lib');
-const os = require('os');
-const path = require('node:path');
 const humanId = require('human-id').humanId;
 
 module.exports = async ({ github, context }) => {

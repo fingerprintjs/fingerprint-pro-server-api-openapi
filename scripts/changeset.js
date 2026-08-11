@@ -1,9 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import yaml from 'js-yaml';
 import prompt from 'prompts';
 import pkg from '../package.json' with { type: 'json' };
-import fs from 'fs';
-import yaml from 'js-yaml';
-import { fileURLToPath } from 'url';
-import path from 'path';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 

@@ -1,6 +1,6 @@
 import * as glob from 'glob';
-import zip from 'zip-lib';
 import { humanId } from 'human-id';
+import zip from 'zip-lib';
 
 const changesets = glob.sync('.changeset/*.md');
 
