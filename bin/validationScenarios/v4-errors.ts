@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent';
-import { FingerprintJsServerApiClientV4, RequestError } from '../validationTools/clientV4';
-import { REGION_MAP } from '../validationTools/constants';
-import { ValidationContext } from '../validationTools/types';
-import { createValidatorV4 } from '../validationTools/validation';
+import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent.ts';
+import { FingerprintJsServerApiClientV4, RequestError } from '../validationTools/clientV4.ts';
+import { REGION_MAP } from '../validationTools/constants.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
+import { createValidatorV4 } from '../validationTools/validation.ts';
 
 /**
  * Validates ErrorCommon403Response schema

@@ -1,4 +1,4 @@
-import { ValidateFunction } from 'ajv-draft-04';
+import type { ValidateFunction } from 'ajv-draft-04';
 import { z } from 'zod';
 
 // Zod helper for parsing environment variables

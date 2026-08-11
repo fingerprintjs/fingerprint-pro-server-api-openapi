@@ -6,13 +6,13 @@
  */
 
 import {
-  ErrorPlainResponse,
-  ErrorResponse,
-  EventsGetResponse,
+  type ErrorPlainResponse,
+  type ErrorResponse,
+  type EventsGetResponse,
   FingerprintJsServerApiClient,
-  Options,
+  type Options,
   Region,
-  SearchEventsFilter,
+  type SearchEventsFilter,
   TooManyRequestsError,
 } from '@fingerprintjs/fingerprintjs-pro-server-api';
 
@@ -62,13 +62,12 @@ function serializeQueryStringParams(params: QueryStringParameters): string {
 }
 
 class SdkError extends Error {
-  constructor(
-    message: string,
-    readonly response?: Response,
-    cause?: Error
-  ) {
+  readonly response?: Response;
+
+  constructor(message: string, response?: Response, cause?: Error) {
     // @ts-ignore
     super(message, { cause });
+    this.response = response;
     this.name = this.constructor.name;
   }
 }

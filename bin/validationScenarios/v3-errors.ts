@@ -1,8 +1,8 @@
 import { FingerprintJsServerApiClient, RequestError } from '@fingerprintjs/fingerprintjs-pro-server-api';
-import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent';
-import { REGION_MAP } from '../validationTools/constants';
-import { ValidationContext } from '../validationTools/types';
-import { createValidatorV3 } from '../validationTools/validation';
+import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent.ts';
+import { REGION_MAP } from '../validationTools/constants.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
+import { createValidatorV3 } from '../validationTools/validation.ts';
 
 /**
  * Validates ErrorCommon403Response schema

@@ -1,14 +1,14 @@
-import { ValidateFunction } from 'ajv-draft-04';
+import type { ValidateFunction } from 'ajv-draft-04';
 import { parseEnv } from 'znv';
 import { z } from 'zod';
-import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent';
+import { generateIdentificationEvent } from '../utils/validateSchema/generateIdentificationEvent.ts';
 import 'dotenv/config';
 import {
   validateEventResponseSchemaV3,
   validateRelatedVisitorsResponseSchemaV3,
   validateSearchEventsResponseSchemaV3,
   validateVisitsResponseSchemaV3,
-} from './validationScenarios/v3-200';
+} from './validationScenarios/v3-200.ts';
 import {
   validateCommonError403SchemaV3,
   validateErrorVisitor400ResponseV3,
@@ -19,12 +19,12 @@ import {
   validateSearchEventsError400SchemaV3,
   validateUpdateEventError400SchemaV3,
   validateUpdateEventError409SchemaV3,
-} from './validationScenarios/v3-errors';
+} from './validationScenarios/v3-errors.ts';
 import {
   validateEventSchemaV4,
   validateEventSearchSchemaV4,
   validateEventUpdateRequestSchemaV4,
-} from './validationScenarios/v4-200';
+} from './validationScenarios/v4-200.ts';
 import {
   validateCommonError403SchemaV4,
   validateCommonError500SchemaV4,
@@ -35,9 +35,9 @@ import {
   validateSearchEventsError400SchemaV4,
   validateUpdateEventError400SchemaV4,
   validateUpdateEventError409SchemaV4,
-} from './validationScenarios/v4-errors';
-import { TestSubscription, testSubscriptionEnvVariableZod, ValidateJsonFn } from './validationTools/types';
-import { initAjv } from './validationTools/validation';
+} from './validationScenarios/v4-errors.ts';
+import { type TestSubscription, testSubscriptionEnvVariableZod, type ValidateJsonFn } from './validationTools/types.ts';
+import { initAjv } from './validationTools/validation.ts';
 
 initAjv();
 // Global exit code variable and helper

@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
-import { FingerprintJsServerApiClientV4 } from '../validationTools/clientV4';
-import { REGION_MAP } from '../validationTools/constants';
-import { ValidationContext } from '../validationTools/types';
-import { createValidatorV4 } from '../validationTools/validation';
+import type { SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
+import { FingerprintJsServerApiClientV4 } from '../validationTools/clientV4.ts';
+import { REGION_MAP } from '../validationTools/constants.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
+import { createValidatorV4 } from '../validationTools/validation.ts';
 
 /**
  * Validate Event schema
