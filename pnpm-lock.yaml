@@ -11,6 +11,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.6
         version: 2.29.6(@types/node@20.14.9)
+      '@fingerprint/node-sdk':
+        specifier: ^7.5.0
+        version: 7.5.0
       '@fingerprintjs/changesets-changelog-format':
         specifier: ^0.2.0
         version: 0.2.0
@@ -580,6 +583,10 @@ packages:
     resolution: {integrity: sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
+  '@fingerprint/node-sdk@7.5.0':
+    resolution: {integrity: sha512-Fhl3x16A0efcQmjgxdvYkep3wlD5gvbLf5le7kV7WvH6veKnqEbD4rrl6zl8aI25MXHNzhnjo1Pk6hN0QAfwGQ==}
+    engines: {node: '>=18.17.0'}
+
   '@fingerprintjs/changesets-changelog-format@0.2.0':
     resolution: {integrity: sha512-1jI+J1r8OKUtjlFfQW4bmQ8u4E1097zPaKw5fUCgAcahLPgwW4Ae+Keoc253CSyyaKgTu2v/wniUGchmPaXAsg==}
 
@@ -1128,6 +1135,7 @@ packages:
 
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
+    deprecated: Potential CWE-502 - Update to 1.3.1 or higher
 
   '@webassemblyjs/ast@1.14.1':
     resolution: {integrity: sha512-nuBEDgQfm1ccRp/8bCQrx1frohyufl4JlbMMZ4P1wpeOfDhF6FQkxZJ1b/e+PLwr6X1Nhw6OLme5usuBWYBvuQ==}
@@ -3988,6 +3996,7 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   v8-to-istanbul@9.3.0:
@@ -4675,6 +4684,8 @@ snapshots:
       - supports-color
 
   '@eslint/js@8.56.0': {}
+
+  '@fingerprint/node-sdk@7.5.0': {}
 
   '@fingerprintjs/changesets-changelog-format@0.2.0':
     dependencies:
