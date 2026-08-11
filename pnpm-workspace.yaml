@@ -6,3 +6,6 @@ allowBuilds:
   tree-sitter: false
   tree-sitter-json: false
   '@tree-sitter-grammars/tree-sitter-yaml': false
+  unrs-resolver: true
+overrides:
+  js-yaml@4: ^4.3.1
