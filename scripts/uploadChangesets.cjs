@@ -1,13 +1,13 @@
 const fs = require('fs').promises;
 const path = require('node:path');
 const os = require('os');
-const glob = require('glob');
+const { globSync } = require('node:fs');
 const zipLib = require('zip-lib');
 const humanId = require('human-id').humanId;
 
 module.exports = async ({ github, context }) => {
   // Read all zipped changesets
-  const zips = glob.sync('.changeset/changesets-*.zip');
+  const zips = globSync('.changeset/changesets-*.zip');
 
   // Root archive that will contain all zips contents
   const rootArchive = new zipLib.Zip();

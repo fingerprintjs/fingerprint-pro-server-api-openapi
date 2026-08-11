@@ -1,8 +1,8 @@
-import * as glob from 'glob';
+import { globSync } from 'node:fs';
 import { humanId } from 'human-id';
 import zip from 'zip-lib';
 
-const changesets = glob.sync('.changeset/*.md');
+const changesets = globSync('.changeset/*.md');
 
 if (changesets.length) {
   const archive = new zip.Zip();
