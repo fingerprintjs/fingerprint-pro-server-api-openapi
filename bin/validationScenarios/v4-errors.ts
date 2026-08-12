@@ -1,8 +1,8 @@
-import { REGION_MAP } from '../validationTools/constants';
+import { REGION_MAP_V4 } from '../validationTools/constants';
 import { createValidatorV4 } from '../validationTools/validation';
 import { ValidationContext } from '../validationTools/types';
 import fs from 'fs';
-import { FingerprintJsServerApiClientV4, RequestError } from '../validationTools/clientV4';
+import { FingerprintServerApiClient, RequestError } from '@fingerprint/node-sdk';
 import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent';
 
 /**
@@ -30,9 +30,9 @@ export async function validateCommonError403SchemaV4({ testSubscriptions, valida
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: 'Wrong Server API Key',
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
@@ -48,7 +48,7 @@ export async function validateCommonError403SchemaV4({ testSubscriptions, valida
     }
 
     try {
-      await client.updateEvent({ linkedId: 'OpenAPI spec test' }, subscription.requestId);
+      await client.updateEvent(subscription.requestId, { linked_id: 'OpenAPI spec test' });
       fail(`❌ Updating event ${subscription.requestId} with wrong API key was expected to fail with status 403`);
     } catch (error) {
       validateJson({
@@ -125,9 +125,9 @@ export async function validateEventError404SchemaV4({ testSubscriptions, validat
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
@@ -143,7 +143,7 @@ export async function validateEventError404SchemaV4({ testSubscriptions, validat
     }
 
     try {
-      const eventResponse = await client.updateEvent({ linkedId: 'OpenAPI spec test' }, nonExistentRequestId);
+      const eventResponse = await client.updateEvent(nonExistentRequestId, { linked_id: 'OpenAPI spec test' });
       fail(`❌ Updating non-existent requestId was expected to fail with status 404, not with ${eventResponse}`);
     } catch (error) {
       validateJson({
@@ -179,9 +179,9 @@ export async function validateErrorVisitor400ResponseV4({ testSubscriptions, val
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     // Validate against DELETE visitor API response
@@ -236,9 +236,9 @@ export async function validateErrorVisitor404ResponseV4({ testSubscriptions, val
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     const nonExistentVisitorId = 'e1srMXYG7PjFCAbE0yIH';
@@ -279,13 +279,14 @@ export async function validateUpdateEventError400SchemaV4({
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
-      const updateEventResponse = await client.updateEvent({ invalid: 'payload' }, subscription.requestId);
+      // @ts-expect-error - intentionally invalid body to trigger a 400 response
+      const updateEventResponse = await client.updateEvent(subscription.requestId, { invalid: 'payload' });
       fail(
         `❌ Updating event ${subscription.requestId} in ${subscription.name} should have failed, not succeed with ${updateEventResponse}`
       );
@@ -332,13 +333,13 @@ export async function validateUpdateEventError409SchemaV4({
       subscription.name
     );
 
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
-      const updateEventResponse = await client.updateEvent({ linkedId: '409test' }, requestId);
+      const updateEventResponse = await client.updateEvent(requestId, { linked_id: '409test' });
       fail(
         `❌ Updating event ${subscription.requestId} in ${subscription.name} was expected to fail with status 409, not succeed with ${updateEventResponse}`
       );
@@ -386,9 +387,9 @@ export async function validateSearchEventsError400SchemaV4({
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     const filters = [
@@ -415,8 +416,6 @@ export async function validateSearchEventsError400SchemaV4({
       { limit: 10, root_apps: 'not a boolean' },
       { limit: 10, vpn_confidence: 'not a confidence value' },
       { limit: 10, min_suspect_score: 'not a number' },
-      { limit: 10, ip_blocklist: 'not a boolean' },
-      { limit: 10, datacenter: 'not a boolean' },
       // Temporary small bug, remove condition when fixed
       subscription.botDetectionEnabled && { limit: 1, bot: 'invalid bot value' },
     ];

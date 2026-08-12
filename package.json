@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
+    "@fingerprint/node-sdk": "^7.5.0",
     "@fingerprintjs/changesets-changelog-format": "^0.2.0",
     "@fingerprintjs/conventional-changelog-dx-team": "^0.1.0",
     "@fingerprintjs/eslint-config-dx-team": "^0.1.0",

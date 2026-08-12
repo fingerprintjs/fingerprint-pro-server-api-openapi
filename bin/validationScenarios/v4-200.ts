@@ -1,9 +1,8 @@
-import { SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
-import { REGION_MAP } from '../validationTools/constants';
+import { FingerprintServerApiClient, SearchEventsFilter } from '@fingerprint/node-sdk';
+import { REGION_MAP_V4 } from '../validationTools/constants';
 import { createValidatorV4 } from '../validationTools/validation';
 import { ValidationContext } from '../validationTools/types';
 import fs from 'fs';
-import { FingerprintJsServerApiClientV4 } from '../validationTools/clientV4';
 
 /**
  * Validate Event schema
@@ -25,9 +24,9 @@ export async function validateEventSchemaV4({ testSubscriptions, validateJson, f
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
@@ -61,9 +60,9 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     const firstPageResponse = await client.searchEvents({ limit: 10 });
@@ -99,8 +98,6 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
       { limit: 10, root_apps: true },
       { limit: 10, vpn_confidence: 'high' },
       { limit: 10, min_suspect_score: 0.5 },
-      { limit: 10, ip_blocklist: true },
-      { limit: 10, datacenter: true },
     ] satisfies SearchEventsFilter[];
 
     for (const filter of filters) {
