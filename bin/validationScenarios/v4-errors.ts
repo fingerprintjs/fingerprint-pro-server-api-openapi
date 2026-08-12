@@ -1,9 +1,9 @@
-import fs from 'fs';
-import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent.ts';
-import { FingerprintJsServerApiClientV4, RequestError } from '../validationTools/clientV4.ts';
-import { REGION_MAP } from '../validationTools/constants.ts';
-import type { ValidationContext } from '../validationTools/types.ts';
+import { REGION_MAP_V4 } from '../validationTools/constants.ts';
 import { createValidatorV4 } from '../validationTools/validation.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
+import fs from 'fs';
+import { FingerprintServerApiClient, RequestError } from '@fingerprint/node-sdk';
+import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent.ts';
 
 /**
  * Validates ErrorCommon403Response schema
@@ -19,20 +19,20 @@ export async function validateCommonError403SchemaV4({ testSubscriptions, valida
     './schemas/paths/examples/errors/403_secret_api_key_required.json',
     './schemas/paths/examples/errors/403_subscription_not_active.json',
     './schemas/paths/examples/errors/403_wrong_region.json',
-  ].forEach((examplePath) => {
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: commonError403Validator,
       schemaName,
-    });
-  });
+    })
+  );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: 'Wrong Server API Key',
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
@@ -48,7 +48,7 @@ export async function validateCommonError403SchemaV4({ testSubscriptions, valida
     }
 
     try {
-      await client.updateEvent({ linkedId: 'OpenAPI spec test' }, subscription.requestId);
+      await client.updateEvent(subscription.requestId, { linked_id: 'OpenAPI spec test' });
       fail(`❌ Updating event ${subscription.requestId} with wrong API key was expected to fail with status 403`);
     } catch (error) {
       validateJson({
@@ -94,14 +94,14 @@ export async function validateCommonError500SchemaV4({ validateJson }: Validatio
   const commonError403Validator = createValidatorV4(schemaName, 'validateCommonError500SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/500_internal_server_error.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/errors/500_internal_server_error.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: commonError403Validator,
       schemaName,
-    });
-  });
+    })
+  );
 }
 
 /**
@@ -112,22 +112,22 @@ export async function validateEventError404SchemaV4({ testSubscriptions, validat
   const eventError404Validator = createValidatorV4(schemaName, 'validateEventError404SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/404_event_not_found.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/errors/404_event_not_found.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: eventError404Validator,
       schemaName,
-    });
-  });
+    })
+  );
 
   const nonExistentRequestId = 'non-existent-request-id';
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
@@ -143,7 +143,7 @@ export async function validateEventError404SchemaV4({ testSubscriptions, validat
     }
 
     try {
-      const eventResponse = await client.updateEvent({ linkedId: 'OpenAPI spec test' }, nonExistentRequestId);
+      const eventResponse = await client.updateEvent(nonExistentRequestId, { linked_id: 'OpenAPI spec test' });
       fail(`❌ Updating non-existent requestId was expected to fail with status 404, not with ${eventResponse}`);
     } catch (error) {
       validateJson({
@@ -168,20 +168,20 @@ export async function validateErrorVisitor400ResponseV4({ testSubscriptions, val
     './schemas/paths/examples/errors/400_request_body_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_required.json',
-  ].forEach((examplePath) => {
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitorError400Validator,
       schemaName,
-    });
-  });
+    })
+  );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     // Validate against DELETE visitor API response
@@ -207,14 +207,14 @@ export async function validateErrorCommon429ResponseV4({ validateJson }: Validat
   const errorCommon429ResponseValidator = createValidatorV4(schemaName, 'validateErrorCommon429ResponseV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/429_too_many_requests.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/errors/429_too_many_requests.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: errorCommon429ResponseValidator,
       schemaName,
-    });
-  });
+    })
+  );
 }
 
 /**
@@ -225,20 +225,20 @@ export async function validateErrorVisitor404ResponseV4({ testSubscriptions, val
   const visitorError404Validator = createValidatorV4(schemaName, 'validateErrorVisitor404ResponseV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/404_visitor_not_found.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/errors/404_visitor_not_found.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: visitorError404Validator,
       schemaName: 'DeleteVisitsError404',
-    });
-  });
+    })
+  );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     const nonExistentVisitorId = 'e1srMXYG7PjFCAbE0yIH';
@@ -268,24 +268,25 @@ export async function validateUpdateEventError400SchemaV4({
   const updateEvent400ErrorValidator = createValidatorV4(schemaName, 'validateUpdateEventError400SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/400_request_body_invalid.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/errors/400_request_body_invalid.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: updateEvent400ErrorValidator,
       schemaName,
-    });
-  });
+    })
+  );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
-      const updateEventResponse = await client.updateEvent({ invalid: 'payload' }, subscription.requestId);
+      // @ts-expect-error - intentionally invalid body to trigger a 400 response
+      const updateEventResponse = await client.updateEvent(subscription.requestId, { invalid: 'payload' });
       fail(
         `❌ Updating event ${subscription.requestId} in ${subscription.name} should have failed, not succeed with ${updateEventResponse}`
       );
@@ -312,14 +313,14 @@ export async function validateUpdateEventError409SchemaV4({
   const updateEvent409ErrorValidator = createValidatorV4(schemaName, 'validateUpdateEventError409SchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/errors/409_state_not_ready.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/errors/409_state_not_ready.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: updateEvent409ErrorValidator,
       schemaName,
-    });
-  });
+    })
+  );
 
   /**
    * Validate against live Server API responses
@@ -332,13 +333,13 @@ export async function validateUpdateEventError409SchemaV4({
       subscription.name
     );
 
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
-      const updateEventResponse = await client.updateEvent({ linkedId: '409test' }, requestId);
+      const updateEventResponse = await client.updateEvent(requestId, { linked_id: '409test' });
       fail(
         `❌ Updating event ${subscription.requestId} in ${subscription.name} was expected to fail with status 409, not succeed with ${updateEventResponse}`
       );
@@ -375,20 +376,20 @@ export async function validateSearchEventsError400SchemaV4({
     './schemas/paths/examples/errors/400_start_time_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_invalid.json',
     './schemas/paths/examples/errors/400_visitor_id_required.json',
-  ].forEach((examplePath) => {
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: searchEventsError400Validator,
       schemaName,
-    });
-  });
+    })
+  );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     const filters = [
@@ -415,8 +416,6 @@ export async function validateSearchEventsError400SchemaV4({
       { limit: 10, root_apps: 'not a boolean' },
       { limit: 10, vpn_confidence: 'not a confidence value' },
       { limit: 10, min_suspect_score: 'not a number' },
-      { limit: 10, ip_blocklist: 'not a boolean' },
-      { limit: 10, datacenter: 'not a boolean' },
       // Temporary small bug, remove condition when fixed
       subscription.botDetectionEnabled && { limit: 1, bot: 'invalid bot value' },
     ];

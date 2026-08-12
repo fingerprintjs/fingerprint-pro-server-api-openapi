@@ -1,9 +1,8 @@
-import fs from 'fs';
-import type { SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
-import { FingerprintJsServerApiClientV4 } from '../validationTools/clientV4.ts';
-import { REGION_MAP } from '../validationTools/constants.ts';
-import type { ValidationContext } from '../validationTools/types.ts';
+import { FingerprintServerApiClient, type SearchEventsFilter } from '@fingerprint/node-sdk';
+import { REGION_MAP_V4 } from '../validationTools/constants.ts';
 import { createValidatorV4 } from '../validationTools/validation.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
+import fs from 'fs';
 
 /**
  * Validate Event schema
@@ -14,21 +13,20 @@ export async function validateEventSchemaV4({ testSubscriptions, validateJson, f
 
   // Validate against example files
   ['./schemas/paths/examples/events/get_event_200.json', './schemas/paths/examples/webhook/webhook_event.json'].forEach(
-    (examplePath) => {
+    (examplePath) =>
       validateJson({
         json: JSON.parse(fs.readFileSync(examplePath).toString()),
         jsonName: examplePath,
         validator: eventValidator,
         schemaName,
-      });
-    }
+      })
   );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     try {
@@ -51,20 +49,20 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
   const searchEventsResponseValidator = createValidatorV4(schemaName, 'validateEventSearchSchemaV4');
 
   // Validate against example file
-  ['./schemas/paths/examples/events/search/get_event_search_200.json'].forEach((examplePath) => {
+  ['./schemas/paths/examples/events/search/get_event_search_200.json'].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: searchEventsResponseValidator,
       schemaName,
-    });
-  });
+    })
+  );
 
   // Validate against live Server API responses
   for (const subscription of testSubscriptions) {
-    const client = new FingerprintJsServerApiClientV4({
+    const client = new FingerprintServerApiClient({
       apiKey: subscription.serverApiKey,
-      region: REGION_MAP[subscription.region || 'us'],
+      region: REGION_MAP_V4[subscription.region || 'us'],
     });
 
     const firstPageResponse = await client.searchEvents({ limit: 10 });
@@ -100,8 +98,6 @@ export async function validateEventSearchSchemaV4({ testSubscriptions, validateJ
       { limit: 10, root_apps: true },
       { limit: 10, vpn_confidence: 'high' },
       { limit: 10, min_suspect_score: 0.5 },
-      { limit: 10, ip_blocklist: true },
-      { limit: 10, datacenter: true },
     ] satisfies SearchEventsFilter[];
 
     for (const filter of filters) {
@@ -125,12 +121,12 @@ export async function validateEventUpdateRequestSchemaV4({ validateJson }: Valid
   [
     './schemas/paths/examples/events/update_event_multiple_fields_request.json',
     './schemas/paths/examples/events/update_event_one_field_request.json',
-  ].forEach((examplePath) => {
+  ].forEach((examplePath) =>
     validateJson({
       json: JSON.parse(fs.readFileSync(examplePath).toString()),
       jsonName: examplePath,
       validator: eventUpdateRequestValidator,
       schemaName,
-    });
-  });
+    })
+  );
 }

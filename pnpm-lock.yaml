@@ -14,6 +14,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.31.1
         version: 2.31.1(@types/node@22.20.1)
+      '@fingerprint/node-sdk':
+        specifier: ^7.5.0
+        version: 7.5.0
       '@fingerprintjs/changesets-changelog-format':
         specifier: ^0.2.0
         version: 0.2.0
@@ -401,6 +404,10 @@ packages:
   '@eslint/plugin-kit@0.7.2':
     resolution: {integrity: sha512-+CNAzxglkrpNf/kKywqQfk74QjtceuOE7Qm+AF8miRvPF/wmmK5+OJOgVh3AVTT3RP2mH3+FOaxlE5v72owk0A==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
+  '@fingerprint/node-sdk@7.5.0':
+    resolution: {integrity: sha512-Fhl3x16A0efcQmjgxdvYkep3wlD5gvbLf5le7kV7WvH6veKnqEbD4rrl6zl8aI25MXHNzhnjo1Pk6hN0QAfwGQ==}
+    engines: {node: '>=18.17.0'}
 
   '@fingerprintjs/changesets-changelog-format@0.2.0':
     resolution: {integrity: sha512-1jI+J1r8OKUtjlFfQW4bmQ8u4E1097zPaKw5fUCgAcahLPgwW4Ae+Keoc253CSyyaKgTu2v/wniUGchmPaXAsg==}
@@ -4058,6 +4065,8 @@ snapshots:
     dependencies:
       '@eslint/core': 1.2.1
       levn: 0.4.1
+
+  '@fingerprint/node-sdk@7.5.0': {}
 
   '@fingerprintjs/changesets-changelog-format@0.2.0':
     dependencies:
