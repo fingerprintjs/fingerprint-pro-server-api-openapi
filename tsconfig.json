@@ -1,11 +1,11 @@
 {
   "extends": "@fingerprintjs/tsconfig-dx-team/tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "es6",
-    "moduleResolution": "node",
-    "target": "es2020"
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2020",
+    "noEmit": true
   },
-  "files": ["src/index.ts"],
+  "include": ["src/**/*.ts", "vite.config.ts"],
   "exclude": ["dist", "node_modules", "**/*.test.ts"]
 }
