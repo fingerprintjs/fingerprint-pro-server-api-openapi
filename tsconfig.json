@@ -3,9 +3,18 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
-    "target": "es2020",
+    "target": "es2022",
+    "allowImportingTsExtensions": true,
+    "types": ["node", "vitest/globals"],
     "noEmit": true
   },
-  "include": ["src/**/*.ts", "vite.config.ts"],
-  "exclude": ["dist", "node_modules", "**/*.test.ts"]
+  "include": [
+    "src/**/*.ts",
+    "utils/**/*.ts",
+    "scripts/**/*.ts",
+    "bin/**/*.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": ["dist", "node_modules"]
 }

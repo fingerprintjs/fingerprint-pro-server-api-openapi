@@ -10,17 +10,18 @@
     "build": "vite build",
     "lintSchema": "vacuum lint ./schemas/*.yaml -d --errors --base schemas --ignore-file vacuum-ignore.yaml",
     "lintSchemaDist": "vacuum lint ./dist/schemas/*.yaml -d --errors --base dist/schemas --ignore-file vacuum-ignore.yaml",
-    "schema:diff:published": "node ./scripts/schemaDiffPublished.js",
+    "schema:diff:published": "node --experimental-strip-types ./scripts/schemaDiffPublished.ts",
     "validateSchema": "node --experimental-strip-types ./bin/validateSchema.ts",
     "test": "vitest run",
     "test:dts": "echo 'No typescript tests' && exit 0",
+    "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint --max-warnings 0",
     "lint:fix": "pnpm lint --fix",
-    "lint:changesets": "node scripts/lintChangesets.js",
+    "lint:changesets": "node --experimental-strip-types scripts/lintChangesets.ts",
     "prettier": "prettier . --check",
     "prettier:fix": "pnpm prettier . --write",
-    "changeset": "node scripts/changeset.js",
-    "changeset-version": "node scripts/zipChangesets.js && pnpm exec changeset version"
+    "changeset": "node --experimental-strip-types scripts/changeset.ts",
+    "changeset-version": "node --experimental-strip-types scripts/zipChangesets.ts && pnpm exec changeset version"
   },
   "engines": {
     "node": ">=22.0.0"
