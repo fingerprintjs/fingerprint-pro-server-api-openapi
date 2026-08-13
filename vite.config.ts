@@ -10,7 +10,7 @@ import {
   v4SchemaForSdksNormalizedTransformers,
   v4SchemaForSdksTransformers,
   v4Transformers,
-} from './utils/transformers/transformSchema.js';
+} from './utils/transformers/transformSchema.ts';
 
 const outDir = 'dist';
 
