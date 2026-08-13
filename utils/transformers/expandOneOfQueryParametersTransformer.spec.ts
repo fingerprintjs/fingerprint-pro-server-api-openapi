@@ -1,0 +1,35 @@
+import fs from 'fs';
+import { expandOneOfQueryParametersTransformer } from './expandOneOfQueryParametersTransformer.ts';
+import { transformSchema } from './transformSchema.ts';
+
+const simpleYaml = fs.readFileSync('./utils/mocks/simple.yaml');
+const schemaWithOneOfQueryParameter = fs.readFileSync('./utils/mocks/schemaWithOneOfQueryParameter.yaml');
+const schemaWithOneOfQueryParameterTransformed = fs.readFileSync(
+  './utils/mocks/schemaWithOneOfQueryParameterTransformed.yaml'
+);
+
+const replacementParametersMap = {
+  timestamp: {
+    primaryType: 'integer',
+    overrideDescription: 'The updated description',
+    alias: {
+      name: 'timestamp_alias',
+      description: 'The description for the alias',
+    },
+  },
+};
+
+const applyTransformer = (yaml: string | Buffer) =>
+  transformSchema(yaml, [expandOneOfQueryParametersTransformer(replacementParametersMap)]);
+
+describe('Test expandOneOfQueryParametersTransformer', () => {
+  it('does not modify schema without oneOf query parameters', () => {
+    const result = applyTransformer(simpleYaml);
+    expect(result.toString()).toEqual(simpleYaml.toString());
+  });
+
+  it('expands oneOf query parameters into separate parameters', () => {
+    const result = applyTransformer(schemaWithOneOfQueryParameter);
+    expect(result.toString()).toEqual(schemaWithOneOfQueryParameterTransformed.toString());
+  });
+});
