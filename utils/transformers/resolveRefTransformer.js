@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
-import yaml from 'js-yaml';
-import { walkJson } from '../walkJson.js';
 import path from 'path';
+import * as yaml from 'js-yaml';
+import { walkJson } from '../walkJson.js';
 
 /**
  * Load and parse yaml file

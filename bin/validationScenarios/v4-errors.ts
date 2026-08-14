@@ -1,9 +1,9 @@
-import { REGION_MAP_V4 } from '../validationTools/constants';
-import { createValidatorV4 } from '../validationTools/validation';
-import { ValidationContext } from '../validationTools/types';
+import { REGION_MAP_V4 } from '../validationTools/constants.ts';
+import { createValidatorV4 } from '../validationTools/validation.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
 import fs from 'fs';
 import { FingerprintServerApiClient, RequestError } from '@fingerprint/node-sdk';
-import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent';
+import { generateIdentificationEvent } from '../../utils/validateSchema/generateIdentificationEvent.ts';
 
 /**
  * Validates ErrorCommon403Response schema

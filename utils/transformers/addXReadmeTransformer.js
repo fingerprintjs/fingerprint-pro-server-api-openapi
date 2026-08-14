@@ -1,5 +1,5 @@
-import yaml from 'js-yaml';
 import { readFileSync } from 'fs';
+import * as yaml from 'js-yaml';
 
 function loadYaml(path) {
   return yaml.load(readFileSync(path, 'utf8'));

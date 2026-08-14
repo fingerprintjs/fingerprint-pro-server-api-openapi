@@ -1,7 +1,7 @@
-import { FingerprintJsServerApiClient, SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
-import { REGION_MAP } from '../validationTools/constants';
-import { ValidationContext } from '../validationTools/types';
-import { createValidatorV3 } from '../validationTools/validation';
+import { FingerprintJsServerApiClient, type SearchEventsFilter } from '@fingerprintjs/fingerprintjs-pro-server-api';
+import { REGION_MAP } from '../validationTools/constants.ts';
+import type { ValidationContext } from '../validationTools/types.ts';
+import { createValidatorV3 } from '../validationTools/validation.ts';
 
 /**
  * Validate EventGetResponse schema

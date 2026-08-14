@@ -1,9 +1,9 @@
 import fs from 'fs';
 import Ajv from 'ajv-draft-04';
 import addFormats from 'ajv-formats';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 // @ts-ignore
-import { convertOpenApiToJsonSchema } from '../../utils/convertOpenApiToJsonSchema';
+import { convertOpenApiToJsonSchema } from '../../utils/convertOpenApiToJsonSchema.js';
 
 let ajv: Ajv;
 export function initAjv() {

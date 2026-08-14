@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { transformSchema } from './transformSchema.js';
 import { removeFieldByPathTransformer } from './removeFieldByPathTransformer.js';
+import { transformSchema } from './transformSchema.js';
 
 const simpleYaml = fs.readFileSync('./utils/mocks/simple.yaml');
 const schemaWithXReadme = fs.readFileSync('./utils/mocks/schemaWithXReadme.yaml');

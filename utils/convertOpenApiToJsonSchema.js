@@ -1,5 +1,5 @@
-import { walkJson } from './walkJson.js';
 import { replaceAllOf } from './replaceAllOf.js';
+import { walkJson } from './walkJson.js';
 
 /**
  *

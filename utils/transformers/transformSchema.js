@@ -1,24 +1,24 @@
-import yaml from 'js-yaml';
 import process from 'node:process';
-import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
-import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
-import { removeWebhookTransformer } from './removeWebhookTransformer.js';
-import { removeEdgeTransformer } from './removeEdgeTransformer.js';
-import { replaceTagsTransformer } from './replaceTagsTransformer.js';
-import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
-import { removeFieldTransformer } from './removeFieldTransformer.js';
-import { removeFieldsByPrefixTransformer } from './removeFieldsByPrefixTransformer.js';
-import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
-import { resolveRefTransformer } from './resolveRefTransformer.js';
+import * as yaml from 'js-yaml';
 import { addXReadmeTransformer } from './addXReadmeTransformer.js';
+import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
+import { extractFirstParameterExampleTransformer } from './extractFirstParameterExampleTransformer.js';
 import { extractPathOperationInlineEnumsTransformer } from './extractPathOperationInlineEnumsTransformer.js';
 import { parseYaml } from './parseYaml.js';
+import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.js';
+import { removeEdgeTransformer } from './removeEdgeTransformer.js';
+import { removeWebhookTransformer } from './removeWebhookTransformer.js';
+import { resolveAllOfTransformer } from './resolveAllOfTransformer.js';
+import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.js';
+import { replaceTagsTransformer } from './replaceTagsTransformer.js';
+import { removeFieldTransformer } from './removeFieldTransformer.js';
+import { removeFieldsByPrefixTransformer } from './removeFieldsByPrefixTransformer.js';
+import { resolveRefTransformer } from './resolveRefTransformer.js';
 import { removeUnusedSchemasTransformer } from './removeUnusedSchemasTransformer.js';
 import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertiesTransformer.js';
 import { removeFieldByPathTransformer } from './removeFieldByPathTransformer.js';
 import { inlineReferencedPropertiesTransformer } from './inlineReferencedPropertiesTransformer.js';
 import { replaceStartEndQueryParameters } from './replaceStartEndQueryParameters.js';
-import { extractFirstParameterExampleTransformer } from './extractFirstParameterExampleTransformer.js';
 
 export const commonTransformers = [
   resolveRefTransformer({ schemaPath: './schemas' }),

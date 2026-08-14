@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 
 const DIR = process.argv[2] ?? '.changeset';
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));

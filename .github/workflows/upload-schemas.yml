@@ -9,12 +9,12 @@ jobs:
     name: Upload schemas
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.release.tag_name }}
 
       - name: Install PNPM
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
         with:
           run_install: true
 
@@ -26,7 +26,7 @@ jobs:
         working-directory: dist
 
       - name: Upload schemas to a GitHub release
-        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
+        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # v2.11.5
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: 'dist/schemas/*.yaml'
@@ -34,14 +34,14 @@ jobs:
           tag: ${{ github.event.release.tag_name }}
 
       - name: Upload examples to a GitHub release
-        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
+        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # v2.11.5
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/examples.zip
           tag: ${{ github.event.release.tag_name }}
 
       - name: Upload scopes to a GitHub release
-        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd
+        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # v2.11.5
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: 'config/scopes.yaml'

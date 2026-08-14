@@ -1,12 +1,12 @@
 // @ts-check
 import fs from 'fs';
+import { parseYaml, toYaml } from './parseYaml.js';
 import {
   transformSchema,
   v4Transformers,
   v4SchemaForSdksTransformers,
   v4SchemaForSdksNormalizedTransformers,
 } from './transformSchema.js';
-import { parseYaml, toYaml } from './parseYaml.js';
 
 const v4Schema = fs.readFileSync('./schemas/fingerprint-server-api-v4.yaml');
 

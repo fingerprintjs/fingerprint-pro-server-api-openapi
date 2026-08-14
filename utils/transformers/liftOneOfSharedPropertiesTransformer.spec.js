@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { transformSchema } from './transformSchema.js';
 import { liftOneOfSharedPropertiesTransformer } from './liftOneOfSharedPropertiesTransformer.js';
+import { transformSchema } from './transformSchema.js';
 
 const schemaWithOneOfSiblingProperties = fs.readFileSync('./utils/mocks/schemaWithOneOfSiblingProperties.yaml');
 const schemaWithOneOfSiblingPropertiesLifted = fs.readFileSync(

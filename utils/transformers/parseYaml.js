@@ -1,4 +1,4 @@
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 
 /**
  * Parses YAML content into an object-like document.

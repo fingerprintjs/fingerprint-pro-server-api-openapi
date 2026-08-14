@@ -1,5 +1,5 @@
-import { transformSchema } from './transformSchema.js';
 import { removeFieldsByPrefixTransformer } from './removeFieldsByPrefixTransformer.js';
+import { transformSchema } from './transformSchema.js';
 
 const cleanSchema = (yaml) => transformSchema(yaml, [removeFieldsByPrefixTransformer('x-ruleset-')]);
 

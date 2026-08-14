@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { transformSchema } from './transformSchema.js';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.js';
+import { transformSchema } from './transformSchema.js';
 
 const simpleYaml = fs.readFileSync('./utils/mocks/simple.yaml');
 const simpleButExternalSchema = fs.readFileSync('./utils/mocks/simpleButExternalSchemaReference.yaml');
