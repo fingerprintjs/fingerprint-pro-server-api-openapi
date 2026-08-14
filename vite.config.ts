@@ -4,9 +4,7 @@ import { renderSchema, writeSchemas } from './scripts/build-schemas.js';
 
 const outDir = 'dist';
 
-// Generates the published schema files (replacing the old webpack CopyWebpackPlugin):
-// served from memory in dev so Swagger UI can fetch them, and written into the build
-// output on `vite build`.
+// Generates the published schema files
 function schemasPlugin(): Plugin {
   return {
     name: 'fingerprint-schemas',
@@ -28,17 +26,14 @@ function schemasPlugin(): Plugin {
   };
 }
 
-// The Swagger UI demo app, published to GitHub Pages.
+// The Swagger UI app
 export default defineConfig({
-  // Relative base so assets resolve under the GitHub Pages subpath.
   base: './',
   build: {
     outDir,
     emptyOutDir: true,
   },
   define: {
-    // Mirrors the previous webpack DefinePlugin; the demo preauthorizes Swagger UI
-    // with this key at build time.
     'process.env.PRIVATE_KEY': JSON.stringify(process.env.PRIVATE_KEY ?? ''),
   },
   plugins: [schemasPlugin()],
