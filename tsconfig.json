@@ -8,13 +8,6 @@
     "types": ["node", "vitest/globals"],
     "noEmit": true
   },
-  "include": [
-    "src/**/*.ts",
-    "utils/**/*.ts",
-    "scripts/**/*.ts",
-    "bin/**/*.ts",
-    "vite.config.ts",
-    "vitest.config.ts"
-  ],
+  "include": ["**/*.ts"],
   "exclude": ["dist", "node_modules"]
 }
