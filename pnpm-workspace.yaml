@@ -9,3 +9,7 @@ allowBuilds:
   unrs-resolver: true
 overrides:
   js-yaml@4: ^4.3.1
+  # `swagger-ui` allows react up to <20, but its bundles are built against react 18 and its render
+  # path reads `createRoot` off the `react-dom` root entry, which react 19 no longer exports
+  react: ^18.3.1
+  react-dom: ^18.3.1
