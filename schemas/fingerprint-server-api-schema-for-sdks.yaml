@@ -1838,7 +1838,7 @@ components:
         lastSeenAt:
           type: string
           format: date-time
-          x-ogen-time-format: 2006-01-02T15:00:00.000Z
+          x-ogen-time-format: '2006-01-02T15:00:00.000Z'
           description: |
             ISO 8601 formatted timestamp in UTC with hourly resolution
             of when this IP was last seen as a proxy when available.
