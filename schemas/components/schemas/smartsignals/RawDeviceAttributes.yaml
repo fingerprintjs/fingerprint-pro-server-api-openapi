@@ -70,3 +70,5 @@ properties:
     $ref: raw_device_attributes/BatteryLowPowerMode.yaml
   keyboard_layout_hash:
     $ref: raw_device_attributes/KeyboardLayoutHash.yaml
+  keyboard_layout_name:
+    $ref: raw_device_attributes/KeyboardLayoutName.yaml
