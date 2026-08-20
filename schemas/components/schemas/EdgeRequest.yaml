@@ -1,7 +1,7 @@
 type: object
 description: |-
   HTTP request metadata (including the HTTP method, headers and IP address) sent by you (your server) to the Fingerprint API for IP and bot analysis. To improve accuracy, retain as much of the original semantics of the HTTP request as possible. For example, preserve the order of the request headers and their capitalization.
-  At least one of `ipv4_address` or `ipv6_address` must be provided; a request with neither is rejected with a `400` error.
+  At least one of `ipv4_address` or `ipv6_address` must be provided; a request with neither is rejected with a `400` error. If both IPv4 and IPv6 are provided, IP intelligence will be provided for each address. If an IPv4-mapped IPv6 address is provided in the `ipv6_address` request property, the IP intelligence will be provided in the `ipv4_address` property of the response.
 additionalProperties: false
 required:
   - headers
@@ -13,7 +13,9 @@ properties:
     description: |
       Ordered header entries from the request made to your server. Each entry represents one header line. If one header name appears as multiple lines, send each as a separate item in the array.
 
-      Headers that contain authentication details like `Cookie` or `Authorization` should be included with their value set to an empty string.
+      Headers that contain authentication or session data must still be included, but with with their value set to an empty string. This includes headers like `Authorization` and `Cookie`, but may contain more depending on your specific project, for instance `Proxy-Authenticate` or `X-Api-Key`. Omitting the headers entirely changes the shape of the request and can affect detection. Never forward the real secret values.
+
+      Whenever possible, we recommend preserving header order and capitalization to provide the best accuracy, however it’s not a strict requirement if your runtime does not maintain http header order or canonicalizes header names.
     minItems: 1
     items:
       type: object
@@ -49,7 +51,7 @@ properties:
           value: deflate
   method:
     type: string
-    description: HTTP method of the request. Preserve the original HTTP method of the request, including casing.
+    description: The original HTTP method of the request. If supported in your runtime, preserve the original casing.
     examples:
       - GET
       - POST
@@ -79,6 +81,8 @@ properties:
       - 2001:4860:4801:10::1
       - 2600:1f42:abcd:5678:9876:fedc:1357:2468
       - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
+      - '::ffff:22a2:f447'
+      - '::ffff:34.162.244.71'
   linked_id:
     $ref: platform/LinkedId.yaml
   tags:

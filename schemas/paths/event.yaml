@@ -15,7 +15,7 @@ get:
         type: string
         examples:
           - 1708102555327.NLOjmg
-      description: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).
+      description: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).
     - name: ruleset_id
       in: query
       required: false
@@ -140,7 +140,7 @@ patch:
         type: string
         examples:
           - 1708102555327.NLOjmg
-      description: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).
+      description: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).
   requestBody:
     required: true
     content:
