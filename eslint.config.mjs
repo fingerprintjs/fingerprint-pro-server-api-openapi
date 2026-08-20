@@ -2,7 +2,16 @@ import dxTeamConfig from '@fingerprintjs/eslint-config-dx-team/type-checked';
 import importX from 'eslint-plugin-import-x';
 import tseslint from 'typescript-eslint';
 
-const relaxedFiles = ['bin/**', 'utils/**', 'scripts/**', '*.js', '*.cjs', '*.mjs', 'vite.config.ts'];
+const relaxedFiles = [
+  'bin/**',
+  'utils/**',
+  'scripts/**',
+  '*.js',
+  '*.cjs',
+  '*.mjs',
+  'vite.config.ts',
+  'vitest.config.ts',
+];
 
 export default [
   ...dxTeamConfig,

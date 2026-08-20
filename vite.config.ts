@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { defineConfig, type Plugin } from 'vite';
-import { renderSchema, writeSchemas } from './scripts/build-schemas.js';
+import { renderSchema, writeSchemas } from './scripts/build-schemas.ts';
 
 const outDir = 'dist';
 
