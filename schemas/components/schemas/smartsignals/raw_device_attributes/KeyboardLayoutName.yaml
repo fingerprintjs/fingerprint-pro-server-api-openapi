@@ -1,0 +1,6 @@
+type: string
+examples:
+  - en-US
+  - de-DE
+  - ja-JP
+description: Name of the user's configured keyboard layout as a BCP 47-style identifier. Only available in Chromium-based browsers, omitted otherwise.
