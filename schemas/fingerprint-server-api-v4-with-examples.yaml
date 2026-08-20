@@ -626,6 +626,7 @@ paths:
                       date_time_locale: en-US
                       audio: 124.04347745512496
                       keyboard_layout_hash: 691e3845c85c202a1514b6fd7ef17065
+                      keyboard_layout_name: en-US
                       battery_charging: true
                       battery_level: 80
                       battery_low_power_mode: true
@@ -891,6 +892,7 @@ paths:
                       date_time_locale: en-US
                       audio: 124.04347745512496
                       keyboard_layout_hash: 691e3845c85c202a1514b6fd7ef17065
+                      keyboard_layout_name: en-US
                       battery_charging: true
                       battery_level: 80
                       battery_low_power_mode: true
@@ -1169,6 +1171,7 @@ paths:
                       date_time_locale: en-US
                       audio: 124.04347745512496
                       keyboard_layout_hash: 691e3845c85c202a1514b6fd7ef17065
+                      keyboard_layout_name: en-US
                       battery_charging: true
                       battery_level: 80
                       battery_low_power_mode: true
@@ -2203,6 +2206,18 @@ paths:
             > Note: When using this parameter, only events with the `simulator`
             property set to `true` or `false` are returned. Events without a
             `simulator` Smart Signal result are left out of the response.
+        - name: active_call
+          in: query
+          schema:
+            type: boolean
+          description: >
+            Filter events by Active Call Detection result on mobile devices.
+
+
+            > Note: When using this parameter, only events with the
+            `active_call` property set to `true` or `false` are returned. Events
+            without an `active_call` Smart Signal result are left out of the
+            response.
         - name: source
           in: query
           required: false
@@ -2486,6 +2501,7 @@ paths:
                           date_time_locale: en-US
                           audio: 124.04347745512496
                           keyboard_layout_hash: 691e3845c85c202a1514b6fd7ef17065
+                          keyboard_layout_name: en-US
                           battery_charging: true
                           battery_level: 80
                           battery_low_power_mode: true
@@ -4866,6 +4882,16 @@ components:
       examples:
         - 3f33b68235d36b8821147349f1161379
       description: Unique identifier for the user's keyboard layout.
+    KeyboardLayoutName:
+      type: string
+      examples:
+        - en-US
+        - de-DE
+        - ja-JP
+      description: >-
+        Name of the user's configured keyboard layout as a BCP 47-style
+        identifier. Only available in Chromium-based browsers, omitted
+        otherwise.
     RawDeviceAttributes:
       type: object
       description: >
@@ -4941,6 +4967,8 @@ components:
           $ref: '#/components/schemas/BatteryLowPowerMode'
         keyboard_layout_hash:
           $ref: '#/components/schemas/KeyboardLayoutHash'
+        keyboard_layout_name:
+          $ref: '#/components/schemas/KeyboardLayoutName'
     Labels:
       type: array
       items:
