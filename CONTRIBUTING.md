@@ -61,13 +61,17 @@ To validate that schema matches the actual API implementation we use a [special 
 - If you are adding things to the schema, you can also try adding the appropriate validations for the changes to the `validateSchema.ts` script. If you run into problems, the repository maintainers will be happy to help or to add the validations themselves as part of the PR review.
 
 ### Describing changes
+
 [Releases](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/releases) from this repository are propagated to our server-side SDKs, that's why it's important to provide meaningful release notes if there are relevant changes.
 We use [changesets](https://github.com/changesets/changesets) for that. If you want to describe your changes, run:
+
 ```sh
 pnpm run changeset
-``` 
+```
+
 and follow steps in the CLI. It will create a new markdown file in `.changeset` folder, don't forget to commit it with your changes.
 Example changeset looks like this:
+
 ```markdown
 ---
 'fingerprint-pro-server-api-openapi': minor
@@ -77,6 +81,7 @@ Example changeset looks like this:
 ```
 
 #### Legend
+
 - `visitors` - scope of the changes. Scopes are defined in the [config/scopes.yaml](config/scopes.yaml) file. Certain scopes are ignored in certain SDKs if they are not supported, meaning that they will be ignored for them. You will be prompted to select scope in the CLI.
 - `Add the confidence field to the VPN Detection Smart Signal` - meaningful description of the change.
 - `fingerprint-pro-server-api-openapi` - name of the package
@@ -94,7 +99,8 @@ Don't create a changeset for documentation-only changes (descriptions, examples)
 
 ### Publishing changes
 
-On every push into `main` (merged PR):  
+On every push into `main` (merged PR):
+
 - The built schema is published to [API Reference](https://docs.fingerprint.com/reference/server-api-v4).
 - The built schema is published to [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
 - The built schema is published as a [raw yaml file](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
@@ -106,3 +112,26 @@ See the [publish.yml](.github/workflows/publish.yml) workflow for more details.
 GitHub releases are used to generate Server SDKs based on a specific version of the OpenAPI schema.
 
 After merging to `main`, if there are relevant changes, you can manually trigger the [Release](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/release.yml) workflow, which will consume created changeset files and create PR with bumped version and updated changelog.
+
+### Release note sync with SDKs
+
+There are server side SDKs (NodeJS, Go, etc) that consume the schema automatically.
+The file `.changeset/changesets.zip` is used during this process. It is **not** a build artifact, and it is not safe to delete by hand.
+
+`changeset version` deletes the markdown files once it has folded them into the changelog, but the
+SDK repositories still need the originals to generate their own changelogs when they sync to a new
+schema version. So `scripts/zipChangesets.js` archives them into `.changeset/changesets.zip` just
+before they are consumed, and that zip is committed as part of the release PR.
+
+Lifecycle:
+
+1. `pnpm changeset-version` (run by the changesets release action) zips the pending changesets, then
+   `changeset version` consumes the markdown files. The zip lands in the release PR.
+2. On release publish, `.github/workflows/upload-changesets.yml` runs
+   `scripts/uploadChangesets.cjs`, which uploads the zip as the `changesets.zip` release asset that
+   the SDK sync jobs download.
+3. The same workflow then opens a follow-up PR that removes the zip from `main`.
+
+Step 3 only runs once the upload in step 2 has succeeded, so a zip that is still on `main` holds
+changesets the SDKs never received. `zipChangesets.js` folds those into the next archive instead of
+overwriting them, so a failed release delays delivery rather than losing it.

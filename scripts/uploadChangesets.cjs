@@ -1,37 +1,26 @@
 const fs = require('fs').promises;
-const path = require('node:path');
-const os = require('os');
-const { globSync } = require('node:fs');
-const zipLib = require('zip-lib');
-const humanId = require('human-id').humanId;
+const { existsSync } = require('node:fs');
+
+// Keep in sync with ARCHIVE_PATH in scripts/zipChangesets.js.
+const ARCHIVE_PATH = '.changeset/changesets.zip';
+
+// The SDK sync looks the release asset up by this exact name, so it must not change.
+const ASSET_NAME = 'changesets.zip';
 
 module.exports = async ({ github, context }) => {
-  // Read all zipped changesets
-  const zips = globSync('.changeset/changesets-*.zip');
-
-  // Root archive that will contain all zips contents
-  const rootArchive = new zipLib.Zip();
-
-  const tmpDir = path.join(os.tmpdir(), humanId({ capitalize: false, separator: '-' }));
-  await fs.mkdir(tmpDir);
-
-  await Promise.all(
-    zips.map(async (zip) => {
-      const archive = new zipLib.Unzip();
-
-      await archive.extract(zip, tmpDir);
-    })
-  );
-
-  await rootArchive.addFolder(tmpDir);
-  await rootArchive.archive('changesets.zip');
+  if (!existsSync(ARCHIVE_PATH)) {
+    throw new Error(
+      `${ARCHIVE_PATH} is missing, so this release would ship without changesets and the SDK syncs would fail. ` +
+        'It should have been committed to the release PR by `pnpm changeset-version`.'
+    );
+  }
 
   await github.rest.repos.uploadReleaseAsset({
-    name: 'changesets.zip',
+    name: ASSET_NAME,
     owner: context.repo.owner,
     repo: context.repo.repo,
     release_id: context.payload.release.id,
-    data: await fs.readFile('changesets.zip'),
+    data: await fs.readFile(ARCHIVE_PATH),
     headers: {
       'content-type': 'application/zip',
     },
