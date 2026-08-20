@@ -1,5 +1,12 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.7.0
+
+### Minor Changes
+
+- **events-search**: Add `active_call` filter parameter ([ddf080a](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ddf080add923f46ae6e59042eeaaf0d89ac26fa1))
+- Add `keyboard_layout_name` to `RawDeviceAttributes` ([ddf080a](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ddf080add923f46ae6e59042eeaaf0d89ac26fa1))
+
 ## 3.6.0
 
 ### Minor Changes
