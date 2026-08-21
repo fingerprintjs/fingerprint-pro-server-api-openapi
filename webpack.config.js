@@ -11,7 +11,7 @@ import {
   relatedVisitorsApiTransformers,
   removeExtraDocumentationTransformers,
   schemaForSdksTransformers,
-  v4Transformers,
+  v4DocsTransformers,
   v4SchemaForSdksTransformers,
   transformSchema,
   v4SchemaForSdksNormalizedTransformers,
@@ -73,7 +73,7 @@ export default {
           // includes `oneOf` operators same as the source schema
           // includes additionalProperties: false same as the source schema
           to: 'schemas/fingerprint-server-api-v4-with-examples.yaml',
-          transform: (content) => transformSchema(content, v4Transformers),
+          transform: (content) => transformSchema(content, v4DocsTransformers),
         },
         {
           from: 'schemas/fingerprint-server-api-v4.yaml',
