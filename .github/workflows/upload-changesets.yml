@@ -43,8 +43,8 @@ jobs:
           ref: main
           token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
 
-      - name: Remove changesets zip files
-        run: rm .changeset/changesets-*.zip
+      - name: Remove changesets zip
+        run: rm .changeset/changesets.zip
 
       - name: Commit changes
         uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321 # v10.0.0
