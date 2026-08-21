@@ -115,7 +115,7 @@ After merging to `main`, if there are relevant changes, you can manually trigger
 
 ### Release note sync with SDKs
 
-There are server side SDKs (NodeJS, Go, etc) that consume the schema automatically.
+There are server-side SDKs (Node.js, Go, etc.) that consume the schema automatically.
 The file `.changeset/changesets.zip` is used during this process. It is **not** a build artifact, and it is not safe to delete by hand.
 
 `changeset version` deletes the markdown files once it has folded them into the changelog, but the
