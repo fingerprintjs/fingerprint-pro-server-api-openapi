@@ -80,12 +80,12 @@ paths:
 
 
         Events created by the Automation Intelligence API can be fetched via the
-        [`/v4/events/{event_id}`](https://docs.fingerprint.com/reference/server-api-v4-get-event)
+        [`/v4/events/{event_id}`](https://docs.fingerprint.com/reference/server-api-get-event)
         API using the `event_id` present in the API response.
 
 
         Fetch all Automation Intelligence API events via the
-        [`/v4/events?source=edge`](https://docs.fingerprint.com/reference/server-api-v4-search-events#parameter-source)
+        [`/v4/events?source=edge`](https://docs.fingerprint.com/reference/server-api-search-events#parameter-source)
         API.
       requestBody:
         required: true
@@ -353,7 +353,7 @@ paths:
               - 1708102555327.NLOjmg
           description: >-
             The unique
-            [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id)
+            [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id)
             of each identification request (`requestId` can be used in its
             place).
         - name: ruleset_id
@@ -1382,7 +1382,7 @@ paths:
               - 1708102555327.NLOjmg
           description: >-
             The unique event
-            [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).
+            [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).
       requestBody:
         required: true
         content:
@@ -1578,7 +1578,7 @@ paths:
               - Ibk1527CUFmcnjLwIs4A9
           description: >
             Unique [visitor
-            identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
+            identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id)
             issued by Fingerprint Identification and all active Smart Signals.
 
 
@@ -1755,7 +1755,7 @@ paths:
 
 
             You can use [linked
-            Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid)
+            Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid)
             to associate identification requests with your own identifier, for
             example, session Id, purchase Id, or transaction Id. You can then
             use this `linked_id` parameter to retrieve all events associated
@@ -2772,7 +2772,7 @@ paths:
               - Ibk1527CUFmcnjLwIs4A9
           description: >-
             The [visitor
-            ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
+            ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id)
             you want to delete.
       responses:
         '200':
@@ -2926,7 +2926,11 @@ components:
         request headers and their capitalization.
 
         At least one of `ipv4_address` or `ipv6_address` must be provided; a
-        request with neither is rejected with a `400` error.
+        request with neither is rejected with a `400` error. If both IPv4 and
+        IPv6 are provided, IP intelligence will be provided for each address. If
+        an IPv4-mapped IPv6 address is provided in the `ipv6_address` request
+        property, the IP intelligence will be provided in the `ipv4_address`
+        property of the response.
       additionalProperties: false
       required:
         - headers
@@ -2941,9 +2945,19 @@ components:
             multiple lines, send each as a separate item in the array.
 
 
-            Headers that contain authentication details like `Cookie` or
-            `Authorization` should be included with their value set to an empty
-            string.
+            Headers that contain authentication or session data must still be
+            included, but with with their value set to an empty string. This
+            includes headers like `Authorization` and `Cookie`, but may contain
+            more depending on your specific project, for instance
+            `Proxy-Authenticate` or `X-Api-Key`. Omitting the headers entirely
+            changes the shape of the request and can affect detection. Never
+            forward the real secret values.
+
+
+            Whenever possible, we recommend preserving header order and
+            capitalization to provide the best accuracy, however it’s not a
+            strict requirement if your runtime does not maintain http header
+            order or canonicalizes header names.
           minItems: 1
           items:
             type: object
@@ -2986,8 +3000,8 @@ components:
         method:
           type: string
           description: >-
-            HTTP method of the request. Preserve the original HTTP method of the
-            request, including casing.
+            The original HTTP method of the request. If supported in your
+            runtime, preserve the original casing.
           examples:
             - GET
             - POST
@@ -3019,6 +3033,8 @@ components:
             - 2001:4860:4801:10::1
             - 2600:1f42:abcd:5678:9876:fedc:1357:2468
             - 2001:4868:85f:1a2b:3c4d:5e6f:7890:abcd
+            - ::ffff:22a2:f447
+            - ::ffff:34.162.244.71
         linked_id:
           $ref: '#/components/schemas/LinkedId'
         tags:
@@ -3606,7 +3622,7 @@ components:
       description: >-
         Field is `true` if you have previously set the `suspect` flag for this
         event using the [Server API Update event
-        endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).
+        endpoint](https://docs.fingerprint.com/reference/server-api-update-event).
     Integration:
       type: object
       additionalProperties: false

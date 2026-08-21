@@ -61,7 +61,7 @@ paths:
             example: 1708102555327.NLOjmg
           description: >-
             The unique
-            [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id)
+            [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id)
             of each identification request (`requestId` can be used in its
             place).
         - name: ruleset_id
@@ -165,7 +165,7 @@ paths:
             example: 1708102555327.NLOjmg
           description: >-
             The unique event
-            [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).
+            [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).
       requestBody:
         required: true
         content:
@@ -317,7 +317,7 @@ paths:
             example: Ibk1527CUFmcnjLwIs4A9
           description: >
             Unique [visitor
-            identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
+            identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id)
             issued by Fingerprint Identification and all active Smart Signals.
 
 
@@ -492,7 +492,7 @@ paths:
 
 
             You can use [linked
-            Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid)
+            Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid)
             to associate identification requests with your own identifier, for
             example, session Id, purchase Id, or transaction Id. You can then
             use this `linked_id` parameter to retrieve all events associated
@@ -1110,7 +1110,7 @@ paths:
             example: Ibk1527CUFmcnjLwIs4A9
           description: >-
             The [visitor
-            ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
+            ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id)
             you want to delete.
       responses:
         '200':
@@ -1715,7 +1715,7 @@ components:
       description: >-
         Field is `true` if you have previously set the `suspect` flag for this
         event using the [Server API Update event
-        endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).
+        endpoint](https://docs.fingerprint.com/reference/server-api-update-event).
     Integration:
       type: object
       required: []
