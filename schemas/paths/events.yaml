@@ -64,7 +64,7 @@ get:
         examples:
           - Ibk1527CUFmcnjLwIs4A9
       description: |
-        Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.
+        Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.
 
         Filter events by matching Visitor ID (`identification.visitor_id` property).
     - name: high_recall_id
@@ -190,7 +190,7 @@ get:
       description: |
         Filter events by your custom identifier.
 
-        You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
     - name: url
       in: query
       schema:
