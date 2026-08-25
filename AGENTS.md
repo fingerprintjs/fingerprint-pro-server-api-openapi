@@ -13,7 +13,7 @@ Two Server API versions ship from this repo:
 
 ## Build outputs
 
-- `dist/` is webpack output — edit source under `schemas/components/` and `schemas/paths/`, then rebuild. Never hand-edit files in `dist/`.
+- `dist/` is Vite output — edit source under `schemas/components/` and `schemas/paths/`, then rebuild. Never hand-edit files in `dist/`.
 - `schemas/paths/examples/*.json` are downloaded by downstream SDK repos for validation. Don't delete files that look unused locally.
 - `x-readme/` holds ReadMe.io documentation extensions merged into the schema at build time — not standard OpenAPI.
 - `vacuum-ignore.yaml` lists intentional lint exceptions. Don't "fix" them.
