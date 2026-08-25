@@ -30,11 +30,27 @@ export const commonTransformers = [
 
 const defaultTransformers = [...commonTransformers];
 
-export const v4CommonTransformers = [...commonTransformers, removeFieldsByPrefixTransformer('x-ruleset-')];
+export const v4CommonTransformers = [
+  resolveRefTransformer({ schemaPath: './schemas' }),
+  resolveExternalValueTransformer({ examplesPath: './schemas/paths/' }),
+  removeFieldTransformer('triggered_by'),
+  liftOneOfSharedPropertiesTransformer,
+  resolveAllOfTransformer,
+  removeFieldsByPrefixTransformer('x-ruleset-'),
+];
 
 export const v4Transformers = [
   ...v4CommonTransformers,
   // This transformer should run last to ensure all unused schemas are found
+  removeUnusedSchemasTransformer,
+];
+
+// Docs-only variant: same as v4Transformers but stamps `x-gh-source` on every
+// inlined schema. Used for the with-examples docs build; SDK builds must NOT
+// inherit `addGhSource`, so it lives here rather than in `v4CommonTransformers`.
+export const v4DocsTransformers = [
+  resolveRefTransformer({ schemaPath: './schemas', addGhSource: true }),
+  ...v4CommonTransformers.slice(1),
   removeUnusedSchemasTransformer,
 ];
 
