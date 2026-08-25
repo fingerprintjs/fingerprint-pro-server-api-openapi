@@ -1,7 +1,5 @@
-// Generates the published schema files (and copies example fixtures) using the
-// same transformer pipeline the old webpack CopyWebpackPlugin used. Consumed by
-// the Vite plugin in vite.config.ts: served from memory in dev, written to the
-// build output on `vite build`.
+// Generates the published schema files (and copies example fixtures) using a transformer pipeline.
+// Consumed by the Vite plugin in vite.config.ts
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,7 +17,7 @@ import {
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // Source schema -> output path (+ transformer set). `transformers: undefined`
-// uses the default set. Mirrors the previous webpack CopyWebpackPlugin patterns.
+// uses the default set.
 export const schemaOutputs = [
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
@@ -76,7 +74,7 @@ export const schemaOutputs = [
 ];
 
 // Renders one output schema (by its `to` path) from source. Returns null if the
-// path is not a known output. Used by the dev server to serve schemas on demand.
+// path is not a known output.
 export function renderSchema(to) {
   const entry = schemaOutputs.find((output) => output.to === to);
   if (!entry) {
@@ -87,7 +85,7 @@ export function renderSchema(to) {
 }
 
 // Writes all generated schemas and copies example fixtures (excluding `edge/`)
-// into `outDir` (relative to the repo root). Used by the build.
+// into `outDir` (relative to the repo root).
 export function writeSchemas(outDir) {
   const base = join(root, outDir);
   for (const { to } of schemaOutputs) {
