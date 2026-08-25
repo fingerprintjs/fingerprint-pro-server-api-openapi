@@ -23,16 +23,28 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const schemaOutputs = [
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
+    // full schema used by docs.fingerprint.com, and other cases where examples are useful
+    // includes examples same as the source schema
+    // includes `oneOf` operators same as the source schema
+    // includes additionalProperties: false same as the source schema
     to: 'schemas/fingerprint-server-api-v4-with-examples.yaml',
     transformers: v4Transformers,
   },
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
+    // just schema used by most SDKs
+    // examples are removed
+    // includes `oneOf` operators same as the source schema
+    // additionalProperties: false are removed for backward compatibility
     to: 'schemas/fingerprint-server-api-v4.yaml',
     transformers: v4SchemaForSdksTransformers,
   },
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
+    // normalized schema used by SDKs in weakly typed languages
+    // examples are removed
+    // `oneOf` query parameters are split into two or more parameters
+    // additionalProperties: false are removed for backward compatibility
     to: 'schemas/fingerprint-server-api-v4-normalized.yaml',
     transformers: v4SchemaForSdksNormalizedTransformers,
   },
