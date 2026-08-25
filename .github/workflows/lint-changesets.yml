@@ -3,7 +3,7 @@ on:
   pull_request:
     paths:
       - '.changeset/**'
-      - 'scripts/lintChangesets.js'
+      - 'scripts/lintChangesets.ts'
       - '.github/workflows/lint-changesets.yml'
 
 jobs:
