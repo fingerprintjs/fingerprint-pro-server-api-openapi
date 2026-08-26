@@ -120,7 +120,7 @@ The file `.changeset/changesets.zip` is used during this process. It is **not** 
 
 `changeset version` deletes the markdown files once it has folded them into the changelog, but the
 SDK repositories still need the originals to generate their own changelogs when they sync to a new
-schema version. So `scripts/zipChangesets.js` archives them into `.changeset/changesets.zip` just
+schema version. So `scripts/zipChangesets.ts` archives them into `.changeset/changesets.zip` just
 before they are consumed, and that zip is committed as part of the release PR.
 
 Lifecycle:
@@ -133,5 +133,5 @@ Lifecycle:
 3. The same workflow then opens a follow-up PR that removes the zip from `main`.
 
 Step 3 only runs once the upload in step 2 has succeeded, so a zip that is still on `main` holds
-changesets the SDKs never received. `zipChangesets.js` folds those into the next archive instead of
+changesets the SDKs never received. `zipChangesets.ts` folds those into the next archive instead of
 overwriting them, so a failed release delays delivery rather than losing it.
