@@ -29,6 +29,9 @@ runs:
     - name: Lint
       shell: bash
       run: pnpm lint
+    - name: Typecheck
+      shell: bash
+      run: pnpm typecheck
     - name: Lint schemas
       shell: bash
       run: pnpm lintSchema
