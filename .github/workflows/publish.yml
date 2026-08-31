@@ -5,22 +5,62 @@ on:
     branches:
       - main
 
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  generate-schema:
-    name: Publish
+  build:
+    name: Build
     runs-on: ubuntu-latest
     environment: test
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
       - uses: ./.github/actions/test-and-build
         with:
           testSubscriptions: '${{ secrets.TEST_SUBSCRIPTIONS }}'
-      - name: Deploy to GitHub pages 🚀📘
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
+      - name: Upload GitHub pages artifact 📦
+        uses: actions/upload-pages-artifact@v5
         with:
-          branch: gh-pages
-          folder: dist
+          path: dist
+      - name: Upload built schemas for Readme 📦
+        uses: actions/upload-artifact@v7
+        with:
+          name: schemas
+          path: dist/schemas
+          if-no-files-found: error
+          retention-days: 1
+
+  deploy-pages:
+    name: Deploy to GitHub pages 🚀📘
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  deploy-readme:
+    name: Deploy to Readme 🚀🦉
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Download built schemas
+        uses: actions/download-artifact@v8
+        with:
+          name: schemas
+          path: dist/schemas
       - name: Deploy to Readme APIv3 Reference 🚀🦉
         uses: readmeio/rdme@6c330ae4130595720421809c4eaa37ba95d07f87 # v10.9.5
         with:

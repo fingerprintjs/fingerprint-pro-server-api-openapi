@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import {
   readmeApiExplorerTransformers,
@@ -69,6 +69,17 @@ const schemaOutputs = [
   },
 ];
 
+const schemaManifest = (): Plugin => ({
+  name: 'schema-manifest',
+  generateBundle() {
+    this.emitFile({
+      type: 'asset',
+      fileName: 'schemas/index.json',
+      source: `${JSON.stringify({ files: schemaOutputs.map(({ to }) => to).sort() }, null, 2)}\n`,
+    });
+  },
+});
+
 // The Swagger UI app
 export default defineConfig({
   base: './',
@@ -80,6 +91,7 @@ export default defineConfig({
     'process.env.PRIVATE_KEY': JSON.stringify(process.env.PRIVATE_KEY ?? ''),
   },
   plugins: [
+    schemaManifest(),
     viteStaticCopy({
       targets: [
         ...schemaOutputs.map(({ from, to, transformers }): Target => ({

@@ -39,25 +39,12 @@ jobs:
       - name: Build schemas
         run: pnpm build
 
-      - name: Compute known remote schema files directly from gh-pages branch
+      - name: Compute known remote schema files
         id: known-remote
+        env:
+          MANIFEST_URL: https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/index.json
         run: |
-          # Pull the latest published branch metadata into FETCH_HEAD (no checkout needed).
-          git fetch --no-tags --depth=1 origin gh-pages
-
-          # Build a comma-separated list of published schema filenames:
-          # 1) list files under schemas/ in gh-pages
-          # 2) drop the schemas/ prefix
-          # 3) keep only yaml/yml files
-          # 4) join lines with commas for --known-remote-files
-          KNOWN_REMOTE_FILES="$(
-            git ls-tree -r --name-only FETCH_HEAD schemas \
-              | sed 's#^schemas/##' \
-              | grep -E '\.ya?ml$' \
-              | paste -sd, -
-          )"
-
-          # Expose the value as a step output consumed by the next step.
+          KNOWN_REMOTE_FILES="$(curl -fsSL "$MANIFEST_URL" | jq -r '.files[]' | paste -sd, -)"
           echo "files=${KNOWN_REMOTE_FILES}" >> "$GITHUB_OUTPUT"
 
       - name: Generate schema diff report
