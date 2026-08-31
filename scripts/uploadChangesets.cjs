@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const { existsSync } = require('node:fs');
 
-// Keep in sync with ARCHIVE_PATH in scripts/zipChangesets.js.
+// Keep in sync with ARCHIVE_PATH in scripts/zipChangesets.ts.
 const ARCHIVE_PATH = '.changeset/changesets.zip';
 
 // The SDK sync looks the release asset up by this exact name, so it must not change.
