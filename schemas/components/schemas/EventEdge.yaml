@@ -11,54 +11,22 @@ allOf:
     properties:
       url:
         $ref: identification/Url.yaml
-        x-platforms:
-          - browser
       bot_info:
         $ref: smartsignals/BotInfo.yaml
-        x-platforms:
-          - browser
       ip_info:
         $ref: smartsignals/IPInfo.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       proxy:
         $ref: smartsignals/Proxy.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       proxy_confidence:
         $ref: smartsignals/ProxyConfidence.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       proxy_details:
         $ref: smartsignals/ProxyDetails.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       vpn:
         $ref: smartsignals/Vpn.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       vpn_confidence:
         $ref: smartsignals/VpnConfidence.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       vpn_methods:
         $ref: smartsignals/VpnMethods.yaml
-        x-platforms:
-          - android
-          - ios
-          - browser
       source:
         $ref: platform/EventSource.yaml
         const: edge
