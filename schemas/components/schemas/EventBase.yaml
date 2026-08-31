@@ -1,0 +1,30 @@
+type: object
+description: Identifiers present on every Event. `linked_id` and `tags` are optional customer-provided values.
+required:
+  - event_id
+  - timestamp
+properties:
+  event_id:
+    $ref: platform/EventId.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
+  timestamp:
+    $ref: platform/Timestamp.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
+  linked_id:
+    $ref: platform/LinkedId.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser
+  tags:
+    $ref: identification/Tags.yaml
+    x-platforms:
+      - android
+      - ios
+      - browser

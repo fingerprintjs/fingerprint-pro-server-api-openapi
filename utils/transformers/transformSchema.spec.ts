@@ -4,6 +4,7 @@ import {
   transformSchema,
   v4Transformers,
   v4SchemaForSdksTransformers,
+  v4SchemaForSdksFlatTransformers,
   v4SchemaForSdksNormalizedTransformers,
 } from './transformSchema.ts';
 import type { OpenApiDocument } from '../openapi.ts';
@@ -109,17 +110,46 @@ describe('Test transformSchema pipelines for v4', () => {
     expect(parsed.paths['/edge']).toBeDefined();
   });
 
-  it('v4 sdk schemas remove /edge when present', () => {
-    const yamlWithEdge = toYaml({
-      openapi: '3.1.1',
-      paths: { '/edge': { post: {} }, '/events': { get: {} } },
-      components: { schemas: {} },
-    });
+  it('v4 docs and Node SDK schemas keep Event as EventDevice | EventEdge', () => {
+    for (const transformers of [v4Transformers, v4SchemaForSdksTransformers]) {
+      const parsed = parseYaml(transformSchema(v4Schema, transformers));
+      const event = parsed.components.schemas.Event;
 
-    for (const transformers of [v4SchemaForSdksTransformers, v4SchemaForSdksNormalizedTransformers]) {
-      const result = transformSchema(yamlWithEdge, transformers);
-      const parsed = parseYaml(result);
-      expect(parsed.paths['/edge']).toBeUndefined();
+      expect(event.oneOf).toEqual([
+        { $ref: '#/components/schemas/EventDevice' },
+        { $ref: '#/components/schemas/EventEdge' },
+      ]);
+      expect(event.discriminator).toEqual({
+        propertyName: 'source',
+        mapping: {
+          device: '#/components/schemas/EventDevice',
+          edge: '#/components/schemas/EventEdge',
+        },
+      });
+      expect(parsed.components.schemas.EventDevice.properties.source).toBeDefined();
+      expect(parsed.components.schemas.EventDevice.properties.ip_info).toBeDefined();
+      expect(parsed.components.schemas.EventEdge.properties.ip_info).toBeDefined();
+      expect(parsed.components.schemas.EventDevice.properties.identification).toBeDefined();
+      expect(parsed.components.schemas.EventEdge.properties.identification).toBeUndefined();
+      expect(parsed.paths['/edge']).toBeDefined();
+    }
+  });
+
+  it('v4 flat and normalized SDK schemas flatten Event and keep source optional', () => {
+    for (const transformers of [v4SchemaForSdksFlatTransformers, v4SchemaForSdksNormalizedTransformers]) {
+      const parsed = parseYaml(transformSchema(v4Schema, transformers));
+      const event = parsed.components.schemas.Event;
+
+      expect(event.oneOf).toBeUndefined();
+      expect(event.discriminator).toBeUndefined();
+      expect(event.properties.identification).toBeDefined();
+      expect(event.properties.ip_info).toBeDefined();
+      expect(event.properties.source).toBeDefined();
+      expect(event.required).toEqual(expect.arrayContaining(['event_id', 'timestamp']));
+      expect(event.required).not.toContain('source');
+      expect(parsed.components.schemas.EventEdge.properties.ip_info).toBeDefined();
+      expect(parsed.components.schemas.EventDevice).toBeUndefined();
+      expect(parsed.paths['/edge']).toBeDefined();
     }
   });
 
@@ -135,5 +165,22 @@ describe('Test transformSchema pipelines for v4', () => {
     const pathsYaml = toYaml(parsed.paths);
 
     expect(hasYamlKey(pathsYaml, 'oneOf')).toBe(false);
+  });
+
+  it('v4 sdk schemas keep /edge', () => {
+    const yamlWithEdge = toYaml({
+      openapi: '3.1.1',
+      paths: { '/edge': { post: {} }, '/events': { get: {} } },
+      components: { schemas: {} },
+    });
+
+    for (const transformers of [
+      v4SchemaForSdksTransformers,
+      v4SchemaForSdksFlatTransformers,
+      v4SchemaForSdksNormalizedTransformers,
+    ]) {
+      const parsed = parseYaml(transformSchema(yamlWithEdge, transformers));
+      expect(parsed.paths['/edge']).toBeDefined();
+    }
   });
 });

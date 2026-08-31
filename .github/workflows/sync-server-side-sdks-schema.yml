@@ -110,6 +110,7 @@ jobs:
       language: python
       language-version: '3.12'
       generate-command: 'bash ./generate.sh'
+      schema-source: fingerprint-server-api-v4-flat.yaml
       schema-path: res/fingerprint-server-api.yaml
       examples-path: test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}
@@ -152,6 +153,7 @@ jobs:
       language: php
       language-version: '8.3'
       generate-command: 'bash ./scripts/generate.sh'
+      schema-source: fingerprint-server-api-v4-flat.yaml
       schema-path: res/fingerprint-server-api.yaml
       examples-path: test/mocks
       app-id: ${{ vars.RUNNER_APP_ID }}

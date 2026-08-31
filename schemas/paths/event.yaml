@@ -4,9 +4,11 @@ get:
   operationId: getEvent
   summary: Get an event by event ID
   description: |
-    Get a detailed analysis of an individual identification event, including Smart Signals.
+    Get a detailed analysis of an individual event, including Smart Signals.
 
     Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
+
+    Returns `EventDevice` when `source` is `device`, and `EventEdge` when `source` is `edge`.
   parameters:
     - name: event_id
       in: path

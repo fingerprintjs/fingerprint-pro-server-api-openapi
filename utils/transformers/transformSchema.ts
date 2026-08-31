@@ -4,9 +4,9 @@ import { addXReadmeTransformer } from './addXReadmeTransformer.ts';
 import { appendExternalSchemaRefTransformer } from './appendExternalSchemaRefTransformer.ts';
 import { extractFirstParameterExampleTransformer } from './extractFirstParameterExampleTransformer.ts';
 import { extractPathOperationInlineEnumsTransformer } from './extractPathOperationInlineEnumsTransformer.ts';
+import { flattenNamedSchemaOneOfTransformer } from './flattenNamedSchemaOneOfTransformer.ts';
 import { parseYaml } from './parseYaml.ts';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.ts';
-import { removeEdgeTransformer } from './removeEdgeTransformer.ts';
 import { removeWebhookTransformer } from './removeWebhookTransformer.ts';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.ts';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.ts';
@@ -45,7 +45,6 @@ export const v4Transformers: Transformer[] = [
 export const v4SchemaForSdksCommonTransformers: Transformer[] = [
   ...v4Transformers,
   extractFirstParameterExampleTransformer,
-  removeEdgeTransformer,
   extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),
@@ -54,8 +53,17 @@ export const v4SchemaForSdksCommonTransformers: Transformer[] = [
   removeBigExamplesTransformer,
 ];
 
-export const v4SchemaForSdksTransformers: Transformer[] = [
-  ...v4SchemaForSdksCommonTransformers,
+const flattenEventForSdks = flattenNamedSchemaOneOfTransformer('Event', {
+  optionalProperties: ['source'],
+});
+
+const flattenEventForOtherSdks: Transformer[] = [
+  flattenEventForSdks,
+  // Flatten copies additionalProperties: false from EventDevice/EventEdge; strip it again for SDK compat.
+  removeFieldTransformer('additionalProperties', false),
+];
+
+const v4SdkBotInfoTransformers: Transformer[] = [
   // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
   inlineReferencedPropertiesTransformer('BotInfo'),
   // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.
@@ -64,16 +72,26 @@ export const v4SchemaForSdksTransformers: Transformer[] = [
   removeUnusedSchemasTransformer,
 ];
 
+// Node: Event stays EventDevice | EventEdge. start/end stay a date|int oneOf.
+export const v4SchemaForSdksTransformers: Transformer[] = [
+  ...v4SchemaForSdksCommonTransformers,
+  ...v4SdkBotInfoTransformers,
+];
+
+// Python, PHP: Event flattened to one object. start/end stay a date|int oneOf.
+export const v4SchemaForSdksFlatTransformers: Transformer[] = [
+  ...v4SchemaForSdksCommonTransformers,
+  ...flattenEventForOtherSdks,
+  ...v4SdkBotInfoTransformers,
+];
+
+// Go, Java, .NET: Event flattened to one object. start/end split into start + start_date_time.
 export const v4SchemaForSdksNormalizedTransformers: Transformer[] = [
   ...v4SchemaForSdksCommonTransformers,
   // Expand oneOf query parameters, start and end, to avoid breaking changes in the SDKs using this schema
   replaceStartEndQueryParameters(),
-  // Inline enums previously extracted from BotInfo to avoid breaking changes in the SDKs using this schema
-  inlineReferencedPropertiesTransformer('BotInfo'),
-  // Remove the added enum attribute for BotInfo.category. This must follow the inline transformer on the previous line.
-  removeFieldByPathTransformer(['components', 'schemas', 'BotInfo', 'properties', 'category', 'enum']),
-  // This transformer should run last to ensure all unused schemas are found
-  removeUnusedSchemasTransformer,
+  ...flattenEventForOtherSdks,
+  ...v4SdkBotInfoTransformers,
 ];
 
 export const readmeApiExplorerTransformers: Transformer[] = [

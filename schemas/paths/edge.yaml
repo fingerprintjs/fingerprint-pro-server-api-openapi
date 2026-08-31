@@ -37,7 +37,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/schemas/EdgeResponse.yaml
+            $ref: ../components/schemas/EventEdge.yaml
           examples:
             200-ok-bot-detected:
               summary: Example response when a bot was detected.
