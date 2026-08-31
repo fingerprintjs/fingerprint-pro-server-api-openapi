@@ -114,4 +114,38 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
 
     expect(schema).toEqual(original);
   });
+
+  it('flattens Event without flattening EventRuleAction', () => {
+    const schema: OpenApiDocument = {
+      components: {
+        schemas: {
+          EventDevice: {
+            type: 'object',
+            properties: { event_id: { type: 'string' } },
+          },
+          EventEdge: {
+            type: 'object',
+            properties: { event_id: { type: 'string' } },
+          },
+          Event: {
+            oneOf: [{ $ref: '#/components/schemas/EventDevice' }, { $ref: '#/components/schemas/EventEdge' }],
+          },
+          EventRuleAction: {
+            oneOf: [{ $ref: '#/components/schemas/Allow' }, { $ref: '#/components/schemas/Block' }],
+          },
+          Allow: { type: 'object', properties: { type: { const: 'allow' } } },
+          Block: { type: 'object', properties: { type: { const: 'block' } } },
+        },
+      },
+    };
+
+    apply(schema);
+
+    expect(schema.components.schemas.Event.oneOf).toBeUndefined();
+    expect(schema.components.schemas.Event.properties.event_id).toBeDefined();
+    expect(schema.components.schemas.EventRuleAction.oneOf).toEqual([
+      { $ref: '#/components/schemas/Allow' },
+      { $ref: '#/components/schemas/Block' },
+    ]);
+  });
 });

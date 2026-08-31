@@ -132,6 +132,10 @@ describe('Test transformSchema pipelines for v4', () => {
       expect(parsed.components.schemas.EventDevice.properties.identification).toBeDefined();
       expect(parsed.components.schemas.EventEdge.properties.identification).toBeUndefined();
       expect(parsed.paths['/edge']).toBeDefined();
+      expect(parsed.paths['/events/{event_id}'].get.description).toContain(
+        'Use `source` to tell identification events (`device`) from Automation Intelligence events (`edge`).'
+      );
+      expect(parsed.paths['/events/{event_id}'].get.description).not.toContain('EventDevice');
     }
   });
 
@@ -150,6 +154,10 @@ describe('Test transformSchema pipelines for v4', () => {
       expect(parsed.components.schemas.EventEdge.properties.ip_info).toBeDefined();
       expect(parsed.components.schemas.EventDevice).toBeUndefined();
       expect(parsed.paths['/edge']).toBeDefined();
+      expect(parsed.paths['/events/{event_id}'].get.description).toContain(
+        'Use `source` to tell identification events (`device`) from Automation Intelligence events (`edge`).'
+      );
+      expect(parsed.paths['/events/{event_id}'].get.description).not.toContain('EventDevice');
     }
   });
 
