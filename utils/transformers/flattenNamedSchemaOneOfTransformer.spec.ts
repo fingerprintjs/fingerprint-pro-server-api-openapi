@@ -60,6 +60,38 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
     expect(event.required).toEqual(['event_id']);
   });
 
+  it('keeps x-platforms from EventDevice when EventEdge omits them', () => {
+    const schema: OpenApiDocument = {
+      components: {
+        schemas: {
+          EventDevice: {
+            type: 'object',
+            properties: {
+              url: { type: 'string', 'x-platforms': ['browser'] },
+              ip_info: { type: 'object', 'x-platforms': ['android', 'ios', 'browser'] },
+            },
+          },
+          EventEdge: {
+            type: 'object',
+            properties: {
+              url: { type: 'string' },
+              ip_info: { type: 'object' },
+            },
+          },
+          Event: {
+            oneOf: [{ $ref: '#/components/schemas/EventDevice' }, { $ref: '#/components/schemas/EventEdge' }],
+          },
+        },
+      },
+    };
+
+    apply(schema);
+
+    const event = schema.components.schemas.Event;
+    expect(event.properties.url['x-platforms']).toEqual(['browser']);
+    expect(event.properties.ip_info['x-platforms']).toEqual(['android', 'ios', 'browser']);
+  });
+
   it('does not modify other oneOf schemas', () => {
     const schema: OpenApiDocument = {
       components: {
