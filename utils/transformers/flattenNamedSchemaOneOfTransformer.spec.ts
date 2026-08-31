@@ -2,7 +2,8 @@ import { flattenNamedSchemaOneOfTransformer } from './flattenNamedSchemaOneOfTra
 import type { OpenApiDocument } from '../openapi.ts';
 
 const apply = (schema: OpenApiDocument, schemaName = 'Event', optionalProperties?: string[]) => {
-  flattenNamedSchemaOneOfTransformer(schemaName, { optionalProperties })(schema);
+  const options = optionalProperties === undefined ? {} : { optionalProperties };
+  flattenNamedSchemaOneOfTransformer(schemaName, options)(schema);
   return schema;
 };
 
