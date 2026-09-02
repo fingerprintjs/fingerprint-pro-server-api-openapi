@@ -7,6 +7,7 @@ import {
   removeExtraDocumentationTransformers,
   schemaForSdksTransformers,
   transformSchema,
+  v4SchemaForSdksFlatTransformers,
   v4SchemaForSdksNormalizedTransformers,
   v4SchemaForSdksTransformers,
   v4Transformers,
@@ -26,19 +27,20 @@ const schemaOutputs = [
   },
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
-    // just schema used by most SDKs
-    // examples are removed
-    // includes `oneOf` operators same as the source schema
-    // additionalProperties: false are removed for backward compatibility
+    // Node SDK. Event is EventDevice | EventEdge. start/end stay a date|int oneOf.
     to: 'fingerprint-server-api-v4.yaml',
     transformers: v4SchemaForSdksTransformers,
   },
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
-    // normalized schema used by SDKs in weakly typed languages
-    // examples are removed
-    // `oneOf` query parameters are split into two or more parameters
-    // additionalProperties: false are removed for backward compatibility
+    // Python, PHP. Event is a single object (source optional). start/end stay a date|int oneOf.
+    to: 'fingerprint-server-api-v4-flat.yaml',
+    transformers: v4SchemaForSdksFlatTransformers,
+  },
+  {
+    from: 'schemas/fingerprint-server-api-v4.yaml',
+    // Go, Java, .NET. Event is a single object (source optional).
+    // start/end are split into start + start_date_time (same as those SDKs ship today).
     to: 'fingerprint-server-api-v4-normalized.yaml',
     transformers: v4SchemaForSdksNormalizedTransformers,
   },

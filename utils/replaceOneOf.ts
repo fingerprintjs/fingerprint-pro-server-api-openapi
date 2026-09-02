@@ -42,8 +42,22 @@ export function replaceOneOf(
           requiredCounts[propName] = (requiredCounts[propName] || 0) + 1;
         }
 
-        // Clone the property to avoid mutating the original schema
-        properties[propName] = structuredClone(currentItem.properties[propName]);
+        // Clone the property to avoid mutating the original schema.
+        // Keep x-platforms from an earlier variant when a later one omits it
+        // (EventEdge has no sdk.platform, EventDevice still annotates shared fields).
+        const incoming = structuredClone(currentItem.properties[propName]) as JsonObject;
+        const previous = properties[propName];
+        if (
+          previous &&
+          typeof previous === 'object' &&
+          previous['x-platforms'] !== undefined &&
+          incoming &&
+          typeof incoming === 'object' &&
+          incoming['x-platforms'] === undefined
+        ) {
+          incoming['x-platforms'] = structuredClone(previous['x-platforms']);
+        }
+        properties[propName] = incoming;
 
         if (!literalValues[propName]) {
           literalValues[propName] = [];

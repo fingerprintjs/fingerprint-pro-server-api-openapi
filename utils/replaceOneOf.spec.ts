@@ -455,4 +455,30 @@ describe('Test replaceOneOf', () => {
 
     expect(schema.additionalProperties).toBe(true);
   });
+
+  it('keeps x-platforms from an earlier variant when a later variant omits them', () => {
+    const schema: OpenApiDocument = {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            url: { type: 'string', 'x-platforms': ['browser'] },
+            ip_info: { type: 'object', 'x-platforms': ['android', 'ios', 'browser'] },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            url: { type: 'string' },
+            ip_info: { type: 'object' },
+          },
+        },
+      ],
+    };
+
+    replaceOneOf(schema, {}, 'oneOf');
+
+    expect(schema.properties.url['x-platforms']).toEqual(['browser']);
+    expect(schema.properties.ip_info['x-platforms']).toEqual(['android', 'ios', 'browser']);
+  });
 });
