@@ -7,6 +7,7 @@ import { extractPathOperationInlineEnumsTransformer } from './extractPathOperati
 import { parseYaml } from './parseYaml.ts';
 import { removeBigExamplesTransformer } from './removeBigExamplesTransformer.ts';
 import { removeEdgeTransformer } from './removeEdgeTransformer.ts';
+import { removeFeedbackTransformer } from './removeFeedbackTransformer.ts';
 import { removeWebhookTransformer } from './removeWebhookTransformer.ts';
 import { resolveAllOfTransformer } from './resolveAllOfTransformer.ts';
 import { resolveExternalValueTransformer } from './resolveExternalValueTransformer.ts';
@@ -46,6 +47,7 @@ export const v4SchemaForSdksCommonTransformers: Transformer[] = [
   ...v4Transformers,
   extractFirstParameterExampleTransformer,
   removeEdgeTransformer,
+  removeFeedbackTransformer,
   extractPathOperationInlineEnumsTransformer,
   replaceTagsTransformer,
   removeFieldTransformer('webhooks'),

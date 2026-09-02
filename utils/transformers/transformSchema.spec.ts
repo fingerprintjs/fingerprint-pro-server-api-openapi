@@ -123,6 +123,33 @@ describe('Test transformSchema pipelines for v4', () => {
     }
   });
 
+  it('v4 docs schema keeps /events/{event_id}/feedback when present', () => {
+    const yamlWithFeedback = toYaml({
+      openapi: '3.1.1',
+      paths: { '/events/{event_id}/feedback': { post: {} }, '/events': { get: {} } },
+      components: { schemas: {} },
+    });
+
+    const result = transformSchema(yamlWithFeedback, [...v4Transformers]);
+    const parsed = parseYaml(result);
+
+    expect(parsed.paths['/events/{event_id}/feedback']).toBeDefined();
+  });
+
+  it('v4 sdk schemas remove /events/{event_id}/feedback when present', () => {
+    const yamlWithFeedback = toYaml({
+      openapi: '3.1.1',
+      paths: { '/events/{event_id}/feedback': { post: {} }, '/events': { get: {} } },
+      components: { schemas: {} },
+    });
+
+    for (const transformers of [v4SchemaForSdksTransformers, v4SchemaForSdksNormalizedTransformers]) {
+      const result = transformSchema(yamlWithFeedback, transformers);
+      const parsed = parseYaml(result);
+      expect(parsed.paths['/events/{event_id}/feedback']).toBeUndefined();
+    }
+  });
+
   it('v4 normalized sdk schema removes response examples, additionalProperties: false, oneOf query parameters while keeping schema examples', () => {
     const result = transformSchema(v4Schema, v4SchemaForSdksNormalizedTransformers);
 
