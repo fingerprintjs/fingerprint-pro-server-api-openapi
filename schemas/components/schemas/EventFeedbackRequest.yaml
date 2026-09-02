@@ -1,0 +1,25 @@
+type: object
+description: |
+  The request must contain at least one feedback type. When the request contains more than one feedback type, each will be processed independently.
+  Currently, only one feedback type is supported: `reset_identification_confidence_score`.
+  Additional feedback types may be introduced in the future.
+additionalProperties: false
+minProperties: 1
+required: []
+properties:
+  reset_identification_confidence_score:
+    type: boolean
+    description: |
+      Set to `true` to reset the identification confidence score for this event to `1.0`.
+
+      Use this feedback type when the browser has been verified through a trusted external mechanism of your choice, such as biometrics or MFA. The feedback must be submitted within 24 hours of the identification event. Requests submitted after this window will be rejected.
+
+      Once the reset is applied, subsequent identification events from the same browser will reflect an updated confidence score. 
+      * When the browser is deterministically matched with the reset event, the confidence score will be `1.0`.
+      * When the browser is probabilistically matched with the reset event, the confidence score will no longer be `1.0`. 
+        Instead, it will decrease **gradually** depending on how much the browser's properties have changed since the reset.
+
+      #### Availability
+      * Currently in *beta* and is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+      * Supported only for events that originated from the [JavaScript agent](/reference/js-agent) and/or the [frontend libraries](/docs/frontend-libraries).
+      * Not supported for events that originated from any of our [mobile SDKs](/docs/mobile-identification).

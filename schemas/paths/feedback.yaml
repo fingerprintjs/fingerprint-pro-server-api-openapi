@@ -1,0 +1,93 @@
+post:
+  tags:
+    - Events
+  operationId: submitEventFeedback
+  summary: Submit feedback for an event
+  description: |
+    Use this API to submit feedback for a specific, existing event, identified by `event_id`.
+
+    Feedback is queued and processed asynchronously. Subsequent Server API responses may not reflect the feedback immediately.
+
+    Duplicate feedback requests for the same event are allowed; however, the most recent feedback overrides all previous submissions for that event.
+
+    ### Availability
+    This API is currently in beta and available only for Enterprise plans. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+
+    ### Rate limits and daily quota
+    The rate limits and daily quota for this API **differ** from those for our other APIs.
+
+    Feedback can be submitted at a maximum of 30 requests per hour (RPH) and cannot exceed 500 requests per day (RPD).
+
+    You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/). 
+  parameters:
+    - name: event_id
+      in: path
+      required: true
+      schema:
+        type: string
+        examples:
+          - 1708102555327.NLOjmg
+      description: |
+        The [event ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of the identification event you want to submit feedback for.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/EventFeedbackRequest.yaml
+  responses:
+    '202':
+      description: Accepted. The feedback has been accepted and will be processed asynchronously.
+    '400':
+      description: Bad request. The request payload is not valid.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            400-bad-request:
+              summary: Error response when the request body is invalid.
+              externalValue: examples/errors/400_request_body_invalid.json
+    '403':
+      description: Forbidden. Access to this API is denied.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            403-secret-api-key-required:
+              summary: Error response when the secret API key was not provided.
+              externalValue: examples/errors/403_secret_api_key_required.json
+            403-secret-api-key-not-found:
+              summary: Error response when the provided secret API key does not exist.
+              externalValue: examples/errors/403_secret_api_key_not_found.json
+    '404':
+      description: Not found. The event Id cannot be found in this workspace's data.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            404-event-not-found:
+              summary: Error response when the provided event Id does not exist.
+              externalValue: examples/errors/404_event_not_found.json
+    '429':
+      description: Too Many Requests. The request is throttled.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            429-too-many-requests-error:
+              summary: Too many requests error
+              externalValue: examples/errors/429_too_many_requests.json
+    '500':
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/error/ErrorResponse.yaml
+          examples:
+            500-error:
+              summary: Request failed
+              externalValue: examples/errors/500_internal_server_error.json

@@ -311,6 +311,7 @@ properties:
     x-platforms:
       - android
       - ios
+      - browser
   vpn_methods:
     $ref: smartsignals/VpnMethods.yaml
     x-platforms:
