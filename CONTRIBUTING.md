@@ -101,10 +101,9 @@ Don't create a changeset for documentation-only changes (descriptions, examples)
 
 On every push into `main` (merged PR):
 
-- The built schema is published to [API Reference](https://docs.fingerprint.com/reference/server-api-v4).
 - The built schema is published to [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
 - The built schema is published as a [raw yaml file](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
-- After GitHub Pages deploy, the docs repo OpenAPI sync workflows run. They open a PR only if the published spec changed.
+- After GitHub Pages deploy, the docs repo OpenAPI sync workflows run. They open a PR only if the published spec changed, which updates the [API Reference](https://docs.fingerprint.com/reference/server-api-v4).
 
 See the [publish.yml](.github/workflows/publish.yml) workflow for more details.
 
