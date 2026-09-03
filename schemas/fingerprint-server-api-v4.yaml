@@ -36,6 +36,8 @@ paths:
     $ref: paths/edge.yaml
   /events/{event_id}:
     $ref: paths/event.yaml
+  /events/{event_id}/feedback:
+    $ref: paths/feedback.yaml
   /events:
     $ref: paths/events.yaml
   /visitors/{visitor_id}:
