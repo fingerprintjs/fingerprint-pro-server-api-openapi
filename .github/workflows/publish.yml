@@ -1,4 +1,4 @@
-name: Publish schema to GH pages and Readme
+name: Publish schema to GH pages
 
 on:
   push:
@@ -26,13 +26,6 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: dist
-      - name: Upload built schemas for Readme 📦
-        uses: actions/upload-artifact@v7
-        with:
-          name: schemas
-          path: dist/schemas
-          if-no-files-found: error
-          retention-days: 1
 
   deploy-pages:
     name: Deploy to GitHub pages 🚀📘
@@ -75,24 +68,3 @@ jobs:
           # does not have actions:write, so workflow_dispatch would 403.
           gh api --method POST repos/fingerprintjs/docs/dispatches \
             -f event_type=openapi-schema-published
-
-  deploy-readme:
-    name: Deploy to Readme 🚀🦉
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Download built schemas
-        uses: actions/download-artifact@v8
-        with:
-          name: schemas
-          path: dist/schemas
-      - name: Deploy to Readme APIv3 Reference 🚀🦉
-        uses: readmeio/rdme@6c330ae4130595720421809c4eaa37ba95d07f87 # v10.9.5
-        with:
-          rdme: openapi upload dist/schemas/fingerprint-server-api-readme-explorer.yaml --key=${{ secrets.README_API_KEY }} --slug=fingerprint-pro-server-api.json
-      - name: Deploy to Readme APIv4 Reference 🚀🦉
-        uses: readmeio/rdme@6c330ae4130595720421809c4eaa37ba95d07f87 # v10.9.5
-        with:
-          rdme: openapi upload dist/schemas/fingerprint-server-api-v4-with-examples.yaml --key=${{ secrets.README_API_KEY }} --slug=fingerprint-server-api-readme-explorer.yaml
