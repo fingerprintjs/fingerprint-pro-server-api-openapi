@@ -49,6 +49,33 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
+  # Docs download the published GitHub Pages YAML, so this must run after deploy-pages.
+  # The docs workflows only open a PR if that file actually changed.
+  trigger-docs-sync:
+    name: Trigger docs OpenAPI sync
+    needs: deploy-pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.RUNNER_APP_ID }}
+          private-key: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}
+          owner: fingerprintjs
+          repositories: docs
+      - name: Trigger docs OpenAPI spec sync
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          # contents:write is enough for repository_dispatch; the runner app
+          # does not have actions:write, so workflow_dispatch would 403.
+          gh api --method POST repos/fingerprintjs/docs/dispatches \
+            -f event_type=openapi-schema-published
+
   deploy-readme:
     name: Deploy to Readme 🚀🦉
     needs: build
