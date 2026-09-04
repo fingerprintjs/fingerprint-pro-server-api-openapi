@@ -60,6 +60,43 @@ describe('liftOneOfSharedPropertiesTransformer', () => {
     expect(schema).toEqual(original);
   });
 
+  it('rewrites $ref + const on variants of a bare oneOf parent', () => {
+    const schema: OpenApiDocument = {
+      components: {
+        schemas: {
+          Kind: { type: 'string', enum: ['device', 'edge'] },
+          EventDevice: {
+            type: 'object',
+            allOf: [
+              {
+                type: 'object',
+                properties: {
+                  source: {
+                    $ref: '#/components/schemas/Kind',
+                    const: 'device',
+                    'x-platforms': ['browser'],
+                  },
+                },
+              },
+            ],
+          },
+          Event: {
+            type: 'object',
+            oneOf: [{ $ref: '#/components/schemas/EventDevice' }],
+          },
+        },
+      },
+    };
+
+    applyTransformer(schema);
+
+    expect(schema.components.schemas.Event.properties).toBeUndefined();
+    expect(schema.components.schemas.EventDevice.properties).toBeUndefined();
+    expect(schema.components.schemas.EventDevice.allOf[0].properties.source).toEqual({
+      allOf: [{ $ref: '#/components/schemas/Kind' }, { const: 'device', 'x-platforms': ['browser'] }],
+    });
+  });
+
   it('skips variants that already have allOf', () => {
     const schema: OpenApiDocument = {
       components: {

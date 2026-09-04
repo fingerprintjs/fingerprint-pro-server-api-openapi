@@ -79,6 +79,10 @@ function wrapVariantWithBase(schema: JsonObject, baseSchema: JsonObject): boolea
 /**
  * For schemas that define both shared object properties and `oneOf`, extract
  * the shared object shape and apply it directly to each alternative via `allOf`.
+ *
+ * For a bare `oneOf` parent (no sibling properties), still rewrite `$ref` +
+ * sibling keywords on each variant — same `normalizeRefSiblings` step the lift
+ * path uses. Event is this shape; EventRuleAction is the sibling-properties shape.
  */
 export function liftOneOfSharedPropertiesTransformer(apiDefinition: OpenApiDocument): void {
   const schemas = apiDefinition?.components?.schemas;
@@ -88,7 +92,12 @@ export function liftOneOfSharedPropertiesTransformer(apiDefinition: OpenApiDocum
   }
 
   for (const schema of Object.values(schemas)) {
-    if (!isObject(schema) || !Array.isArray(schema.oneOf) || !isObject(schema.properties)) {
+    if (!isObject(schema) || !Array.isArray(schema.oneOf)) {
+      continue;
+    }
+
+    if (!isObject(schema.properties)) {
+      normalizeOneOfVariants(schema, schemas);
       continue;
     }
 
@@ -125,5 +134,28 @@ export function liftOneOfSharedPropertiesTransformer(apiDefinition: OpenApiDocum
     if (transformedCount === 0) {
       Object.assign(schema, baseSchema);
     }
+  }
+}
+
+function normalizeOneOfVariants(schema: JsonObject, schemas: JsonObject): void {
+  if (!Array.isArray(schema.oneOf)) {
+    return;
+  }
+
+  for (const oneOfAlternative of schema.oneOf) {
+    if (!isObject(oneOfAlternative)) {
+      continue;
+    }
+
+    if (typeof oneOfAlternative.$ref === 'string') {
+      const schemaName = getSchemaNameFromRef(oneOfAlternative.$ref);
+      const alternativeSchema = schemaName ? schemas[schemaName] : null;
+      if (isObject(alternativeSchema)) {
+        normalizeRefSiblings(alternativeSchema);
+      }
+      continue;
+    }
+
+    normalizeRefSiblings(oneOfAlternative);
   }
 }

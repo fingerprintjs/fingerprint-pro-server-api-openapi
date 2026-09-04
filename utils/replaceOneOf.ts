@@ -1,6 +1,23 @@
 import { resolveComponent } from './resolveComponent.ts';
 import type { OpenApiDocument, JsonObject } from './openapi.ts';
 
+function getXPlatforms(prop: JsonObject | undefined): unknown {
+  if (!prop || typeof prop !== 'object') {
+    return undefined;
+  }
+  if (prop['x-platforms'] !== undefined) {
+    return prop['x-platforms'];
+  }
+  if (Array.isArray(prop.allOf)) {
+    for (const item of prop.allOf) {
+      if (item && typeof item === 'object' && item['x-platforms'] !== undefined) {
+        return item['x-platforms'];
+      }
+    }
+  }
+  return undefined;
+}
+
 /**
  * Merges multiple schemas from oneOf/anyOf into a single schema.
  * Properties that are only present in one schema are made optional.
@@ -47,15 +64,10 @@ export function replaceOneOf(
         // (EventEdge has no sdk.platform, EventDevice still annotates shared fields).
         const incoming = structuredClone(currentItem.properties[propName]) as JsonObject;
         const previous = properties[propName];
-        if (
-          previous &&
-          typeof previous === 'object' &&
-          previous['x-platforms'] !== undefined &&
-          incoming &&
-          typeof incoming === 'object' &&
-          incoming['x-platforms'] === undefined
-        ) {
-          incoming['x-platforms'] = structuredClone(previous['x-platforms']);
+        const previousPlatforms = getXPlatforms(previous);
+        const incomingPlatforms = getXPlatforms(incoming);
+        if (previousPlatforms !== undefined && incomingPlatforms === undefined && incoming) {
+          incoming['x-platforms'] = structuredClone(previousPlatforms);
         }
         properties[propName] = incoming;
 

@@ -68,6 +68,45 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
     expect(event.required).toEqual(['event_id']);
   });
 
+  it('keeps x-platforms when they sit on the allOf const item', () => {
+    const schema: OpenApiDocument = {
+      components: {
+        schemas: {
+          EventSource: { type: 'string', enum: ['device', 'edge'] },
+          EventDevice: {
+            type: 'object',
+            properties: {
+              source: {
+                allOf: [
+                  { $ref: '#/components/schemas/EventSource' },
+                  { const: 'device', 'x-platforms': ['android', 'ios', 'browser'] },
+                ],
+              },
+            },
+          },
+          EventEdge: {
+            type: 'object',
+            properties: {
+              source: {
+                allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'edge' }],
+              },
+            },
+          },
+          Event: {
+            oneOf: [{ $ref: '#/components/schemas/EventDevice' }, { $ref: '#/components/schemas/EventEdge' }],
+          },
+        },
+      },
+    };
+
+    apply(schema, 'Event', ['source']);
+
+    expect(schema.components.schemas.Event.properties.source).toEqual({
+      $ref: '#/components/schemas/EventSource',
+      'x-platforms': ['android', 'ios', 'browser'],
+    });
+  });
+
   it('keeps x-platforms from EventDevice when EventEdge omits them', () => {
     const schema: OpenApiDocument = {
       components: {

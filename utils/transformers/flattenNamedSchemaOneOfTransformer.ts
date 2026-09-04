@@ -21,7 +21,12 @@ function collapseToEnumRef(property: Record<string, unknown>): void {
     return;
   }
 
-  const platforms = property['x-platforms'];
+  let platforms = property['x-platforms'];
+  for (const item of property.allOf) {
+    if (isObject(item) && item['x-platforms'] !== undefined) {
+      platforms = item['x-platforms'];
+    }
+  }
   for (const key of Object.keys(property)) {
     delete property[key];
   }

@@ -127,8 +127,10 @@ describe('Test transformSchema pipelines for v4', () => {
         },
       });
       expect(parsed.components.schemas.EventDevice.properties.source).toEqual({
-        allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'device' }],
-        'x-platforms': ['android', 'ios', 'browser'],
+        allOf: [
+          { $ref: '#/components/schemas/EventSource' },
+          { const: 'device', 'x-platforms': ['android', 'ios', 'browser'] },
+        ],
       });
       expect(parsed.components.schemas.EventEdge.properties.source).toEqual({
         allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'edge' }],
