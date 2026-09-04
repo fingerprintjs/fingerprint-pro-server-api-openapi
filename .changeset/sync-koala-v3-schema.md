@@ -2,4 +2,4 @@
 'fingerprint-pro-server-api-openapi': patch
 ---
 
-Sync API v3 error responses and timestamp formats with Koala. Require `Labels.label` and limit `VisitorsGetResponse.visits` to one item.
+Update API v3 error responses, timestamp formats, proxy metadata, and visitor endpoint documentation. Require `Labels.label`, set the default value of `reverse` to `false`, and limit `VisitorsGetResponse.visits` to one item.
