@@ -21,7 +21,10 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
             required: ['event_id', 'source'],
             properties: {
               event_id: { type: 'string' },
-              source: { $ref: '#/components/schemas/EventSource', const: 'device' },
+              source: {
+                allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'device' }],
+                'x-platforms': ['android', 'ios', 'browser'],
+              },
               identification: { type: 'object' },
             },
           },
@@ -30,7 +33,9 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
             required: ['event_id', 'source', 'ip_info'],
             properties: {
               event_id: { type: 'string' },
-              source: { $ref: '#/components/schemas/EventSource', const: 'edge' },
+              source: {
+                allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'edge' }],
+              },
               ip_info: { type: 'object' },
             },
           },
@@ -55,7 +60,10 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
     expect(event.discriminator).toBeUndefined();
     expect(event.properties.identification).toBeDefined();
     expect(event.properties.ip_info).toBeDefined();
-    expect(event.properties.source).toEqual({ $ref: '#/components/schemas/EventSource' });
+    expect(event.properties.source).toEqual({
+      $ref: '#/components/schemas/EventSource',
+      'x-platforms': ['android', 'ios', 'browser'],
+    });
     expect(event.properties.source.enum).toBeUndefined();
     expect(event.required).toEqual(['event_id']);
   });

@@ -59,8 +59,9 @@ allOf:
           - ios
           - browser
       source:
-        $ref: platform/EventSource.yaml
-        const: device
+        allOf:
+          - $ref: platform/EventSource.yaml
+          - const: device
         x-platforms:
           - android
           - ios

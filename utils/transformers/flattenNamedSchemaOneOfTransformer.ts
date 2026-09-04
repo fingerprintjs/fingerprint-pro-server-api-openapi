@@ -5,6 +5,32 @@ function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+function collapseToEnumRef(property: Record<string, unknown>): void {
+  if (typeof property.$ref === 'string') {
+    delete property.enum;
+    delete property.const;
+    return;
+  }
+
+  if (!Array.isArray(property.allOf)) {
+    return;
+  }
+
+  const refItem = property.allOf.find((item) => isObject(item) && typeof item.$ref === 'string');
+  if (!isObject(refItem) || typeof refItem.$ref !== 'string') {
+    return;
+  }
+
+  const platforms = property['x-platforms'];
+  for (const key of Object.keys(property)) {
+    delete property[key];
+  }
+  property.$ref = refItem.$ref;
+  if (platforms !== undefined) {
+    property['x-platforms'] = platforms;
+  }
+}
+
 export type FlattenNamedSchemaOneOfOptions = {
   /**
    * Leave these properties optional on the flattened object even if every
@@ -29,13 +55,13 @@ export function flattenNamedSchemaOneOfTransformer(
     }
     replaceOneOf(schema, apiDefinition.components.schemas, 'oneOf');
 
-    // replaceOneOf may attach `enum` next to a `$ref` (e.g. Event.source).
-    // Generators then emit a nested SourceEnum and change getSource()'s type.
+    // Discriminator fields use `allOf: [$ref Enum, const]` (EventRuleAction) or
+    // `$ref` + sibling `const`. Flattening would otherwise leave a nested
+    // SourceEnum / leftover const and change getSource()'s type.
     if (isObject(schema.properties)) {
       for (const property of Object.values(schema.properties)) {
-        if (isObject(property) && typeof property.$ref === 'string') {
-          delete property.enum;
-          delete property.const;
+        if (isObject(property)) {
+          collapseToEnumRef(property);
         }
       }
     }

@@ -28,5 +28,6 @@ allOf:
       vpn_methods:
         $ref: smartsignals/VpnMethods.yaml
       source:
-        $ref: platform/EventSource.yaml
-        const: edge
+        allOf:
+          - $ref: platform/EventSource.yaml
+          - const: edge

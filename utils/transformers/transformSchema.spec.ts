@@ -126,7 +126,13 @@ describe('Test transformSchema pipelines for v4', () => {
           edge: '#/components/schemas/EventEdge',
         },
       });
-      expect(parsed.components.schemas.EventDevice.properties.source).toBeDefined();
+      expect(parsed.components.schemas.EventDevice.properties.source).toEqual({
+        allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'device' }],
+        'x-platforms': ['android', 'ios', 'browser'],
+      });
+      expect(parsed.components.schemas.EventEdge.properties.source).toEqual({
+        allOf: [{ $ref: '#/components/schemas/EventSource' }, { const: 'edge' }],
+      });
       expect(parsed.components.schemas.EventDevice.properties.ip_info).toBeDefined();
       expect(parsed.components.schemas.EventEdge.properties.ip_info).toBeDefined();
       expect(parsed.components.schemas.EventDevice.properties.identification).toBeDefined();
@@ -148,7 +154,10 @@ describe('Test transformSchema pipelines for v4', () => {
       expect(event.discriminator).toBeUndefined();
       expect(event.properties.identification).toBeDefined();
       expect(event.properties.ip_info).toBeDefined();
-      expect(event.properties.source).toBeDefined();
+      expect(event.properties.source).toEqual({
+        $ref: '#/components/schemas/EventSource',
+        'x-platforms': ['android', 'ios', 'browser'],
+      });
       expect(event.required).toEqual(expect.arrayContaining(['event_id', 'timestamp']));
       expect(event.required).not.toContain('source');
       expect(parsed.components.schemas.EventEdge.properties.ip_info).toBeDefined();
