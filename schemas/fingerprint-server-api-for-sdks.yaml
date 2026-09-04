@@ -1858,8 +1858,8 @@ paths:
                           score: 1
                         visitorFound: true
                         firstSeenAt:
-                          global: '2022-02-04T11:31:20Z'
-                          subscription: '2022-02-04T11:31:20Z'
+                          global: '2022-02-04T11:31:20.000Z'
+                          subscription: '2022-02-04T11:31:20.000Z'
                         lastSeenAt:
                           global: '2022-06-16T10:03:00.912Z'
                           subscription: '2022-06-16T10:03:00.912Z'
@@ -2346,7 +2346,7 @@ paths:
                           tag:
                             requestType: signup
                             yourCustomId: 45321
-                          time: '2019-10-12T07:20:50.52Z'
+                          time: '2019-10-12T07:20:50.520Z'
                           timestamp: 1554910997788
                           ipLocation:
                             accuracyRadius: 1

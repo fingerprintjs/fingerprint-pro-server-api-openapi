@@ -2442,8 +2442,8 @@ paths:
                           score: 1
                         visitorFound: true
                         firstSeenAt:
-                          global: '2022-02-04T11:31:20Z'
-                          subscription: '2022-02-04T11:31:20Z'
+                          global: '2022-02-04T11:31:20.000Z'
+                          subscription: '2022-02-04T11:31:20.000Z'
                         lastSeenAt:
                           global: '2022-06-16T10:03:00.912Z'
                           subscription: '2022-06-16T10:03:00.912Z'
