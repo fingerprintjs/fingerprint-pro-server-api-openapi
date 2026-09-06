@@ -71,6 +71,10 @@ describe('liftOneOfSharedPropertiesTransformer', () => {
               {
                 type: 'object',
                 properties: {
+                  url: {
+                    $ref: '#/components/schemas/Url',
+                    'x-platforms': ['browser'],
+                  },
                   source: {
                     $ref: '#/components/schemas/Kind',
                     const: 'device',
@@ -93,7 +97,12 @@ describe('liftOneOfSharedPropertiesTransformer', () => {
     expect(schema.components.schemas.Event.properties).toBeUndefined();
     expect(schema.components.schemas.EventDevice.properties).toBeUndefined();
     expect(schema.components.schemas.EventDevice.allOf[0].properties.source).toEqual({
-      allOf: [{ $ref: '#/components/schemas/Kind' }, { const: 'device', 'x-platforms': ['browser'] }],
+      allOf: [{ $ref: '#/components/schemas/Kind' }, { const: 'device' }],
+      'x-platforms': ['browser'],
+    });
+    expect(schema.components.schemas.EventDevice.allOf[0].properties.url).toEqual({
+      $ref: '#/components/schemas/Url',
+      'x-platforms': ['browser'],
     });
   });
 

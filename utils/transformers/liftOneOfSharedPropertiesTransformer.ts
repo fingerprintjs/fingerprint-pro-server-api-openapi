@@ -34,8 +34,8 @@ function takeKeys(schema: JsonObject, keys: string[]): JsonObject {
 }
 
 /**
- * Convert `{ $ref: ..., ...constraints }` to `allOf` form to keep downstream
- * allOf/oneOf resolvers behavior consistent.
+ * Convert `{ $ref, const|enum, ... }` to `allOf: [$ref, const|enum]` plus leftover
+ * siblings (e.g. `x-platforms`). JSON Schema ignores keywords next to `$ref`.
  */
 function normalizeRefSiblings(node: unknown): void {
   if (Array.isArray(node)) {
@@ -49,15 +49,18 @@ function normalizeRefSiblings(node: unknown): void {
 
   Object.values(node).forEach((value) => normalizeRefSiblings(value));
 
-  if (Object.hasOwn(node, '$ref') && Object.keys(node).length > 1) {
-    const { $ref, ...siblingConstraints } = node;
-
-    Object.keys(node).forEach((key) => {
-      delete node[key];
-    });
-
-    node.allOf = [{ $ref }, siblingConstraints];
+  if (!Object.hasOwn(node, '$ref') || (!Object.hasOwn(node, 'const') && !Object.hasOwn(node, 'enum'))) {
+    return;
   }
+
+  const { $ref, const: constValue, enum: enumValue, ...rest } = node;
+
+  Object.keys(node).forEach((key) => {
+    delete node[key];
+  });
+
+  node.allOf = [{ $ref }, constValue !== undefined ? { const: constValue } : { enum: enumValue }];
+  Object.assign(node, rest);
 }
 
 function wrapVariantWithBase(schema: JsonObject, baseSchema: JsonObject): boolean {
