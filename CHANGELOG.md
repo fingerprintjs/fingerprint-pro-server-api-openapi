@@ -1,5 +1,11 @@
 # fingerprint-pro-server-api-openapi
 
+## 3.7.1
+
+### Patch Changes
+
+- Update API v3 error responses, timestamp formats, proxy metadata, and visitor endpoint documentation. Require `Labels.label`, set the default value of `reverse` to `false`, and limit `VisitorsGetResponse.visits` to one item. ([53cf017](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/53cf017ce5c6e3fe273828a6e24f33d93bbb6c6c))
+
 ## 3.7.0
 
 ### Minor Changes
