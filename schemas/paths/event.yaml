@@ -47,14 +47,14 @@ get:
               summary: Example event from the Automation Intelligence API with Bot and IP intelligence
               externalValue: examples/events/get_event_with_edge_200.json
     '400':
-      description: Bad request. The event Id provided is not valid.
+      description: Bad request. The event ID provided is not valid.
       content:
         application/json:
           schema:
             $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             400-bad-request:
-              summary: Error response when the provided event Id is invalid.
+              summary: Error response when the provided event ID is invalid.
               externalValue: examples/errors/400_event_id_invalid.json
             400-ruleset-not-found:
               summary: Error response when the ruleset with the provided ID is not found.
@@ -73,14 +73,14 @@ get:
               summary: Error response when the provided secret API key does not exist.
               externalValue: examples/errors/403_secret_api_key_not_found.json
     '404':
-      description: Not found. The event Id cannot be found in this workspace's data.
+      description: Not found. The event ID cannot be found in this workspace's data.
       content:
         application/json:
           schema:
             $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             404-request-not-found:
-              summary: Error response when the provided event Id does not exist.
+              summary: Error response when the provided event ID does not exist.
               externalValue: examples/errors/404_event_not_found.json
     '429':
       description: |
@@ -177,14 +177,14 @@ patch:
               summary: Error response when the API region is different from the region, the calling workspace is configured with.
               externalValue: examples/errors/403_wrong_region.json
     '404':
-      description: Not found. The event Id cannot be found in this workspace's data.
+      description: Not found. The event ID cannot be found in this workspace's data.
       content:
         application/json:
           schema:
             $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             404-request-not-found:
-              summary: Error response when the provided event Id does not exist.
+              summary: Error response when the provided event ID does not exist.
               externalValue: examples/errors/404_event_not_found.json
     '409':
       description: Conflict. The event is not mutable yet.

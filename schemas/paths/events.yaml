@@ -190,7 +190,7 @@ get:
       description: |
         Filter events by your custom identifier.
 
-        You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
     - name: url
       in: query
       schema:
@@ -576,10 +576,10 @@ get:
               summary: Error response when an invalid end time is supplied.
               externalValue: examples/errors/400_end_time_invalid.json
             400-visitor-id-invalid:
-              summary: Error response when an invalid visitor Id is supplied.
+              summary: Error response when an invalid visitor ID is supplied.
               externalValue: examples/errors/400_visitor_id_invalid.json
             400-linked-id-invalid:
-              summary: Error response when an invalid (too large) linked Id is supplied.
+              summary: Error response when an invalid (too large) linked ID is supplied.
               externalValue: examples/errors/400_linked_id_invalid.json
             400-pagination-key-invalid:
               summary: Error response when an invalid pagination key is supplied.

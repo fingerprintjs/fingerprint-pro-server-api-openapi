@@ -1,7 +1,7 @@
 type: string
 examples:
   - somelinkedId
-description: A customer-provided id that was sent with the request.
+description: A customer-provided ID that was sent with the request.
 x-ruleset-metadata:
   label: Linked ID
   category: platform
