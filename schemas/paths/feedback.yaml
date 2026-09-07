@@ -62,14 +62,14 @@ post:
               summary: Error response when the provided secret API key does not exist.
               externalValue: examples/errors/403_secret_api_key_not_found.json
     '404':
-      description: Not found. The event Id cannot be found in this workspace's data.
+      description: Not found. The event ID cannot be found in this workspace's data.
       content:
         application/json:
           schema:
             $ref: ../components/schemas/error/ErrorResponse.yaml
           examples:
             404-event-not-found:
-              summary: Error response when the provided event Id does not exist.
+              summary: Error response when the provided event ID does not exist.
               externalValue: examples/errors/404_event_not_found.json
     '429':
       description: Too Many Requests. The request is throttled.

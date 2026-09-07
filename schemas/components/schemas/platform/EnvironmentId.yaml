@@ -1,7 +1,7 @@
 type: string
 examples:
   - ae_47abaca3db2c7c43
-description: Environment Id of the event.
+description: Environment ID of the event.
 x-ruleset-metadata:
   label: Environment ID
   category: platform
