@@ -68,6 +68,102 @@ describe('renderSchemaDiffComment', () => {
     expect(output).toContain('@@ -2 +2 @@');
   });
 
+  it('omits patch details when the comment would exceed the GitHub limit', () => {
+    const report = {
+      generatedAt: '2026-02-17T00:00:00.000Z',
+      baseUrl: 'https://example.com/schemas',
+      comparedCount: 1,
+      changedCount: 1,
+      files: [
+        {
+          fileName: 'large.yaml',
+          remoteUrl: 'https://example.com/schemas/large.yaml',
+          changed: true,
+          summary: {
+            addedElements: ['/new'],
+            removedElements: [],
+            modifiedElements: ['/changed'],
+            addedCount: 1,
+            removedCount: 0,
+            modifiedCount: 1,
+          },
+          patch: `@@ -1 +1 @@\n-${'a'.repeat(70_000)}\n+b`,
+        },
+      ],
+    };
+
+    const output = renderSchemaDiffComment(report);
+
+    expect(Buffer.byteLength(output, 'utf8')).toBeLessThanOrEqual(65_536);
+    expect(output).toContain('Summary: +1 added, -0 removed, ~1 modified');
+    expect(output).toContain('Detailed changed-lines patches were omitted');
+    expect(output).not.toContain('```diff');
+  });
+
+  it('omits element lists when they would exceed the GitHub limit', () => {
+    const report = {
+      generatedAt: '2026-02-17T00:00:00.000Z',
+      baseUrl: 'https://example.com/schemas',
+      comparedCount: 1,
+      changedCount: 1,
+      files: [
+        {
+          fileName: 'large.yaml',
+          remoteUrl: 'https://example.com/schemas/large.yaml',
+          changed: true,
+          summary: {
+            addedElements: Array.from({ length: 7_000 }, (_, index) => `/new/${index}`),
+            removedElements: [],
+            modifiedElements: [],
+            addedCount: 7_000,
+            removedCount: 0,
+            modifiedCount: 0,
+          },
+          patch: '@@ -1 +1 @@\n-a\n+b',
+        },
+      ],
+    };
+
+    const output = renderSchemaDiffComment(report);
+
+    expect(Buffer.byteLength(output, 'utf8')).toBeLessThanOrEqual(65_536);
+    expect(output).toContain('Summary: +7000 added, -0 removed, ~0 modified');
+    expect(output).toContain('Element lists and changed-lines patches were omitted');
+    expect(output).not.toContain('`/new/0`');
+  });
+
+  it('renders a minimal report when per-schema summaries would exceed the GitHub limit', () => {
+    const report = {
+      generatedAt: '2026-02-17T00:00:00.000Z',
+      baseUrl: 'https://example.com/schemas',
+      comparedCount: 1,
+      changedCount: 1,
+      files: [
+        {
+          fileName: `${'a'.repeat(70_000)}.yaml`,
+          remoteUrl: 'https://example.com/schemas/large.yaml',
+          changed: true,
+          summary: {
+            addedElements: [],
+            removedElements: [],
+            modifiedElements: [],
+            addedCount: 0,
+            removedCount: 0,
+            modifiedCount: 0,
+          },
+          patch: '',
+        },
+      ],
+    };
+
+    const output = renderSchemaDiffComment(report);
+
+    expect(Buffer.byteLength(output, 'utf8')).toBeLessThanOrEqual(65_536);
+    expect(output).toContain('Per-schema details were omitted');
+    expect(output).toContain('Changed schemas: `1` of `1`');
+    expect(output).not.toContain('.yaml');
+  });
+
   it('renders new schema with NEW label', () => {
     const report = {
       generatedAt: '2026-02-17T00:00:00.000Z',

@@ -283,7 +283,7 @@ export async function runSchemaDiffPublished(options: RunOptions = {}, deps: Run
 
   if (commentOut) {
     fs.mkdirSync(path.dirname(commentOut), { recursive: true });
-    fs.writeFileSync(commentOut, `${comment}\n`, 'utf8');
+    fs.writeFileSync(commentOut, comment, 'utf8');
   }
 
   if (!commentOut) {

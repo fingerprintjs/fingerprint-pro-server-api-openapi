@@ -109,6 +109,46 @@ info:
     expect(report.files[0].summary.modifiedCount).toBeGreaterThan(0);
   });
 
+  it('writes an oversized diff within the GitHub comment limit', async () => {
+    const rootDir = createTempDir();
+    const localDir = path.join(rootDir, 'dist/schemas');
+    const commentOut = path.join(rootDir, 'comment.md');
+    const schemaRemote = `openapi: 3.0.3
+info:
+  title: API
+  version: '1.0'
+  description: Old
+`;
+    const schemaLocal = `openapi: 3.0.3
+info:
+  title: API
+  version: '1.0'
+  description: ${'a'.repeat(70_000)}
+`;
+    writeSchema(localDir, 'sample.yaml', schemaLocal);
+
+    await runSchemaDiffPublished(
+      {
+        localDir,
+        baseUrl: 'https://schemas.example.test',
+        commentOut,
+      },
+      {
+        fetchImpl: async () => ({
+          ok: true,
+          status: 200,
+          text: async () => schemaRemote,
+        }),
+        now: () => new Date('2026-02-17T12:00:00.000Z'),
+      }
+    );
+
+    const comment = fs.readFileSync(commentOut, 'utf8');
+    expect(Buffer.byteLength(comment, 'utf8')).toBeLessThanOrEqual(65_536);
+    expect(comment).toContain('Detailed changed-lines patches were omitted');
+    expect(comment).not.toContain('```diff');
+  });
+
   it('treats 404 as new schema instead of failing', async () => {
     const rootDir = createTempDir();
     const localDir = path.join(rootDir, 'dist/schemas');
