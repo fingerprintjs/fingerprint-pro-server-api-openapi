@@ -371,8 +371,11 @@ paths:
                       labels:
                         data:
                           - label: fraud
+                            category: "general_fraud"
                             prediction: false
                             mlScore: 0.01
+                            version: "3"
+                            threshold: 0.5
                 200-all-errors:
                   summary: All failed signals
                   value:
@@ -3920,9 +3923,18 @@ components:
         properties:
           label:
             type: string
+          category:
+            type: string
           prediction:
             type: boolean
           mlScore:
+            type: number
+            format: double
+            minimum: 0
+            maximum: 1
+          version:
+            type: string
+          threshold:
             type: number
             format: double
             minimum: 0
