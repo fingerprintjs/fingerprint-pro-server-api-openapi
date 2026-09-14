@@ -22,9 +22,6 @@ tags:
   - name: Edge
     description: |
       Create events with the Automation Intelligence API.
-  - name: Labels
-    description: |
-      Submit Fraud Labels.
 servers:
   - url: https://api.fpjs.io/v4
     description: Global
