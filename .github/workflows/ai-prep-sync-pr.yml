@@ -115,6 +115,11 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
+          if [ -z "$(git status --porcelain .changeset)" ]; then
+            echo "No changeset changes to commit"
+            exit 0
+          fi
+
           # Commit through the API so GitHub signs each commit with the app's
           # key; a local `git commit` + `git push` would be unsigned.
           for file in $(git ls-files --others --exclude-standard -- .changeset/); do
