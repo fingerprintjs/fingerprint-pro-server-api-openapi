@@ -160,6 +160,11 @@ properties:
       - browser
       - android
       - ios
+  device_details:
+    $ref: smartsignals/DeviceDetails.yaml
+    x-platforms:
+      - android
+      - ios
   emulator:
     $ref: smartsignals/Emulator.yaml
     x-platforms:
