@@ -110,19 +110,21 @@ jobs:
             echo "title=$new_title" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit and push changeset(s)
+      - name: Commit changeset(s)
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ -z "$(git status --porcelain .changeset)" ]; then
-            echo "No changeset changes to commit"
-            exit 0
-          fi
-          git config user.name "fingerprint-dx-team-actions-runner[bot]"
-          git config user.email "fingerprint-dx-team-actions-runner[bot]@users.noreply.github.com"
-          git add .changeset/
-          git commit -m "chore: add changeset(s) [skip ci-ai-prep]"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          # Commit through the API so GitHub signs each commit with the app's
+          # key; a local `git commit` + `git push` would be unsigned.
+          for file in $(git ls-files --others --exclude-standard -- .changeset/); do
+            echo "Committing $file"
+            gh api --method PUT "repos/$GITHUB_REPOSITORY/contents/$file" \
+              --field branch="$BRANCH" \
+              --field message="chore: add changeset $(basename "$file") [skip ci-ai-prep]" \
+              --field content="$(base64 -w0 "$file")" \
+              --silent
+          done
 
       - name: Rename PR
         if: steps.title.outputs.title != ''
