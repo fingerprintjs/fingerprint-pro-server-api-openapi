@@ -1,5 +1,5 @@
 {
-  "name": "fingerprint-pro-server-api-openapi",
+  "name": "openapi",
   "private": true,
   "version": "3.7.1",
   "main": "index.js",

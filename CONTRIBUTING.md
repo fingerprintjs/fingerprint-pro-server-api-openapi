@@ -18,7 +18,7 @@ You can find the schemas definitions in the [schemas](/schemas) folder. You can 
 
 Use the included [Swagger UI](https://github.com/swagger-api/swagger-ui) demo app to dynamically render your changes into a documentation site a preview them there. Some mistakes and inconsistencies are much easier to spot in rendered documentation than by looking at the raw schema.
 
-1. Clone this repository: `git clone https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi.git`
+1. Clone this repository: `git clone https://github.com/fingerprintjs/openapi.git`
 2. Install dependencies: `pnpm install`
 3. Run `pnpm dev` to start the demo app
 
@@ -45,7 +45,7 @@ Optional:
 - Save a JSON report: `pnpm schema:diff:published -- --json-out ./tmp/schema-diff-report.json`
 - Save the rendered PR comment body: `pnpm schema:diff:published -- --comment-out ./tmp/schema-diff-comment.md`
 - Compare against a custom published base URL:
-  `pnpm schema:diff:published -- --base-url https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas`
+  `pnpm schema:diff:published -- --base-url https://fingerprintjs.github.io/openapi/schemas`
 
 ### Schema Validation
 
@@ -62,7 +62,7 @@ To validate that schema matches the actual API implementation we use a [special 
 
 ### Describing changes
 
-[Releases](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/releases) from this repository are propagated to our server-side SDKs, that's why it's important to provide meaningful release notes if there are relevant changes.
+[Releases](https://github.com/fingerprintjs/openapi/releases) from this repository are propagated to our server-side SDKs, that's why it's important to provide meaningful release notes if there are relevant changes.
 We use [changesets](https://github.com/changesets/changesets) for that. If you want to describe your changes, run:
 
 ```sh
@@ -74,7 +74,7 @@ Example changeset looks like this:
 
 ```markdown
 ---
-'fingerprint-pro-server-api-openapi': minor
+'openapi': minor
 ---
 
 **visitors**: Add the confidence field to the VPN Detection Smart Signal
@@ -84,7 +84,7 @@ Example changeset looks like this:
 
 - `visitors` - scope of the changes. Scopes are defined in the [config/scopes.yaml](config/scopes.yaml) file. Certain scopes are ignored in certain SDKs if they are not supported, meaning that they will be ignored for them. You will be prompted to select scope in the CLI.
 - `Add the confidence field to the VPN Detection Smart Signal` - meaningful description of the change.
-- `fingerprint-pro-server-api-openapi` - name of the package
+- `openapi` - name of the package
 - `minor` - version of the change, can be: `patch`, `minor`, `major`
 
 #### Choosing the version bump
@@ -101,8 +101,8 @@ Don't create a changeset for documentation-only changes (descriptions, examples)
 
 On every push into `main` (merged PR):
 
-- The built schema is published to [GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
-- The built schema is published as a [raw yaml file](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api.yaml).
+- The built schema is published to [GitHub pages](https://fingerprintjs.github.io/openapi/).
+- The built schema is published as a [raw yaml file](https://fingerprintjs.github.io/openapi/schemas/fingerprint-server-api.yaml).
 - After GitHub Pages deploy, the docs repo OpenAPI sync workflows run. They open a PR only if the published spec changed, which updates the [API Reference](https://docs.fingerprint.com/reference/server-api-v4).
 
 See the [publish.yml](.github/workflows/publish.yml) workflow for more details.
@@ -111,7 +111,7 @@ See the [publish.yml](.github/workflows/publish.yml) workflow for more details.
 
 GitHub releases are used to generate Server SDKs based on a specific version of the OpenAPI schema.
 
-After merging to `main`, if there are relevant changes, you can manually trigger the [Release](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/release.yml) workflow, which will consume created changeset files and create PR with bumped version and updated changelog.
+After merging to `main`, if there are relevant changes, you can manually trigger the [Release](https://github.com/fingerprintjs/openapi/actions/workflows/release.yml) workflow, which will consume created changeset files and create PR with bumped version and updated changelog.
 
 ### Release note sync with SDKs
 

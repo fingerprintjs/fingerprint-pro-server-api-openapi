@@ -14,7 +14,7 @@
   "changelog": [
     "@fingerprintjs/changesets-changelog-format",
     {
-      "repo": "fingerprintjs/fingerprint-pro-server-api-openapi"
+      "repo": "fingerprintjs/openapi"
     }
   ]
 }

@@ -42,7 +42,7 @@ jobs:
       - name: Compute known remote schema files
         id: known-remote
         env:
-          MANIFEST_URL: https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/index.json
+          MANIFEST_URL: https://fingerprintjs.github.io/openapi/schemas/index.json
         run: |
           KNOWN_REMOTE_FILES="$(curl -fsSL "$MANIFEST_URL" | jq -r '.files[]' | paste -sd, -)"
           echo "files=${KNOWN_REMOTE_FILES}" >> "$GITHUB_OUTPUT"
