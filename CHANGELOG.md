@@ -1,4 +1,4 @@
-# fingerprint-pro-server-api-openapi
+# openapi
 
 ## 3.8.0
 

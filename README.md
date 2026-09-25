@@ -8,7 +8,7 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/actions/workflows/validate.yml/badge.svg" alt="CI badge" /></a>
+  <a href="https://github.com/fingerprintjs/openapi/actions/workflows/validate.yml"><img src="https://github.com/fingerprintjs/openapi/actions/workflows/validate.yml/badge.svg" alt="CI badge" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/:license-mit-blue.svg?style=flat"/></a>
   <a href="https://discord.gg/39EpE2neBg"><img src="https://img.shields.io/discord/852099967190433792?style=logo&label=Discord&logo=Discord&logoColor=white" alt="Discord server"></a>
 </p>
@@ -21,8 +21,8 @@ This repository contains the [OpenAPI](https://spec.openapis.org/oas/) schema of
 
 ## Getting started
 
-- The OpenAPI schema is published to the [Fingerprint API reference](https://docs.fingerprint.com/reference/server-api) and also as a [Swagger UI app on GitHub pages](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/).
-- You can also [download the latest schema file here](https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas/fingerprint-server-api-v4-with-examples.yaml).
+- The OpenAPI schema is published to the [Fingerprint API reference](https://docs.fingerprint.com/reference/server-api) and also as a [Swagger UI app on GitHub pages](https://fingerprintjs.github.io/openapi/).
+- You can also [download the latest schema file here](https://fingerprintjs.github.io/openapi/schemas/fingerprint-server-api-v4-with-examples.yaml).
 
 > [!NOTE]  
 > Please note that some signals and attributes present in the schema are only available to Enterprise or Pro Plus customers on request, as indicated in the signal description.
@@ -33,7 +33,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## Support and feedback
 
-To report problems, ask questions, or provide feedback, please use [Issues](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/issues). If you need private support, you can email us at [oss-support@fingerprint.com](mailto:oss-support@fingerprint.com).
+To report problems, ask questions, or provide feedback, please use [Issues](https://github.com/fingerprintjs/openapi/issues). If you need private support, you can email us at [oss-support@fingerprint.com](mailto:oss-support@fingerprint.com).
 
 ## License
 

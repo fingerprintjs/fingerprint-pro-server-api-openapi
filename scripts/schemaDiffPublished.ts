@@ -7,7 +7,7 @@ import { renderSchemaDiffComment } from '../utils/schemaDiff/renderComment.ts';
 import { buildUnifiedPatch } from '../utils/schemaDiff/unifiedPatch.ts';
 import type { OpenApiDocument } from '../utils/openapi.ts';
 
-const DEFAULT_BASE_URL = 'https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi/schemas';
+const DEFAULT_BASE_URL = 'https://fingerprintjs.github.io/openapi/schemas';
 const DEFAULT_LOCAL_DIR = 'dist/schemas';
 
 interface CliOptions {

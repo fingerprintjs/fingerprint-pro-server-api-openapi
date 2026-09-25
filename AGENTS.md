@@ -34,7 +34,7 @@ Example:
 
 ```markdown
 ---
-'fingerprint-pro-server-api-openapi': minor
+'openapi': minor
 ---
 
 **events**: Add `proxy_ml_score` to `Event`
