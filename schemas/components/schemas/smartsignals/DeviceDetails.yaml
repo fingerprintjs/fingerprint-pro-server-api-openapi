@@ -1,0 +1,25 @@
+type: object
+additionalProperties: false
+description: Native, SDK-collected mobile device identification signals (manufacturer, model, and OS version). Structurally separate from the top-level `device`, `os`, and `os_version` fields and from `browser_details`, all of which are derived from user-agent parsing rather than native SDK signals.
+required: []
+properties:
+  device_manufacturer:
+    type: string
+    examples:
+      - samsung
+      - Apple
+    description: 'Raw device manufacturer string as reported by the device OS. Not normalized: casing is vendor-defined (samsung, Xiaomi, OPPO, HUAWEI). Always `Apple` on iOS.'
+  device_model:
+    type: string
+    examples:
+      - SM-G991U
+      - iPhone14,5
+    description: Raw device model identifier, as reported by the mobile OS.
+  os_version:
+    type: string
+    examples:
+      - '9'
+      - '16.1'
+      - 8.1.0
+      - 17.4.1
+    description: 'Mobile operating system version. Component count is not fixed and must not be assumed by consumers: iOS always reports `major.minor.patch` (e.g. `17.4.1`), while Android''s precision varies by OS era and which raw signal resolved it — `major` only (`9`, `13`) since Android 10 dropped point releases, `major.minor` (`16.1`) from Android 16 (API 36+) reintroducing a minor component, or a genuine `major.minor.patch` (`8.1.0`) on pre-Android 10 devices that shipped real point releases. Never a fabricated/zero-padded component.'

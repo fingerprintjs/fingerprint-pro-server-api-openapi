@@ -1,5 +1,11 @@
 # openapi
 
+## 3.8.0
+
+### Minor Changes
+
+- **events**: Add `device_details` smart signal to `Event` ([ada12d4](https://github.com/fingerprintjs/fingerprint-pro-server-api-openapi/commit/ada12d45a1fbb33da99d82ebc956b743342c45c4))
+
 ## 3.7.1
 
 ### Patch Changes
