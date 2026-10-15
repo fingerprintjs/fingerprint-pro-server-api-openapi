@@ -80,6 +80,14 @@ describe('flattenNamedSchemaOneOfTransformer', () => {
     expect(schema.components.schemas.Event.required).toEqual(['event_id']);
   });
 
+  it('replaces the description when one is given', () => {
+    const schema = eventUnionSchema();
+
+    flattenNamedSchemaOneOfTransformer('Event', { description: 'A flat event.' })(schema);
+
+    expect(schema.components.schemas.Event.description).toBe('A flat event.');
+  });
+
   it('does not touch other oneOf schemas', () => {
     const schema = eventUnionSchema();
     const original = structuredClone(schema.components.schemas.EventRuleAction);

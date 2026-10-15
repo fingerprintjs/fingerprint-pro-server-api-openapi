@@ -7,6 +7,10 @@ export type FlattenNamedSchemaOneOfOptions = {
    * variant requires them. Keeps `Event.source` optional in SDK schemas.
    */
   optionalProperties?: string[];
+  /**
+   * Replaces the union's description, which usually describes the variants and doesn't fit a flat object.
+   */
+  description?: string;
 };
 
 /**
@@ -18,7 +22,7 @@ export type FlattenNamedSchemaOneOfOptions = {
  */
 export function flattenNamedSchemaOneOfTransformer(
   schemaName: string,
-  { optionalProperties = [] }: FlattenNamedSchemaOneOfOptions = {}
+  { optionalProperties = [], description }: FlattenNamedSchemaOneOfOptions = {}
 ): Transformer {
   return (apiDefinition) => {
     const schemas = apiDefinition.components?.schemas;
@@ -28,6 +32,10 @@ export function flattenNamedSchemaOneOfTransformer(
     }
 
     replaceOneOf(schema, schemas, 'oneOf');
+
+    if (description !== undefined) {
+      schema.description = description;
+    }
 
     // replaceOneOf merges the variants' `const`s into an `enum` next to the `$ref`. Keep the plain `$ref`.
     for (const property of Object.values<Record<string, unknown>>(schema.properties ?? {})) {

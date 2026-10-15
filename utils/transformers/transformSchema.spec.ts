@@ -198,6 +198,9 @@ describe('Test transformSchema pipelines for v4', () => {
         }))
       ).toEqual(publishedProperties);
       expect(event.required).toEqual(publishedEvent.required);
+      // The union's description ("discriminated by its `source` property") doesn't fit a flat object.
+      expect(event.description).toMatch(/^Contains results from Fingerprint Identification/);
+      expect(event.description).not.toMatch(/discriminated/);
       expect(schemas.EventRuleAction.oneOf).toBeDefined();
     });
   });
