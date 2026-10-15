@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { defineConfig, type Plugin } from 'vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import {
+  commonTransformers,
   readmeApiExplorerTransformers,
   relatedVisitorsApiTransformers,
   removeExtraDocumentationTransformers,
@@ -54,7 +55,7 @@ const schemaOutputs = [
   {
     from: 'schemas/fingerprint-server-api-for-sdks.yaml',
     to: 'fingerprint-server-api.yaml',
-    transformers: undefined,
+    transformers: commonTransformers,
   },
   {
     from: 'schemas/fingerprint-related-visitors-api-readme-explorer.yaml',
@@ -107,8 +108,7 @@ export default defineConfig({
           src: from,
           dest: 'schemas',
           rename: { stripBase: true, name: to },
-          transform: (content: string) =>
-            transformers ? transformSchema(content, transformers) : transformSchema(content),
+          transform: (content: string) => transformSchema(content, transformers),
         })),
         {
           src: ['schemas/paths/examples/**/*', '!schemas/paths/examples/edge/**'],
