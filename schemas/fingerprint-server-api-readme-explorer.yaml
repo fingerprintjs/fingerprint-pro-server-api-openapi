@@ -6,12 +6,12 @@ info:
 
     >
 
-    > This version of Server API is marked as deprecated starting on **Jan 7th
-    2026** according to our [API Deprecation
+    > Server API v3 is deprecated as of **October 31, 2026**, and stops working
+    on **October 31, 2027**, according to the [API Deprecation
     Policy](https://docs.fingerprint.com/reference/api-deprecation-policy). If
-    you still use this version, please follow our [migration
+    you still use v3, follow the [migration
     guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4)
-    to migrate from this deprecated version to the new one.
+    to move to v4 before that date.
 
 
     Fingerprint Server API allows you to search, update, and delete
@@ -66,12 +66,12 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Jan
-        7th 2026** according to our [API Deprecation
+        > Server API v3 is deprecated as of **October 31, 2026**, and stops
+        working on **October 31, 2027**, according to the [API Deprecation
         Policy](https://docs.fingerprint.com/reference/api-deprecation-policy).
-        If you still use this version, please follow our [migration
+        If you still use v3, follow the [migration
         guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4#migrating-get-/events)
-        to migrate from this deprecated version to the new one.
+        to move to v4 before that date.
 
 
         Get a detailed analysis of an individual identification event, including
@@ -843,12 +843,12 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Jan
-        7th 2026** according to our [API Deprecation
+        > Server API v3 is deprecated as of **October 31, 2026**, and stops
+        working on **October 31, 2027**, according to the [API Deprecation
         Policy](https://docs.fingerprint.com/reference/api-deprecation-policy).
-        If you still use this version, please follow our [migration
+        If you still use v3, follow the [migration
         guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4#migrating-update-/events)
-        to migrate from this deprecated version to the new one.
+        to move to v4 before that date.
 
 
         Change information in existing events specified by `requestId` or *flag
@@ -1211,12 +1211,12 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Jan
-        7th 2026** according to our [API Deprecation
+        > Server API v3 is deprecated as of **October 31, 2026**, and stops
+        working on **October 31, 2027**, according to the [API Deprecation
         Policy](https://docs.fingerprint.com/reference/api-deprecation-policy).
-        If you still use this version, please follow our [migration
+        If you still use v3, follow the [migration
         guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4#migrating-get-/events/search)
-        to migrate from this deprecated version to the new one.
+        to move to v4 before that date.
 
 
         Search for identification events, including Smart Signals, using
@@ -2285,12 +2285,12 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Jan
-        7th 2026** according to our [API Deprecation
+        > Server API v3 is deprecated as of **October 31, 2026**, and stops
+        working on **October 31, 2027**, according to the [API Deprecation
         Policy](https://docs.fingerprint.com/reference/api-deprecation-policy).
-        If you still use this version, please follow our [migration
+        If you still use v3, follow the [migration
         guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4#migrating-get-/visitors)
-        to migrate from this deprecated version to the new one.
+        to move to v4 before that date.
 
 
         This endpoint is deprecated. Use `GET /events/search` to query visit
@@ -2709,12 +2709,12 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Jan
-        7th 2026** according to our [API Deprecation
+        > Server API v3 is deprecated as of **October 31, 2026**, and stops
+        working on **October 31, 2027**, according to the [API Deprecation
         Policy](https://docs.fingerprint.com/reference/api-deprecation-policy).
-        If you still use this version, please follow our [migration
+        If you still use v3, follow the [migration
         guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4)
-        to migrate from this deprecated version to the new one.
+        to move to v4 before that date.
 
 
         Request deleting all data associated with the specified visitor ID. This

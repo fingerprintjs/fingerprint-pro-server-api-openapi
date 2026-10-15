@@ -6,13 +6,10 @@ info:
 
     >
 
-    > This version of Server API is marked as deprecated starting on **Jan 7th
-    2026** and will be fully defunct on **Jan 7th 2027** according to our [API
-    Deprecation
-    Policy](https://docs.fingerprint.com/reference/api-deprecation-policy). If
-    you still use this version, please follow our [migration
-    guide](https://docs.fingerprint.com/reference/migrating-from-server-api-v3-to-v4)
-    to migrate from this deprecated version to the new one.
+    > The Related Visitors API is deprecated as of **October 31, 2026**, and
+    stops working on **October 31, 2027**, according to the [API Deprecation
+    Policy](https://docs.fingerprint.com/reference/api-deprecation-policy). It
+    has no direct replacement in Server API v4.
 
 
     Use this API to unify and personalize the experience for your anonymous
@@ -48,10 +45,10 @@ paths:
 
         >
 
-        > This version of Server API is marked as deprecated starting on **Jan
-        7th 2026** and will be fully removed on **Jan 7th 2027** according to
-        our [API Deprecation
+        > The Related Visitors API is deprecated as of **October 31, 2026**, and
+        stops working on **October 31, 2027**, according to the [API Deprecation
         Policy](https://docs.fingerprint.com/reference/api-deprecation-policy).
+        It has no direct replacement in Server API v4.
 
 
         Related visitors API lets you link web visits and in-app browser visits
