@@ -2,11 +2,13 @@ import 'dotenv/config';
 import { defineConfig, type Plugin } from 'vite';
 import { viteStaticCopy, type Target } from 'vite-plugin-static-copy';
 import {
+  commonTransformers,
   readmeApiExplorerTransformers,
   relatedVisitorsApiTransformers,
   removeExtraDocumentationTransformers,
   schemaForSdksTransformers,
   transformSchema,
+  v4SchemaForSdksFlatTransformers,
   v4SchemaForSdksNormalizedTransformers,
   v4SchemaForSdksTransformers,
   v4Transformers,
@@ -26,18 +28,26 @@ const schemaOutputs = [
   },
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
-    // just schema used by most SDKs
+    // schema used by the Node SDK
     // examples are removed
-    // includes `oneOf` operators same as the source schema
+    // includes `oneOf` operators same as the source schema, including `Event` (`EventDevice | EventEdge`)
     // additionalProperties: false are removed for backward compatibility
     to: 'fingerprint-server-api-v4.yaml',
     transformers: v4SchemaForSdksTransformers,
   },
   {
     from: 'schemas/fingerprint-server-api-v4.yaml',
+    // schema used by the Python and PHP SDKs
+    // same as fingerprint-server-api-v4.yaml, but `Event` is flattened into one object with optional `source`
+    to: 'fingerprint-server-api-v4-flat.yaml',
+    transformers: v4SchemaForSdksFlatTransformers,
+  },
+  {
+    from: 'schemas/fingerprint-server-api-v4.yaml',
     // normalized schema used by SDKs in weakly typed languages
     // examples are removed
     // `oneOf` query parameters are split into two or more parameters
+    // `Event` is flattened into one object with optional `source`
     // additionalProperties: false are removed for backward compatibility
     to: 'fingerprint-server-api-v4-normalized.yaml',
     transformers: v4SchemaForSdksNormalizedTransformers,
@@ -45,7 +55,7 @@ const schemaOutputs = [
   {
     from: 'schemas/fingerprint-server-api-for-sdks.yaml',
     to: 'fingerprint-server-api.yaml',
-    transformers: undefined,
+    transformers: commonTransformers,
   },
   {
     from: 'schemas/fingerprint-related-visitors-api-readme-explorer.yaml',
@@ -98,8 +108,7 @@ export default defineConfig({
           src: from,
           dest: 'schemas',
           rename: { stripBase: true, name: to },
-          transform: (content: string) =>
-            transformers ? transformSchema(content, transformers) : transformSchema(content),
+          transform: (content: string) => transformSchema(content, transformers),
         })),
         {
           src: ['schemas/paths/examples/**/*', '!schemas/paths/examples/edge/**'],

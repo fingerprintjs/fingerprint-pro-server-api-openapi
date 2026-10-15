@@ -42,8 +42,14 @@ export function replaceOneOf(
           requiredCounts[propName] = (requiredCounts[propName] || 0) + 1;
         }
 
-        // Clone the property to avoid mutating the original schema
-        properties[propName] = structuredClone(currentItem.properties[propName]);
+        // Clone the property to avoid mutating the original schema.
+        // Keep x-platforms from an earlier variant when a later one omits them (EventEdge has none).
+        const property = structuredClone(currentItem.properties[propName]);
+        const previousPlatforms = properties[propName]?.['x-platforms'];
+        if (previousPlatforms !== undefined && property['x-platforms'] === undefined) {
+          property['x-platforms'] = previousPlatforms;
+        }
+        properties[propName] = property;
 
         if (!literalValues[propName]) {
           literalValues[propName] = [];

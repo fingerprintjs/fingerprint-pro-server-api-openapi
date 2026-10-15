@@ -4,6 +4,7 @@ import {
   transformSchema,
   v4Transformers,
   v4SchemaForSdksTransformers,
+  v4SchemaForSdksFlatTransformers,
   v4SchemaForSdksNormalizedTransformers,
 } from './transformSchema.ts';
 import type { OpenApiDocument } from '../openapi.ts';
@@ -116,7 +117,11 @@ describe('Test transformSchema pipelines for v4', () => {
       components: { schemas: {} },
     });
 
-    for (const transformers of [v4SchemaForSdksTransformers, v4SchemaForSdksNormalizedTransformers]) {
+    for (const transformers of [
+      v4SchemaForSdksTransformers,
+      v4SchemaForSdksFlatTransformers,
+      v4SchemaForSdksNormalizedTransformers,
+    ]) {
       const result = transformSchema(yamlWithEdge, transformers);
       const parsed = parseYaml(result);
       expect(parsed.paths['/edge']).toBeUndefined();
@@ -162,5 +167,41 @@ describe('Test transformSchema pipelines for v4', () => {
     const pathsYaml = toYaml(parsed.paths);
 
     expect(hasYamlKey(pathsYaml, 'oneOf')).toBe(false);
+  });
+
+  // `Event` as published before it became `EventDevice | EventEdge` (main:schemas/components/schemas/Event.yaml).
+  // SDKs on the flat and normalized schemas must keep the same properties, order and refs.
+  describe('flat and normalized SDK schemas keep the published Event shape', () => {
+    const publishedEvent = parseYaml(fs.readFileSync('./utils/mocks/publishedEvent.yaml'));
+    const toComponentRef = (fileRef: string) => fileRef.replace(/^(.*\/)?(\w+)\.yaml$/, '#/components/schemas/$2');
+    const publishedProperties = Object.entries<any>(publishedEvent.properties)
+      .filter(([name]) => name !== 'triggered_by')
+      .map(([name, property]) => ({
+        name,
+        $ref: toComponentRef(property.$ref),
+        'x-platforms': property['x-platforms'],
+      }));
+
+    it.each([
+      ['v4-flat', v4SchemaForSdksFlatTransformers],
+      ['v4-normalized', v4SchemaForSdksNormalizedTransformers],
+    ])('%s', (_, transformers) => {
+      const schemas = parseYaml(transformSchema(v4Schema, transformers)).components.schemas;
+      const event = schemas.Event;
+
+      expect(event.oneOf).toBeUndefined();
+      expect(
+        Object.entries<any>(event.properties).map(([name, property]) => ({
+          name,
+          $ref: property.$ref,
+          'x-platforms': property['x-platforms'],
+        }))
+      ).toEqual(publishedProperties);
+      expect(event.required).toEqual(publishedEvent.required);
+      // The union's description ("discriminated by its `source` property") doesn't fit a flat object.
+      expect(event.description).toMatch(/^Contains results from Fingerprint Identification/);
+      expect(event.description).not.toMatch(/discriminated/);
+      expect(schemas.EventRuleAction.oneOf).toBeDefined();
+    });
   });
 });
