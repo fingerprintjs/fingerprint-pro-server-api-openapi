@@ -1,5 +1,11 @@
 # openapi
 
+## 3.9.1
+
+### Patch Changes
+
+- Set the Server API v3 deprecation date to October 31, 2026 and the end-of-life date to October 31, 2027 in the endpoint descriptions ([9790b00](https://github.com/fingerprintjs/openapi/commit/9790b0004a6301b902d1e49b89a81523536c81a5))
+
 ## 3.9.0
 
 ### Minor Changes
