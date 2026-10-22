@@ -131,7 +131,9 @@ patch:
     When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters. 
     This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.
 
-    **Warning** It's not possible to update events older than one month. 
+    **Warning** You can only update events created within the last 10 days. Updating an older event returns HTTP 400 with the message `event is too old to be updated (> 10 days)`, even if your plan retains events for longer.
+
+    **Warning** Events created by the Automation Intelligence API (`POST /edge`) cannot be updated. Updating them returns HTTP 400.
 
     **Warning** Trying to update an event immediately after creation may temporarily result in an 
     error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
@@ -154,7 +156,7 @@ patch:
     '200':
       description: OK.
     '400':
-      description: Bad request. The request payload is not valid.
+      description: Bad request. The request payload is not valid, the event is older than 10 days, or the event cannot be updated.
       content:
         application/json:
           schema:
@@ -163,6 +165,12 @@ patch:
             example:
               summary: Error response when the specified request payload is not valid and cannot be parsed.
               externalValue: examples/errors/400_request_body_invalid.json
+            400-event-too-old:
+              summary: Error response when the event was created more than 10 days ago.
+              externalValue: examples/errors/400_event_too_old.json
+            400-edge-event-not-updatable:
+              summary: Error response when the event was created by the Automation Intelligence API and cannot be updated.
+              externalValue: examples/errors/400_edge_event_not_updatable.json
     '403':
       description: Forbidden. Access to this API is denied.
       content:
